@@ -1,0 +1,15 @@
+.sidebar{
+    background-color: greenyellow;
+    transition: all 0.3s;
+    color: black;
+    height: 100vh;
+}
+.sidebarShow{
+    width: 200px;
+}
+.sidebarHide{
+    width: 0px;
+    /* display: none; */
+    background-color: black;
+    opacity: 0;
+}
