@@ -58,7 +58,7 @@ export default function Bedrock() {
                 <div className={styles.coverImage}>
                     <Image src={coverImage} alt="cover image" />
                     <div className={styles.profilePic}>
-                        <Image src={profilePic} alt="profilePic"/>
+                        <Image src={profilePic} alt="profilePic" />
                     </div>
                 </div>
 

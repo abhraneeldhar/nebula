@@ -17,7 +17,6 @@ export default function Sidebar(){
         sidebarObject.classList.add(styles.sidebarHide)
         
     }
-    console.log(sidebarObject?.classList)
     
 
     return(
