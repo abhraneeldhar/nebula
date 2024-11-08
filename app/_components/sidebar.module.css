@@ -3,13 +3,16 @@
     transition: all 0.3s;
     color: black;
     height: 100vh;
+    /* position: relative; */
+    width: 250px;
+    
 }
 .sidebarShow{
-    width: 200px;
+    transform: translateX(0%);
 }
 .sidebarHide{
     width: 0px;
-    /* display: none; */
     background-color: black;
-    opacity: 0;
+    transform: translateX(-100%);
+    overflow-x: hidden;
 }

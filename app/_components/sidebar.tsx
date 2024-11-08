@@ -22,7 +22,12 @@ export default function Sidebar(){
 
     return(
         <><div className={`${styles.sidebar} ${styles.sidebarShow}`}>
-            sidebar shit
+            <p>sidebar shit</p>
+            <p>sidebar shit</p>
+            <p>sidebar shit</p>
+            <p>sidebar shit</p>
+            <p>sidebar shit</p>
+            <p>sidebar shit</p>
         </div>
         </>
     )
