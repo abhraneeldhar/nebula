@@ -1,5 +1,6 @@
 "use client"
 import styles from "./bedrock.module.css";
+// import "../global.css"
 import { ReactNode, useState } from "react";
 import { appStore } from "../store";
 import Image from "next/image";
@@ -11,6 +12,41 @@ import coverImage from "./assetImages/coverimage.png"
 import profilePic from "./assetImages/profilePic.jpg"
 
 import WeathersTab from "./weathersTab/weatherstab";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+
+export interface Note{
+    id:string,
+    fileName:string,
+    dateOfCreation:string,
+    lastModified:string,
+    noteContent:string,
+}
+export interface notesCollection{
+    notes:Note[],
+}
+const addToLocal=()=>{
+    const notesData: notesCollection = {
+        notes: [
+            {
+                id: "1",
+                fileName: "Meeting Notes",
+                dateOfCreation: "2024-11-01",
+                lastModified: "2024-11-05",
+                noteContent: "Meeting with the design team..."
+            },
+            {
+                id: "2",
+                fileName: "Project Plan",
+                dateOfCreation: "2024-11-02",
+                lastModified: "2024-11-06",
+                noteContent: "Outline of project goals and deadlines..."
+            }
+        ]
+    };
+    localStorage.setItem("localNotes",JSON.stringify(notesData));
+}
+
+
 
 
 export default function Bedrock() {
@@ -41,8 +77,20 @@ export default function Bedrock() {
                         <Image src={profilePic} alt="profilePic" />
                     </div>
                 </div>
-                
-                <WeathersTab/>                                
+
+                <WeathersTab />
+                <button onClick={()=>addToLocal()}>Click to add to local storage</button>
+
+                <div className={styles.notesNshi}>
+                    <Tabs defaultValue="Vault" className="dark">
+                        <TabsList>
+                            <TabsTrigger value="Vault" className={styles.tabsTrigger}>Vault</TabsTrigger>
+                            <TabsTrigger value="Forge">Forge</TabsTrigger>
+                        </TabsList>
+                        <TabsContent value="Vault">All your Notes are here</TabsContent>
+                        <TabsContent value="Forge">All your To-do lists are here</TabsContent>
+                    </Tabs>
+                </div>
 
             </div>
         </div>

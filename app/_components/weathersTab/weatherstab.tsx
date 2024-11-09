@@ -117,18 +117,18 @@ export default function WeathersTab() {
                 }
                 {weatherData=="not allowed" && <h3>Location not allowed</h3>}
 
-                {(weatherData && weatherData!="not allowed") &&
+                {weatherData &&
                     <div className={styles.scrollButtonLeft} onClick={() => { scrollButton("left") }}>
                         <Image src={arrowLeft} alt="<" />
                     </div>
                 }
 
-                {(weatherData && weatherData!="not allowed") && weatherData.list.map((item: oneHourWeather, index: number) => (<li key={index}>
+                {(weatherData && weatherData!="not allowed") && weatherData.list && weatherData.list.map((item: oneHourWeather, index: number) => (<li key={index}>
                     <WeatherCard weatherIconId={item.weather[0].icon} temperature={item.main.temp} weatherDesc={item.weather[0].main} time={item.dt} />
                 </li>
                 ))}
 
-                {(weatherData && weatherData!="not allowed") &&
+                {weatherData &&
                     <div className={styles.scrollButtonRight} onClick={() => { scrollButton("right") }}>
                         <Image src={arrowRight} alt=">" />
                     </div>
