@@ -13,18 +13,19 @@ import profilePic from "./assetImages/profilePic.jpg"
 
 import WeathersTab from "./weathersTab/weatherstab";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { useSidebar } from "@/components/ui/sidebar";
 
-export interface Note{
-    id:string,
-    fileName:string,
-    dateOfCreation:string,
-    lastModified:string,
-    noteContent:string,
+export interface Note {
+    id: string,
+    fileName: string,
+    dateOfCreation: string,
+    lastModified: string,
+    noteContent: string,
 }
-export interface notesCollection{
-    notes:Note[],
+export interface notesCollection {
+    notes: Note[],
 }
-const addToLocal=()=>{
+const addToLocal = () => {
     const notesData: notesCollection = {
         notes: [
             {
@@ -43,7 +44,7 @@ const addToLocal=()=>{
             }
         ]
     };
-    localStorage.setItem("localNotes",JSON.stringify(notesData));
+    localStorage.setItem("localNotes", JSON.stringify(notesData));
 }
 
 
@@ -51,14 +52,17 @@ const addToLocal=()=>{
 
 export default function Bedrock() {
     const sidebarShow = appStore((state) => state.showSidebar)
-    const toggleSidebar = appStore((state) => state.toggleSidebar)
+    const toggleSidebarVariable = appStore((state) => state.toggleSidebarVariable)
 
 
     const Tab = ({ tabName }: { tabName: string }): ReactNode => {
+        const {toggleSidebar}=useSidebar();
         return (<>
             <div className={styles.tabBar}>
                 <div className={styles.sidebarBtn}>
-                    <Image src={sidebarShow ? closeSVG : menuSVG} alt="sidebarBtn" onClick={() => toggleSidebar()} />
+                    <Image src={sidebarShow ? closeSVG : menuSVG} alt="sidebarBtn" onClick={() => {toggleSidebar()
+                        toggleSidebarVariable()}
+                    } />
                 </div>
                 <p>{tabName}</p>
             </div>
@@ -67,9 +71,11 @@ export default function Bedrock() {
 
 
     return (<>
+        {/* <div className={styles.tabBar}>
+            <p>Home</p>
+        </div> */}
         <div className={styles.main}>
-            <Tab tabName="Home" />
-
+            <Tab tabName="Home"/>
             <div className={styles.displayContent}>
                 <div className={styles.coverImage}>
                     <Image src={coverImage} alt="cover image" />
@@ -78,8 +84,9 @@ export default function Bedrock() {
                     </div>
                 </div>
 
-                <WeathersTab />
-                <button onClick={()=>addToLocal()}>Click to add to local storage</button>
+                {/* <WeathersTab /> */}
+
+                <button onClick={() => addToLocal()}>Click to add to local storage</button>
 
                 <div className={styles.notesNshi}>
                     <Tabs defaultValue="Vault" className="dark">

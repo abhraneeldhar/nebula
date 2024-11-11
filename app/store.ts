@@ -3,11 +3,11 @@ import { shallow } from "zustand/shallow"
 
 type store={
     showSidebar: boolean,
-    toggleSidebar: ()=> void
+    toggleSidebarVariable: ()=> void
 }
 
 export const appStore=create<store>((set)=>({
     showSidebar:true,
-    toggleSidebar: ()=> set((state)=>({showSidebar: !state.showSidebar
+    toggleSidebarVariable: ()=> set((state)=>({showSidebar: !state.showSidebar
 })),
 }))
