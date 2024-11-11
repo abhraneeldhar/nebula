@@ -15,37 +15,63 @@ import WeathersTab from "./weathersTab/weatherstab";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useSidebar } from "@/components/ui/sidebar";
 
-export interface Note {
-    id: string,
-    fileName: string,
-    dateOfCreation: string,
-    lastModified: string,
-    noteContent: string,
-}
-export interface notesCollection {
-    notes: Note[],
-}
+import { Note, Folder, FolderStructure } from "../utils/fileFormat";
 const addToLocal = () => {
-    const notesData: notesCollection = {
-        notes: [
+    const notesData: FolderStructure = {
+        owner: "big d",
+        rootNotes: [
             {
-                id: "1",
-                fileName: "Meeting Notes",
-                dateOfCreation: "2024-11-01",
-                lastModified: "2024-11-05",
-                noteContent: "Meeting with the design team..."
+                owner: "big d",
+                type: "Note",
+                id: 1234,
+                title: "Note 1",
+                content: "hello 1",
+                createdAt: Date.now(),
+                lastModifiedAt: Date.now()
             },
             {
-                id: "2",
-                fileName: "Project Plan",
-                dateOfCreation: "2024-11-02",
-                lastModified: "2024-11-06",
-                noteContent: "Outline of project goals and deadlines..."
+                owner: "big d",
+                type: "Note",
+                id: 1234,
+                title: "Note 2",
+                content: "hello 2",
+                createdAt: Date.now(),
+                lastModifiedAt: Date.now()
             }
-        ]
-    };
-    localStorage.setItem("localNotes", JSON.stringify(notesData));
+        ],
+        folders: [{
+            owner: "big d",
+            id: 1234,
+            title: "Folder 1",
+            type: "Folder",
+            createdAt: Date.now(),
+            lastModifiedAt: Date.now(),
+            notesInside: [
+                {
+                    owner: "big d",
+                    type: "Note",
+                    id: 1234,
+                    title: "Note 3",
+                    content: "hello 3",
+                    createdAt: Date.now(),
+                    lastModifiedAt: Date.now()
+                },
+                {
+                    owner: "big d",
+                    type: "Note",
+                    id: 1234,
+                    title: "Note 4",
+                    content: "hello 4",
+                    createdAt: Date.now(),
+                    lastModifiedAt: Date.now()
+                }
+
+            ]
+        }]
+    }
+    localStorage.setItem("localNotesFolderStructure", JSON.stringify(notesData));
 }
+
 
 
 
@@ -54,14 +80,19 @@ export default function Bedrock() {
     const sidebarShow = appStore((state) => state.showSidebar)
     const toggleSidebarVariable = appStore((state) => state.toggleSidebarVariable)
 
+    const setNotesState = appStore((state) => state.setNotesFolderState)
+
+
 
     const Tab = ({ tabName }: { tabName: string }): ReactNode => {
-        const {toggleSidebar}=useSidebar();
+        const { toggleSidebar } = useSidebar();
         return (<>
             <div className={styles.tabBar}>
                 <div className={styles.sidebarBtn}>
-                    <Image src={sidebarShow ? closeSVG : menuSVG} alt="sidebarBtn" onClick={() => {toggleSidebar()
-                        toggleSidebarVariable()}
+                    <Image src={sidebarShow ? closeSVG : menuSVG} alt="sidebarBtn" onClick={() => {
+                        toggleSidebar()
+                        toggleSidebarVariable()
+                    }
                     } />
                 </div>
                 <p>{tabName}</p>
@@ -75,7 +106,7 @@ export default function Bedrock() {
             <p>Home</p>
         </div> */}
         <div className={styles.main}>
-            <Tab tabName="Home"/>
+            <Tab tabName="Home" />
             <div className={styles.displayContent}>
                 <div className={styles.coverImage}>
                     <Image src={coverImage} alt="cover image" />
@@ -87,6 +118,7 @@ export default function Bedrock() {
                 {/* <WeathersTab /> */}
 
                 <button onClick={() => addToLocal()}>Click to add to local storage</button>
+                <button onClick={() => setNotesState(JSON.parse(localStorage.getItem("localNotesFolderStructure")||""))}>Add to store</button>
 
                 <div className={styles.notesNshi}>
                     <Tabs defaultValue="Vault" className="dark">

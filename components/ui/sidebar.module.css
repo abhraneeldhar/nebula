@@ -1,0 +1,81 @@
+.appLogo{
+    font-size: 35px;
+    /* text-align: center; */
+    background-color: #612fd5;
+    /* background-color: #9400FF; */
+    height: 50px;
+    overflow: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+.search{
+    height: 2.5em;
+    background-color: transparent;
+    width: 100%;
+    padding: 5px 15px;
+    display: flex;
+    gap: 5px;
+    margin-top: 10px;
+}
+.searchLogo{
+    background-color: black;
+    height: 100%;
+    aspect-ratio: 1/1;
+    padding: 4px;
+    border-radius: 7px;
+    transition: all 0.2s;
+}
+.searchLogo:active{
+    transform: scale(0.9);
+}
+.searchLogo img{
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+.search input{
+    background-color: #282828;
+    /* background-color: transparent; */
+    height: 100%;
+    width: 100%;
+    vertical-align: middle;
+    border: 2px solid rgb(189, 189, 189);
+    padding: 0px 10px;
+    border-radius: 0.5em;
+    font-size: 0.9em;
+}
+.search input:active, .search input:focus{
+    /* border: none; */
+    outline: none;
+}
+.trigger{
+    /* margin: 5px; */
+    margin-bottom: 5px;
+    width: 100%;
+    /* background-color: red; */
+    text-align: left;
+    padding: 5px;
+    border-radius: 5px;
+}
+.trigger:hover{
+    background-color: #282828;
+    
+}
+.subNote{
+    position: relative;
+}
+.subNote::before{
+    content: "";
+    height: 100%;
+    width: 5px;
+    background-color: #612fd5;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.sidebar *{
+    overflow: none;
+    transition: all 0.2s;
+}
