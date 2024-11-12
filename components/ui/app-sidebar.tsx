@@ -20,8 +20,9 @@ import searchLogo from "../../public/searchLogo.png"
 
 import styles from "./sidebar.module.css"
 import { appStore } from "@/app/store"
-import { FolderStructure } from "@/app/utils/fileFormat"
-
+import { CollectionOfNotes, FolderStructure } from "@/app/utils/fileFormat"
+import { CollectedMetadata } from "next/dist/build/webpack/loaders/metadata/types"
+import { ScrollArea } from "@radix-ui/react-scroll-area"
 const items = [
   {
     title: "Home",
@@ -53,9 +54,10 @@ const items = [
 
 
 export function AppSidebar() {
+  const localCollectionOfNotes = appStore((state) => state.localCollectionOfNotesState) as CollectionOfNotes
+  const localFolderStructureState = appStore((state) => state.localFolderStructureState) as FolderStructure
 
-  const notesFolderState = appStore((state) => state.notesFolderState) as FolderStructure;
-  console.log("from sidebar\n", notesFolderState)
+
   return (
     <Sidebar className={styles.sidebar}>
       <SidebarContent>
@@ -101,67 +103,37 @@ export function AppSidebar() {
               </SidebarMenuItem> */}
 
 
-              {/* <Collapsible className="group/collapsible">
-                <SidebarMenuItem>
-                  <CollapsibleTrigger className={styles.trigger}>
-                    trigger 1 i guesss
-                  </CollapsibleTrigger>
 
-                  <CollapsibleContent>
-                    <SidebarMenuSub>
-                      <SidebarMenuSubItem>
-                        <SidebarMenuButton className={styles.subNote}>
-                          item 1
-                        </SidebarMenuButton>
-                      </SidebarMenuSubItem>
-                    </SidebarMenuSub>
-                  </CollapsibleContent>
+              <ScrollArea className="h-22 w-48 rounded-md border">
+                {localCollectionOfNotes.notes?.map((note) => (
+                  <SidebarMenuItem key={note.id}>
+                    <SidebarMenuButton onClick={() => { console.log(note.id) }}>{note.title}</SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </ScrollArea>
 
-                  <CollapsibleContent >
-                    <SidebarMenuSub >
-                      <SidebarMenuSubItem>
-                        <SidebarMenuButton className={styles.subNote}>
-                          item 2
-                        </SidebarMenuButton>
-                      </SidebarMenuSubItem>
-                    </SidebarMenuSub>
-                  </CollapsibleContent>
-                </SidebarMenuItem>
-              </Collapsible> */}
-
-              {notesFolderState.rootNotes?.map((rootNote) => (
-                <SidebarMenuItem key={rootNote.id}>
-                  <SidebarMenuButton onClick={() => { console.log(rootNote.id) }}>{rootNote.title}</SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-
-
-              {notesFolderState.folders?.map((folder) => (
+              {/* {localFolderStructureState.folders?.map((folder) => (
                 <Collapsible key={folder.id} className="group/collapsible">
                   <SidebarMenuItem>
                     <CollapsibleTrigger className={styles.trigger}>
-                       {">> "+folder.title}
+                      {">> " + folder.title}
                     </CollapsibleTrigger>
 
-                    {folder.notesInside.map((note) => (
-                      <CollapsibleContent key={note.id}>
+                    {folder.notesInsideIds.map((noteInsideId) => (
+                      <CollapsibleContent key={noteInsideId}>
                         <SidebarMenuSub>
                           <SidebarMenuSubItem>
                             <SidebarMenuButton className={styles.subNote}>
-                              {note.title}
+                              {localCollectionOfNotes.notes.find(note=>note.id===noteInsideId)?.title}
                             </SidebarMenuButton>
                           </SidebarMenuSubItem>
                         </SidebarMenuSub>
                       </CollapsibleContent>
-
                     ))}
-
-
-
 
                   </SidebarMenuItem>
                 </Collapsible>
-              ))}
+              ))} */}
 
 
 

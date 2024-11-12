@@ -7,19 +7,24 @@
     padding-right: 20px;
     overflow: hidden;
     position: relative;
+    /* flex: 1; */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
 }
 .weatherCardContainer{
     display: flex;
-    /* flex-direction: row; */
-    width:97%;
+    max-width: 1000px;
     margin-top: 5px;
     margin-left: 20px;
     gap: 20px;
     overflow:hidden;
     padding: 5px 0px;
     margin-right: 20px;
+    flex:1;
     z-index: 1;
-    /* justify-content: center; */
+    margin-bottom: 2em;
 }
 
 .weatherCardContainer .loadingData{

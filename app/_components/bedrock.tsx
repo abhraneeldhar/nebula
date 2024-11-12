@@ -1,7 +1,7 @@
 "use client"
 import styles from "./bedrock.module.css";
 // import "../global.css"
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { appStore } from "../store";
 import Image from "next/image";
 
@@ -12,34 +12,20 @@ import coverImage from "./assetImages/coverimage.png"
 import profilePic from "./assetImages/profilePic.jpg"
 
 import WeathersTab from "./weathersTab/weatherstab";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useSidebar } from "@/components/ui/sidebar";
+import { Card, CardContent, CardHeader, CardDescription, CardTitle, CardFooter } from "@/components/ui/card";
+import { ScrollArea } from "@radix-ui/react-scroll-area";
 
-import { Note, Folder, FolderStructure } from "../utils/fileFormat";
+import { Note, Folder, FolderStructure, CollectionOfNotes } from "../utils/fileFormat";
+
+
 const addToLocal = () => {
-    const notesData: FolderStructure = {
+    const folderStructure: FolderStructure = {
         owner: "big d",
-        lastModified:Date.now(),
-        rootNotes: [
-            {
-                owner: "big d",
-                type: "Note",
-                id: 1234,
-                title: "Note 1",
-                content: "hello 1",
-                createdAt: Date.now(),
-                lastModifiedAt: Date.now()
-            },
-            {
-                owner: "big d",
-                type: "Note",
-                id: 12345,
-                title: "Note 2",
-                content: "hello 2",
-                createdAt: Date.now(),
-                lastModifiedAt: Date.now()
-            }
-        ],
+        lastModified: Date.now(),
+        rootNoteIds: [123, 124, 125, 126],
         folders: [{
             owner: "big d",
             id: 1234124,
@@ -47,30 +33,78 @@ const addToLocal = () => {
             type: "Folder",
             createdAt: Date.now(),
             lastModifiedAt: Date.now(),
-            notesInside: [
-                {
-                    owner: "big d",
-                    type: "Note",
-                    id: 123434142,
-                    title: "Note 3",
-                    content: "hello 3",
-                    createdAt: Date.now(),
-                    lastModifiedAt: Date.now()
-                },
-                {
-                    owner: "big d",
-                    type: "Note",
-                    id: 123412413,
-                    title: "Note 4",
-                    content: "hello 4",
-                    createdAt: Date.now(),
-                    lastModifiedAt: Date.now()
-                }
-
-            ]
+            notesInsideIds: [567, 568, 569, 570]
         }]
     }
-    localStorage.setItem("localNotesFolderStructure", JSON.stringify(notesData));
+    localStorage.setItem("localNotesFolderStructure", JSON.stringify(folderStructure));
+    const collectionOfNotes: CollectionOfNotes = {
+        notes: [
+            {
+                "owner": "big d",
+                "type": "Note",
+                "id": 123,
+                "title": "Note 1",
+                "content": "hello 1",
+                "createdAt": 1731356318114,
+                "lastModifiedAt": 1731356318114
+            },
+            {
+                "owner": "big d",
+                "type": "Note",
+                "id": 124,
+                "title": "Note 2",
+                "content": "hello 2",
+                "createdAt": 1731356318114,
+                "lastModifiedAt": 1731356318114
+            },
+            {
+                "owner": "big d",
+                "type": "Note",
+                "id": 125,
+                "title": "Note 3",
+                "content": "hello 3",
+                "createdAt": 1731356318114,
+                "lastModifiedAt": 1731356318114
+            },
+            {
+                "owner": "big d",
+                "type": "Note",
+                "id": 567,
+                "title": "Note 4",
+                "content": "hello 4",
+                "createdAt": 1731356318114,
+                "lastModifiedAt": 1731356318114
+            },
+            {
+                "owner": "big d",
+                "type": "Note",
+                "id": 568,
+                "title": "Note 5",
+                "content": "hello 5",
+                "createdAt": 1731356318114,
+                "lastModifiedAt": 1731356318114
+            },
+            {
+                "owner": "big d",
+                "type": "Note",
+                "id": 569,
+                "title": "Note 6",
+                "content": "hello 6",
+                "createdAt": 1731356318114,
+                "lastModifiedAt": 1731356318114
+            },
+            {
+                "owner": "big d",
+                "type": "Note",
+                "id": 570,
+                "title": "Note 7",
+                "content": "hello 7",
+                "createdAt": 1731356318114,
+                "lastModifiedAt": 1731356318114
+            }
+        ]
+    };
+    localStorage.setItem("localCollectionOfNotes", JSON.stringify(collectionOfNotes));
 }
 
 
@@ -78,21 +112,52 @@ const addToLocal = () => {
 
 
 export default function Bedrock() {
-    const sidebarShow = appStore((state) => state.showSidebar)
-    const toggleSidebarVariable = appStore((state) => state.toggleSidebarVariable)
+    // const sidebarShow = appStore((state) => state.showSidebar)
+    // const toggleSidebarVariable = appStore((state) => state.toggleSidebarVariable)
 
-    const setNotesState = appStore((state) => state.setNotesFolderState)
+    // const setNotesState = appStore((state) => state.setlocalCollectionOfNotesState)
+    // const notesFolderState = appStore((state) => state.setLocalFolderStructureState)
+
+    const localCollectionOfNotesState = appStore((state) => state.localCollectionOfNotesState) as CollectionOfNotes
+    const localNotesFolderStructureState = appStore((state) => state.localFolderStructureState) as FolderStructure
+    const setLocalFolderStructureState = appStore((state) => state.setLocalFolderStructureState)
+    const setlocalCollectionOfNotesState = appStore((state) => state.setlocalCollectionOfNotesState)
+
+    const sanitizeFolderStructure = () => {
+        let newLocalFolderStructureState = localNotesFolderStructureState;
+        newLocalFolderStructureState.rootNoteIds?.forEach(rootNoteId => {
+            if (!localCollectionOfNotesState.notes.find(note => note.id === rootNoteId)) {
+                newLocalFolderStructureState.rootNoteIds = 
+                    newLocalFolderStructureState.rootNoteIds.filter((item) => item !== rootNoteId);
+                    console.log("removing ", rootNoteId)
+            }
+        });
+        setLocalFolderStructureState(newLocalFolderStructureState);
+    };
 
 
+    // on app boot
+    useEffect(() => {
+        addToLocal();
+        // setLocalFolderStructureState(JSON.parse(localStorage.getItem("localNotesFolderStructure") || ""));
+        setlocalCollectionOfNotesState(JSON.parse(localStorage.getItem("localCollectionOfNotes") ??"{}"));
+        // let comparingFolderStructure=localNotesFolderStructure;
+        // sanitizeFolderStructure();
 
-    const Tab = ({ tabName }: { tabName: string }): ReactNode => {
-        const { toggleSidebar } = useSidebar();
+    }, [])
+    useEffect(() => {
+        // console.log(localNotesFolderStructureState)
+        console.log(localCollectionOfNotesState)
+    }, [localCollectionOfNotesState, localNotesFolderStructureState])
+
+    const Tab = ({ tabName }: { tabName: string })=> {
+        const { toggleSidebar,open } = useSidebar();
         return (<>
             <div className={styles.tabBar}>
                 <div className={styles.sidebarBtn}>
-                    <Image src={sidebarShow ? closeSVG : menuSVG} alt="sidebarBtn" onClick={() => {
+                    <Image src={open ? closeSVG : menuSVG} alt="sidebarBtn" onClick={() => {
                         toggleSidebar()
-                        toggleSidebarVariable()
+                        // toggleSidebarVariable()
                     }
                     } />
                 </div>
@@ -106,34 +171,78 @@ export default function Bedrock() {
         {/* <div className={styles.tabBar}>
             <p>Home</p>
         </div> */}
-        <div className={styles.main}>
-            <Tab tabName="Home" />
-            <div className={styles.displayContent}>
-                <div className={styles.coverImage}>
-                    <Image src={coverImage} alt="cover image" />
-                    <div className={styles.profilePic}>
-                        <Image src={profilePic} alt="profilePic" />
+        <Tab tabName="Home" />
+
+
+        {/* <ScrollArea className={styles.scrollArea}> */}
+            <div className={styles.main}>
+                <div className={styles.displayContent}>
+                    <div className={styles.coverImage}>
+                        <Image src={coverImage} alt="cover image" />
+                        <div className={styles.profilePic}>
+                            <Image src={profilePic} alt="profilePic" />
+                        </div>
                     </div>
+                    
+
+                    <WeathersTab />
+
+
+                    <button onClick={() => addToLocal()}>Click to add to local storage</button>
+                    {/* <button onClick={() => setLocalFolderStructureState(JSON.parse(localStorage.getItem("localNotesFolderStructure") || ""))}>Add to store</button> */}
+
+                    <div className={styles.notesNshi}>
+                        <Tabs defaultValue="Vault" className="dark">
+                            <div className={styles.tabName}>
+
+                                <TabsList>
+                                    <TabsTrigger value="Vault" className={styles.tabsTrigger}>Vault</TabsTrigger>
+                                    <TabsTrigger value="Forge">Forge</TabsTrigger>
+                                </TabsList>
+                            </div>
+                            {/* <div className={styles.tabsContent}> */}
+                            <TabsContent className={styles.tabsContent} value="Vault">
+                                {localCollectionOfNotesState.notes?.map((note)=>(
+                                    <Card className={styles.card} key={note.id}>
+                                    <CardHeader>
+                                        <CardTitle className={styles.cardTitle}>
+                                            {note.title}
+                                        </CardTitle>
+                                        <CardDescription>
+                                            last modified <p>{`${Math.floor((Date.now()-note.lastModifiedAt) / (1000 * 60 * 60))} hours and ${Math.floor(((Date.now()-note.lastModifiedAt) % (1000 * 60 * 60)) / (1000 * 60))} minutes ago`}</p>
+                                        </CardDescription>
+                                    </CardHeader>
+                                    <CardContent className={styles.cardContent}>
+                                        <p>{note.content.slice(0,10)}</p>
+                                    </CardContent>
+                                </Card> 
+                                    
+                                ))}
+                                <Card className={styles.card}>
+                                    <CardHeader>
+                                        <CardTitle className={styles.cardTitle}>
+                                            Card Title
+                                        </CardTitle>
+                                        <CardDescription>
+                                            Card Description lorem30
+                                        </CardDescription>
+                                    </CardHeader>
+                                    <CardContent className={styles.cardContent}>
+                                        <p>Card Content Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque, tempora?</p>
+                                    </CardContent>
+                                </Card>                                
+                            </TabsContent>
+                            <TabsContent value="Forge">
+                                All your To-do lists are here
+                            </TabsContent>
+                            {/* </div> */}
+                        </Tabs>
+                    </div>
+
+
                 </div>
-
-                {/* <WeathersTab /> */}
-
-                <button onClick={() => addToLocal()}>Click to add to local storage</button>
-                <button onClick={() => setNotesState(JSON.parse(localStorage.getItem("localNotesFolderStructure")||""))}>Add to store</button>
-
-                <div className={styles.notesNshi}>
-                    <Tabs defaultValue="Vault" className="dark">
-                        <TabsList>
-                            <TabsTrigger value="Vault" className={styles.tabsTrigger}>Vault</TabsTrigger>
-                            <TabsTrigger value="Forge">Forge</TabsTrigger>
-                        </TabsList>
-                        <TabsContent value="Vault">All your Notes are here</TabsContent>
-                        <TabsContent value="Forge">All your To-do lists are here</TabsContent>
-                    </Tabs>
-                </div>
-
             </div>
-        </div>
+        {/* </ScrollArea> */}
     </>
     )
 }

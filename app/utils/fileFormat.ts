@@ -8,6 +8,7 @@ export interface Note{
     createdAt:number,
     lastModifiedAt:number
 }
+export interface CollectionOfNotes{notes:Note[]}
 
 export interface Folder{
     owner:string,
@@ -15,13 +16,14 @@ export interface Folder{
     title:string,
     type:"Folder",
     createdAt:number,
-    lastModifiedAt:number
-    notesInside: Note[]
+    lastModifiedAt:number,
+    notesInsideIds: number[]
 }
 
 export interface FolderStructure{
     owner:string,
-    rootNotes:Note[],
+    // rootNotes:Note[],
+    rootNoteIds:number[],
     folders:Folder[]
     lastModified:number,
 }
