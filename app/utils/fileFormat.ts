@@ -23,5 +23,6 @@ export interface FolderStructure{
     owner:string,
     rootNotes:Note[],
     folders:Folder[]
+    lastModified:number,
 }
 

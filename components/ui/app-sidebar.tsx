@@ -20,6 +20,7 @@ import searchLogo from "../../public/searchLogo.png"
 
 import styles from "./sidebar.module.css"
 import { appStore } from "@/app/store"
+import { FolderStructure } from "@/app/utils/fileFormat"
 
 const items = [
   {
@@ -53,8 +54,8 @@ const items = [
 
 export function AppSidebar() {
 
-  const notesFolderState = appStore((state) => state.notesFolderState);
-  console.log(notesFolderState)
+  const notesFolderState = appStore((state) => state.notesFolderState) as FolderStructure;
+  console.log("from sidebar\n", notesFolderState)
   return (
     <Sidebar className={styles.sidebar}>
       <SidebarContent>
@@ -88,7 +89,8 @@ export function AppSidebar() {
           <SidebarGroupLabel>Notes</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              <SidebarMenuItem>
+
+              {/* <SidebarMenuItem>
                 <SidebarMenuButton>Note 1</SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
@@ -96,12 +98,12 @@ export function AppSidebar() {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton>Note 3</SidebarMenuButton>
-              </SidebarMenuItem>
+              </SidebarMenuItem> */}
 
-              <Collapsible className="group/collapsible">
+
+              {/* <Collapsible className="group/collapsible">
                 <SidebarMenuItem>
                   <CollapsibleTrigger className={styles.trigger}>
-
                     trigger 1 i guesss
                   </CollapsibleTrigger>
 
@@ -124,9 +126,45 @@ export function AppSidebar() {
                       </SidebarMenuSubItem>
                     </SidebarMenuSub>
                   </CollapsibleContent>
-
                 </SidebarMenuItem>
-              </Collapsible>
+              </Collapsible> */}
+
+              {notesFolderState.rootNotes?.map((rootNote) => (
+                <SidebarMenuItem key={rootNote.id}>
+                  <SidebarMenuButton onClick={() => { console.log(rootNote.id) }}>{rootNote.title}</SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+
+
+              {notesFolderState.folders?.map((folder) => (
+                <Collapsible key={folder.id} className="group/collapsible">
+                  <SidebarMenuItem>
+                    <CollapsibleTrigger className={styles.trigger}>
+                       {">> "+folder.title}
+                    </CollapsibleTrigger>
+
+                    {folder.notesInside.map((note) => (
+                      <CollapsibleContent key={note.id}>
+                        <SidebarMenuSub>
+                          <SidebarMenuSubItem>
+                            <SidebarMenuButton className={styles.subNote}>
+                              {note.title}
+                            </SidebarMenuButton>
+                          </SidebarMenuSubItem>
+                        </SidebarMenuSub>
+                      </CollapsibleContent>
+
+                    ))}
+
+
+
+
+                  </SidebarMenuItem>
+                </Collapsible>
+              ))}
+
+
+
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

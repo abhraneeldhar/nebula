@@ -19,6 +19,7 @@ import { Note, Folder, FolderStructure } from "../utils/fileFormat";
 const addToLocal = () => {
     const notesData: FolderStructure = {
         owner: "big d",
+        lastModified:Date.now(),
         rootNotes: [
             {
                 owner: "big d",
@@ -32,7 +33,7 @@ const addToLocal = () => {
             {
                 owner: "big d",
                 type: "Note",
-                id: 1234,
+                id: 12345,
                 title: "Note 2",
                 content: "hello 2",
                 createdAt: Date.now(),
@@ -41,7 +42,7 @@ const addToLocal = () => {
         ],
         folders: [{
             owner: "big d",
-            id: 1234,
+            id: 1234124,
             title: "Folder 1",
             type: "Folder",
             createdAt: Date.now(),
@@ -50,7 +51,7 @@ const addToLocal = () => {
                 {
                     owner: "big d",
                     type: "Note",
-                    id: 1234,
+                    id: 123434142,
                     title: "Note 3",
                     content: "hello 3",
                     createdAt: Date.now(),
@@ -59,7 +60,7 @@ const addToLocal = () => {
                 {
                     owner: "big d",
                     type: "Note",
-                    id: 1234,
+                    id: 123412413,
                     title: "Note 4",
                     content: "hello 4",
                     createdAt: Date.now(),
