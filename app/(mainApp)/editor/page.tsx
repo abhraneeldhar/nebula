@@ -59,28 +59,24 @@ export default function EditorPage() {
         });
         quillRef.current = quill;
         quill.root.setAttribute('spellcheck', "false")
-
-        const undoBtn=document.querySelector(".ql-undo")
-        const redoBtn=document.querySelector(".ql-redo")
-        const toolbar=document.querySelector(".ql-toolbar")
-        undoBtn?.addEventListener("click",()=>{quillRef.current?.history.undo()})
-        redoBtn?.addEventListener("click",()=>{quillRef.current?.history.redo()})
-        // const toolbar:any = quill.getModule('toolbar');
-        // toolbar.addHandler('undo', () => quill.history.undo());
-        // toolbar.addHandler('redo', () => quill.history.redo());
-
-
-
+        quill.setContents([]);
+        const undoBtn = document.querySelector(".ql-undo")
+        const redoBtn = document.querySelector(".ql-redo")
+        const toolbar = document.querySelector(".ql-toolbar")
+        undoBtn?.addEventListener("click", () => { quillRef.current?.history.undo() })
+        redoBtn?.addEventListener("click", () => { quillRef.current?.history.redo() })
 
         return (() => {
-            // const toolbar1=document.querySelector(".ql-toolbar")
+            if (toolbarRef.current) {
+                toolbarRef.current.innerHTML = ""
+            }
             if (toolbar) {
-                toolbar.remove();
+                toolbar.remove()
             }
             undoBtn?.removeEventListener("click", () => { quillRef.current?.history.undo() })
             redoBtn?.removeEventListener("click", () => { quillRef.current?.history.redo() })
         })
-    }, [,quillRef])
+    }, [])
     // fiz thisusing zustand state for current note
 
 
@@ -89,10 +85,8 @@ export default function EditorPage() {
     return (<>
         <Tab tabName="editor" />
         <div className={styles.editorSection}>
-        <div id="container" ref={toolbarRef}>
-
-        </div>
-
+            <div id="container" ref={toolbarRef}>
+            </div>
         </div>
         <button onClick={() => {
             console.log(quillRef.current?.getContents())

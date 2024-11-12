@@ -1,6 +1,5 @@
 "use client"
 import styles from "./bedrock.module.css";
-// import "../global.css"
 import { ReactNode, useEffect, useState } from "react";
 import { appStore } from "../store";
 import Image from "next/image";
@@ -112,28 +111,9 @@ const addToLocal = () => {
 
 
 export default function Bedrock() {
-    // const sidebarShow = appStore((state) => state.showSidebar)
-    // const toggleSidebarVariable = appStore((state) => state.toggleSidebarVariable)
-
-    // const setNotesState = appStore((state) => state.setlocalCollectionOfNotesState)
-    // const notesFolderState = appStore((state) => state.setLocalFolderStructureState)
     const router=useRouter()
     const localCollectionOfNotesState = appStore((state) => state.localCollectionOfNotesState) as CollectionOfNotes
-    const localNotesFolderStructureState = appStore((state) => state.localFolderStructureState) as FolderStructure
-    const setLocalFolderStructureState = appStore((state) => state.setLocalFolderStructureState)
-    const setlocalCollectionOfNotesState = appStore((state) => state.setlocalCollectionOfNotesState)
-
-    const sanitizeFolderStructure = () => {
-        let newLocalFolderStructureState = localNotesFolderStructureState;
-        newLocalFolderStructureState.rootNoteIds?.forEach(rootNoteId => {
-            if (!localCollectionOfNotesState.notes.find(note => note.id === rootNoteId)) {
-                newLocalFolderStructureState.rootNoteIds = 
-                    newLocalFolderStructureState.rootNoteIds.filter((item) => item !== rootNoteId);
-                    console.log("removing ", rootNoteId)
-            }
-        });
-        setLocalFolderStructureState(newLocalFolderStructureState);
-    };
+    const setlocalCollectionOfNotesState = appStore((state) => state.setlocalCollectionOfNotesState)    
 
 
     // // on app boot
@@ -167,9 +147,6 @@ export default function Bedrock() {
 
 
     return (<>
-        {/* <div className={styles.tabBar}>
-            <p>Home</p>
-        </div> */}
         <Tab tabName="Home" />
 
 
@@ -184,12 +161,11 @@ export default function Bedrock() {
                     </div>
                     
 
-                    <WeathersTab />
+                    {/* <WeathersTab /> */}
 
 
                     <button onClick={() => addToLocal()}>Click to add to local storage</button>
-                    {/* <button onClick={() => setLocalFolderStructureState(JSON.parse(localStorage.getItem("localNotesFolderStructure") || ""))}>Add to store</button> */}
-
+                    
                     <div className={styles.notesNshi}>
                         <Tabs defaultValue="Vault" className="dark">
                             <div className={styles.tabName}>
@@ -216,20 +192,7 @@ export default function Bedrock() {
                                     </CardContent>
                                 </Card> 
                                     
-                                ))}
-                                <Card className={styles.card}>
-                                    <CardHeader>
-                                        <CardTitle className={styles.cardTitle}>
-                                            Card Title
-                                        </CardTitle>
-                                        <CardDescription>
-                                            Card Description lorem30
-                                        </CardDescription>
-                                    </CardHeader>
-                                    <CardContent className={styles.cardContent}>
-                                        <p>Card Content Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque, tempora?</p>
-                                    </CardContent>
-                                </Card>                                
+                                ))}                              
                             </TabsContent>
                             <TabsContent value="Forge">
                                 All your To-do lists are here

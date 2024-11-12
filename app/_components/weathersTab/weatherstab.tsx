@@ -2,7 +2,6 @@ import { useEffect, useState } from "react"
 import styles from "./weathersTab.module.css"
 import Image from "next/image"
 import { fetchWeather } from "@/app/utils/fetchWeather";
-import { Key } from "lucide-react";
 import { useRef } from "react";
 
 
