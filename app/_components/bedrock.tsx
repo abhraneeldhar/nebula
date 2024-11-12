@@ -19,7 +19,7 @@ import { Card, CardContent, CardHeader, CardDescription, CardTitle, CardFooter }
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 
 import { Note, Folder, FolderStructure, CollectionOfNotes } from "../utils/fileFormat";
-
+import { useRouter } from "next/navigation";
 
 const addToLocal = () => {
     const folderStructure: FolderStructure = {
@@ -117,7 +117,7 @@ export default function Bedrock() {
 
     // const setNotesState = appStore((state) => state.setlocalCollectionOfNotesState)
     // const notesFolderState = appStore((state) => state.setLocalFolderStructureState)
-
+    const router=useRouter()
     const localCollectionOfNotesState = appStore((state) => state.localCollectionOfNotesState) as CollectionOfNotes
     const localNotesFolderStructureState = appStore((state) => state.localFolderStructureState) as FolderStructure
     const setLocalFolderStructureState = appStore((state) => state.setLocalFolderStructureState)
@@ -136,19 +136,19 @@ export default function Bedrock() {
     };
 
 
-    // on app boot
-    useEffect(() => {
-        addToLocal();
-        // setLocalFolderStructureState(JSON.parse(localStorage.getItem("localNotesFolderStructure") || ""));
-        setlocalCollectionOfNotesState(JSON.parse(localStorage.getItem("localCollectionOfNotes") ??"{}"));
-        // let comparingFolderStructure=localNotesFolderStructure;
-        // sanitizeFolderStructure();
+    // // on app boot
+    // useEffect(() => {
+    //     addToLocal();
+    //     // setLocalFolderStructureState(JSON.parse(localStorage.getItem("localNotesFolderStructure") || ""));
+    //     setlocalCollectionOfNotesState(JSON.parse(localStorage.getItem("localCollectionOfNotes") ??"{}"));
+    //     // let comparingFolderStructure=localNotesFolderStructure;
+    //     // sanitizeFolderStructure();
 
-    }, [])
-    useEffect(() => {
-        // console.log(localNotesFolderStructureState)
-        console.log(localCollectionOfNotesState)
-    }, [localCollectionOfNotesState, localNotesFolderStructureState])
+    // }, [])
+    // useEffect(() => {
+    //     // console.log(localNotesFolderStructureState)
+    //     console.log(localCollectionOfNotesState)
+    // }, [localCollectionOfNotesState, localNotesFolderStructureState])
 
     const Tab = ({ tabName }: { tabName: string })=> {
         const { toggleSidebar,open } = useSidebar();
@@ -156,8 +156,7 @@ export default function Bedrock() {
             <div className={styles.tabBar}>
                 <div className={styles.sidebarBtn}>
                     <Image src={open ? closeSVG : menuSVG} alt="sidebarBtn" onClick={() => {
-                        toggleSidebar()
-                        // toggleSidebarVariable()
+                        toggleSidebar();
                     }
                     } />
                 </div>
