@@ -23,6 +23,7 @@ import { appStore } from "@/app/store"
 import { CollectionOfNotes, FolderStructure } from "@/app/utils/fileFormat"
 import { CollectedMetadata } from "next/dist/build/webpack/loaders/metadata/types"
 import { ScrollArea } from "@radix-ui/react-scroll-area"
+
 const items = [
   {
     title: "Home",
@@ -56,6 +57,7 @@ const items = [
 export function AppSidebar() {
   const localCollectionOfNotes = appStore((state) => state.localCollectionOfNotesState) as CollectionOfNotes
   const localFolderStructureState = appStore((state) => state.localFolderStructureState) as FolderStructure
+  
 
 
   return (
