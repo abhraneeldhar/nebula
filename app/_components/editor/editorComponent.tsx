@@ -17,7 +17,7 @@ import local from "next/font/local"
 import { Note, CollectionOfNotes } from "@/app/utils/fileFormat"
 
 
-export default function EditorComponent() {
+export default function EditorComponent({id}:{id:string}) {
     const Tab = ({ tabName }: { tabName: string }) => {
         const { toggleSidebar, open } = useSidebar();
         return (<>
@@ -45,7 +45,8 @@ export default function EditorComponent() {
     ];
     const [testToolbarOptions, setTestToolbarOptions] = useState(toolbarOptions)
 
-    const currentOpenNoteIdState = appStore((state) => state.currentOpenNoteIdState)
+    // const currentOpenNoteIdState = appStore((state) => state.currentOpenNoteIdState)
+    const currentOpenNoteId=id;
     const localCollectionOfNotesState = appStore((state) => state.localCollectionOfNotesState) as CollectionOfNotes
     
 
@@ -76,7 +77,6 @@ export default function EditorComponent() {
         redoBtn?.addEventListener("click", () => { quillRef.current?.history.redo() })
 
 
-        const currentNote = localCollectionOfNotesState.notes?.find((note) => note.id === currentOpenNoteIdState)
         console.log(currentNote||"no note")
         quill.setText(String(currentNote?.content))
         return (() => {
@@ -89,10 +89,13 @@ export default function EditorComponent() {
             undoBtn?.removeEventListener("click", () => { quillRef.current?.history.undo() })
             redoBtn?.removeEventListener("click", () => { quillRef.current?.history.redo() })
         })
-    }, [,currentOpenNoteIdState])
+    }, [,currentOpenNoteId])
     // fiz thisusing zustand state for current note
 
    
+    const localCollectionOfNotes = appStore((state) => state.localCollectionOfNotesState) as CollectionOfNotes
+
+    const currentNote = localCollectionOfNotes.notes?.find((note) => note.id === currentOpenNoteId)
 
     return (<>
         <Tab tabName="editor" />

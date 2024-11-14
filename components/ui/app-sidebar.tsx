@@ -111,7 +111,7 @@ export function AppSidebar() {
                   <SidebarMenuItem key={note.id}>
                     <SidebarMenuButton onClick={() => {
                       console.log("lunn");
-                      router.push("/editor");
+                      router.push(`/editor/${note.id}`);
                       setCurrentNoteState(note.id)
                     }}>{note.title}</SidebarMenuButton>
                   </SidebarMenuItem>
