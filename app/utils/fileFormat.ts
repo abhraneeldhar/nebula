@@ -1,7 +1,13 @@
 export interface Note{
     owner:string,
-    id:number,
+    // id:number,
+    id: string,
     type: "Note",
+    // snippet:string,
+    parent:{
+        folderId:number,
+        folderName:string
+    },
     title:string,
     content:string,
     // content:JSON,

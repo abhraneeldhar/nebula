@@ -54,116 +54,23 @@ const items = [
 ]
 
 
-const addToLocal = () => {
-  const folderStructure: FolderStructure = {
-      owner: "big d",
-      lastModified: Date.now(),
-      rootNoteIds: [123, 124, 125, 126],
-      folders: [{
-          owner: "big d",
-          id: 1234124,
-          title: "Folder 1",
-          type: "Folder",
-          createdAt: Date.now(),
-          lastModifiedAt: Date.now(),
-          notesInsideIds: [567, 568, 569, 570]
-      }]
-  }
-  localStorage.setItem("localNotesFolderStructure", JSON.stringify(folderStructure));
-  const collectionOfNotes: CollectionOfNotes = {
-      notes: [
-          {
-              "owner": "big d",
-              "type": "Note",
-              "id": 123,
-              "title": "Note 1",
-              "content": "hello 1",
-              "createdAt": 1731356318114,
-              "lastModifiedAt": 1731356318114
-          },
-          {
-              "owner": "big d",
-              "type": "Note",
-              "id": 124,
-              "title": "Note 2",
-              "content": "hello 2",
-              "createdAt": 1731356318114,
-              "lastModifiedAt": 1731356318114
-          },
-          {
-              "owner": "big d",
-              "type": "Note",
-              "id": 125,
-              "title": "Note 3",
-              "content": "hello 3",
-              "createdAt": 1731356318114,
-              "lastModifiedAt": 1731356318114
-          },
-          {
-              "owner": "big d",
-              "type": "Note",
-              "id": 567,
-              "title": "Note 4",
-              "content": "hello 4",
-              "createdAt": 1731356318114,
-              "lastModifiedAt": 1731356318114
-          },
-          {
-              "owner": "big d",
-              "type": "Note",
-              "id": 568,
-              "title": "Note 5",
-              "content": "hello 5",
-              "createdAt": 1731356318114,
-              "lastModifiedAt": 1731356318114
-          },
-          {
-              "owner": "big d",
-              "type": "Note",
-              "id": 569,
-              "title": "Note 6",
-              "content": "hello 6",
-              "createdAt": 1731356318114,
-              "lastModifiedAt": 1731356318114
-          },
-          {
-              "owner": "big d",
-              "type": "Note",
-              "id": 570,
-              "title": "Note 7",
-              "content": "hello 7",
-              "createdAt": 1731356318114,
-              "lastModifiedAt": 1731356318114
-          }
-      ]
-  };
-  localStorage.setItem("localCollectionOfNotes", JSON.stringify(collectionOfNotes));
-}
 
 
 export function AppSidebar() {
+  // you dont fetch anything bitch
   const localCollectionOfNotes = appStore((state) => state.localCollectionOfNotesState) as CollectionOfNotes
-  const localFolderStructureState = appStore((state) => state.localFolderStructureState) as FolderStructure
-  const localCollectionOfNotesState = appStore((state) => state.localCollectionOfNotesState) as CollectionOfNotes
-  const localNotesFolderStructureState = appStore((state) => state.localFolderStructureState) as FolderStructure
-  const setLocalFolderStructureState = appStore((state) => state.setLocalFolderStructureState)
-  const setlocalCollectionOfNotesState = appStore((state) => state.setlocalCollectionOfNotesState)
 
-  const router=useRouter()
+
+  const setCurrentNoteState=appStore((state)=>state.setCurrentOpenNoteIdState)
+
+  const router = useRouter()
+
   // on app boot
-  useEffect(() => {
-    addToLocal();
-    // setLocalFolderStructureState(JSON.parse(localStorage.getItem("localNotesFolderStructure") || ""));
-    setlocalCollectionOfNotesState(JSON.parse(localStorage.getItem("localCollectionOfNotes") ?? "{}"));
-    // let comparingFolderStructure=localNotesFolderStructure;
-    // sanitizeFolderStructure();
-    // const currentPath=usePathname()
+  // useEffect(() => {
+  //   // addToLocal();
+  //   setlocalCollectionOfNotesState(JSON.parse(localStorage.getItem("localCollectionOfNotes") ?? "{}"));
+  // }, [])
 
-  }, [])
-  useEffect(() => {
-    // console.log(localNotesFolderStructureState)
-    console.log(localCollectionOfNotesState)
-  }, [localCollectionOfNotesState, localNotesFolderStructureState])
 
   return (
     <Sidebar className={styles.sidebar}>
@@ -199,24 +106,13 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
 
-              {/* <SidebarMenuItem>
-                <SidebarMenuButton>Note 1</SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton>Note 2</SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton>Note 3</SidebarMenuButton>
-              </SidebarMenuItem> */}
-
-
-
               <ScrollArea className="h-22 w-48 rounded-md border">
                 {localCollectionOfNotes.notes?.map((note) => (
                   <SidebarMenuItem key={note.id}>
                     <SidebarMenuButton onClick={() => {
-                      console.log("lunn")
-                      router.push("/editor")
+                      console.log("lunn");
+                      router.push("/editor");
+                      setCurrentNoteState(note.id)
                     }}>{note.title}</SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}

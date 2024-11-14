@@ -1,5 +1,5 @@
-import Bedrock from "@/app/_components/bedrock";
-export default function Home(){
+import Bedrock from "@/app/_components/homepage/bedrock";
+export default function HomePage(){
     return(<>
     <Bedrock/>
     </>)
