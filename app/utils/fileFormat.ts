@@ -1,3 +1,12 @@
+import { Delta } from "quill/core"
+
+export interface userType{
+    userId: string,
+    name: string,
+    email: string,
+    imageUrl: string,
+    dateOfJoining: number
+}
 export interface Note{
     owner:string,
     // id:number,
@@ -9,7 +18,7 @@ export interface Note{
         folderName:string
     },
     title:string,
-    content:string,
+    content:Delta;
     // content:JSON,
     createdAt:number,
     lastModifiedAt:number

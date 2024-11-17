@@ -18,7 +18,7 @@ import { Card, CardContent, CardHeader, CardDescription, CardTitle, CardFooter }
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 
 import { Note, Folder, FolderStructure, CollectionOfNotes } from "../../utils/fileFormat";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 
 
 
@@ -26,7 +26,7 @@ import { useRouter } from "next/navigation";
 
 
 export default function Bedrock() {
-    const router = useRouter()
+    // const router = useRouter()
     const localCollectionOfNotesState = appStore((state) => state.localCollectionOfNotesState) as CollectionOfNotes
     const setlocalCollectionOfNotesState=appStore((state)=> state.setlocalCollectionOfNotesState)
 
@@ -120,7 +120,7 @@ export default function Bedrock() {
     },[])
 
     return (<>
-        <Tab tabName="Home" />
+        {/* <Tab tabName="Home" /> */}
 
 
         {/* <ScrollArea className={styles.scrollArea}> */}

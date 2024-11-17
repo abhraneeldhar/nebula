@@ -74,6 +74,7 @@ export function AppSidebar() {
 
   return (
     <Sidebar className={styles.sidebar}>
+      
       <SidebarContent>
         <div className={styles.appLogo}>NEBULA</div>
         <div className={styles.search}><input type="text" />
@@ -102,6 +103,7 @@ export function AppSidebar() {
 
 
         <SidebarGroup>
+          
           <SidebarGroupLabel>Notes</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -144,6 +146,7 @@ export function AppSidebar() {
 
 
             </SidebarMenu>
+    
           </SidebarGroupContent>
         </SidebarGroup>
 

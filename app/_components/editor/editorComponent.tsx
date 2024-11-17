@@ -10,11 +10,19 @@ import Image from "next/image"
 import closeSVG from "../../../public/close_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png"
 import menuSVG from "../../../public/menu_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png"
 
+import { Button } from "@/components/ui/button"
 import { useSidebar } from "@/components/ui/sidebar"
 import { appStore } from "@/app/store"
 import local from "next/font/local"
 
 import { Note, CollectionOfNotes } from "@/app/utils/fileFormat"
+
+const SaveButton=()=>{
+    return(
+        <Button className={styles.saveBtn}>Save</Button>
+    )
+}
+
 
 
 export default function EditorComponent({id}:{id:string}) {
@@ -22,13 +30,19 @@ export default function EditorComponent({id}:{id:string}) {
         const { toggleSidebar, open } = useSidebar();
         return (<>
             <div className={styles.tabBar}>
+                <div className={styles.tabnameContainer}>
+
                 <div className={styles.sidebarBtn}>
                     <Image src={open ? closeSVG : menuSVG} alt="sidebarBtn" onClick={() => {
                         toggleSidebar();
                     }
-                    } />
+                } />
                 </div>
                 <p>{tabName}</p>
+                </div>
+                <div className={styles.saveBtnContainer}>
+                    <SaveButton/>
+                </div>
             </div>
         </>)
     }
