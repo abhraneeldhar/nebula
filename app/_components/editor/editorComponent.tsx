@@ -172,7 +172,7 @@ export default function EditorComponent({ id }: { id: string }) {
             const newNote: Note = {
                 owner: userId,
                 id: currentOpenNoteId,
-                createdAt: Number(new Date()),
+                createdAt: noteData?.createdAt as number,
                 lastModifiedAt: Number(new Date()),
                 content: quillRef.current?.getContents() as Delta,
                 type: "Note",

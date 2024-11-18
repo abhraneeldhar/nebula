@@ -11,7 +11,13 @@ export async function POST(req: Request, res: Response){
         await mongoClientCS.connect();
         const db=mongoClientCS.db("notesApp");
         const notesCollection=db.collection("notes");
-        await notesCollection.insertOne(noteData);
+
+        await notesCollection.updateOne(
+            { id:noteData.id },
+            { $set: noteData},
+            { upsert: true }
+        );
+
         return Response.json({message: "Uploaded Note"})
     }
     catch(error) {
