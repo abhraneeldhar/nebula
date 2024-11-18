@@ -46,81 +46,9 @@ export default function Bedrock() {
         </>)
     }
 
-    useEffect(()=>{
-        const collectionOfNotes: CollectionOfNotes = {
-            notes: [
-                {
-                    "owner": "big d",
-                    "type": "Note",
-                    "id": "123",
-                    parent: {
-                        folderId: 0,
-                        folderName: "root"
-                    },
-                    "title": "Note 1",
-                    "content": "hello 1",
-                    "createdAt": 1731356318114,
-                    "lastModifiedAt": 1731356318114
-                },
-                {
-                    "owner": "big d",
-                    "type": "Note",
-                    "id": "124",
-                    parent: {
-                        folderId: 0,
-                        folderName: "root"
-                    },
-                    "title": "Note 2",
-                    "content": "hello 2",
-                    "createdAt": 1731356318114,
-                    "lastModifiedAt": 1731356318114
-                },
-                {
-                    "owner": "big d",
-                    "type": "Note",
-                    "id": "125",
-                    parent: {
-                        folderId: 0,
-                        folderName: "root"
-                    },
-                    "title": "Note 3",
-                    "content": "hello 3",
-                    "createdAt": 1731356318114,
-                    "lastModifiedAt": 1731356318114
-                },
-                {
-                    "owner": "big d",
-                    "type": "Note",
-                    "id": "567",
-                    parent: {
-                        folderId: 0,
-                        folderName: "root"
-                    },
-                    "title": "Note 4",
-                    "content": "hello 4",
-                    "createdAt": 1731356318114,
-                    "lastModifiedAt": 1731356318114
-                },
-                {
-                    "owner": "big d",
-                    "type": "Note",
-                    "id": "568",
-                    parent: {
-                        folderId: 0,
-                        folderName: "root"
-                    },
-                    "title": "Note 5",
-                    "content": "hello 5",
-                    "createdAt": 1731356318114,
-                    "lastModifiedAt": 1731356318114
-                }
-            ]
-        };
-        setlocalCollectionOfNotesState(collectionOfNotes);
-    },[])
-
+    
     return (<>
-        {/* <Tab tabName="Home" /> */}
+        <Tab tabName="Home" />
 
 
         {/* <ScrollArea className={styles.scrollArea}> */}
@@ -161,7 +89,8 @@ export default function Bedrock() {
                                         </CardDescription>
                                     </CardHeader>
                                     <CardContent className={styles.cardContent}>
-                                        <p>{note.content.slice(0, 10)}</p>
+                                        {/* <p>{note.content.slice(0, 10)}</p> */}
+                                        <p>preview here</p>
                                     </CardContent>
                                 </Card>
 

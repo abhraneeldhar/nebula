@@ -1,7 +1,9 @@
 import EditorComponent from "@/app/_components/editor/editorComponent";
 
-export default function EditorPage({ params }: { params: { id: string } }){
+export default async function EditorPage({ params }: { params: { id: string } }){
+    const { id } = await params
+    
     return(<>
-    <EditorComponent id={params.id}/>
+    <EditorComponent id={id}/>
     </>)
 }

@@ -13,40 +13,106 @@ import menuSVG from "../../../public/menu_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24
 import { Button } from "@/components/ui/button"
 import { useSidebar } from "@/components/ui/sidebar"
 import { appStore } from "@/app/store"
-import local from "next/font/local"
+
 
 import { Note, CollectionOfNotes } from "@/app/utils/fileFormat"
+import { fetchUserId } from "@/app/utils/fetchUserId"
 
-const SaveButton=()=>{
-    return(
-        <Button className={styles.saveBtn}>Save</Button>
-    )
-}
+import { useSession } from "next-auth/react"
+import { Delta } from "quill/core"
 
 
 
-export default function EditorComponent({id}:{id:string}) {
+
+import { postNote } from "@/app/utils/postNote"
+import { Input } from "@/components/ui/input"
+import { getOneNote } from "@/app/utils/getOneNote"
+
+export default function EditorComponent({ id }: { id: string }) {
+    // gets the user id
+    const { data: session } = useSession();
+    const [userId, setUserId] = useState<string | null>(null)
+    useEffect(() => {
+        if (!userId && session?.user?.email) {
+            const getUserId = async () => {
+                const newUserId = await fetchUserId(String(session?.user?.email))
+                if (newUserId != userId) {
+                    setUserId(newUserId)
+                }
+            }
+            getUserId();
+        }
+    }, [userId, session])
+    useEffect(() => {
+        if (userId) {
+            console.log("userid>>>>", userId)
+        }
+    }, [userId])
+
+
+    const currentOpenNoteId = id;
+
+    const [noteData, setNoteData] = useState<Note>()
+
+    useEffect(() => {
+        if (userId) {
+
+            const getNoteData = async () => {
+                // const noteData = await getOneNote(userId as string, currentOpenNoteId as string);
+                const response=await getOneNote(userId as string, currentOpenNoteId as string)
+                if (response.status==403){
+                    console.log("we fucked up");
+                }
+                else{
+                    setNoteData(response);
+                }
+                // console.log("userid>>>",userId," noteid>>>",currentOpenNoteId);
+            }
+            getNoteData();
+        }
+    }, [userId])
+    useEffect(()=>{
+        console.log("notedata>>>>>>", noteData)
+        
+    },[noteData])
+
+
+    const SaveButton = () => {
+        return (
+            <Button className={styles.saveBtn} onClick={() => {
+                saveFunction()
+            }}>Save</Button>
+        )
+    }
+
     const Tab = ({ tabName }: { tabName: string }) => {
         const { toggleSidebar, open } = useSidebar();
         return (<>
             <div className={styles.tabBar}>
                 <div className={styles.tabnameContainer}>
-
-                <div className={styles.sidebarBtn}>
-                    <Image src={open ? closeSVG : menuSVG} alt="sidebarBtn" onClick={() => {
-                        toggleSidebar();
-                    }
-                } />
-                </div>
-                <p>{tabName}</p>
+                    <div className={styles.sidebarBtn}>
+                        <Image src={open ? closeSVG : menuSVG} alt="sidebarBtn" onClick={() => {
+                            toggleSidebar();
+                        }
+                        } />
+                    </div>
+                    <p><Input type="text" /></p>
                 </div>
                 <div className={styles.saveBtnContainer}>
-                    <SaveButton/>
+                    <SaveButton />
                 </div>
             </div>
         </>)
     }
 
+
+
+
+
+
+
+
+   
     const toolbarRef = useRef<HTMLDivElement | null>(null);
     const quillRef = useRef<Quill | null>(null)
     const toolbarOptions = [
@@ -57,22 +123,12 @@ export default function EditorComponent({id}:{id:string}) {
         ['link', 'image'],
         // ['undo','redo']
     ];
-    const [testToolbarOptions, setTestToolbarOptions] = useState(toolbarOptions)
-
-    // const currentOpenNoteIdState = appStore((state) => state.currentOpenNoteIdState)
-    const currentOpenNoteId=id;
-    const localCollectionOfNotesState = appStore((state) => state.localCollectionOfNotesState) as CollectionOfNotes
-    
-
-
     useEffect(() => {
-
         // const quill = new Quill("#container", { theme: "snow", modules: { toolbar: toolbarOptions } });
-
         const quill = new Quill('#container', {
             theme: 'snow',
             modules: {
-                toolbar: testToolbarOptions,
+                toolbar: toolbarOptions,
                 history: {
                     delay: 1000,
                     maxStack: 50,
@@ -90,9 +146,13 @@ export default function EditorComponent({id}:{id:string}) {
         undoBtn?.addEventListener("click", () => { quillRef.current?.history.undo() })
         redoBtn?.addEventListener("click", () => { quillRef.current?.history.redo() })
 
+        if(!noteData){
+            quillRef.current.setText("")
+        }
+        else{
+            quillRef.current.setContents(noteData.content)
+        }
 
-        console.log(currentNote||"no note")
-        quill.setText(String(currentNote?.content))
         return (() => {
             if (toolbarRef.current) {
                 toolbarRef.current.innerHTML = ""
@@ -103,13 +163,32 @@ export default function EditorComponent({id}:{id:string}) {
             undoBtn?.removeEventListener("click", () => { quillRef.current?.history.undo() })
             redoBtn?.removeEventListener("click", () => { quillRef.current?.history.redo() })
         })
-    }, [,currentOpenNoteId])
-    // fiz thisusing zustand state for current note
+    }, [, currentOpenNoteId,noteData])
 
-   
-    const localCollectionOfNotes = appStore((state) => state.localCollectionOfNotesState) as CollectionOfNotes
 
-    const currentNote = localCollectionOfNotes.notes?.find((note) => note.id === currentOpenNoteId)
+
+    const saveFunction = () => {
+        if (userId) {
+            const newNote: Note = {
+                owner: userId,
+                id: currentOpenNoteId,
+                createdAt: Number(new Date()),
+                lastModifiedAt: Number(new Date()),
+                content: quillRef.current?.getContents() as Delta,
+                type: "Note",
+                title: "Test note title",
+                parent: {
+                    folderId: null,
+                    folderName: "root"
+                }
+            }
+            postNote(newNote);
+        }
+        else {
+            console.log("userId not found")
+        }
+    }
+
 
     return (<>
         <Tab tabName="editor" />
@@ -126,7 +205,5 @@ export default function EditorComponent({id}:{id:string}) {
         <button onClick={() => {
             console.log(quillRef.current?.getSemanticHTML())
         }}>Get Semantic HTML</button>
-
-
     </>)
 }

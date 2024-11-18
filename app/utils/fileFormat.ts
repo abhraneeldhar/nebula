@@ -7,6 +7,7 @@ export interface userType{
     imageUrl: string,
     dateOfJoining: number
 }
+
 export interface Note{
     owner:string,
     // id:number,
@@ -14,7 +15,7 @@ export interface Note{
     type: "Note",
     // snippet:string,
     parent:{
-        folderId:number,
+        folderId:string|null,
         folderName:string
     },
     title:string,
