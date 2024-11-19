@@ -87,4 +87,5 @@
     width: 100%;
     background-color: rgb(39, 39, 39);
     font-weight: 300;
+    overflow: hidden;
 }

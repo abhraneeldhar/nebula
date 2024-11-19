@@ -12,6 +12,7 @@ import { useSession } from "next-auth/react";
 import { getDisplayNotes } from "@/app/utils/getDisplayNotes";
 import { DisplayNote } from "@/app/utils/fileFormat";
 import { useRouter } from "next/navigation";
+import NewNoteBtn from "../newNoteBtn/newNoteBtn";
 
 
 export default function AllNotesComponent() {
@@ -75,10 +76,11 @@ export default function AllNotesComponent() {
 
 
         <div className={styles.main}>
+            <NewNoteBtn/>
             <div className={styles.notesContainer}>
 
                 {
-                    localCollectionOfNotesState?.map((note: DisplayNote)=>(
+                    localCollectionOfNotesState?.sort((a, b) => b.lastModifiedAt - a.lastModifiedAt)?.map((note: DisplayNote)=>(
                         <div className={styles.noteCard} key={note.id} onClick={(e) => {
                             e.stopPropagation();
                             console.log("Note card clicked");

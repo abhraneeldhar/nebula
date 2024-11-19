@@ -26,6 +26,7 @@ import { useSession } from "next-auth/react";
 import { fetchUserId } from "@/app/utils/fetchUserId";
 import { getDisplayName } from "next/dist/shared/lib/utils";
 import { getDisplayNotes } from "@/app/utils/getDisplayNotes";
+import NewNoteBtn from "../newNoteBtn/newNoteBtn";
 
 export default function Bedrock() {
     const router = useRouter()
@@ -89,10 +90,11 @@ export default function Bedrock() {
 
     return (<>
         <Tab tabName="Home" />
-
+        
 
         {/* <ScrollArea className={styles.scrollArea}> */}
         <div className={styles.main}>
+        <NewNoteBtn/>
             <div className={styles.displayContent}>
                 <div className={styles.coverImage}>
                     <Image src={coverImage} alt="cover image" />
@@ -121,7 +123,8 @@ export default function Bedrock() {
                                     router.push(`/editor/${note.id}`);
                                 }}>
                                     <h3>{note.title}</h3>
-                                    <div className={styles.noteSnippet}>Note snippet goes here heheheehehehe</div>
+                                    <div className={styles.noteSnippet}>{note.snippet}
+                                    </div>
                                 </div>
 
                             ))}

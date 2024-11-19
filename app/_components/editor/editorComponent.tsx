@@ -1,6 +1,6 @@
 "use client"
 import Quill from "quill"
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useId, useRef, useState } from "react"
 import "quill/dist/quill.snow.css"
 
 import "./editor.css"
@@ -15,7 +15,7 @@ import { useSidebar } from "@/components/ui/sidebar"
 import { appStore } from "@/app/store"
 
 
-import { Note } from "@/app/utils/fileFormat"
+import { DisplayNote, Note } from "@/app/utils/fileFormat"
 import { fetchUserId } from "@/app/utils/fetchUserId"
 
 import { useSession } from "next-auth/react"
@@ -27,10 +27,16 @@ import { Delta } from "quill/core"
 import { postNote } from "@/app/utils/postNote"
 import { Input } from "@/components/ui/input"
 import { getOneNote } from "@/app/utils/getOneNote"
+import { getDisplayNotes } from "@/app/utils/getDisplayNotes"
 // import Input from "postcss/lib/input"
 // import { Input } from "postcss"
 
 export default function EditorComponent({ id }: { id: string }) {
+    const localCollectionOfNotesState = appStore((state) => state.localCollectionOfNotesState) as DisplayNote[];
+    const setlocalCollectionOfNotesState = appStore((state) => state.setlocalCollectionOfNotesState);
+
+    
+
     // gets the user id
     const { data: session } = useSession();
     const [userId, setUserId] = useState<string | null>(null)
@@ -52,8 +58,20 @@ export default function EditorComponent({ id }: { id: string }) {
     }, [userId])
 
 
-    const currentOpenNoteId = id;
 
+    useEffect(() => {
+        if (localCollectionOfNotesState == null && userId != null) {
+            const asyncDisplayNotes = async () => {
+                console.log("fetching notes")
+                setlocalCollectionOfNotesState(await getDisplayNotes(userId));
+            }
+            asyncDisplayNotes();
+        }
+    }, [localCollectionOfNotesState, userId])
+
+
+
+    const currentOpenNoteId = id;
     const [noteData, setNoteData] = useState<Note>()
 
     useEffect(() => {
@@ -75,7 +93,8 @@ export default function EditorComponent({ id }: { id: string }) {
     }, [userId])
     
     useEffect(()=>{
-        console.log("notedata>>>>>>", noteData)
+        console.log("notedata>>>>>>", noteData);
+        
     },[noteData])
 
 
@@ -114,6 +133,7 @@ export default function EditorComponent({ id }: { id: string }) {
     const toolbarRef = useRef<HTMLDivElement | null>(null);
     const quillRef = useRef<Quill | null>(null)
     const tabNameRef= useRef<HTMLInputElement>(null)
+    
     const toolbarOptions = [
         [{ 'header': '1' }, { 'header': '2' }],
         ['bold', 'italic', 'underline', 'strike', 'blockquote'],
@@ -139,7 +159,7 @@ export default function EditorComponent({ id }: { id: string }) {
 
         quillRef.current = quill;
         quill.root.setAttribute('spellcheck', "false")
-        quill.setContents([]);
+        // quill.setContents([]);
         const undoBtn = document.querySelector(".ql-undo")
         const redoBtn = document.querySelector(".ql-redo")
         const toolbar = document.querySelector(".ql-toolbar")
@@ -171,6 +191,7 @@ export default function EditorComponent({ id }: { id: string }) {
 
 
     const saveFunction = () => {
+        const noteSnippet=quillRef.current?.getText() as string
         if (userId) {
             const newNote: Note = {
                 owner: userId,
@@ -179,6 +200,7 @@ export default function EditorComponent({ id }: { id: string }) {
                 lastModifiedAt: Number(new Date()),
                 content: quillRef.current?.getContents() as Delta,
                 type: "Note",
+                snippet: noteSnippet.slice(0,80)+"...",
                 title: tabNameRef.current?.value || "Untitled",
                 parent: {
                     folderId: null,
@@ -199,6 +221,7 @@ export default function EditorComponent({ id }: { id: string }) {
             <div id="container" ref={toolbarRef}>
             </div>
         </div>
+
         {/* <button onClick={() => {
             console.log(quillRef.current?.getContents())
         }}>Get contents</button>

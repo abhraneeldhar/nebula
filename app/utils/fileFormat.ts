@@ -13,7 +13,7 @@ export interface Note{
     // id:number,
     id: string,
     type: "Note",
-    // snippet:string,
+    snippet:string,
     parent:{
         folderId:string|null,
         folderName:string
@@ -29,7 +29,7 @@ export interface DisplayNote{
     // id:number,
     id: string,
     type: "Note",
-    // snippet:string,
+    snippet:string,
     parent:{
         folderId:string|null,
         folderName:string
