@@ -15,7 +15,7 @@ import { useSidebar } from "@/components/ui/sidebar"
 import { appStore } from "@/app/store"
 
 
-import { Note, CollectionOfNotes } from "@/app/utils/fileFormat"
+import { Note } from "@/app/utils/fileFormat"
 import { fetchUserId } from "@/app/utils/fetchUserId"
 
 import { useSession } from "next-auth/react"
@@ -27,6 +27,8 @@ import { Delta } from "quill/core"
 import { postNote } from "@/app/utils/postNote"
 import { Input } from "@/components/ui/input"
 import { getOneNote } from "@/app/utils/getOneNote"
+// import Input from "postcss/lib/input"
+// import { Input } from "postcss"
 
 export default function EditorComponent({ id }: { id: string }) {
     // gets the user id
@@ -71,9 +73,9 @@ export default function EditorComponent({ id }: { id: string }) {
             getNoteData();
         }
     }, [userId])
+    
     useEffect(()=>{
         console.log("notedata>>>>>>", noteData)
-        
     },[noteData])
 
 
@@ -85,7 +87,7 @@ export default function EditorComponent({ id }: { id: string }) {
         )
     }
 
-    const Tab = ({ tabName }: { tabName: string }) => {
+    const Tab = () => {
         const { toggleSidebar, open } = useSidebar();
         return (<>
             <div className={styles.tabBar}>
@@ -96,7 +98,7 @@ export default function EditorComponent({ id }: { id: string }) {
                         }
                         } />
                     </div>
-                    <p><Input type="text" /></p>
+                    <Input type="text" placeholder="Untitled Note" ref={tabNameRef} className={styles.tabName}/>
                 </div>
                 <div className={styles.saveBtnContainer}>
                     <SaveButton />
@@ -109,12 +111,9 @@ export default function EditorComponent({ id }: { id: string }) {
 
 
 
-
-
-
-   
     const toolbarRef = useRef<HTMLDivElement | null>(null);
     const quillRef = useRef<Quill | null>(null)
+    const tabNameRef= useRef<HTMLInputElement>(null)
     const toolbarOptions = [
         [{ 'header': '1' }, { 'header': '2' }],
         ['bold', 'italic', 'underline', 'strike', 'blockquote'],
@@ -123,6 +122,7 @@ export default function EditorComponent({ id }: { id: string }) {
         ['link', 'image'],
         // ['undo','redo']
     ];
+    
     useEffect(() => {
         // const quill = new Quill("#container", { theme: "snow", modules: { toolbar: toolbarOptions } });
         const quill = new Quill('#container', {
@@ -151,6 +151,9 @@ export default function EditorComponent({ id }: { id: string }) {
         }
         else{
             quillRef.current.setContents(noteData.content)
+            if(tabNameRef.current){
+                tabNameRef.current.value=noteData.title;
+            }
         }
 
         return (() => {
@@ -176,7 +179,7 @@ export default function EditorComponent({ id }: { id: string }) {
                 lastModifiedAt: Number(new Date()),
                 content: quillRef.current?.getContents() as Delta,
                 type: "Note",
-                title: "Test note title",
+                title: tabNameRef.current?.value || "Untitled",
                 parent: {
                     folderId: null,
                     folderName: "root"
@@ -191,12 +194,12 @@ export default function EditorComponent({ id }: { id: string }) {
 
 
     return (<>
-        <Tab tabName="editor" />
+        <Tab/>
         <div className={styles.editorSection}>
             <div id="container" ref={toolbarRef}>
             </div>
         </div>
-        <button onClick={() => {
+        {/* <button onClick={() => {
             console.log(quillRef.current?.getContents())
         }}>Get contents</button>
         <button onClick={() => {
@@ -205,5 +208,9 @@ export default function EditorComponent({ id }: { id: string }) {
         <button onClick={() => {
             console.log(quillRef.current?.getSemanticHTML())
         }}>Get Semantic HTML</button>
+        <button onClick={()=>{
+            console.log(tabNameRef.current?.value)
+        }}>Get tabname</button> */}
+
     </>)
 }

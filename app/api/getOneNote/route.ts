@@ -24,7 +24,7 @@ export async function GET(request: Request) {
                     folderName:"root"
                 },
                 type:"Note",
-                title:"New Note"
+                title:"Untitled"
             }
             return Response.json(newNote)
         }

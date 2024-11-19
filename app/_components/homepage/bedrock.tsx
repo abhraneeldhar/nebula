@@ -17,20 +17,60 @@ import { useSidebar } from "@/components/ui/sidebar";
 import { Card, CardContent, CardHeader, CardDescription, CardTitle, CardFooter } from "@/components/ui/card";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 
-import { Note, Folder, FolderStructure, CollectionOfNotes } from "../../utils/fileFormat";
+import { Note, Folder, FolderStructure, DisplayNote } from "../../utils/fileFormat";
 // import { useRouter } from "next/navigation";
 
-
-
-
-
+import rightArrow from "../../../public/arrowright.png";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { fetchUserId } from "@/app/utils/fetchUserId";
+import { getDisplayName } from "next/dist/shared/lib/utils";
+import { getDisplayNotes } from "@/app/utils/getDisplayNotes";
 
 export default function Bedrock() {
-    // const router = useRouter()
-    const localCollectionOfNotesState = appStore((state) => state.localCollectionOfNotesState) as CollectionOfNotes
-    const setlocalCollectionOfNotesState=appStore((state)=> state.setlocalCollectionOfNotesState)
+    const router = useRouter()
+    const localCollectionOfNotesState = appStore((state) => state.localCollectionOfNotesState) as DisplayNote[]
+    const setlocalCollectionOfNotesState = appStore((state) => state.setlocalCollectionOfNotesState)
 
-    
+
+    const { data: session } = useSession();
+    const [userId, setUserId] = useState<string | null>(null)
+    useEffect(() => {
+        if (!userId && session?.user?.email) {
+            const getUserId = async () => {
+                const newUserId = await fetchUserId(String(session?.user?.email))
+                if (newUserId != userId) {
+                    setUserId(newUserId)
+                }
+            }
+            getUserId();
+        }
+    }, [userId, session])
+    // useEffect(() => {
+    //     if (userId) {
+    //         console.log("userid>>>>", userId)
+    //     }
+    // }, [userId])
+    //     useEffect(()=>{
+    //         const topNotes = localCollectionOfNotesState.sort((a, b) => b.lastModifiedAt - a.lastModifiedAt)
+    //   .slice(0, 3);
+    //         console.log(topNotes)
+    //     },[localCollectionOfNotesState])
+
+    useEffect(() => {
+        if (localCollectionOfNotesState == null && userId != null) {
+            const asyncDisplayNotes = async () => {
+                console.log("fetching notes")
+                setlocalCollectionOfNotesState(await getDisplayNotes(userId));
+            }
+            asyncDisplayNotes();
+        }
+    }, [localCollectionOfNotesState, userId])
+
+
+
+
+
     const Tab = ({ tabName }: { tabName: string }) => {
         const { toggleSidebar, open } = useSidebar();
         return (<>
@@ -46,7 +86,7 @@ export default function Bedrock() {
         </>)
     }
 
-    
+
     return (<>
         <Tab tabName="Home" />
 
@@ -61,52 +101,39 @@ export default function Bedrock() {
                     </div>
                 </div>
 
-
                 {/* <WeathersTab /> */}
 
+                <div className={styles.notesAndOthersContainer}>
+                    <div className={styles.notesSection} onClick={() => {
+                        router.push("/allnotes")
+                        console.log("opens notes page");
+                    }}>
+                        <h2>Open Notes<Image src={rightArrow} alt=">" className={styles.rightArrow} /></h2>
+                        <div className={styles.notesContainer}>
+                            {localCollectionOfNotesState && localCollectionOfNotesState.length == 0 && (
+                                <p> no recent notes</p>
+                            )}
+                            {(localCollectionOfNotesState)&&(localCollectionOfNotesState.length > 0) && localCollectionOfNotesState?.sort((a, b) => b.lastModifiedAt - a.lastModifiedAt).slice(0, 3)?.map((note) => (
 
-                {/* <button onClick={() => addToLocal()}>Click to add to local storage</button> */}
-
-                <div className={styles.notesNshi}>
-                    <Tabs defaultValue="Vault" className="dark">
-                        <div className={styles.tabName}>
-
-                            <TabsList>
-                                <TabsTrigger value="Vault" className={styles.tabsTrigger}>Vault</TabsTrigger>
-                                <TabsTrigger value="Forge">Forge</TabsTrigger>
-                            </TabsList>
-                        </div>
-                        {/* <div className={styles.tabsContent}> */}
-                        <TabsContent className={styles.tabsContent} value="Vault">
-                            {localCollectionOfNotesState.notes?.map((note) => (
-                                <Card className={styles.card} key={note.id}>
-                                    <CardHeader>
-                                        <CardTitle className={styles.cardTitle}>
-                                            {note.title}
-                                        </CardTitle>
-                                        <CardDescription>
-                                            last modified <p>{`${Math.floor((Date.now() - note.lastModifiedAt) / (1000 * 60 * 60))} hours and ${Math.floor(((Date.now() - note.lastModifiedAt) % (1000 * 60 * 60)) / (1000 * 60))} minutes ago`}</p>
-                                        </CardDescription>
-                                    </CardHeader>
-                                    <CardContent className={styles.cardContent}>
-                                        {/* <p>{note.content.slice(0, 10)}</p> */}
-                                        <p>preview here</p>
-                                    </CardContent>
-                                </Card>
+                                <div className={styles.noteCard} key={note.id} onClick={(e) => {
+                                    e.stopPropagation();
+                                    console.log("Note card clicked");
+                                    router.push(`/editor/${note.id}`);
+                                }}>
+                                    <h3>{note.title}</h3>
+                                    <div className={styles.noteSnippet}>Note snippet goes here heheheehehehe</div>
+                                </div>
 
                             ))}
-                        </TabsContent>
-                        <TabsContent value="Forge">
-                            All your To-do lists are here
-                        </TabsContent>
-                        {/* </div> */}
-                    </Tabs>
+
+
+                        </div>
+                    </div>
                 </div>
 
 
             </div>
-        </div>
-        {/* </ScrollArea> */}
+        </div >
     </>
     )
 }

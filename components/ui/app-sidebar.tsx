@@ -20,7 +20,7 @@ import searchLogo from "../../public/searchLogo.png"
 
 import styles from "./sidebar.module.css"
 import { appStore } from "@/app/store"
-import { CollectionOfNotes, FolderStructure } from "@/app/utils/fileFormat"
+import {DisplayNote } from "@/app/utils/fileFormat"
 import { CollectedMetadata } from "next/dist/build/webpack/loaders/metadata/types"
 import { ScrollArea } from "@radix-ui/react-scroll-area"
 import { useEffect, useState } from "react"
@@ -28,7 +28,7 @@ import { usePathname, useRouter } from 'next/navigation'
 const items = [
   {
     title: "Home",
-    url: "#",
+    url: "/home",
     icon: Home,
   },
   {
@@ -58,12 +58,18 @@ const items = [
 
 export function AppSidebar() {
   // you dont fetch anything bitch
-  const localCollectionOfNotes = appStore((state) => state.localCollectionOfNotesState) as CollectionOfNotes
-
-
-  const setCurrentNoteState=appStore((state)=>state.setCurrentOpenNoteIdState)
-
+  
   const router = useRouter()
+  const localCollectionOfNotesState = appStore((state) => state.localCollectionOfNotesState) as DisplayNote[]
+
+
+  // const setCurrentNoteState=appStore((state)=>state.setCurrentOpenNoteIdState)
+
+
+//   useEffect(()=>{
+//     console.log(localCollectionOfNotesState)
+// },[localCollectionOfNotesState])
+
 
   // on app boot
   // useEffect(() => {
@@ -109,12 +115,12 @@ export function AppSidebar() {
             <SidebarMenu>
 
               <ScrollArea className="h-22 w-48 rounded-md border">
-                {localCollectionOfNotes.notes?.map((note) => (
+                {localCollectionOfNotesState?.sort((a, b) => b.lastModifiedAt - a.lastModifiedAt)?.map((note: DisplayNote) => (
                   <SidebarMenuItem key={note.id}>
                     <SidebarMenuButton onClick={() => {
                       console.log("lunn");
                       router.push(`/editor/${note.id}`);
-                      setCurrentNoteState(note.id)
+                      // setCurrentNoteState(note.id)
                     }}>{note.title}</SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}

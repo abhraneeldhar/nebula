@@ -24,7 +24,21 @@ export interface Note{
     createdAt:number,
     lastModifiedAt:number
 }
-export interface CollectionOfNotes{notes:Note[]}
+export interface DisplayNote{
+    owner:string,
+    // id:number,
+    id: string,
+    type: "Note",
+    // snippet:string,
+    parent:{
+        folderId:string|null,
+        folderName:string
+    },
+    title:string,
+    createdAt:number,
+    lastModifiedAt:number
+}
+
 
 export interface Folder{
     owner:string,

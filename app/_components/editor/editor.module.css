@@ -11,11 +11,20 @@
     padding-right: 15px;
     /* position: absolute; */
 }
-.tabBar p{
+.tabnameContainer{
+    display: flex;
+    flex-direction: row;
+}
+.tabName{
     display: inline-block;
-    font-size: 35px;
-    font-weight: 600;
+    align-items: center;
+    vertical-align: middle;
+    font-size: 20px;
+    font-weight: 400;
     margin-left: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.53);
+    padding: 15px;
+    width: 200px;
 }
 .saveBtn{
     transition: all 0.3s;

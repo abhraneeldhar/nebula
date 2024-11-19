@@ -6,36 +6,42 @@
     justify-content: center;
     position: relative;
     gap: 15px;
-    
+
 
     height: fit-content;
-    .ql-stroke{
+
+    .ql-stroke {
         stroke: white;
     }
-    .ql-fill{
+
+    .ql-fill {
         fill: white;
     }
-    .ql-picker{
+
+    .ql-picker {
         fill: white;
         color: white;
     }
-    .ql-picker-options{
-        background-color: black;   
-    } 
-    
+
+    .ql-picker-options {
+        background-color: black;
+    }
+
 
 }
 
-.ql-toolbar.ql-snow{
-    border: none;
-}
-.ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label{
+.ql-toolbar.ql-snow {
     border: none;
 }
 
-.ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-options{
+.ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label {
     border: none;
 }
+
+.ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-options {
+    border: none;
+}
+
 .ql-container.ql-snow {
     /* margin: 0px; */
     border: none;
@@ -51,15 +57,17 @@
     display: flex;
     /* gap: 5px; */
 }
-button{
+
+button {
     transition: all 0.3s;
 }
-.ql-active{
+
+.ql-active {
     background-color: #28292b !important;
     border-radius: 4px;
 }
 
-.ql-toolbar::after{
+.ql-toolbar::after {
     height: 2px;
     border-radius: 5px;
     width: 38em;
@@ -82,6 +90,7 @@ button{
     height: 100%;
     display: inline-block;
 }
+
 .ql-redo::before {
     content: "";
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' height='24px' viewBox='0 -960 960 960' width='24px' fill='%23e8eaed'><path d='M396-200q-97 0-166.5-63T160-420q0-94 69.5-157T396-640h252L544-744l56-56 200 200-200 200-56-56 104-104H396q-63 0-109.5 40T240-420q0 60 46.5 100T396-280h284v80H396Z'/></svg>");
@@ -91,11 +100,13 @@ button{
     height: 100%;
     display: inline-block;
 }
-.ql-redo:hover, .ql-undo:hover{
+
+.ql-redo:hover,
+.ql-undo:hover {
     transform: scale(1.1);
 }
 
-#container{
+#container {
     font-size: 20px;
     color: white;
     /* background-color: rgb(220, 112, 112); */
@@ -103,18 +114,25 @@ button{
     width: 100%;
     justify-content: center;
 }
-.ql-editor{
+
+.ql-editor {
     margin-top: 10px;
     margin-bottom: 10px;
     background-color: #151719;
     width: 99%;
     border-radius: 20px;
-    min-height: 75vh;
+    min-height: 80vh;
     padding: 20px;
-
 }
 
 
-body{
+body {
     background-color: black;
+}
+
+.ql-container.ql-snow {
+    img {
+        width: 30%;
+        margin-left: 10px;
+    }
 }
