@@ -7,7 +7,7 @@ export async function GET(req: Request){
         const db=mongoClientCS.db("notesApp");
         const notesCollection=db.collection("notes");
         const displayNotes= await notesCollection.find({ owner: userId },{projection:{content:0}}).toArray();
-        console.log(displayNotes)
+        // console.log(displayNotes)
         return Response.json(displayNotes)
     }
     catch(error){

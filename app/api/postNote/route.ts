@@ -21,6 +21,7 @@ export async function POST(req: Request, res: Response){
         return Response.json({message: "Uploaded Note"})
     }
     catch(error) {
+        console.log(error);
         return Response.json({ error })
     }
 }
