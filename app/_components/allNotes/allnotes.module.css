@@ -101,12 +101,19 @@
     color: red;
 }
 
-.renameDialog{
+.renameDialog, .deleteDialog{
     background-color: rgb(9, 9, 9);
     color: white;
     border: 0.1px solid rgb(98, 98, 98);
+    width: 300px;
 }
-.renameDialog input{
+.renameDialog{
+    width: 400px;
+}
+.deleteDialog{
+    width: 300px;
+}
+.renameDialog input, .deleteDialog input{
     border: 1px solid white;
 }
 
@@ -116,4 +123,14 @@
 }
 .cancelRename:hover{
     background-color: rgb(234, 42, 42);
+}
+.deleteBtn{
+    color: white;
+    background-color:  rgb(243, 83, 83);
+}
+.deleteBtn:hover{
+    background-color: rgb(234, 42, 42);
+}
+.dialogFooter{
+    margin-top: 30px;
 }

@@ -34,6 +34,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { renameNote } from "@/app/utils/renameNote";
+import { deleteNote } from "@/app/utils/deleteNote";
 
 export default function AllNotesComponent() {
     const router = useRouter();
@@ -44,6 +45,10 @@ export default function AllNotesComponent() {
     const [openRename, setRenameOpen] = useState(false);
     const [renameNoteId, setRenameNoteId] = useState<string>("");
     const [renameNoteName, setRenameNoteName] = useState<string>("");
+    const [openDelete, setOpenDelete] = useState(false);
+    const [deleteNoteId, setDeleteNoteId] = useState("");
+    const [deleteNoteName, setDeleteNoteName] = useState("");
+
     // var refreshToggle=useRef<number>(0)
 
 
@@ -105,7 +110,7 @@ export default function AllNotesComponent() {
 
 
 
-            <DialogContent className={`sm:max-w-[425px] ${styles.renameDialog}`}>
+            <DialogContent className={`${styles.renameDialog}`}>
                 <form onSubmit={(e) => {
                     // e.preventDefault();
                     setRenameOpen(false);
@@ -132,9 +137,35 @@ export default function AllNotesComponent() {
 
                         </div>
                     </div>
-                    <DialogFooter>
-                        <Button onClick={()=>{setRenameOpen(false)}} className={styles.cancelRename}>Cancel</Button>
+                    <DialogFooter className={styles.dialogFooter}>
+                        <Button onClick={() => { setRenameOpen(false) }} className={styles.cancelRename}>Cancel</Button>
                         <Button type="submit">Rename</Button>
+                    </DialogFooter>
+                </form>
+            </DialogContent>
+        </Dialog>
+
+
+        <Dialog open={openDelete} onOpenChange={(e) => {
+            setOpenDelete(e);
+            // console.log(e);
+            setDeleteNoteId("");
+            setDeleteNoteName("");
+        }}>
+            <DialogContent className={`${styles.deleteDialog}`}>
+                <form onSubmit={(e) => {
+                    e.preventDefault();
+                    setOpenDelete(false);
+                }}>
+                    <DialogHeader>
+                        <DialogTitle>Delete note</DialogTitle>
+                        <DialogDescription>
+                            Delete <b>{deleteNoteName}</b> permanenetly?
+                        </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter className={styles.dialogFooter}>
+                        <Button onClick={() => { setOpenDelete(false) }} className={styles.cancelDelete}>Cancel</Button>
+                        <Button onClick={() => { deleteNote(deleteNoteId) }} className={styles.deleteBtn}>Delete</Button>
                     </DialogFooter>
                 </form>
             </DialogContent>
@@ -163,15 +194,11 @@ export default function AllNotesComponent() {
                                 e.stopPropagation();
                             }}>
                                 <DropdownMenuGroup>
-
                                     <DropdownMenuItem onClick={() => {
                                         console.log(" rename");
                                         setRenameOpen(true);
                                         setRenameNoteId(note.id);
                                         setRenameNoteName(note.title);
-                                        // if(renameInputRef.current){
-                                        //     renameInputRef.current.value=note.title;
-                                        // }
                                     }}>Rename</DropdownMenuItem>
                                     <DropdownMenuItem onClick={() => {
                                         console.log(" share")
@@ -179,6 +206,10 @@ export default function AllNotesComponent() {
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem className={styles.deleteBtn} onClick={() => {
                                         console.log(" delete")
+                                        setDeleteNoteId(note.id);
+                                        setDeleteNoteName(note.title);
+                                        setOpenDelete(true);
+                                        // deleteNote(note.id);
                                     }}>Delete</DropdownMenuItem>
 
                                 </DropdownMenuGroup>
