@@ -115,17 +115,17 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
 
-              <ScrollArea className="h-22 w-48 rounded-md border">
+              {/* <ScrollArea className="h-22 w-48 rounded-md border"> */}
                 {localCollectionOfNotesState?.sort((a, b) => b.lastModifiedAt - a.lastModifiedAt)?.map((note: DisplayNote) => (
                   <SidebarMenuItem key={note.id}>
-                    <SidebarMenuButton onClick={() => {
+                    <SidebarMenuButton className={styles.noteBtn} onClick={() => {
                       console.log("lunn");
                       router.push(`/editor/${note.id}`);
                       // setCurrentNoteState(note.id)
-                    }}>{note.title}</SidebarMenuButton>
+                    }}>&#62;&#62; {note.title}</SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}
-              </ScrollArea>
+              {/* </ScrollArea> */}
 
               {/* {localFolderStructureState.folders?.map((folder) => (
                 <Collapsible key={folder.id} className="group/collapsible">

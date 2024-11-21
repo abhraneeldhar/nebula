@@ -190,7 +190,7 @@ export default function AllNotesComponent() {
                                 <div>...</div>
                             </DropdownMenuTrigger>
 
-                            <DropdownMenuContent className="w-30" onClick={(e) => {
+                            <DropdownMenuContent className={`w-30 ${styles.dropDownMenu}`} onClick={(e) => {
                                 e.stopPropagation();
                             }}>
                                 <DropdownMenuGroup>
@@ -203,7 +203,7 @@ export default function AllNotesComponent() {
                                     <DropdownMenuItem onClick={() => {
                                         console.log(" share")
                                     }}>Share</DropdownMenuItem>
-                                    <DropdownMenuSeparator />
+                                    {/* <DropdownMenuSeparator /> */}
                                     <DropdownMenuItem className={styles.deleteBtn} onClick={() => {
                                         console.log(" delete")
                                         setDeleteNoteId(note.id);

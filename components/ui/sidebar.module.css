@@ -79,3 +79,7 @@
     overflow: none;
     transition: all 0.2s;
 }
+.noteBtn{
+    overflow: hidden;
+    
+}

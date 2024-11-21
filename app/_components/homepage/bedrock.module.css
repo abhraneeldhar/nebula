@@ -175,24 +175,32 @@
     flex-direction: column;
     width: 200px;
     height: 200px;
-    /* border: 1px solid rgb(177, 177, 177); */
     overflow: hidden;
     padding: 10px;
     border-radius: 15px;
     background-color: black;
     transition: all 0.2s;
+    position: relative;
 }
-.noteCard:hover{
+.noteCard:active{
     transform: scale(0.95);
 }
+
 .noteCard h3{
-    font-size: 1.4em;
-    overflow: hidden;
+    font-size: 1em;
+    /* overflow: hidden; */
     margin-left: 10px;
     font-weight: 500;
-    height: 2em;
+    /* height: 2em; */
+    max-height: 3em;
+    text-align: center;
+    vertical-align: middle;
+    /* background-color: blue; */
+    width: 80%;
 }
-.noteCard .noteSnippet{
+
+
+.noteSnippet{
     margin-top: 10px;
     /* border: 1px solid white; */
     padding: 10px;

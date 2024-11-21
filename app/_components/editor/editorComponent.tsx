@@ -200,7 +200,7 @@ export default function EditorComponent({ id }: { id: string }) {
                 lastModifiedAt: Number(new Date()),
                 content: quillRef.current?.getContents() as Delta,
                 type: "Note",
-                snippet: noteSnippet.slice(0,80)+"...",
+                snippet: noteSnippet.slice(0,70)+"...",
                 title: tabNameRef.current?.value || "Untitled",
                 parent: {
                     folderId: null,
