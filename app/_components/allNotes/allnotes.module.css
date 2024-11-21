@@ -1,5 +1,6 @@
 .tabBar{
     /* background-color: white; */
+    color: white;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -36,6 +37,7 @@
 }
 
 .main{
+    color: white;
     /* background-color: #232228; */
     /* background-color: rgb(24, 24, 24); */
     background-color: rgb(16, 16, 16);
@@ -88,4 +90,13 @@
     background-color: rgb(39, 39, 39);
     font-weight: 300;
     overflow: hidden;
+}
+.dropDownMenuTrigger{
+    position: absolute;
+    font-size: 2em;
+    top: -7px;
+    right: 15px;
+}
+.deleteBtn{
+    color: red;
 }

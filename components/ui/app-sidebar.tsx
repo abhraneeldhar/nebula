@@ -88,6 +88,7 @@ export function AppSidebar() {
             <Image src={searchLogo} alt="Q" />
           </div>
         </div>
+        
         <SidebarGroup>
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>

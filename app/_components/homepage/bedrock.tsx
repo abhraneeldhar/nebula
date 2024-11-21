@@ -1,6 +1,6 @@
 "use client"
 import styles from "./bedrock.module.css";
-import { ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { appStore } from "../../store";
 import Image from "next/image";
 
@@ -17,8 +17,8 @@ import { useSidebar } from "@/components/ui/sidebar";
 import { Card, CardContent, CardHeader, CardDescription, CardTitle, CardFooter } from "@/components/ui/card";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 
-import { Note, Folder, FolderStructure, DisplayNote } from "../../utils/fileFormat";
-// import { useRouter } from "next/navigation";
+import { Note, Folder, DisplayNote } from "../../utils/fileFormat";
+
 
 import rightArrow from "../../../public/arrowright.png";
 import { useRouter } from "next/navigation";
@@ -47,16 +47,7 @@ export default function Bedrock() {
             getUserId();
         }
     }, [userId, session])
-    // useEffect(() => {
-    //     if (userId) {
-    //         console.log("userid>>>>", userId)
-    //     }
-    // }, [userId])
-    //     useEffect(()=>{
-    //         const topNotes = localCollectionOfNotesState.sort((a, b) => b.lastModifiedAt - a.lastModifiedAt)
-    //   .slice(0, 3);
-    //         console.log(topNotes)
-    //     },[localCollectionOfNotesState])
+    
 
     useEffect(() => {
         if (localCollectionOfNotesState == null && userId != null) {
