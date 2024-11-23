@@ -97,9 +97,6 @@ export default function Bedrock() {
 
                 {/* <WeathersTab /> */}
 
-                <button onClick={() => setTheme('light')}>Light Mode</button>
-                <button onClick={() => setTheme('dark')}>Dark Mode</button>
-
                 <div className={styles.notesAndOthersContainer}>
                     <div className={styles.notesSection} onClick={() => {
                         router.push("/allnotes")

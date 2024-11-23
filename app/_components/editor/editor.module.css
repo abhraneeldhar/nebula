@@ -19,6 +19,7 @@
     /* position: sticky; */
     position: relative;
     z-index: 2;
+    margin-top: 5px;
     /* top: 0; */
 }
 .tabContent{

@@ -40,9 +40,9 @@ const FooterMenu = () => {
   return (<>
 
     <div className={styles.footerMenu}>
-      <div className={styles.footerMenuItem}>Item 1</div>
-      <div className={styles.footerMenuItem}>Item 1</div>
-      <div className={styles.footerMenuItem}>Item 1</div>
+      <div className={styles.footerMenuItem}>Edging</div>
+      <div className={styles.footerMenuItem}>Gooning</div>
+      <div className={styles.footerMenuItem}>Settings</div>
       <div className={`${styles.footerMenuItem} ${styles.signOut}`}>Sign Out</div>
     </div>
 
@@ -59,19 +59,6 @@ export function AppSidebar() {
   const [showFooterMenu, setShowFooterMenu] = useState(false);
 
 
-  // const setCurrentNoteState=appStore((state)=>state.setCurrentOpenNoteIdState)
-
-
-  //   useEffect(()=>{
-  //     console.log(localCollectionOfNotesState)
-  // },[localCollectionOfNotesState])
-
-
-  // on app boot
-  // useEffect(() => {
-  //   // addToLocal();
-  //   setlocalCollectionOfNotesState(JSON.parse(localStorage.getItem("localCollectionOfNotes") ?? "{}"));
-  // }, [])
 
 
   return (
@@ -79,12 +66,6 @@ export function AppSidebar() {
 
       <SidebarContent>
         <div className={styles.appLogo}>NEBULA</div>
-
-        {/* <div className={styles.search}><input type="text" />
-          <div className={styles.searchLogo}>
-            <Image src={searchLogo} alt="Q" />
-          </div>
-        </div> */}
 
         <SidebarGroup>
           <SidebarGroupLabel>Application</SidebarGroupLabel>

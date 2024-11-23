@@ -99,7 +99,7 @@ export default function AllNotesComponent() {
 
     return (<>
 
-        <Tab tabName="All Notes" />
+        <Tab tabName="Notes Manager" />
 
         <Dialog open={openRename} onOpenChange={(e) => {
             setRenameOpen(e);
