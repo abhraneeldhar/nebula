@@ -2,6 +2,7 @@ import { SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/ui/app-sidebar"
 import SessionWrapper from "../_components/sessionWrapper"
 // import { appStore } from "../store"
+// import { ThemeProvider } from 'next-themes'
 
 export default async function Layout({ children }: { children: React.ReactNode }) {
   

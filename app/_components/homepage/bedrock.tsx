@@ -27,6 +27,7 @@ import { fetchUserId } from "@/app/utils/fetchUserId";
 import { getDisplayName } from "next/dist/shared/lib/utils";
 import { getDisplayNotes } from "@/app/utils/getDisplayNotes";
 import NewNoteBtn from "../newNoteBtn/newNoteBtn";
+import { useTheme } from "next-themes";
 
 export default function Bedrock() {
     const router = useRouter()
@@ -47,7 +48,7 @@ export default function Bedrock() {
             getUserId();
         }
     }, [userId, session])
-    
+
 
     useEffect(() => {
         if (localCollectionOfNotesState == null && userId != null) {
@@ -60,6 +61,7 @@ export default function Bedrock() {
     }, [localCollectionOfNotesState, userId])
 
 
+    const { theme, setTheme } = useTheme();
 
 
 
@@ -81,11 +83,10 @@ export default function Bedrock() {
 
     return (<>
         <Tab tabName="Home" />
-        
 
-        {/* <ScrollArea className={styles.scrollArea}> */}
+
         <div className={styles.main}>
-        <NewNoteBtn/>
+            <NewNoteBtn />
             <div className={styles.displayContent}>
                 <div className={styles.coverImage}>
                     <Image src={coverImage} alt="cover image" />
@@ -95,6 +96,9 @@ export default function Bedrock() {
                 </div>
 
                 {/* <WeathersTab /> */}
+
+                <button onClick={() => setTheme('light')}>Light Mode</button>
+                <button onClick={() => setTheme('dark')}>Dark Mode</button>
 
                 <div className={styles.notesAndOthersContainer}>
                     <div className={styles.notesSection} onClick={() => {
@@ -106,7 +110,7 @@ export default function Bedrock() {
                             {localCollectionOfNotesState && localCollectionOfNotesState.length == 0 && (
                                 <p> no recent notes</p>
                             )}
-                            {(localCollectionOfNotesState)&&(localCollectionOfNotesState.length > 0) && localCollectionOfNotesState?.sort((a, b) => b.lastModifiedAt - a.lastModifiedAt).slice(0, 3)?.map((note) => (
+                            {(localCollectionOfNotesState) && (localCollectionOfNotesState.length > 0) && localCollectionOfNotesState?.sort((a, b) => b.lastModifiedAt - a.lastModifiedAt).slice(0, 3)?.map((note) => (
 
                                 <div className={styles.noteCard} key={note.id} onClick={(e) => {
                                     e.stopPropagation();

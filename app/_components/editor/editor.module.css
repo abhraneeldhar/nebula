@@ -1,20 +1,41 @@
+.main{
+    position: relative;
+    width: 100%;
+}
 .tabBar{
     /* background-color: white; */
     color: white;
     display: flex;
-    flex-direction: row;
+    /* flex-direction: row; */
     align-items: center;
     justify-content: space-between;
     vertical-align: middle;
+    /* background-color: black; */
     background-color: black;
     gap: 5px;
     height: 50px;
     padding-right: 15px;
-    /* position: absolute; */
+    width: 100%;
+    /* position: sticky; */
+    position: relative;
+    z-index: 2;
+    /* top: 0; */
+}
+.tabContent{
+    display: flex;
+    /* position: fixed; */
+    justify-content: space-between;
+    /* left: 0; */
+    /* right: 0; */
+    width: 100%;
 }
 .tabnameContainer{
     display: flex;
+    width: 100%;
+    /* justify-content: space-between; */
     flex-direction: row;
+    background-color: black;
+
 }
 .tabName{
     display: inline-block;
@@ -27,7 +48,22 @@
     padding: 15px;
     width: 200px;
 }
+.tabButtons{
+    display: flex;
+    gap: 15px;
+}
+.shareBtn{
+    background-color: rgb(49, 150, 5);
+    transition: all 0.3s;
+}
+.shareBtn:active{
+    transform: scale(0.9);
+}
+.shareBtn:hover{
+    background-color: rgb(95, 165, 64);
+}
 .saveBtn{
+    /* right: 0; */
     transition: all 0.3s;
 }
 .saveBtn:active{

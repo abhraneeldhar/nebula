@@ -1,14 +1,21 @@
 .ql-toolbar {
-    background-color: black;
+    
+    /* background-color: blue; */
     display: flex;
-    width: 100%;
-    text-align: center;
+    border-radius: 20px;
+    /* width: fit-content; */
+    /* text-align: center; */
     justify-content: center;
-    position: relative;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 50%;
     gap: 15px;
+    z-index: 3;
+    transform: translateX(-25%);
+    margin-top: 5px;
 
 
-    height: fit-content;
 
     .ql-stroke {
         stroke: white;
@@ -32,6 +39,11 @@
 
 .ql-toolbar.ql-snow {
     border: none;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    height: 45px;
+    /* background-color: rgb(0, 255, 81); */
 }
 
 .ql-toolbar.ql-snow .ql-picker.ql-expanded .ql-picker-label {
@@ -48,7 +60,8 @@
 }
 
 .ql-toolbar.ql-snow .ql-formats {
-    background-color: #1b1c1d;
+    /* background-color: #1b1c1d; */
+    background-color:#171717;
     padding: 5px;
     border-radius: 5px;
     height: fit-content;
@@ -56,6 +69,7 @@
     margin-right: 0px;
     display: flex;
     /* gap: 5px; */
+    border: 1px solid rgba(255, 255, 255, 0.47);
 }
 
 button {
@@ -71,12 +85,10 @@ button {
     height: 2px;
     border-radius: 5px;
     width: 38em;
-    /* width: fit-content; */
-    /* width: inherit; */
     background-color: rgba(255, 255, 255, 0.47);
     display: block;
     position: absolute;
-    bottom: 0px;
+    bottom: -5px;
     max-width: 70%;
 }
 
@@ -113,6 +125,9 @@ button {
     display: flex;
     width: 100%;
     justify-content: center;
+    height: 100%;
+    /* margin-top: 50px; */
+
 }
 
 .ql-editor {
@@ -121,8 +136,9 @@ button {
     background-color: #151719;
     width: 99%;
     border-radius: 20px;
-    min-height: 80vh;
+    min-height: 90vh;
     padding: 20px;
+    /* height: 100%; */
 }
 
 

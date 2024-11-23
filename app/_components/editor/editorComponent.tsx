@@ -35,7 +35,7 @@ export default function EditorComponent({ id }: { id: string }) {
     const localCollectionOfNotesState = appStore((state) => state.localCollectionOfNotesState) as DisplayNote[];
     const setlocalCollectionOfNotesState = appStore((state) => state.setlocalCollectionOfNotesState);
 
-    
+
 
     // gets the user id
     const { data: session } = useSession();
@@ -67,6 +67,9 @@ export default function EditorComponent({ id }: { id: string }) {
             }
             asyncDisplayNotes();
         }
+        return (() => {
+            console.log("unmounting editorcomponent")
+        })
     }, [localCollectionOfNotesState, userId])
 
 
@@ -79,11 +82,11 @@ export default function EditorComponent({ id }: { id: string }) {
 
             const getNoteData = async () => {
                 // const noteData = await getOneNote(userId as string, currentOpenNoteId as string);
-                const response=await getOneNote(userId as string, currentOpenNoteId as string)
-                if (response.status==403){
+                const response = await getOneNote(userId as string, currentOpenNoteId as string)
+                if (response.status == 403) {
                     console.log("we fucked up");
                 }
-                else{
+                else {
                     setNoteData(response);
                 }
                 // console.log("userid>>>",userId," noteid>>>",currentOpenNoteId);
@@ -91,36 +94,42 @@ export default function EditorComponent({ id }: { id: string }) {
             getNoteData();
         }
     }, [userId])
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         console.log("notedata>>>>>>", noteData);
-        
-    },[noteData])
 
+    }, [noteData])
 
-    const SaveButton = () => {
-        return (
-            <Button className={styles.saveBtn} onClick={() => {
-                saveFunction()
-            }}>Save</Button>
-        )
-    }
 
     const Tab = () => {
         const { toggleSidebar, open } = useSidebar();
         return (<>
             <div className={styles.tabBar}>
-                <div className={styles.tabnameContainer}>
-                    <div className={styles.sidebarBtn}>
-                        <Image src={open ? closeSVG : menuSVG} alt="sidebarBtn" onClick={() => {
-                            toggleSidebar();
-                        }
-                        } />
+                <div className={styles.tabContent}>
+
+                    <div className={styles.tabnameContainer}>
+                        <div className={styles.sidebarBtn}>
+                            <Image src={open ? closeSVG : menuSVG} alt="sidebarBtn" onClick={() => {
+                                toggleSidebar();
+                            }
+                            } />
+                        </div>
+                        <Input type="text" placeholder="Untitled Note" ref={tabNameRef} className={styles.tabName} />
                     </div>
-                    <Input type="text" placeholder="Untitled Note" ref={tabNameRef} className={styles.tabName}/>
-                </div>
-                <div className={styles.saveBtnContainer}>
-                    <SaveButton />
+
+                    <div className={styles.tabButtons}>
+
+
+                        <Button className={styles.shareBtn} onClick={() => {
+                            saveFunction()
+                        }}>Share</Button>
+
+
+                        <Button className={styles.saveBtn} onClick={() => {
+                            saveFunction()
+                        }}>Save</Button>
+
+                    </div>
                 </div>
             </div>
         </>)
@@ -132,8 +141,8 @@ export default function EditorComponent({ id }: { id: string }) {
 
     const toolbarRef = useRef<HTMLDivElement | null>(null);
     const quillRef = useRef<Quill | null>(null)
-    const tabNameRef= useRef<HTMLInputElement>(null)
-    
+    const tabNameRef = useRef<HTMLInputElement>(null)
+
     const toolbarOptions = [
         [{ 'header': '1' }, { 'header': '2' }],
         ['bold', 'italic', 'underline', 'strike', 'blockquote'],
@@ -142,7 +151,7 @@ export default function EditorComponent({ id }: { id: string }) {
         ['link', 'image'],
         // ['undo','redo']
     ];
-    
+
     useEffect(() => {
         // const quill = new Quill("#container", { theme: "snow", modules: { toolbar: toolbarOptions } });
         const quill = new Quill('#container', {
@@ -166,13 +175,13 @@ export default function EditorComponent({ id }: { id: string }) {
         undoBtn?.addEventListener("click", () => { quillRef.current?.history.undo() })
         redoBtn?.addEventListener("click", () => { quillRef.current?.history.redo() })
 
-        if(!noteData){
+        if (!noteData) {
             quillRef.current.setText("")
         }
-        else{
+        else {
             quillRef.current.setContents(noteData.content)
-            if(tabNameRef.current){
-                tabNameRef.current.value=noteData.title;
+            if (tabNameRef.current) {
+                tabNameRef.current.value = noteData.title;
             }
         }
 
@@ -186,12 +195,12 @@ export default function EditorComponent({ id }: { id: string }) {
             undoBtn?.removeEventListener("click", () => { quillRef.current?.history.undo() })
             redoBtn?.removeEventListener("click", () => { quillRef.current?.history.redo() })
         })
-    }, [, currentOpenNoteId,noteData])
+    }, [, currentOpenNoteId, noteData])
 
 
 
     const saveFunction = () => {
-        const noteSnippet=quillRef.current?.getText() as string
+        const noteSnippet = quillRef.current?.getText() as string
         if (userId) {
             const newNote: Note = {
                 owner: userId,
@@ -200,7 +209,7 @@ export default function EditorComponent({ id }: { id: string }) {
                 lastModifiedAt: Number(new Date()),
                 content: quillRef.current?.getContents() as Delta,
                 type: "Note",
-                snippet: noteSnippet.slice(0,70)+"...",
+                snippet: noteSnippet.slice(0, 70) + "...",
                 title: tabNameRef.current?.value || "Untitled",
                 parent: {
                     folderId: null,
@@ -215,8 +224,9 @@ export default function EditorComponent({ id }: { id: string }) {
     }
 
 
-    return (<>
-        <Tab/>
+    return (<div className={styles.main}>
+        <Tab />
+
         <div className={styles.editorSection}>
             <div id="container" ref={toolbarRef}>
             </div>
@@ -235,5 +245,5 @@ export default function EditorComponent({ id }: { id: string }) {
             console.log(tabNameRef.current?.value)
         }}>Get tabname</button> */}
 
-    </>)
+    </div>)
 }

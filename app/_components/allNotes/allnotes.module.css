@@ -10,7 +10,10 @@
     gap: 5px;
     height: 50px;
     /* padding-left: 15px; */
-    /* position: absolute; */
+    position: fixed;
+    z-index: 3;
+    width: 100%;
+    top: 0;
 }
 .tabBar p{
     display: inline-block;
@@ -44,6 +47,7 @@
     width: 100%;
     height: 100%;   
     padding-top: 50px; 
+    margin-top: 50px;
 }
 
 .notesContainer{
