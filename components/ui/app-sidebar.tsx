@@ -1,5 +1,5 @@
 "use client"
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
+import {Home } from "lucide-react"
 import {
   Sidebar,
   SidebarContent,
@@ -9,27 +9,25 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubItem,
   SidebarFooter
 
 } from "@/components/ui/sidebar"
 
-import { Collapsible, CollapsibleTrigger, CollapsibleContent, } from "@radix-ui/react-collapsible"
-import { DropdownMenuTrigger, DropdownMenu, DropdownMenuItem, DropdownMenuContent, DropdownMenuGroup } from "@radix-ui/react-dropdown-menu"
+// import { Collapsible, CollapsibleTrigger, CollapsibleContent, } from "@radix-ui/react-collapsible"
+import { DropdownMenuTrigger, DropdownMenu } from "@radix-ui/react-dropdown-menu"
 import { ChevronUp } from "lucide-react"
 import { User2 } from "lucide-react"
 // Menu items.
-import Image from "next/image"
-import searchLogo from "../../public/searchLogo.png"
+// import Image from "next/image"
+// import searchLogo from "../../public/searchLogo.png"
 
 import styles from "./sidebar.module.css"
 import { appStore } from "@/app/store"
 import { DisplayNote } from "@/app/utils/fileFormat"
-import { CollectedMetadata } from "next/dist/build/webpack/loaders/metadata/types"
-import { ScrollArea } from "@radix-ui/react-scroll-area"
-import { useEffect, useState } from "react"
-import { usePathname, useRouter } from 'next/navigation'
+// import { CollectedMetadata } from "next/dist/build/webpack/loaders/metadata/types"
+// import { ScrollArea } from "@radix-ui/react-scroll-area"
+import { useState } from "react"
+import { useRouter } from 'next/navigation'
 const items = [
   {
     title: "Home",
