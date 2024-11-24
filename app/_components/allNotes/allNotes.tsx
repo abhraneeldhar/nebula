@@ -33,6 +33,10 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
+import { Skeleton } from "@/components/ui/skeleton";
+import { Spinner } from "@radix-ui/themes";
+
+
 import { renameNote } from "@/app/utils/renameNote";
 import { deleteNote } from "@/app/utils/deleteNote";
 
@@ -50,7 +54,7 @@ export default function AllNotesComponent() {
     const [deleteNoteName, setDeleteNoteName] = useState("");
 
     // var refreshToggle=useRef<number>(0)
-
+    const [loadingDisplayNotes, setLoadingDisplayNotes] = useState(true);
 
     const { data: session } = useSession();
     const [userId, setUserId] = useState<string | null>(null)
@@ -70,7 +74,9 @@ export default function AllNotesComponent() {
         if (localCollectionOfNotesState == null && userId != null) {
             const asyncDisplayNotes = async () => {
                 console.log("fetching notes")
+                setLoadingDisplayNotes(true);
                 setlocalCollectionOfNotesState(await getDisplayNotes(userId));
+                setLoadingDisplayNotes(false);
             }
             asyncDisplayNotes();
         }
@@ -175,6 +181,11 @@ export default function AllNotesComponent() {
         <div className={styles.main}>
             <NewNoteBtn />
             <div className={styles.notesContainer}>
+                {loadingDisplayNotes && !localCollectionOfNotesState && (<>
+                    <Skeleton className={styles.loadingNote} onClick={(e) => { e.stopPropagation() }}></Skeleton>
+                    <Skeleton className={styles.loadingNote} onClick={(e) => { e.stopPropagation() }}></Skeleton>
+                    <Skeleton className={styles.loadingNote} onClick={(e) => { e.stopPropagation() }}></Skeleton>
+                </>)}
 
                 {localCollectionOfNotesState?.sort((a, b) => b.lastModifiedAt - a.lastModifiedAt)?.map((note: DisplayNote) => (
                     <div className={styles.noteCard} key={note.id} onClick={(e) => {

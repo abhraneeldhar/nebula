@@ -58,6 +58,13 @@
     justify-items: center;
     flex-wrap: wrap;
 }
+
+.loadingNote{
+    height: 200px;
+    width: 200px;
+    border-radius: 15px;
+}
+
 .noteCard{
     display: flex;
     flex-direction: column;

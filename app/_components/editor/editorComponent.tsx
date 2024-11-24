@@ -10,7 +10,7 @@ import Image from "next/image"
 import closeSVG from "../../../public/close_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png"
 import menuSVG from "../../../public/menu_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png"
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@radix-ui/themes"
 import { useSidebar } from "@/components/ui/sidebar"
 import { appStore } from "@/app/store"
 
@@ -21,9 +21,6 @@ import { fetchUserId } from "@/app/utils/fetchUserId"
 import { useSession } from "next-auth/react"
 import { Delta } from "quill/core"
 
-
-
-
 import { postNote } from "@/app/utils/postNote"
 import { Input } from "@/components/ui/input"
 import { getOneNote } from "@/app/utils/getOneNote"
@@ -31,11 +28,16 @@ import { getDisplayNotes } from "@/app/utils/getDisplayNotes"
 // import Input from "postcss/lib/input"
 // import { Input } from "postcss"
 
+import { Flex, Skeleton } from "@radix-ui/themes"
+import { Spinner } from "@radix-ui/themes"
+
+
 export default function EditorComponent({ id }: { id: string }) {
     const localCollectionOfNotesState = appStore((state) => state.localCollectionOfNotesState) as DisplayNote[];
     const setlocalCollectionOfNotesState = appStore((state) => state.setlocalCollectionOfNotesState);
 
-
+    const [loadingEditorState, setLoadingEditorState] = useState(true);
+    const [savingState, setSavingState] = useState(false);
 
     // gets the user id
     const { data: session } = useSession();
@@ -82,12 +84,15 @@ export default function EditorComponent({ id }: { id: string }) {
 
             const getNoteData = async () => {
                 // const noteData = await getOneNote(userId as string, currentOpenNoteId as string);
+                setLoadingEditorState(true);
                 const response = await getOneNote(userId as string, currentOpenNoteId as string)
                 if (response.status == 403) {
                     console.log("we fucked up");
+                    setLoadingEditorState(false);
                 }
                 else {
                     setNoteData(response);
+                    setLoadingEditorState(false);
                 }
                 // console.log("userid>>>",userId," noteid>>>",currentOpenNoteId);
             }
@@ -115,21 +120,29 @@ export default function EditorComponent({ id }: { id: string }) {
                             } />
                         </div>
                         <Input type="text" placeholder="Untitled Note" ref={tabNameRef} className={styles.tabName} />
+                        {loadingEditorState && !noteData && (
+                            <div className={styles.loadingSpinnerContainer}>
+                                <Spinner size="3" className={styles.loadingEditorSpinner} />
+                            </div>
+                        )}
+
                     </div>
 
+
                     <div className={styles.tabButtons}>
-
-
                         <Button className={styles.shareBtn} onClick={() => {
-                            saveFunction()
+                            console.log("share btn press")
                         }}>Share</Button>
 
 
-                        <Button className={styles.saveBtn} onClick={() => {
+                        <Button loading={savingState} className={styles.saveBtn} onClick={() => {
                             saveFunction()
                         }}>Save</Button>
-
                     </div>
+
+
+
+
                 </div>
             </div>
         </>)
@@ -199,7 +212,9 @@ export default function EditorComponent({ id }: { id: string }) {
 
 
 
-    const saveFunction = () => {
+    const saveFunction = async () => {
+        setSavingState(true);
+        console.log("saving state>>>>", savingState);
         const noteSnippet = quillRef.current?.getText() as string
         if (userId) {
             const newNote: Note = {
@@ -216,16 +231,27 @@ export default function EditorComponent({ id }: { id: string }) {
                     folderName: "root"
                 }
             }
-            postNote(newNote);
+            await postNote(newNote);
+            setSavingState(false);
+
+            console.log("saving state>>>>", savingState);
         }
         else {
-            console.log("userId not found")
+            console.log("userId not found");
+            setSavingState(false);
         }
     }
 
 
     return (<div className={styles.main}>
+
         <Tab />
+        {loadingEditorState && !noteData && (
+
+            <div className={styles.containerLoaderContainer}>
+                <Spinner size="3" className={styles.containerSpinner} />
+            </div>
+        )}
 
         <div className={styles.editorSection}>
             <div id="container" ref={toolbarRef}>

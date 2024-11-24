@@ -1,6 +1,9 @@
 .main{
     position: relative;
     width: 100%;
+    background-color: black;
+    /* margin-top: 0; */
+    height: 100%;
 }
 .tabBar{
     /* background-color: white; */
@@ -19,7 +22,8 @@
     /* position: sticky; */
     position: relative;
     z-index: 2;
-    margin-top: 5px;
+    /* margin-top: 5px; */
+    padding-top: 5px;
     /* top: 0; */
 }
 .tabContent{
@@ -47,12 +51,13 @@
     margin-left: 10px;
     border: 1px solid rgba(255, 255, 255, 0.53);
     padding: 15px;
-    width: 200px;
+    width: 250px;
 }
 .tabButtons{
     display: flex;
     gap: 15px;
 }
+
 .shareBtn{
     background-color: rgb(49, 150, 5);
     transition: all 0.3s;
@@ -65,7 +70,11 @@
 }
 .saveBtn{
     /* right: 0; */
+    background-color: rgb(60, 95, 222);
     transition: all 0.3s;
+}
+.saveBtn:hover{
+    background-color: rgb(83, 163, 255);
 }
 .saveBtn:active{
     transform: scale(0.9);
@@ -88,4 +97,38 @@
 }
 .editorSection{
     padding: 0px 10px;
+}
+.loadingSpinnerContainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    aspect-ratio: 1/1;
+    /* width: 30px; */
+    margin-left: 10px;
+    background-color: rgb(30, 30, 30);
+    border-radius: 10px;
+}
+.loadingEditorSpinner{
+    height: 25px;
+    width: 25px;
+    color: white;
+}
+.containerLoaderContainer{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50%;
+    width: 100%;
+    z-index: 5;
+
+    /* background-color: red; */
+    /* background-color: black; */
+}
+.containerSpinner{
+    height: 50px;
+    width: 40px;
+    /* background-color: black; */
+    color: white;
 }

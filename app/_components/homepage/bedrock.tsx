@@ -15,7 +15,6 @@ import WeathersTab from "../weathersTab/weatherstab";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useSidebar } from "@/components/ui/sidebar";
 import { Card, CardContent, CardHeader, CardDescription, CardTitle, CardFooter } from "@/components/ui/card";
-import { ScrollArea } from "@radix-ui/react-scroll-area";
 
 import { Note, Folder, DisplayNote } from "../../utils/fileFormat";
 
@@ -27,13 +26,17 @@ import { fetchUserId } from "@/app/utils/fetchUserId";
 import { getDisplayName } from "next/dist/shared/lib/utils";
 import { getDisplayNotes } from "@/app/utils/getDisplayNotes";
 import NewNoteBtn from "../newNoteBtn/newNoteBtn";
-import { useTheme } from "next-themes";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Spinner } from "@radix-ui/themes";
+import { Flex } from "@radix-ui/themes";
+import { Button } from "@radix-ui/themes";
 
 export default function Bedrock() {
     const router = useRouter()
     const localCollectionOfNotesState = appStore((state) => state.localCollectionOfNotesState) as DisplayNote[]
     const setlocalCollectionOfNotesState = appStore((state) => state.setlocalCollectionOfNotesState)
 
+    const [loadingDisplayNotes, setLoadingDisplayNotes] = useState(true);
 
     const { data: session } = useSession();
     const [userId, setUserId] = useState<string | null>(null)
@@ -54,14 +57,15 @@ export default function Bedrock() {
         if (localCollectionOfNotesState == null && userId != null) {
             const asyncDisplayNotes = async () => {
                 console.log("fetching notes")
+                setLoadingDisplayNotes(true);
                 setlocalCollectionOfNotesState(await getDisplayNotes(userId));
+                setLoadingDisplayNotes(false);
             }
             asyncDisplayNotes();
         }
     }, [localCollectionOfNotesState, userId])
 
 
-    const { theme, setTheme } = useTheme();
 
 
 
@@ -95,6 +99,11 @@ export default function Bedrock() {
                     </div>
                 </div>
 
+                
+
+
+
+
                 {/* <WeathersTab /> */}
 
                 <div className={styles.notesAndOthersContainer}>
@@ -104,6 +113,13 @@ export default function Bedrock() {
                     }}>
                         <h2>Open Notes<Image src={rightArrow} alt=">" className={styles.rightArrow} /></h2>
                         <div className={styles.notesContainer}>
+                            {loadingDisplayNotes && !localCollectionOfNotesState && (<>
+                                <Skeleton className={styles.loadingNote} onClick={(e) => { e.stopPropagation() }}>
+                                </Skeleton>
+                                <Skeleton className={styles.loadingNote} onClick={(e) => { e.stopPropagation() }}></Skeleton>
+                                <Skeleton className={styles.loadingNote} onClick={(e) => { e.stopPropagation() }}></Skeleton>
+                            </>)}
+
                             {localCollectionOfNotesState && localCollectionOfNotesState.length == 0 && (
                                 <p> no recent notes</p>
                             )}
