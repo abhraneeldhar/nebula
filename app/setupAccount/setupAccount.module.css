@@ -1,0 +1,138 @@
+.main {
+    background: rgb(107, 89, 178);
+    background: linear-gradient(130deg, 
+    rgb(5, 1, 22)9%, 
+    #0a0016 100%);
+    color: white;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    background-color:  #2b2738;
+    width: 80%;
+    height: 80%;
+    display: flex;
+    padding: 10px;
+    border-radius: 15px;
+    gap: 10px;
+    align-items: center;
+}
+
+.imageContainer {
+    height: 100%;
+    /* background-color: red; */
+    position: relative;
+    flex: 1;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.imageContainer h1{
+    position: absolute;
+    z-index: 3;
+    font-weight: 100;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    font-size: 2em;
+    width: 100%;
+    text-align: center;
+    /* font-family: "Montserrat", sans-serif; */
+}
+
+.imageContainer img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    animation: infinite slider 10s ease-in-out;
+    filter: blur(4px);
+}
+
+
+@keyframes slider{
+    0%{
+        transform: translateY(0%);
+    }
+    20%{
+        transform: translateY(-100%);
+    }
+    40%{
+        transform: translateY(-200%);
+    }
+    60%{
+        transform: translateY(-300%);
+    }
+    80%{
+        transform: translateY(-400%);
+    }
+}
+
+.configureContainer {
+    height: 90%;
+    /* flex: 1; */
+    width: 40%;
+    margin: 0px 40px;
+    background-color:#1f1c2a;
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px;
+    border-radius: 20px;
+}
+.appLogo{
+    height: 100px;
+    width: 100px;
+    /* border-radius: 50%; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+.appLogo img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 30px;
+    box-shadow: rgb(143, 143, 143) 0px 0px 10px;
+}
+.formContainer{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+}
+.formContainer label{
+    font-size: 15px;
+    font-weight: 200;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+}
+.formContainer input{
+    font-size: 18px;
+    color: black;
+    padding: 3px 15px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    font-weight: 100;
+    background-color: #ffffff;
+}
+.formContainer input,.formContainer input:focus, .formContainer input:active{
+    border: none;
+    outline: none;
+    text-decoration: none;
+}
+.formContainer button{
+    margin-top: 10px;
+    background-color: rgb(125, 5, 165);
+    border-radius: 10px;
+}
+
+.formContainer label svg{
+    height: 15px;
+    /* width: 10px; */
+}

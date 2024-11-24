@@ -68,7 +68,7 @@ export const options: NextAuthOptions={
             catch (error){
                 console.log(error)
             }
-            return true;
+            return "/allnotes";
         },
     },
     
