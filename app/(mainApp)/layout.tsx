@@ -7,13 +7,13 @@ import SessionWrapper from "../_components/sessionWrapper"
 export default async function Layout({ children }: { children: React.ReactNode }) {
   
   return (
-    <SessionWrapper>
+    // <SessionWrapper>
       <SidebarProvider>
         <AppSidebar />
         <main className="main">
           {children}
         </main>
       </SidebarProvider>
-    </SessionWrapper>
+    // </SessionWrapper>
   )
 }

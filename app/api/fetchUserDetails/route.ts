@@ -2,15 +2,15 @@ import { mongoClientCS } from "@/app/utils/mongoConnector";
 
 export async function GET(request: Request){
     const {searchParams}= new URL(request.url);
-    const userEmail=searchParams.get("email");
+    const userId=searchParams.get("id");
     try{
 
         await mongoClientCS.connect();
         const db=mongoClientCS.db("notesApp");
         const usersCollection=db.collection("users");
-        const user = await usersCollection.findOne({email: userEmail});
-        console.log("userid>>>>>>>> ",user?.userId.toString());
-        return Response.json(user?.userId.toString());
+        const userDetailsJson = await usersCollection.findOne({userId:userId});
+        console.log(userDetailsJson);
+        return Response.json(userDetailsJson);
     }
     catch(error){
         return Response.json(error);

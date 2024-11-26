@@ -10,12 +10,12 @@ import { userType } from "@/app/utils/fileFormat"
 import { v4 as uuidv4 } from "uuid";
 
 
-export const options: NextAuthOptions={
+export const options: NextAuthOptions = {
     adapter: SupabaseAdapter({
         url: process.env.SUPABASE_URL as string,
         secret: process.env.SUPABASE_SERVICE_ROLE_KEY as string,
-      }),
-    providers:[
+    }),
+    providers: [
         // GitHubProvider({
         //     clientId: process.env.GITHUB_ID as string,
         //     clientSecret: process.env.GITHUB_SECRET as string
@@ -50,30 +50,34 @@ export const options: NextAuthOptions={
     ],
     session: {
         strategy: "jwt",
-      },
-    callbacks:{
-        
-        async signIn({user}){
-            await mongoClientCS.connect();
-            const db=mongoClientCS.db("notesApp");
-            const usersCollection=db.collection("users");
-            const existingUserCheck= await usersCollection.findOne({email: user.email});
-            
-            try{
+    },
+    callbacks: {
 
-                if(!existingUserCheck){
-                    const newUser: userType={
-                        userId: uuidv4(),
-                        name: user.name as string,
-                        email: user.email as string,
-                        imageUrl: user.image as string,
-                        dateOfJoining: Number(new Date)
+        async signIn({ user }) {
+            await mongoClientCS.connect();
+            const db = mongoClientCS.db("notesApp");
+            const usersCollection = db.collection("users");
+            const existingUserCheck = await usersCollection.findOne({ email: user.email });
+
+            try {
+                if (user) {
+
+                    if (!existingUserCheck) {
+                        const newUser: userType = {
+                            userId: user.id as string,
+                            name: user.name as string,
+                            userName: String(user.name?.replace(/\s/g,''))+String(uuidv4().slice(0, 5)) as string,
+                            email: user.email as string,
+                            imageUrl: user.image as string,
+                            dateOfJoining: Number(new Date)
+                        }
+                        await usersCollection.insertOne(newUser);
+                        console.log("inserted new user")
+                        return "/setupAccount";
                     }
-                    await usersCollection.insertOne(newUser);
-                    console.log("inserted new user")
                 }
             }
-            catch (error){
+            catch (error) {
                 console.log(error)
             }
             // return "/allnotes";
@@ -81,19 +85,19 @@ export const options: NextAuthOptions={
         },
         async session({ session, user }) {
             const signingSecret = process.env.SUPABASE_JWT_SECRET as string
-            
+
             if (signingSecret && user && session) {
-              const payload = {
-                aud: "authenticated",
-                exp: Math.floor(new Date(session.expires).getTime() / 1000),
-                sub: user.id,
-                email: user.email,
-                role: "authenticated",
-              }
-              session.supabaseAccessToken = jwt.sign(payload, signingSecret)
+                const payload = {
+                    aud: "authenticated",
+                    exp: Math.floor(new Date(session.expires).getTime() / 1000),
+                    sub: user.id,
+                    email: user.email,
+                    role: "authenticated",
+                }
+                session.supabaseAccessToken = jwt.sign(payload, signingSecret)
             }
             return session
-          },
+        },
     },
-    
+
 }

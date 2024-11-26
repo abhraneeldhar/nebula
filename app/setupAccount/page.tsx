@@ -16,7 +16,9 @@ import { ChangeEvent, useEffect, useReducer, useRef, useState } from "react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertCircle } from "lucide-react"
 
-
+import { getUserDetails } from "../utils/getUserDetails"
+import { fetchUserId } from "../utils/fetchUserId"
+import { useSession } from "next-auth/react"
 
 function isAlphaNumeric(str: string) {
     return !(/^[a-zA-Z0-9\s]*$/.test(str));
@@ -29,6 +31,15 @@ function isNameLongOrShort(str: string) {
         return false
     }
 }
+type userDetailsType={
+    _id: string,
+    userId: string,
+    name: string,
+    userName:string,
+    email: string,
+    imageUrl: string,
+    dateOfJoining: number
+  }
 
 export default function SetupAccount() {
     const [nameState, setNameState] = useState("");
@@ -52,10 +63,37 @@ export default function SetupAccount() {
         }
     }
 
-    useEffect(() => {
-        console.log(pfpState)
-    }, [pfpState])
+    const { data: session } = useSession();
+    const [userId, setUserId] = useState<string | null>(null)
+    const [userDetails,setUserDetails]= useState<userDetailsType>()
 
+    useEffect(() => {
+        if (!userId && session?.user?.email) {
+            const getUserId = async () => {
+                console.log("fetching user Id");
+                const newUserId = await fetchUserId(String(session?.user?.email))
+                console.log("userId>>>>", newUserId);
+                if (newUserId != userId) {
+                    setUserId(newUserId)
+                }
+            }
+            getUserId();
+        }
+    }, [,userId, session])
+
+    useEffect(()=>{
+        if(userId){
+            const asyncGetUserDetails= async()=>{
+                const newUserDetails=await getUserDetails(userId);
+                setUserDetails(newUserDetails);
+            }
+            asyncGetUserDetails();
+        }
+    },[userId])
+
+    useEffect(()=>{
+        console.log("userdetails>>>> ",userDetails)
+    },[userDetails])
 
     return (<>
         <div className={styles.main}>
@@ -73,7 +111,7 @@ export default function SetupAccount() {
                         <Image src={appLogo} alt="Nebula" />
                         X
                         {/* <div className={styles.pfpHolder}> */}
-                        <Image src={pfpState || pfp} height={0} width={0} alt="pfp" onClick={() => {
+                        <Image unoptimized={true} src={userDetails?.imageUrl || pfp} height={0} width={0} alt="pfp" onClick={() => {
                             imageInputRef.current?.click();
                             console.log("img")
                         }} />
@@ -90,17 +128,17 @@ export default function SetupAccount() {
                     }} className={styles.formContainer}>
 
                         <div className={styles.cameraIconHolder}>
-                            <Camera onClick={()=>{imageInputRef.current?.click();}}/>
+                            <Camera onClick={() => { imageInputRef.current?.click(); }} />
                         </div>
                         <label htmlFor="name"><User />Name</label>
-                        <input name="name" id="name" type="text" placeholder="name" onChange={(e) => {
+                        <input name="name" id="name" type="text" placeholder="name" defaultValue={userDetails?.name} onChange={(e) => {
                             setNameState(e.target.value);
                             setNameAlert(isAlphaNumeric(e.target.value));
                             setNameLengthAlert(isNameLongOrShort(e.target.value));
                         }} />
 
                         <label htmlFor="username"><AtSign />Username</label>
-                        <input name="username" id="username" type="text" placeholder="username" onChange={(e) => {
+                        <input name="username" id="username" type="text" placeholder="username" defaultValue={userDetails?.userName} onChange={(e) => {
                             setUsernameState(e.target.value);
                             setUsernameAlert(isAlphaNumeric(e.target.value));
                             setUsernameLengthAlert(isNameLongOrShort(e.target.value));

@@ -5,6 +5,7 @@ import "./global.css";
 import { ThemeProvider } from 'next-themes'
 import "@radix-ui/themes/styles.css";
 import { Theme } from "@radix-ui/themes";
+import SessionWrapper from "./_components/sessionWrapper";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -31,10 +32,13 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
-        <Theme>
-          {children}
-        </Theme>
+      >
+        <SessionWrapper>
+
+          <Theme>
+            {children}
+          </Theme>
+        </SessionWrapper>
       </body>
     </html>
   );

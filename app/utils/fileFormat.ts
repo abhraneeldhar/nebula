@@ -3,6 +3,7 @@ import { Delta } from "quill/core"
 export interface userType{
     userId: string,
     name: string,
+    userName: string,
     email: string,
     imageUrl: string,
     dateOfJoining: number
