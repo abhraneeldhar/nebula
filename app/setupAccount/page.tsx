@@ -12,13 +12,15 @@ import pfp from "./assets/meow.jpg"
 import { Input } from "@/components/ui/input"
 import { Button } from "@radix-ui/themes"
 import { X, User, AtSign, Camera } from "lucide-react"
-import { ChangeEvent, useEffect, useReducer, useRef, useState } from "react"
+import { ChangeEvent, FormEvent, useEffect, useReducer, useRef, useState } from "react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertCircle } from "lucide-react"
 
 import { getUserDetails } from "../utils/getUserDetails"
 import { fetchUserId } from "../utils/fetchUserId"
 import { useSession } from "next-auth/react"
+import { checkUsernameinDB } from "../utils/checkUsernameinDB"
+import { updateUserDetails } from "../utils/updateUserDetails"
 
 function isAlphaNumeric(str: string) {
     return !(/^[a-zA-Z0-9\s]*$/.test(str));
@@ -31,20 +33,20 @@ function isNameLongOrShort(str: string) {
         return false
     }
 }
-type userDetailsType={
+export type userDetailsType = {
     _id: string,
     userId: string,
     name: string,
-    userName:string,
+    userName: string,
     email: string,
     imageUrl: string,
     dateOfJoining: number
-  }
+}
 
 export default function SetupAccount() {
     const [nameState, setNameState] = useState("");
     const [usernameState, setUsernameState] = useState("")
-    const [pfpState, setPfpState] = useState<string>()
+    const [pfpState, setPfpState] = useState<string>("./meow.jpg")
 
 
     const [nameAlert, setNameAlert] = useState(false)
@@ -65,7 +67,7 @@ export default function SetupAccount() {
 
     const { data: session } = useSession();
     const [userId, setUserId] = useState<string | null>(null)
-    const [userDetails,setUserDetails]= useState<userDetailsType>()
+    const [userDetails, setUserDetails] = useState<userDetailsType>()
 
     useEffect(() => {
         if (!userId && session?.user?.email) {
@@ -79,21 +81,44 @@ export default function SetupAccount() {
             }
             getUserId();
         }
-    }, [,userId, session])
+    }, [, userId, session])
 
-    useEffect(()=>{
-        if(userId){
-            const asyncGetUserDetails= async()=>{
-                const newUserDetails=await getUserDetails(userId);
+    useEffect(() => {
+        if (userId) {
+            const asyncGetUserDetails = async () => {
+                const newUserDetails = await getUserDetails(userId);
                 setUserDetails(newUserDetails);
             }
             asyncGetUserDetails();
         }
-    },[userId])
+    }, [userId])
 
-    useEffect(()=>{
-        console.log("userdetails>>>> ",userDetails)
-    },[userDetails])
+    useEffect(() => {
+        if (userDetails) {
+            setPfpState(userDetails?.imageUrl)
+        }
+        console.log("userdetails>>>> ", userDetails)
+        setUsernameState(userDetails?.userName as string);
+    }, [userDetails])
+
+
+
+    const configure = async () => {
+        // await usernameState;
+        if(userDetails?.userName !=usernameState){
+            console.log(usernameState);
+            
+            const userNameCheck=await checkUsernameinDB(usernameState);
+            
+            if(userNameCheck){
+                console.log("already existing")
+            }
+            else{
+                const res=await updateUserDetails(userDetails as userDetailsType, usernameState as string,pfpState);
+                console.log(res);
+            }
+        }
+    };
 
     return (<>
         <div className={styles.main}>
@@ -111,7 +136,7 @@ export default function SetupAccount() {
                         <Image src={appLogo} alt="Nebula" />
                         X
                         {/* <div className={styles.pfpHolder}> */}
-                        <Image unoptimized={true} src={userDetails?.imageUrl || pfp} height={0} width={0} alt="pfp" onClick={() => {
+                        <Image unoptimized={true} src={pfpState as string} height={100} width={100} alt="pfp" onClick={() => {
                             imageInputRef.current?.click();
                             console.log("img")
                         }} />
@@ -125,6 +150,7 @@ export default function SetupAccount() {
                     <form onSubmit={(e) => {
                         e.preventDefault();
                         console.log("submitted");
+                        configure();
                     }} className={styles.formContainer}>
 
                         <div className={styles.cameraIconHolder}>
@@ -144,7 +170,7 @@ export default function SetupAccount() {
                             setUsernameLengthAlert(isNameLongOrShort(e.target.value));
                         }} />
 
-                        <Button disabled={nameAlert || nameLengthAlert || usernameAlert || usernameLengthAlert}>Configure</Button>
+                        <Button disabled={nameAlert || nameLengthAlert || usernameAlert || usernameLengthAlert} >Configure</Button>
                     </form>
 
 
