@@ -114,7 +114,7 @@ export default function SetupAccount() {
                 console.log("already existing")
             }
             else{
-                const res=await updateUserDetails(userDetails as userDetailsType, usernameState as string,pfpState);
+                const res=await updateUserDetails(userDetails?.userId as string,nameState as string, usernameState as string,pfpState);
                 console.log(res);
             }
         }
