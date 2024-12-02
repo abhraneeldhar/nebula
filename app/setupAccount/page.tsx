@@ -21,7 +21,8 @@ import { fetchUserId } from "../utils/fetchUserId"
 import { useSession } from "next-auth/react"
 import { checkUsernameinDB } from "../utils/checkUsernameinDB"
 import { updateUserDetails } from "../utils/updateUserDetails"
-import { supabase } from "../utils/supabase"
+import { Session } from "next-auth"
+// import { supabase } from "../utils/supabase"
 
 
 
@@ -76,6 +77,7 @@ export default function SetupAccount() {
 
     useEffect(() => {
         if (!userId && session?.user?.email) {
+            console.log("session>>>" , session)
             const getUserId = async () => {
                 console.log("fetching user Id");
                 const newUserId = await fetchUserId(String(session?.user?.email))
@@ -104,15 +106,10 @@ export default function SetupAccount() {
         }
         console.log("userdetails>>>> ", userDetails)
         setUsernameState(userDetails?.userName as string);
-        // supabaseUserCheck();
-
-
+        
     }, [userDetails])
 
-    const supabaseUserCheck = async () => {
-        const userDetails = await supabase.auth.getSession();
-        console.log("supabasedetails>>>> ", userDetails);
-    }
+  
 
 
     const configure = async () => {

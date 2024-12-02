@@ -16,33 +16,6 @@ export const options: NextAuthOptions = {
         secret: process.env.SUPABASE_SERVICE_ROLE_KEY as string,
     }),
     providers: [
-        // GitHubProvider({
-        //     clientId: process.env.GITHUB_ID as string,
-        //     clientSecret: process.env.GITHUB_SECRET as string
-        // }),
-        // CredentialsProvider({
-        //     name: "Credentails",
-        //     credentials:{
-        //         username:{
-        //             label:"Username: ",
-        //             type: "text",
-        //             placeholder: "Your username...",
-        //         },
-        //         password: {
-        //             label: "Password: ",
-        //             type: "password"
-        //         }
-        //     },
-        //     async authorize(credentials){
-        //         const user={id:"42", name:"Abhraneel", password:"nextauth"}
-        //         if(credentials?.username == user.name && credentials?.password==user.password){
-        //             return user
-        //         }
-        //         else{
-        //             return null
-        //         }
-        //     }
-        // }),
         GoogleProvider({
             clientId: process.env.GOOGLE_ID as string,
             clientSecret: process.env.GOOGLE_SECRET as string
@@ -80,23 +53,46 @@ export const options: NextAuthOptions = {
             catch (error) {
                 console.log(error)
             }
-            // return "/allnotes";
             return true;
         },
-        async session({ session, user }) {
-            const signingSecret = process.env.SUPABASE_JWT_SECRET as string
+        // async session({ session, user }) {
 
-            if (signingSecret && user && session) {
+        //     const signingSecret = process.env.SUPABASE_JWT_SECRET as string
+        //     if (user && session) {
+        //         const payload = {
+        //             aud: "authenticated",
+        //             exp: Math.floor(new Date(session.expires).getTime() / 1000),
+        //             sub: user.id as string,
+        //             email: user.email as string,
+        //             role: "authenticated",
+        //         }
+        //         session.supabaseAccessToken = jwt.sign(payload, signingSecret)
+        //     }
+            
+            
+        //     return session
+        // },
+        async jwt({ token, user }) {
+            // Attach user data to the token on initial login
+            if (user) {
+                token.id = user.id;
+                token.email = user.email;
+            }
+            return token;
+        },
+        async session({ session, token }) {
+            if (token && session) {
+                const signingSecret = process.env.SUPABASE_JWT_SECRET as string;
                 const payload = {
                     aud: "authenticated",
                     exp: Math.floor(new Date(session.expires).getTime() / 1000),
-                    sub: user.id,
-                    email: user.email,
+                    sub: token.id as string,
+                    email: token.email as string,
                     role: "authenticated",
-                }
-                session.supabaseAccessToken = jwt.sign(payload, signingSecret)
+                };
+                session.supabaseAccessToken = jwt.sign(payload, signingSecret);
             }
-            return session
+            return session;
         },
     },
 
