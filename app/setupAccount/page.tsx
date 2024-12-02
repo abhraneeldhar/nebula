@@ -21,6 +21,11 @@ import { fetchUserId } from "../utils/fetchUserId"
 import { useSession } from "next-auth/react"
 import { checkUsernameinDB } from "../utils/checkUsernameinDB"
 import { updateUserDetails } from "../utils/updateUserDetails"
+import { supabase } from "../utils/supabase"
+
+
+
+
 
 function isAlphaNumeric(str: string) {
     return !(/^[a-zA-Z0-9\s]*$/.test(str));
@@ -99,24 +104,37 @@ export default function SetupAccount() {
         }
         console.log("userdetails>>>> ", userDetails)
         setUsernameState(userDetails?.userName as string);
+        // supabaseUserCheck();
+
+
     }, [userDetails])
 
+    const supabaseUserCheck = async () => {
+        const userDetails = await supabase.auth.getSession();
+        console.log("supabasedetails>>>> ", userDetails);
+    }
 
 
     const configure = async () => {
         // await usernameState;
-        if(userDetails?.userName !=usernameState){
+        if (userDetails?.userName != usernameState) {
             console.log(usernameState);
-            
-            const userNameCheck=await checkUsernameinDB(usernameState);
-            
-            if(userNameCheck){
+
+            const userNameCheck = await checkUsernameinDB(usernameState);
+
+            if (userNameCheck) {
                 console.log("already existing")
             }
-            else{
-                const res=await updateUserDetails(userDetails?.userId as string,nameState as string, usernameState as string,pfpState);
+            else {
+                const res = await updateUserDetails(userDetails?.userId as string, nameState as string, usernameState as string, pfpState);
+                console.log("submitted>> ","\ndetails> ",userDetails?.userId,"\nnamestate>> ", nameState,"\nusernamestate>> ",usernameState,"\npfpstate>> ",pfpState )
                 console.log(res);
             }
+        }
+        else {
+            const res = await updateUserDetails(userDetails?.userId as string, nameState as string, usernameState as string, pfpState);
+            console.log("submitted>> ","\ndetails> ",userDetails?.userId,"\nnamestate>> ", nameState,"\nusernamestate>> ",usernameState,"\npfpstate>> ",pfpState )
+            console.log(res);
         }
     };
 
@@ -145,7 +163,7 @@ export default function SetupAccount() {
 
 
 
-                    <input ref={imageInputRef} id="pfp" name="pfp" type="file" accept="image/*" className={styles.imageInput} onChange={handleImage} />
+                    <input defaultValue={pfpState} ref={imageInputRef} id="pfp" name="pfp" type="file" accept="image/*" className={styles.imageInput} onChange={handleImage} />
 
                     <form onSubmit={(e) => {
                         e.preventDefault();
