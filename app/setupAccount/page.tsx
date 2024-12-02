@@ -21,10 +21,7 @@ import { fetchUserId } from "../utils/fetchUserId"
 import { useSession } from "next-auth/react"
 import { checkUsernameinDB } from "../utils/checkUsernameinDB"
 import { updateUserDetails } from "../utils/updateUserDetails"
-import { Session } from "next-auth"
-// import { supabase } from "../utils/supabase"
-
-
+import { supabase } from "../utils/supabase/client"
 
 
 
@@ -53,12 +50,13 @@ export default function SetupAccount() {
     const [nameState, setNameState] = useState("");
     const [usernameState, setUsernameState] = useState("")
     const [pfpState, setPfpState] = useState<string>("./meow.jpg")
-
+    const [uploadPfp,setUploadPfp]=useState<File>()
 
     const [nameAlert, setNameAlert] = useState(false)
     const [nameLengthAlert, setNameLengthAlert] = useState(false)
     const [usernameAlert, setUsernameAlert] = useState(false)
     const [usernameLengthAlert, setUsernameLengthAlert] = useState(false)
+    const [usernameSpaceAlert, setUsernameSpaceAlert] = useState(false)
 
     const imageInputRef = useRef<HTMLInputElement>(null)
 
@@ -68,6 +66,7 @@ export default function SetupAccount() {
             const file = e.target.files[0];
             const url = URL.createObjectURL(file)
             setPfpState(url)
+            setUploadPfp(file)
         }
     }
 
@@ -77,7 +76,7 @@ export default function SetupAccount() {
 
     useEffect(() => {
         if (!userId && session?.user?.email) {
-            console.log("session>>>" , session)
+            console.log("session>>>", session)
             const getUserId = async () => {
                 console.log("fetching user Id");
                 const newUserId = await fetchUserId(String(session?.user?.email))
@@ -101,37 +100,47 @@ export default function SetupAccount() {
     }, [userId])
 
     useEffect(() => {
-        if (userDetails) {
-            setPfpState(userDetails?.imageUrl)
-        }
+        // if (userDetails) {
+        //     setPfpState(userDetails?.imageUrl)
+        // }
         console.log("userdetails>>>> ", userDetails)
         setUsernameState(userDetails?.userName as string);
-        
+        setNameState(userDetails?.name || "")
+        setUsernameState(userDetails?.userName || "")
+
+        const googleImageToFile = async () => {
+            const res = await fetch(userDetails?.imageUrl as string);
+            if (!res.ok) {
+                googleImageToFile();
+            }
+            const blob = await res.blob();
+            // const file= new File([blob],`profilePic.jpg`,{type: blob.type});
+            // setPfpState(blob)
+        }
+
     }, [userDetails])
 
-  
 
+    
 
     const configure = async () => {
-        // await usernameState;
-        if (userDetails?.userName != usernameState) {
-            console.log(usernameState);
-
-            const userNameCheck = await checkUsernameinDB(usernameState);
-
-            if (userNameCheck) {
-                console.log("already existing")
+        if (userDetails) {
+            var formpfp = uploadPfp;
+            if(!formpfp){
+                console.log("uplaodpfp is null")
+                const res= await fetch(pfpState)
+                const blob= await res.blob();
+                formpfp=new File([blob],"profileImage.jpg",{type:blob.type})
             }
-            else {
-                const res = await updateUserDetails(userDetails?.userId as string, nameState as string, usernameState as string, pfpState);
-                console.log("submitted>> ","\ndetails> ",userDetails?.userId,"\nnamestate>> ", nameState,"\nusernamestate>> ",usernameState,"\npfpstate>> ",pfpState )
-                console.log(res);
-            }
-        }
-        else {
-            const res = await updateUserDetails(userDetails?.userId as string, nameState as string, usernameState as string, pfpState);
-            console.log("submitted>> ","\ndetails> ",userDetails?.userId,"\nnamestate>> ", nameState,"\nusernamestate>> ",usernameState,"\npfpstate>> ",pfpState )
-            console.log(res);
+            const formName = nameState;
+            const formUsername = usernameState.toLowerCase();
+            const usernameCheck = await checkUsernameinDB(userDetails?.userId as string, formUsername);
+            console.log("formName>>>", formName, "\nformusername>> ", formUsername, "\nformpfp>> ", formpfp, "\nusernamecheck>> ", usernameCheck);
+            console.log("uploading");
+
+            const {data,error}=await supabase.storage.from("profilePics").upload(`${userDetails.userId}/profileImage`,formpfp,{upsert:true})
+            console.log(data)
+            console.log(error)
         }
     };
 
@@ -160,7 +169,7 @@ export default function SetupAccount() {
 
 
 
-                    <input defaultValue={pfpState} ref={imageInputRef} id="pfp" name="pfp" type="file" accept="image/*" className={styles.imageInput} onChange={handleImage} />
+                    <input defaultValue={pfpState as string} ref={imageInputRef} id="pfp" name="pfp" type="file" accept="image/*" className={styles.imageInput} onChange={handleImage} />
 
                     <form onSubmit={(e) => {
                         e.preventDefault();
@@ -172,20 +181,21 @@ export default function SetupAccount() {
                             <Camera onClick={() => { imageInputRef.current?.click(); }} />
                         </div>
                         <label htmlFor="name"><User />Name</label>
-                        <input name="name" id="name" type="text" placeholder="name" defaultValue={userDetails?.name} onChange={(e) => {
+                        <input name="name" id="name" type="text" placeholder="name" defaultValue={nameState} onChange={(e) => {
                             setNameState(e.target.value);
                             setNameAlert(isAlphaNumeric(e.target.value));
                             setNameLengthAlert(isNameLongOrShort(e.target.value));
                         }} />
 
                         <label htmlFor="username"><AtSign />Username</label>
-                        <input name="username" id="username" type="text" placeholder="username" defaultValue={userDetails?.userName} onChange={(e) => {
+                        <input name="username" id="username" type="text" placeholder="username" defaultValue={usernameState} onChange={(e) => {
                             setUsernameState(e.target.value);
                             setUsernameAlert(isAlphaNumeric(e.target.value));
                             setUsernameLengthAlert(isNameLongOrShort(e.target.value));
+                            setUsernameSpaceAlert(e.target.value.includes(" "));
                         }} />
 
-                        <Button disabled={nameAlert || nameLengthAlert || usernameAlert || usernameLengthAlert} >Configure</Button>
+                        <Button disabled={nameAlert || usernameSpaceAlert || nameLengthAlert || usernameAlert || usernameLengthAlert} >Configure</Button>
                     </form>
 
 
@@ -217,6 +227,17 @@ export default function SetupAccount() {
                             </AlertDescription>
                         </Alert>
                     </>)}
+                    {
+                        usernameSpaceAlert && (
+                            <>
+                                <Alert className={styles.alert} variant="destructive">
+                                    <AlertDescription>
+                                        Username can't contain spaces.
+                                    </AlertDescription>
+                                </Alert>
+                            </>
+                        )
+                    }
 
 
                 </div>

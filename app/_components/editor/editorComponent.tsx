@@ -53,6 +53,7 @@ export default function EditorComponent({ id }: { id: string }) {
             getUserId();
         }
     }, [userId, session])
+
     useEffect(() => {
         if (userId) {
             console.log("userid>>>>", userId)
@@ -100,10 +101,10 @@ export default function EditorComponent({ id }: { id: string }) {
         }
     }, [userId])
 
-    useEffect(() => {
-        console.log("notedata>>>>>>", noteData);
+    // useEffect(() => {
+    //     console.log("notedata>>>>>>", noteData);
 
-    }, [noteData])
+    // }, [noteData])
 
 
     const Tab = () => {

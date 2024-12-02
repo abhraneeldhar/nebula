@@ -30,6 +30,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Spinner } from "@radix-ui/themes";
 import { Flex } from "@radix-ui/themes";
 import { Button } from "@radix-ui/themes";
+// import { supabase } from "@/app/utils/supabase/client";
 
 export default function Bedrock() {
     const router = useRouter()
@@ -84,6 +85,15 @@ export default function Bedrock() {
         </>)
     }
 
+    // useEffect(() => {
+    //     const getBuck = async () => {
+    //         const { data, error } = await supabase
+    //             .storage
+    //             .listBuckets()
+    //         console.log("buckets>>>" ,data)
+    //     }
+    //     // getBuck();
+    // },[])
 
     return (<>
         <Tab tabName="Home" />
@@ -99,7 +109,7 @@ export default function Bedrock() {
                     </div>
                 </div>
 
-                
+
 
 
 
