@@ -119,11 +119,6 @@ export default function Bedrock() {
                     </div>
                 </div>
 
-
-
-
-
-
                 {/* <WeathersTab /> */}
 
                 <div className={styles.notesAndOthersContainer}>

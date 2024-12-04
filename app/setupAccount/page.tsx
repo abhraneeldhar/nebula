@@ -153,13 +153,14 @@ export default function SetupAccount() {
                 console.log("formName>>>", formName, "\nformusername>> ", formUsername, "\nformpfp>> ", formpfp, "\nusernamecheck>> ", usernameCheck);
 
                 setFormLoading(true);
-                const { data, error } = await supabase.storage.from("profilePics").upload(`${userDetails.userId}/profileImage`, formpfp, { upsert: true })
+                const saltValue=Date.now()
+                const { data, error } = await supabase.storage.from("profilePics").upload(`${userDetails.userId}/profileImage${saltValue}`, formpfp, { upsert: true })
                 // setFormLoading(false);
                 console.log(data)
                 console.log(error)
 
                 // setFormLoading(true);
-                const { data: imgUrl } = await supabase.storage.from("profilePics").getPublicUrl(`${userDetails.userId}/profileImage`);
+                const { data: imgUrl } = await supabase.storage.from("profilePics").getPublicUrl(`${userDetails.userId}/profileImage${saltValue}`);
                 // setFormLoading(false);
 
                 // setFormLoading(true);
