@@ -70,6 +70,7 @@ export default function Bedrock() {
         }
     }, [userId])
 
+    const [refreshCollectionOfNotes,setRefreshCollectionOfNotes]=useState(false)
 
 
     useEffect(() => {
@@ -84,7 +85,18 @@ export default function Bedrock() {
         }
     }, [localCollectionOfNotesState, userId])
 
+    useEffect(()=>{
+        if (userId != null) {
+            const asyncDisplayNotes = async () => {
+                console.log("fetching notes")
+                setLoadingDisplayNotes(true);
+                setlocalCollectionOfNotesState(await getDisplayNotes(userId));
+                setLoadingDisplayNotes(false);
+            }
+            asyncDisplayNotes();
+        }
 
+    },[,refreshCollectionOfNotes])
 
 
 

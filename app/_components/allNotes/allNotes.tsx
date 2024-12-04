@@ -70,6 +70,9 @@ export default function AllNotesComponent() {
         }
     }, [userId, session])
 
+    const [refreshCollectionOfNotes,setRefreshCollectionOfNotes]=useState(false)
+
+
     useEffect(() => {
         if (localCollectionOfNotesState == null && userId != null) {
             const asyncDisplayNotes = async () => {
@@ -83,7 +86,18 @@ export default function AllNotesComponent() {
         console.log(localCollectionOfNotesState)
     }, [localCollectionOfNotesState, userId])
 
-
+    useEffect(() => {
+        if (userId != null) {
+            const asyncDisplayNotes = async () => {
+                console.log("fetching notes")
+                setLoadingDisplayNotes(true);
+                setlocalCollectionOfNotesState(await getDisplayNotes(userId));
+                setLoadingDisplayNotes(false);
+            }
+            asyncDisplayNotes();
+        }
+        console.log(localCollectionOfNotesState)
+    }, [, refreshCollectionOfNotes])
 
 
     // const renameInputRef = useRef<HTMLInputElement>(null);
@@ -124,6 +138,7 @@ export default function AllNotesComponent() {
                     // refreshToggle.current+=1;
                     // console.log("refresh: ", refreshToggle)
                     console.log("renaming ", renameNoteId, " to ", renameNoteName);
+                    setRefreshCollectionOfNotes((prev)=>!prev);
                 }}>
                     <DialogHeader>
                         <DialogTitle>Rename note</DialogTitle>
@@ -145,7 +160,7 @@ export default function AllNotesComponent() {
                     </div>
                     <DialogFooter className={styles.dialogFooter}>
                         <Button onClick={() => { setRenameOpen(false) }} className={styles.cancelRename}>Cancel</Button>
-                        <Button type="submit">Rename</Button>
+                        <Button type="submit" >Rename</Button>
                     </DialogFooter>
                 </form>
             </DialogContent>
@@ -162,6 +177,8 @@ export default function AllNotesComponent() {
                 <form onSubmit={(e) => {
                     e.preventDefault();
                     setOpenDelete(false);
+                    deleteNote(deleteNoteId)
+                    setRefreshCollectionOfNotes((prev)=>!prev)
                 }}>
                     <DialogHeader>
                         <DialogTitle>Delete note</DialogTitle>
@@ -171,7 +188,7 @@ export default function AllNotesComponent() {
                     </DialogHeader>
                     <DialogFooter className={styles.dialogFooter}>
                         <Button onClick={() => { setOpenDelete(false) }} className={styles.cancelDelete}>Cancel</Button>
-                        <Button onClick={() => { deleteNote(deleteNoteId) }} className={styles.deleteBtn}>Delete</Button>
+                        <Button type="submit" className={styles.deleteBtn}>Delete</Button>
                     </DialogFooter>
                 </form>
             </DialogContent>
