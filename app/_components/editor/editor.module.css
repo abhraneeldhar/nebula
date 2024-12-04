@@ -71,6 +71,7 @@
 .saveBtn{
     /* right: 0; */
     background-color: rgb(60, 95, 222);
+    color: white;
     transition: all 0.3s;
 }
 .saveBtn:hover{

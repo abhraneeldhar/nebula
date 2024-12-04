@@ -49,18 +49,7 @@ const items = [
   },
 ]
 
-const FooterMenu = () => {
-  return (<>
 
-    <div className={styles.footerMenu}>
-      <div className={styles.footerMenuItem}>Edging</div>
-      <div className={styles.footerMenuItem}>Gooning</div>
-      <div className={styles.footerMenuItem}>Settings</div>
-      <div className={`${styles.footerMenuItem} ${styles.signOut}`} onClick={()=>{signOut()}}>Sign Out</div>
-    </div>
-
-  </>)
-}
 
 
 
@@ -99,6 +88,18 @@ export function AppSidebar() {
     }
   }, [userId])
 
+  const FooterMenu = () => {
+    return (<>
+
+      <div className={styles.footerMenu}>
+        <div className={styles.footerMenuItem}>Edging</div>
+        <div className={styles.footerMenuItem}>Gooning</div>
+        <div className={styles.footerMenuItem} onClick={() =>router.push("/settings")}>Settings</div>
+        <div className={`${styles.footerMenuItem} ${styles.signOut}`} onClick={() => { signOut() }}>Sign Out</div>
+      </div>
+
+    </>)
+  }
 
   return (
     <Sidebar className={styles.sidebar}>
@@ -168,7 +169,7 @@ export function AppSidebar() {
                 <SidebarMenuButton className={styles.usernameBox}>
                   <Avatar className={styles.avatarImg}>
                     <AvatarImage src={userDetails?.imageUrl} alt="User" />
-                    <AvatarFallback>{userDetails?.name.slice(0,1)}</AvatarFallback>
+                    <AvatarFallback>{userDetails?.name.slice(0, 1)}</AvatarFallback>
                   </Avatar>
                   {userDetails?.name || "Username"}
                   <ChevronUp className="ml-auto" />
