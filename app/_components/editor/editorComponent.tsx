@@ -36,6 +36,11 @@ export default function EditorComponent({ id }: { id: string }) {
     const localCollectionOfNotesState = appStore((state) => state.localCollectionOfNotesState) as DisplayNote[];
     const setlocalCollectionOfNotesState = appStore((state) => state.setlocalCollectionOfNotesState);
 
+    const [refreshCollectionOfNotes,setRefreshCollectionOfNotes]=useState(false)
+    const [refreshCurrentNote,setRefreshCurrentNote]=useState(false)
+    
+
+
     const [loadingEditorState, setLoadingEditorState] = useState(true);
     const [savingState, setSavingState] = useState(false);
 
@@ -69,12 +74,33 @@ export default function EditorComponent({ id }: { id: string }) {
                 setlocalCollectionOfNotesState(await getDisplayNotes(userId));
             }
             asyncDisplayNotes();
+            console.log("should set local notestate")
         }
+
+        // if (localCollectionOfNotesState == null && userId != null) {
+        //     const asyncDisplayNotes = async () => {
+        //         console.log("fetching notes")
+        //         setlocalCollectionOfNotesState(await getDisplayNotes(userId));
+        //     }
+        //     asyncDisplayNotes();
+        //     console.log("should set local notestate")
+        // }
         return (() => {
             console.log("unmounting editorcomponent")
         })
+
     }, [localCollectionOfNotesState, userId])
 
+    useEffect(()=>{
+        if(userId){
+        const asyncDisplayNotes = async () => {
+            console.log("fetching notes")
+            setlocalCollectionOfNotesState(await getDisplayNotes(userId));
+        }
+        asyncDisplayNotes();
+        console.log("should set local notestate")
+    }
+    },[refreshCollectionOfNotes])
 
 
     const currentOpenNoteId = id;
@@ -99,7 +125,8 @@ export default function EditorComponent({ id }: { id: string }) {
             }
             getNoteData();
         }
-    }, [userId])
+        
+    }, [userId,refreshCurrentNote])
 
     // useEffect(() => {
     //     console.log("notedata>>>>>>", noteData);
@@ -120,7 +147,7 @@ export default function EditorComponent({ id }: { id: string }) {
                             }
                             } />
                         </div>
-                        <Input type="text" placeholder="Untitled Note" ref={tabNameRef} className={styles.tabName} />
+                        <Input disabled={loadingEditorState} defaultValue={noteData?.title} type="text" placeholder="Untitled Note" ref={tabNameRef} className={styles.tabName} />
                         {loadingEditorState && !noteData && (
                             <div className={styles.loadingSpinnerContainer}>
                                 <Spinner size="3" className={styles.loadingEditorSpinner} />
@@ -136,7 +163,7 @@ export default function EditorComponent({ id }: { id: string }) {
                         }}>Share</Button>
 
 
-                        <Button loading={savingState} className={styles.saveBtn} onClick={() => {
+                        <Button loading={savingState} disabled={savingState || loadingEditorState} className={styles.saveBtn} onClick={() => {
                             saveFunction()
                         }}>Save</Button>
                     </div>
@@ -209,7 +236,7 @@ export default function EditorComponent({ id }: { id: string }) {
             undoBtn?.removeEventListener("click", () => { quillRef.current?.history.undo() })
             redoBtn?.removeEventListener("click", () => { quillRef.current?.history.redo() })
         })
-    }, [, currentOpenNoteId, noteData])
+    }, [, currentOpenNoteId, noteData,refreshCurrentNote])
 
 
 
@@ -235,12 +262,14 @@ export default function EditorComponent({ id }: { id: string }) {
             await postNote(newNote);
             setSavingState(false);
 
-            console.log("saving state>>>>", savingState);
+            // console.log("saving state>>>>", savingState);
         }
         else {
             console.log("userId not found");
             setSavingState(false);
         }
+        setRefreshCollectionOfNotes((prev)=>!prev)
+        setRefreshCurrentNote((prev)=>!prev)
     }
 
 
