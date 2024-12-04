@@ -94,14 +94,34 @@
     width: 100%;
     height: 100%;
     background-color: transparent;
-    background-color: rgba(236, 93, 4, 0.558);
+    /* background-color: rgba(236, 93, 4, 0.558); */
     top: 0;
 }
 
+.usernameBox{
+    height: fit-content;
+}
 
 .sidebarFooter{
     position: relative;
 }
+
+
+.avatarImg{
+    aspect-ratio: 1/1;
+    /* height: 100%; */
+    height: 900%;
+    /* width: 50px; */
+    object-fit: cover;
+    object-position: center;
+}
+.avatarImg img{
+    object-position: center;
+}
+
+
+
+
 .footerMenu{
     position: absolute;
     /* bottom: 50px; */

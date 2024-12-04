@@ -32,8 +32,13 @@ import { Flex } from "@radix-ui/themes";
 import { Button } from "@radix-ui/themes";
 // import { supabase } from "@/app/utils/supabase/client";
 
+
+import { getUserDetails } from "@/app/utils/getUserDetails";
+import { userDetailsType } from "@/app/setupAccount/page";
+
 export default function Bedrock() {
-    const router = useRouter()
+    const router = useRouter();
+
     const localCollectionOfNotesState = appStore((state) => state.localCollectionOfNotesState) as DisplayNote[]
     const setlocalCollectionOfNotesState = appStore((state) => state.setlocalCollectionOfNotesState)
 
@@ -41,6 +46,7 @@ export default function Bedrock() {
 
     const { data: session } = useSession();
     const [userId, setUserId] = useState<string | null>(null)
+    const [userDetails, setUserDetails] = useState<userDetailsType>()
     useEffect(() => {
         if (!userId && session?.user?.email) {
             const getUserId = async () => {
@@ -52,6 +58,18 @@ export default function Bedrock() {
             getUserId();
         }
     }, [userId, session])
+
+
+    useEffect(() => {
+        if (userId) {
+            const asyncGetUserDetails = async () => {
+                const newUserDetails = await getUserDetails(userId);
+                setUserDetails(newUserDetails);
+            }
+            asyncGetUserDetails();
+        }
+    }, [userId])
+
 
 
     useEffect(() => {
@@ -85,15 +103,7 @@ export default function Bedrock() {
         </>)
     }
 
-    // useEffect(() => {
-    //     const getBuck = async () => {
-    //         const { data, error } = await supabase
-    //             .storage
-    //             .listBuckets()
-    //         console.log("buckets>>>" ,data)
-    //     }
-    //     // getBuck();
-    // },[])
+
 
     return (<>
         <Tab tabName="Home" />
@@ -105,7 +115,7 @@ export default function Bedrock() {
                 <div className={styles.coverImage}>
                     <Image src={coverImage} alt="cover image" />
                     <div className={styles.profilePic}>
-                        <Image src={profilePic} alt="profilePic" />
+                        <Image src={userDetails?.imageUrl||profilePic} unoptimized={true} priority={true} width={100} height={100} alt="profilePic" />
                     </div>
                 </div>
 

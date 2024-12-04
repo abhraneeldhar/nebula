@@ -168,3 +168,8 @@
 .cameraIconHolder:active{
     transform: scale(0.9);
 }
+
+.alertBox{
+    padding: 10px 20px;
+    width: 300px;
+}

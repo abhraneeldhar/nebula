@@ -1,5 +1,5 @@
 "use client"
-import {Home } from "lucide-react"
+import { Home } from "lucide-react"
 import {
   Sidebar,
   SidebarContent,
@@ -12,6 +12,11 @@ import {
   SidebarFooter
 
 } from "@/components/ui/sidebar"
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
 
 // import { Collapsible, CollapsibleTrigger, CollapsibleContent, } from "@radix-ui/react-collapsible"
 import { DropdownMenuTrigger, DropdownMenu } from "@radix-ui/react-dropdown-menu"
@@ -28,6 +33,14 @@ import { DisplayNote } from "@/app/utils/fileFormat"
 // import { ScrollArea } from "@radix-ui/react-scroll-area"
 import { useState } from "react"
 import { useRouter } from 'next/navigation'
+import { useEffect } from "react"
+import { useSession } from "next-auth/react"
+import { fetchUserId } from "@/app/utils/fetchUserId"
+import { userDetailsType } from "@/app/setupAccount/page"
+import { getUserDetails } from "@/app/utils/getUserDetails"
+import { signOut } from "next-auth/react"
+
+
 const items = [
   {
     title: "Home",
@@ -43,7 +56,7 @@ const FooterMenu = () => {
       <div className={styles.footerMenuItem}>Edging</div>
       <div className={styles.footerMenuItem}>Gooning</div>
       <div className={styles.footerMenuItem}>Settings</div>
-      <div className={`${styles.footerMenuItem} ${styles.signOut}`}>Sign Out</div>
+      <div className={`${styles.footerMenuItem} ${styles.signOut}`} onClick={()=>{signOut()}}>Sign Out</div>
     </div>
 
   </>)
@@ -52,13 +65,39 @@ const FooterMenu = () => {
 
 
 export function AppSidebar() {
-  // you dont fetch anything bitch
 
   const router = useRouter()
   const localCollectionOfNotesState = appStore((state) => state.localCollectionOfNotesState) as DisplayNote[]
   const [showFooterMenu, setShowFooterMenu] = useState(false);
 
+  const { data: session } = useSession();
+  const [userId, setUserId] = useState<string | null>(null)
+  const [userDetails, setUserDetails] = useState<userDetailsType>()
 
+  useEffect(() => {
+    if (!userId && session?.user?.email) {
+      console.log("session>>>", session)
+      const getUserId = async () => {
+        console.log("fetching user Id");
+        const newUserId = await fetchUserId(String(session?.user?.email))
+        console.log("userId>>>>", newUserId);
+        if (newUserId != userId) {
+          setUserId(newUserId)
+        }
+      }
+      getUserId();
+    }
+  }, [, userId, session])
+
+  useEffect(() => {
+    if (userId) {
+      const asyncGetUserDetails = async () => {
+        const newUserDetails = await getUserDetails(userId);
+        setUserDetails(newUserDetails);
+      }
+      asyncGetUserDetails();
+    }
+  }, [userId])
 
 
   return (
@@ -126,8 +165,12 @@ export function AppSidebar() {
                 e.stopPropagation;
                 setShowFooterMenu(!showFooterMenu);
               }}>
-                <SidebarMenuButton>
-                  <User2 /> Username
+                <SidebarMenuButton className={styles.usernameBox}>
+                  <Avatar className={styles.avatarImg}>
+                    <AvatarImage src={userDetails?.imageUrl} alt="User" />
+                    <AvatarFallback>{userDetails?.name.slice(0,1)}</AvatarFallback>
+                  </Avatar>
+                  {userDetails?.name || "Username"}
                   <ChevronUp className="ml-auto" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>

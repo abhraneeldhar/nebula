@@ -48,7 +48,9 @@ export const options: NextAuthOptions = {
                         console.log("inserted new user")
                         return "/setupAccount";
                     }
+                    
                 }
+                
             }
             catch (error) {
                 console.log(error)

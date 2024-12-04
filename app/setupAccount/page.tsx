@@ -14,8 +14,6 @@ import { Button } from "@radix-ui/themes"
 import { X, User, AtSign, Camera } from "lucide-react"
 import { ChangeEvent, FormEvent, useEffect, useReducer, useRef, useState } from "react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import { AlertCircle } from "lucide-react"
-
 import { getUserDetails } from "../utils/getUserDetails"
 import { fetchUserId } from "../utils/fetchUserId"
 import { useSession } from "next-auth/react"
@@ -23,8 +21,18 @@ import { checkUsernameinDB } from "../utils/checkUsernameinDB"
 import { updateUserDetails } from "../utils/updateUserDetails"
 import { supabase } from "../utils/supabase/client"
 
-
-
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+  } from "@/components/ui/alert-dialog"
+import { useRouter } from "next/navigation"
 function isAlphaNumeric(str: string) {
     return !(/^[a-zA-Z0-9\s]*$/.test(str));
 }
@@ -47,10 +55,12 @@ export type userDetailsType = {
 }
 
 export default function SetupAccount() {
+    const router=useRouter();
+
     const [nameState, setNameState] = useState("");
     const [usernameState, setUsernameState] = useState("")
     const [pfpState, setPfpState] = useState<string>("./meow.jpg")
-    const [uploadPfp,setUploadPfp]=useState<File>()
+    const [uploadPfp, setUploadPfp] = useState<File>()
 
     const [nameAlert, setNameAlert] = useState(false)
     const [nameLengthAlert, setNameLengthAlert] = useState(false)
@@ -121,26 +131,47 @@ export default function SetupAccount() {
     }, [userDetails])
 
 
-    
-
+    const [formLoading, setFormLoading] = useState(false)
+    const [usernameCheckAlert,setUsernameCheckAlert]=useState(false)
     const configure = async () => {
         if (userDetails) {
             var formpfp = uploadPfp;
-            if(!formpfp){
+            if (!formpfp) {
                 console.log("uplaodpfp is null")
-                const res= await fetch(pfpState)
-                const blob= await res.blob();
-                formpfp=new File([blob],"profileImage.jpg",{type:blob.type})
+                const res = await fetch(pfpState)
+                const blob = await res.blob();
+                formpfp = new File([blob], "profileImage.jpg", { type: blob.type })
             }
             const formName = nameState;
             const formUsername = usernameState.toLowerCase();
-            const usernameCheck = await checkUsernameinDB(userDetails?.userId as string, formUsername);
-            console.log("formName>>>", formName, "\nformusername>> ", formUsername, "\nformpfp>> ", formpfp, "\nusernamecheck>> ", usernameCheck);
-            console.log("uploading");
 
-            const {data,error}=await supabase.storage.from("profilePics").upload(`${userDetails.userId}/profileImage`,formpfp,{upsert:true})
-            console.log(data)
-            console.log(error)
+            setFormLoading(true);
+            const usernameCheck = await checkUsernameinDB(userDetails?.userId as string, formUsername);
+            setFormLoading(false);
+
+            if (!usernameCheck) {
+                console.log("formName>>>", formName, "\nformusername>> ", formUsername, "\nformpfp>> ", formpfp, "\nusernamecheck>> ", usernameCheck);
+
+                setFormLoading(true);
+                const { data, error } = await supabase.storage.from("profilePics").upload(`${userDetails.userId}/profileImage`, formpfp, { upsert: true })
+                // setFormLoading(false);
+                console.log(data)
+                console.log(error)
+
+                // setFormLoading(true);
+                const { data: imgUrl } = await supabase.storage.from("profilePics").getPublicUrl(`${userDetails.userId}/profileImage`);
+                // setFormLoading(false);
+
+                // setFormLoading(true);
+                await updateUserDetails(userDetails.userId, formName, formUsername, imgUrl.publicUrl)
+                setFormLoading(false);
+                
+                router.push("/home")
+            }
+            else {
+                setUsernameCheckAlert(true);
+                console.log("username already exists", formUsername)
+            }
         }
     };
 
@@ -173,7 +204,7 @@ export default function SetupAccount() {
 
                     <form onSubmit={(e) => {
                         e.preventDefault();
-                        console.log("submitted");
+                        // console.log("submitted");
                         configure();
                     }} className={styles.formContainer}>
 
@@ -181,21 +212,21 @@ export default function SetupAccount() {
                             <Camera onClick={() => { imageInputRef.current?.click(); }} />
                         </div>
                         <label htmlFor="name"><User />Name</label>
-                        <input name="name" id="name" type="text" placeholder="name" defaultValue={nameState} onChange={(e) => {
+                        <input disabled={formLoading} name="name" id="name" type="text" placeholder="name" defaultValue={nameState} onChange={(e) => {
                             setNameState(e.target.value);
                             setNameAlert(isAlphaNumeric(e.target.value));
                             setNameLengthAlert(isNameLongOrShort(e.target.value));
                         }} />
 
                         <label htmlFor="username"><AtSign />Username</label>
-                        <input name="username" id="username" type="text" placeholder="username" defaultValue={usernameState} onChange={(e) => {
+                        <input disabled={formLoading} name="username" id="username" type="text" placeholder="username" defaultValue={usernameState} onChange={(e) => {
                             setUsernameState(e.target.value);
                             setUsernameAlert(isAlphaNumeric(e.target.value));
                             setUsernameLengthAlert(isNameLongOrShort(e.target.value));
                             setUsernameSpaceAlert(e.target.value.includes(" "));
                         }} />
 
-                        <Button disabled={nameAlert || usernameSpaceAlert || nameLengthAlert || usernameAlert || usernameLengthAlert} >Configure</Button>
+                        <Button loading={formLoading} disabled={nameAlert || usernameSpaceAlert || nameLengthAlert || usernameAlert || usernameLengthAlert} >Configure</Button>
                     </form>
 
 
@@ -227,20 +258,33 @@ export default function SetupAccount() {
                             </AlertDescription>
                         </Alert>
                     </>)}
-                    {
-                        usernameSpaceAlert && (
-                            <>
-                                <Alert className={styles.alert} variant="destructive">
-                                    <AlertDescription>
-                                        Username can't contain spaces.
-                                    </AlertDescription>
-                                </Alert>
-                            </>
-                        )
+                    {usernameSpaceAlert && (
+                        <>
+                            <Alert className={styles.alert} variant="destructive">
+                                <AlertDescription>
+                                    Username can't contain spaces.
+                                </AlertDescription>
+                            </Alert>
+                        </>
+                    )
                     }
-
 
                 </div>
             </div>
-        </div></>)
+
+            <AlertDialog open={usernameCheckAlert} onOpenChange={setUsernameCheckAlert}>
+                <AlertDialogContent className={styles.alertBox}>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle>The username is already taken</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            Think of a more creative and unique username
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                        <AlertDialogAction>Close</AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+        </div></>
+        )
 }
