@@ -16,7 +16,7 @@ export default function Settings() {
             </div>
             <div className={styles.mainContent}>
                 <div className={styles.profilePicture}>
-                        <h1>Profile Picture</h1>
+                    <h1>Profile Picture</h1>
                     <div className={styles.picBox}>
                         <Image src={"/meow.jpg"} height={100} width={100} alt="userPic" />
                         <button className={styles.changePic}>Change Picture</button>
@@ -26,21 +26,21 @@ export default function Settings() {
 
                 <div className={styles.profileDetails}>
                     <h1>Profile Name</h1>
-                    <Input placeholder="your name"/>
+                    <Input placeholder="your name" />
                     <h1>Username</h1>
-                    <Input placeholder="username"/>
+                    <Input placeholder="username" />
                     <h1>About</h1>
-                    <textarea placeholder="your bio"/>
+                    <textarea placeholder="your bio" />
                 </div>
-
-                <div className={styles.actionButtons}>
-                    <Button className={styles.saveBtn}>Save</Button>
-                    <Button className={styles.resetBtn}>Reset</Button>
-                </div>
-
-
-
+                
             </div>
+            <div className={styles.footer}>
+                    <div className={styles.actionButtons}>
+                        <Button className={styles.saveBtn}>Save</Button>
+                        <Button className={styles.resetBtn}>Reset</Button>
+                    </div>
+                </div>
+
         </div>
     </>)
 }

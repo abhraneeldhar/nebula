@@ -30,12 +30,13 @@ export const options: NextAuthOptions = {
             await mongoClientCS.connect();
             const db = mongoClientCS.db("notesApp");
             const usersCollection = db.collection("users");
-            const existingUserCheck = await usersCollection.findOne({ email: user.email });
-
+            const existingUserCheck = await usersCollection.countDocuments({ email: user.email });
+            // console.log("existing check>>>>>>>>>>",existingUserCheck)
             try {
                 if (user) {
 
-                    if (!existingUserCheck) {
+                    if (existingUserCheck==0) {
+                        console.log("if trigerred\n\n")
                         const newUser: userType = {
                             userId: user.id as string,
                             name: user.name as string,
@@ -48,8 +49,8 @@ export const options: NextAuthOptions = {
                         console.log("inserted new user")
                         return "/setupAccount";
                     }
-                    
                 }
+                
                 
             }
             catch (error) {
