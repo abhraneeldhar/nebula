@@ -74,13 +74,20 @@ export default function Bedrock() {
         }
     }, [userId])
 
-    const [refreshCollectionOfNotes,setRefreshCollectionOfNotes]=useState(false)
+    const [refreshCollectionOfNotes, setRefreshCollectionOfNotes] = useState(false)
 
-    useEffect(()=>{
-        if(userDetails?.name){
-            toast(`Welcome ${userDetails.name}`,{position:"top-center",theme:"dark"})
+    useEffect(() => {
+        const greet = async () => {
+            
+            if (userDetails?.name) {
+                toast(`Welcome ${userDetails.name}`, { position: "top-center", theme: "dark" })
+            }
+        };
+        if(!userDetails){
+
+            greet()
         }
-    },[userDetails])
+    }, [])
 
     useEffect(() => {
         if (localCollectionOfNotesState == null && userId != null) {
@@ -94,7 +101,7 @@ export default function Bedrock() {
         }
     }, [localCollectionOfNotesState, userId])
 
-    useEffect(()=>{
+    useEffect(() => {
         if (userId != null) {
             const asyncDisplayNotes = async () => {
                 console.log("fetching notes")
@@ -105,7 +112,7 @@ export default function Bedrock() {
             asyncDisplayNotes();
         }
 
-    },[,refreshCollectionOfNotes])
+    }, [, refreshCollectionOfNotes])
 
 
 
@@ -132,12 +139,12 @@ export default function Bedrock() {
 
         <div className={styles.main}>
             <NewNoteBtn />
-            <ToastContainer/>
+            <ToastContainer />
             <div className={styles.displayContent}>
                 <div className={styles.coverImage}>
                     <Image src={coverImage} alt="cover image" />
                     <div className={styles.profilePic}>
-                        <Image src={userDetails?.imageUrl||profilePic} unoptimized={true} priority={true} width={100} height={100} alt="profilePic" />
+                        <Image src={userDetails?.imageUrl || profilePic} unoptimized={true} priority={true} width={100} height={100} alt="profilePic" />
                     </div>
                 </div>
 
