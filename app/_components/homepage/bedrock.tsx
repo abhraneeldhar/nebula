@@ -57,6 +57,7 @@ export default function Bedrock() {
                 const newUserId = await fetchUserId(String(session?.user?.email))
                 if (newUserId != userId) {
                     setUserId(newUserId)
+                    
                 }
             }
             getUserId();
@@ -69,6 +70,7 @@ export default function Bedrock() {
             const asyncGetUserDetails = async () => {
                 const newUserDetails = await getUserDetails(userId);
                 setUserDetails(newUserDetails);
+                
             }
             asyncGetUserDetails();
         }
@@ -76,18 +78,6 @@ export default function Bedrock() {
 
     const [refreshCollectionOfNotes, setRefreshCollectionOfNotes] = useState(false)
 
-    useEffect(() => {
-        const greet = async () => {
-            
-            if (userDetails?.name) {
-                toast(`Welcome ${userDetails.name}`, { position: "top-center", theme: "dark" })
-            }
-        };
-        if(!userDetails){
-
-            greet()
-        }
-    }, [])
 
     useEffect(() => {
         if (localCollectionOfNotesState == null && userId != null) {
