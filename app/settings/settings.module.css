@@ -8,6 +8,20 @@
     min-height: 100vh;
 }
 
+.spinner{
+    position: fixed;
+    color: white;
+    /* background-color: red; */
+    height: 50px;
+    width: 50px;
+    z-index: 5;
+    opacity: 1;
+    top: 100px;
+    left: 50%;
+    /* padding: 70px; */
+    transform: translateX(-50%);
+}
+
 .sidebar {
     flex: 1;
     background-color: #1f1f21;
@@ -38,7 +52,7 @@
 }
 
 .mainContent {
-    flex: 6;
+    flex: 8;
     /* height: 100%; */
     background-color: #161618;
     padding: 40px;
@@ -62,6 +76,9 @@
     font-size: 15px;
     font-weight: 500;
     margin-bottom: 10px;
+}
+.imageInput{
+    display: none;
 }
 
 .picBox img {
@@ -128,6 +145,14 @@
 .profileDetails input {
     width: 800px;
     padding: 20px;
+}
+
+.alertP{
+    font-size: 15px;
+    padding-left: 20px;
+    margin-top: 10px;
+    color: red;
+    font-weight: 300;
 }
 
 .profileDetails textarea {

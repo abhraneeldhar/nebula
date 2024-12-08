@@ -40,8 +40,9 @@ export const options: NextAuthOptions = {
                         const newUser: userType = {
                             userId: user.id as string,
                             name: user.name as string,
-                            userName: String(user.name?.replace(/\s/g,''))+String(uuidv4().slice(0, 5)).toLowerCase() as string,
+                            userName: (String(user.name?.replace(/\s/g,''))+ String(uuidv4().slice(0, 5))).toLowerCase() as string,
                             email: user.email as string,
+                            bio:"",
                             imageUrl: user.image as string,
                             dateOfJoining: Number(new Date)
                         }

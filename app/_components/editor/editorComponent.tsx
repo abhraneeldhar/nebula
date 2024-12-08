@@ -31,6 +31,9 @@ import { getDisplayNotes } from "@/app/utils/getDisplayNotes"
 import { Flex, Skeleton } from "@radix-ui/themes"
 import { Spinner } from "@radix-ui/themes"
 
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+
 
 export default function EditorComponent({ id }: { id: string }) {
     const localCollectionOfNotesState = appStore((state) => state.localCollectionOfNotesState) as DisplayNote[];
@@ -261,7 +264,7 @@ export default function EditorComponent({ id }: { id: string }) {
             }
             await postNote(newNote);
             setSavingState(false);
-
+            toast.success("Saved",{position:"bottom-center",theme:"dark"})
             // console.log("saving state>>>>", savingState);
         }
         else {
@@ -282,7 +285,7 @@ export default function EditorComponent({ id }: { id: string }) {
                 <Spinner size="3" className={styles.containerSpinner} />
             </div>
         )}
-
+        <ToastContainer/>
         <div className={styles.editorSection}>
             <div id="container" ref={toolbarRef}>
             </div>

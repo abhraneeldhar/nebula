@@ -50,6 +50,7 @@ export type userDetailsType = {
     name: string,
     userName: string,
     email: string,
+    bio:string,
     imageUrl: string,
     dateOfJoining: number
 }
@@ -114,7 +115,7 @@ export default function SetupAccount() {
         //     setPfpState(userDetails?.imageUrl)
         // }
         console.log("userdetails>>>> ", userDetails)
-        setUsernameState(userDetails?.userName as string);
+        // setUsernameState(userDetails?.userName as string);
         setNameState(userDetails?.name || "")
         setUsernameState(userDetails?.userName || "")
 
@@ -164,7 +165,7 @@ export default function SetupAccount() {
                 // setFormLoading(false);
 
                 // setFormLoading(true);
-                await updateUserDetails(userDetails.userId, formName, formUsername, imgUrl.publicUrl)
+                await updateUserDetails(userDetails.userId, formName, formUsername,"", imgUrl.publicUrl)
                 setFormLoading(false);
                 
                 router.push("/home")
@@ -227,7 +228,7 @@ export default function SetupAccount() {
                             setUsernameSpaceAlert(e.target.value.includes(" "));
                         }} />
 
-                        <Button loading={formLoading} disabled={nameAlert || usernameSpaceAlert || nameLengthAlert || usernameAlert || usernameLengthAlert} >Configure</Button>
+                        <Button loading={formLoading} disabled={nameAlert || usernameSpaceAlert || nameLengthAlert || usernameAlert || usernameLengthAlert || !userDetails} >Configure</Button>
                     </form>
 
 

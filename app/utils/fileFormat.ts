@@ -6,6 +6,7 @@ export interface userType{
     userName: string,
     email: string,
     imageUrl: string,
+    bio:string,
     dateOfJoining: number
 }
 

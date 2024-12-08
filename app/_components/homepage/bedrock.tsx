@@ -36,6 +36,10 @@ import { Button } from "@radix-ui/themes";
 import { getUserDetails } from "@/app/utils/getUserDetails";
 import { userDetailsType } from "@/app/setupAccount/page";
 
+import { toast, ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+
+
 export default function Bedrock() {
     const router = useRouter();
 
@@ -72,6 +76,11 @@ export default function Bedrock() {
 
     const [refreshCollectionOfNotes,setRefreshCollectionOfNotes]=useState(false)
 
+    useEffect(()=>{
+        if(userDetails?.name){
+            toast(`Welcome ${userDetails.name}`,{position:"top-center",theme:"dark"})
+        }
+    },[userDetails])
 
     useEffect(() => {
         if (localCollectionOfNotesState == null && userId != null) {
@@ -123,6 +132,7 @@ export default function Bedrock() {
 
         <div className={styles.main}>
             <NewNoteBtn />
+            <ToastContainer/>
             <div className={styles.displayContent}>
                 <div className={styles.coverImage}>
                     <Image src={coverImage} alt="cover image" />
