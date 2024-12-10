@@ -130,6 +130,7 @@
     justify-content: flex-start;
     width: 100%;
     margin: 0px 50px;
+    gap: 10px;
 }
 
 
@@ -253,3 +254,4 @@
     margin-top: 10px;
     gap: 10px;
 }
+

@@ -378,16 +378,18 @@ export default function Friends() {
     useEffect(() => {
 
         const getFriends = async () => {
+            var tempFriendList:userDetailsType[]=[]
             if (userDetails) {
                 userDetails?.friendList.forEach((friendId) => {
                     const asyncFunc = async () => {
                         console.log("getting deatil for ",friendId)
                         const newUserDetails = await getUserDetails(friendId);
-                        setFriendList([...friendList, newUserDetails])
+                        tempFriendList.push(newUserDetails)
                     }
                     asyncFunc()
                 })
             }
+            setFriendList(tempFriendList)
         }
         getFriends();
     }, [userDetails])
