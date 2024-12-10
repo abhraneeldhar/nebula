@@ -3,7 +3,7 @@ import { act, ChangeEvent, useEffect, useState } from "react"
 import { supabase } from "@/app/utils/supabase/client";
 import styles from "./friends.module.css"
 
-import { ChevronLeft } from "lucide-react";
+import { Car, ChevronLeft } from "lucide-react";
 import { CircleCheck } from "lucide-react";
 import { Clock } from "lucide-react";
 import { CircleX } from "lucide-react";
@@ -21,6 +21,7 @@ import { getUserDetails } from "../utils/getUserDetails";
 import { fetchUserId } from "../utils/fetchUserId";
 import { userDetailsType } from "../setupAccount/page";
 import { useSession } from "next-auth/react";
+import { updateFriendList } from "../utils/friendMechanics/updateFriendList";
 
 
 
@@ -104,46 +105,86 @@ export default function Friends() {
 
 
     const SearchFriendCard = ({ user }: { user: userDetailsType }) => {
-        
-        const [action,setAction]=useState<"add" | "remove" | "cancel" | "accept/reject" | null>(null);
+
+        const [action, setAction] = useState<"add" | "remove" | "cancel" | "accept/reject" | null>(null);
+        // setAction(null);
         const getAction = async () => {
-            // console.log("getting action");
+            console.log("getting action");
             if (user.friendList.includes(userId as string)) {
-                setAction("remove")
-                console.log("action is ", action, " in mongodb")
+                setAction("remove");
+                console.log("action is remove");
                 return 1;
             }
-            if (action == null) {
-                // console.log("not in mongodb")
-                const { data: outgoing, error } = await supabase.from("friendRequest").select("*").eq("senderId", userId).eq("receiverId", user.userId).eq("status", "pending");
-                if (outgoing?.length) {
-                    if (outgoing.length > 0) {
-                        setAction("cancel")
-                        console.log("you can ", action, " outgoing request ", outgoing);
-                        return 1;
-                    }
-                }
-
-            }
-            if (action == null) {
-                // console.log("no outgoing")
-                const { data: incoming, error } = await supabase.from("friendRequest").select("*").eq("senderId", user.userId).eq("receiverId", userId).eq("status", "pending");
-                if (incoming?.length) {
-                    if (incoming.length > 0) {
-                        setAction("accept/reject");
-                        console.log("you can ", action, " imcoming request ", incoming);
-                        return 1;
-                    }
+            // if (action == null) {
+            console.log("checking for outgoing")
+            const { data: outgoing } = await supabase.from("friendRequest").select("*").eq("senderId", userId).eq("receiverId", user.userId).eq("status", "pending");
+            if (outgoing?.length) {
+                if (outgoing.length > 0) {
+                    setAction("cancel")
+                    console.log("action is cancel");
+                    console.log("you can ", action, " outgoing request ", outgoing);
+                    return 1;
                 }
             }
-            if (action == null) {
-                // console.log("no incoming")
-                setAction("add");
-                console.log("you can ", action, " the user ", user.userId);
-                return 1;
+
+            // }
+            // if (action == null) {
+            console.log("checking for incoming")
+            const { data: incoming, error } = await supabase.from("friendRequest").select("*").eq("senderId", user.userId).eq("receiverId", userId).eq("status", "pending");
+            if (incoming?.length) {
+                if (incoming.length > 0) {
+                    setAction("accept/reject");
+                    console.log("action is accept/reject");
+                    return 1;
+                }
             }
+            // }
+            // if (action == null) {
+            setAction("add");
+            console.log("action is add")
+            return 1;
+            // }
 
 
+        }
+        useEffect(() => { getAction() }, [])
+        const addAction = async () => {
+            //check if user.userId,is in userDetails>>>> add if not
+            //check if userId is in user.frirends[]>>>>add if not
+            // if(!userDetails?.friendList.includes(user.userId)){
+            //     console.log(user.userId," not present in ",userDetails?.friendList)
+            //     let updatedUserDetails=userDetails;
+            //     updatedUserDetails?.friendList.push(user.userId)
+            //     const res1= await updateFriendList(userDetails?.userId as string,updatedUserDetails as userDetailsType);
+            //     console.log("res1>>>> ",res1);
+            // }
+            // if(!user.friendList.includes(userId as string)){
+            //     console.log(userId," not present in ",user.friendList);
+            //     let updatedUserDetails=user;
+            //     updatedUserDetails.friendList.push(userId as string);
+            //     const res2=await updateFriendList(user.userId,updatedUserDetails);
+            //     console.log("res2>>>",res2);
+            // }
+
+            //make an outgoing request
+            setAction(null);
+            const { data, error } = await supabase
+                .from('friendRequest')
+                .insert({ senderId: userId, receiverId: user.userId, status: "pending", createdAt: Date.now() })
+                .select()
+
+            console.log(data)
+            console.log(error)
+            getAction();
+        }
+
+        const cancelAction = async () => {
+            setAction(null);
+            const res = await supabase
+                .from('friendRequest')
+                .delete()
+                .eq("senderId", userId).eq("receiverId", user.userId).eq("status", "pending")
+            getAction();
         }
 
         return (<>
@@ -156,11 +197,11 @@ export default function Friends() {
                     </div>
                 </div>
                 <div className={styles.action}>
-                    {action===null && <Button onClick={() => { getAction() }}>get action</Button>}
-                    {action==="add" && (<Button color="green">Add</Button>)}
-                    {action==="cancel" && (<Button color="red">Cancel</Button>)}
-                    {action==="remove" && (<Button color="red">Remove</Button>)}
-                    {action==="accept/reject" && (<><Button color="green"><CircleCheck/></Button><Button color="red"><X/></Button></>)}
+                    {(action == null) && (<Spinner className={styles.friendCardSpinner} />)}
+                    {(action == "add") && (<Button color="green" onClick={() => { addAction() }}>Add</Button>)}
+                    {(action == "cancel") && (<Button color="red" onClick={() => { cancelAction() }}>Cancel</Button>)}
+                    {(action == "remove") && (<Button color="red">Remove</Button>)}
+                    {(action == "accept/reject") && (<><Button color="green"><CircleCheck /></Button><Button color="red"><X /></Button></>)}
                 </div>
             </div>
 

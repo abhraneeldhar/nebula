@@ -2,6 +2,7 @@ import { Delta } from "quill/core"
 import { userDetailsType } from "../setupAccount/page";
 
 export interface userType{
+    _id:string,
     userId: string,
     name: string,
     userName: string,
