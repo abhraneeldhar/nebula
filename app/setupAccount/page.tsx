@@ -33,6 +33,7 @@ import {
     AlertDialogTrigger,
   } from "@/components/ui/alert-dialog"
 import { useRouter } from "next/navigation"
+import { userType } from "../utils/fileFormat"
 function isAlphaNumeric(str: string) {
     return !(/^[a-zA-Z0-9\s]*$/.test(str));
 }
@@ -44,16 +45,7 @@ function isNameLongOrShort(str: string) {
         return false
     }
 }
-export type userDetailsType = {
-    _id: string,
-    userId: string,
-    name: string,
-    userName: string,
-    email: string,
-    bio:string,
-    imageUrl: string,
-    dateOfJoining: number
-}
+export interface userDetailsType extends userType{}
 
 export default function SetupAccount() {
     const router=useRouter();

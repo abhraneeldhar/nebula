@@ -44,7 +44,8 @@ export const options: NextAuthOptions = {
                             email: user.email as string,
                             bio:"",
                             imageUrl: user.image as string,
-                            dateOfJoining: Number(new Date)
+                            dateOfJoining: Number(new Date),
+                            friendList:[]
                         }
                         await usersCollection.insertOne(newUser);
                         console.log("inserted new user")

@@ -1,4 +1,5 @@
 import { Delta } from "quill/core"
+import { userDetailsType } from "../setupAccount/page";
 
 export interface userType{
     userId: string,
@@ -8,7 +9,9 @@ export interface userType{
     imageUrl: string,
     bio:string,
     dateOfJoining: number
+    friendList:string[]
 }
+
 
 export interface Note{
     owner:string,

@@ -1,5 +1,5 @@
 "use client"
-import { ChangeEvent, useEffect, useState } from "react"
+import { act, ChangeEvent, useEffect, useState } from "react"
 import { supabase } from "@/app/utils/supabase/client";
 import styles from "./friends.module.css"
 
@@ -103,18 +103,64 @@ export default function Friends() {
     }
 
 
-    const SearchFriendCard = ({ name, username, imgUrl }: { name: string, username: string, imgUrl: string }) => {
+    const SearchFriendCard = ({ user }: { user: userDetailsType }) => {
+        
+        const [action,setAction]=useState<"add" | "remove" | "cancel" | "accept/reject" | null>(null);
+        const getAction = async () => {
+            // console.log("getting action");
+            if (user.friendList.includes(userId as string)) {
+                setAction("remove")
+                console.log("action is ", action, " in mongodb")
+                return 1;
+            }
+            if (action == null) {
+                // console.log("not in mongodb")
+                const { data: outgoing, error } = await supabase.from("friendRequest").select("*").eq("senderId", userId).eq("receiverId", user.userId).eq("status", "pending");
+                if (outgoing?.length) {
+                    if (outgoing.length > 0) {
+                        setAction("cancel")
+                        console.log("you can ", action, " outgoing request ", outgoing);
+                        return 1;
+                    }
+                }
+
+            }
+            if (action == null) {
+                // console.log("no outgoing")
+                const { data: incoming, error } = await supabase.from("friendRequest").select("*").eq("senderId", user.userId).eq("receiverId", userId).eq("status", "pending");
+                if (incoming?.length) {
+                    if (incoming.length > 0) {
+                        setAction("accept/reject");
+                        console.log("you can ", action, " imcoming request ", incoming);
+                        return 1;
+                    }
+                }
+            }
+            if (action == null) {
+                // console.log("no incoming")
+                setAction("add");
+                console.log("you can ", action, " the user ", user.userId);
+                return 1;
+            }
+
+
+        }
+
         return (<>
             <div className={styles.personCard}>
                 <div className={styles.profilePic}>
-                    <Image src={imgUrl} alt="pfp" height={50} width={50} />
+                    <Image src={user.imageUrl} alt="pfp" height={50} width={50} />
                     <div className={styles.nameHolder}>
-                        <p className={styles.name}>{name}</p>
-                        <p className={styles.username}>@{username}</p>
+                        <p className={styles.name}>{user.name}</p>
+                        <p className={styles.username}>@{user.userName}</p>
                     </div>
                 </div>
                 <div className={styles.action}>
-                    <Button>Add</Button>
+                    <Button onClick={() => { getAction() }}>get action</Button>
+                    {action==="add" && (<Button>Add</Button>)}
+                    {action==="cancel" && (<Button>Cancel</Button>)}
+                    {action==="remove" && (<Button>Remove</Button>)}
+                    {action==="accept/reject" && (<><Button><CircleCheck/></Button><Button><X/></Button></>)}
                     {/* <Button color="red">Remove</Button> */}
                 </div>
             </div>
@@ -186,7 +232,7 @@ export default function Friends() {
 
                         <div className={styles.searchedPeople}>
                             {searchedFriendsList && searchedFriendsList.map((friend: userDetailsType) => (
-                                <SearchFriendCard key={friend.userId} name={friend.name} username={friend.userName} imgUrl={friend.imageUrl} />
+                                <SearchFriendCard key={friend.userId} user={friend} />
                             ))}
                             {loadingSearchResults &&
                                 <Spinner className={styles.spinner} />
