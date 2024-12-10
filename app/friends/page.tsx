@@ -22,6 +22,7 @@ import { fetchUserId } from "../utils/fetchUserId";
 import { userDetailsType } from "../setupAccount/page";
 import { useSession } from "next-auth/react";
 import { updateFriendList } from "../utils/friendMechanics/updateFriendList";
+import { updateUserDetails } from "../utils/updateUserDetails";
 
 
 
@@ -186,6 +187,64 @@ export default function Friends() {
                 .eq("senderId", userId).eq("receiverId", user.userId).eq("status", "pending")
             getAction();
         }
+        const removeAction = async () => {
+            setAction(null)
+            let newUserDetails = userDetails
+            var index = newUserDetails?.friendList.indexOf(user.userId) as number;
+            if (index > -1) {
+                console.log("removing at ", index)
+                newUserDetails?.friendList.splice(index, 1);
+            }
+            const res1 = await updateFriendList(userId as string, newUserDetails as userDetailsType)
+            console.log(res1)
+
+            newUserDetails = user as userDetailsType
+            index = newUserDetails?.friendList.indexOf(userId as string) as number;
+            if (index > -1) {
+                console.log("removing at ", index)
+                newUserDetails?.friendList.splice(index, 1);
+            }
+            const res2 = await updateFriendList(user.userId as string, newUserDetails as userDetailsType)
+            console.log(res2);
+            getAction();
+        }
+        const acceptAction = async () => {
+            setAction(null)
+            const { data, error } = await supabase
+                .from('friendRequest')
+                .update({ status: "accepted" })
+                .eq("senderId", user.userId).eq("receiverId", userId).eq("status", "pending")
+                .select();
+            console.log(data)
+            console.log(error)
+
+            if(!userDetails?.friendList.includes(user.userId)){
+                console.log(user.userId," not present in ",userDetails?.friendList)
+                let updatedUserDetails=userDetails;
+                updatedUserDetails?.friendList.push(user.userId)
+                const res1= await updateFriendList(userDetails?.userId as string,updatedUserDetails as userDetailsType);
+                console.log("res1>>>> ",res1);
+            }
+            if(!user.friendList.includes(userId as string)){
+                console.log(userId," not present in ",user.friendList);
+                let updatedUserDetails=user;
+                updatedUserDetails.friendList.push(userId as string);
+                const res2=await updateFriendList(user.userId,updatedUserDetails);
+                console.log("res2>>>",res2);
+            }
+            getAction()
+        }
+        const rejectAction = async () => {
+            setAction(null)
+            const { data, error } = await supabase
+                .from('friendRequest')
+                .update({ status: "rejected" })
+                .eq("senderId", user.userId).eq("receiverId", userId).eq("status", "pending")
+                .select();
+            console.log(data)
+            console.log(null)
+            getAction()
+        }
 
         return (<>
             <div className={styles.personCard}>
@@ -200,8 +259,8 @@ export default function Friends() {
                     {(action == null) && (<Spinner className={styles.friendCardSpinner} />)}
                     {(action == "add") && (<Button color="green" onClick={() => { addAction() }}>Add</Button>)}
                     {(action == "cancel") && (<Button color="red" onClick={() => { cancelAction() }}>Cancel</Button>)}
-                    {(action == "remove") && (<Button color="red">Remove</Button>)}
-                    {(action == "accept/reject") && (<><Button color="green"><CircleCheck /></Button><Button color="red"><X /></Button></>)}
+                    {(action == "remove") && (<Button color="red" onClick={() => { removeAction() }}>Remove</Button>)}
+                    {(action == "accept/reject") && (<><Button color="green" onClick={()=>{acceptAction()}}><CircleCheck /></Button><Button color="red" onClick={()=>{rejectAction()}}><X /></Button></>)}
                 </div>
             </div>
 
