@@ -274,11 +274,11 @@ export default function Friends() {
     const [incomingRequestsList, setIncomingRequestsList] = useState<any>();
 
     const getIncomingReq = async () => {
-        
+
         if (userId) {
 
             const { data: incomingReqArray, error } = await supabase.from("friendRequest").select("*").eq("receiverId", userId).eq("status", "pending")
-            console.log(incomingReqArray);
+            // console.log(incomingReqArray);
             setIncomingRequestsList(incomingReqArray);
             console.log(error)
         }
@@ -295,17 +295,17 @@ export default function Friends() {
         const [action, setAction] = useState<"add" | "remove" | "cancel" | "accept/reject" | null>(null);
         const [reqUserDetails, setReqUserDetails] = useState<userDetailsType>()
         const [loadingDetails, setLoadingDetails] = useState(true)
-        const [loadingActions,setloadingActions]=useState(false)
+        const [loadingActions, setloadingActions] = useState(false)
 
         useEffect(() => {
             const getReqUserDetails = async () => {
                 setLoadingDetails(true);
-                
+
                 const newUserDetails = await getUserDetails(req.senderId);
                 // console.log(newUserDetails)
                 setReqUserDetails(newUserDetails);
                 setLoadingDetails(false);
-                
+
             }
             getReqUserDetails()
         }, [])
@@ -339,7 +339,7 @@ export default function Friends() {
             getIncomingReq();
         }
         const rejectAction = async () => {
-           setloadingActions(true)
+            setloadingActions(true)
             const { data, error } = await supabase
                 .from('friendRequest')
                 .update({ status: "rejected" })
@@ -363,16 +363,50 @@ export default function Friends() {
                     </div>
                 </div>
                 <div className={styles.action}>
-                    {loadingActions && <Spinner className={styles.friendCardSpinner}/>}
+                    {loadingActions && <Spinner className={styles.friendCardSpinner} />}
                     {(!loadingActions && !loadingActions) && (<><Button color="green" onClick={() => { acceptAction() }}><CircleCheck /></Button><Button color="red" onClick={() => { rejectAction() }}><X /></Button></>)}
                 </div>
             </div>
         )}
-        {
-            loadingDetails && <Spinner className={styles.spinner}/>
-        }
+            {
+                loadingDetails && <Spinner className={styles.spinner} />
+            }
         </>)
     }
+
+    const [friendList, setFriendList] = useState<any>([])
+    useEffect(() => {
+
+        const getFriends = async () => {
+            if (userDetails) {
+                userDetails?.friendList.forEach((friendId) => {
+                    const asyncFunc = async () => {
+                        console.log("getting deatil for ",friendId)
+                        const newUserDetails = await getUserDetails(friendId);
+                        setFriendList([...friendList, newUserDetails])
+                    }
+                    asyncFunc()
+                })
+            }
+        }
+        getFriends();
+    }, [userDetails])
+    const FriendCard = ({user}:{user:userDetailsType}) => {
+        return (<>
+            <div className={styles.friendCard}>
+                <div className={styles.friendProfilePic}>
+                    <Image unoptimized={true} src={user.imageUrl} alt="pfp" height={150} width={150} />
+                </div>
+                <div className={styles.nameHolder}>
+                    <p className={styles.name}>{user.name}</p>
+                    <p className={styles.username}>@{user.userName}</p>
+                </div>
+            </div>
+        </>)
+    }
+
+
+
 
     //display page down below
     return (<>
@@ -381,7 +415,7 @@ export default function Friends() {
                 <ChevronLeft className={styles.backBtn} />
                 <p>Friends</p>
             </div>
-            <Tabs.Root defaultValue="requests">
+            <Tabs.Root defaultValue="friends">
                 <Tabs.List size="2" color="ruby" className={styles.tabsList}>
                     <Tabs.Trigger value="friends" className={styles.tabsTrigger}>Friends</Tabs.Trigger>
                     <Tabs.Trigger value="add" className={styles.tabsTrigger}>Add</Tabs.Trigger>
@@ -392,15 +426,7 @@ export default function Friends() {
 
                 <Tabs.Content value="friends" className={styles.tableContent}>
                     <div className={styles.friendCardHolder}>
-                        <div className={styles.friendCard}>
-                            <div className={styles.friendProfilePic}>
-                                <Image src="/testingImages/waltuhFlip.jpg" alt="pfp" height={150} width={150} />
-                            </div>
-                            <div className={styles.nameHolder}>
-                                <p className={styles.name}>Abhraneel Dhar</p>
-                                <p className={styles.username}>@abhraneeldhar</p>
-                            </div>
-                        </div>
+                        {friendList && friendList.map((friend:userDetailsType)=>(<FriendCard key={friend.userId} user={friend}/>))}
                     </div>
                 </Tabs.Content>
 
@@ -430,6 +456,7 @@ export default function Friends() {
                     <div className={styles.requestCardHolder}>
                         {incomingRequestsList && incomingRequestsList.map((req: requestType) => (<IncomingRequestPersonCard key={req.id} req={req} />))}
                         
+
                     </div>
                 </Tabs.Content>
 
