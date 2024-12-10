@@ -244,3 +244,12 @@
     align-items: center;
     justify-content: center;
 }
+
+.requestCardHolder{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    gap: 10px;
+}

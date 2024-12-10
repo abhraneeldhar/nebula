@@ -1,5 +1,5 @@
 "use client"
-import { act, ChangeEvent, useEffect, useState } from "react"
+import { act, ChangeEvent, useEffect, useRef, useState } from "react"
 import { supabase } from "@/app/utils/supabase/client";
 import styles from "./friends.module.css"
 
@@ -23,6 +23,9 @@ import { userDetailsType } from "../setupAccount/page";
 import { useSession } from "next-auth/react";
 import { updateFriendList } from "../utils/friendMechanics/updateFriendList";
 import { updateUserDetails } from "../utils/updateUserDetails";
+import { UUID } from "mongodb";
+import { StartupSnapshot } from "v8";
+import { requestType } from "../utils/fileFormat";
 
 
 
@@ -218,19 +221,19 @@ export default function Friends() {
             console.log(data)
             console.log(error)
 
-            if(!userDetails?.friendList.includes(user.userId)){
-                console.log(user.userId," not present in ",userDetails?.friendList)
-                let updatedUserDetails=userDetails;
+            if (!userDetails?.friendList.includes(user.userId)) {
+                console.log(user.userId, " not present in ", userDetails?.friendList)
+                let updatedUserDetails = userDetails;
                 updatedUserDetails?.friendList.push(user.userId)
-                const res1= await updateFriendList(userDetails?.userId as string,updatedUserDetails as userDetailsType);
-                console.log("res1>>>> ",res1);
+                const res1 = await updateFriendList(userDetails?.userId as string, updatedUserDetails as userDetailsType);
+                console.log("res1>>>> ", res1);
             }
-            if(!user.friendList.includes(userId as string)){
-                console.log(userId," not present in ",user.friendList);
-                let updatedUserDetails=user;
+            if (!user.friendList.includes(userId as string)) {
+                console.log(userId, " not present in ", user.friendList);
+                let updatedUserDetails = user;
                 updatedUserDetails.friendList.push(userId as string);
-                const res2=await updateFriendList(user.userId,updatedUserDetails);
-                console.log("res2>>>",res2);
+                const res2 = await updateFriendList(user.userId, updatedUserDetails);
+                console.log("res2>>>", res2);
             }
             getAction()
         }
@@ -260,20 +263,125 @@ export default function Friends() {
                     {(action == "add") && (<Button color="green" onClick={() => { addAction() }}>Add</Button>)}
                     {(action == "cancel") && (<Button color="red" onClick={() => { cancelAction() }}>Cancel</Button>)}
                     {(action == "remove") && (<Button color="red" onClick={() => { removeAction() }}>Remove</Button>)}
-                    {(action == "accept/reject") && (<><Button color="green" onClick={()=>{acceptAction()}}><CircleCheck /></Button><Button color="red" onClick={()=>{rejectAction()}}><X /></Button></>)}
+                    {(action == "accept/reject") && (<><Button color="green" onClick={() => { acceptAction() }}><CircleCheck /></Button><Button color="red" onClick={() => { rejectAction() }}><X /></Button></>)}
                 </div>
             </div>
 
         </>)
     }
 
+    const requestTab = useRef(null)
+    const [incomingRequestsList, setIncomingRequestsList] = useState<any>();
+
+    const getIncomingReq = async () => {
+        
+        if (userId) {
+
+            const { data: incomingReqArray, error } = await supabase.from("friendRequest").select("*").eq("receiverId", userId).eq("status", "pending")
+            console.log(incomingReqArray);
+            setIncomingRequestsList(incomingReqArray);
+            console.log(error)
+        }
+    };
+
+    useEffect(() => {
+
+        getIncomingReq();
+    }, [userId])
+
+
+
+    const IncomingRequestPersonCard = ({ req }: { req: requestType }) => {
+        const [action, setAction] = useState<"add" | "remove" | "cancel" | "accept/reject" | null>(null);
+        const [reqUserDetails, setReqUserDetails] = useState<userDetailsType>()
+        const [loadingDetails, setLoadingDetails] = useState(true)
+        const [loadingActions,setloadingActions]=useState(false)
+
+        useEffect(() => {
+            const getReqUserDetails = async () => {
+                setLoadingDetails(true);
+                
+                const newUserDetails = await getUserDetails(req.senderId);
+                // console.log(newUserDetails)
+                setReqUserDetails(newUserDetails);
+                setLoadingDetails(false);
+                
+            }
+            getReqUserDetails()
+        }, [])
+
+
+        const acceptAction = async () => {
+            setloadingActions(true)
+            const { data, error } = await supabase
+                .from('friendRequest')
+                .update({ status: "accepted" })
+                .eq("senderId", req.senderId).eq("receiverId", userId).eq("status", "pending")
+                .select();
+            console.log(data)
+            console.log(error)
+
+            if (!userDetails?.friendList.includes(req.senderId)) {
+                console.log(req.senderId, " not present in ", userDetails?.friendList)
+                let updatedUserDetails = userDetails;
+                updatedUserDetails?.friendList.push(req.senderId)
+                const res1 = await updateFriendList(userDetails?.userId as string, updatedUserDetails as userDetailsType);
+                console.log("res1>>>> ", res1);
+            }
+            if (!reqUserDetails?.friendList.includes(userId as string)) {
+                console.log(userId, " not present in ", reqUserDetails?.friendList);
+                let updatedUserDetails = reqUserDetails as userDetailsType;
+                updatedUserDetails.friendList.push(userId as string);
+                const res2 = await updateFriendList(req.senderId, updatedUserDetails);
+                console.log("res2>>>", res2);
+            }
+            // setloadingActions(false);
+            getIncomingReq();
+        }
+        const rejectAction = async () => {
+           setloadingActions(true)
+            const { data, error } = await supabase
+                .from('friendRequest')
+                .update({ status: "rejected" })
+                .eq("senderId", req.senderId).eq("receiverId", userId).eq("status", "pending")
+                .select();
+            console.log(data)
+            console.log(null)
+            // setloadingActions(false)
+            getIncomingReq();
+        }
+
+
+        return (<>{reqUserDetails && (
+
+            <div className={styles.personCard}>
+                <div className={styles.profilePic}>
+                    <Image src={reqUserDetails?.imageUrl as string} alt="pfp" height={50} width={50} />
+                    <div className={styles.nameHolder}>
+                        <p className={styles.name}>{reqUserDetails?.name}</p>
+                        <p className={styles.username}>@{reqUserDetails?.userName}</p>
+                    </div>
+                </div>
+                <div className={styles.action}>
+                    {loadingActions && <Spinner className={styles.friendCardSpinner}/>}
+                    {(!loadingActions && !loadingActions) && (<><Button color="green" onClick={() => { acceptAction() }}><CircleCheck /></Button><Button color="red" onClick={() => { rejectAction() }}><X /></Button></>)}
+                </div>
+            </div>
+        )}
+        {
+            loadingDetails && <Spinner className={styles.spinner}/>
+        }
+        </>)
+    }
+
+    //display page down below
     return (<>
         <div className={styles.main}>
             <div className={styles.tab}>
                 <ChevronLeft className={styles.backBtn} />
                 <p>Friends</p>
             </div>
-            <Tabs.Root defaultValue="add">
+            <Tabs.Root defaultValue="requests">
                 <Tabs.List size="2" color="ruby" className={styles.tabsList}>
                     <Tabs.Trigger value="friends" className={styles.tabsTrigger}>Friends</Tabs.Trigger>
                     <Tabs.Trigger value="add" className={styles.tabsTrigger}>Add</Tabs.Trigger>
@@ -297,29 +405,6 @@ export default function Friends() {
                 </Tabs.Content>
 
 
-
-                <Tabs.Content value="requests" className={styles.reqContent}>
-                    <Table.Root className={styles.reqTable}>
-                        <Table.Header>
-                            <Table.Row>
-                                <Table.ColumnHeaderCell>Name</Table.ColumnHeaderCell>
-                                <Table.ColumnHeaderCell>Username</Table.ColumnHeaderCell>
-                                <Table.ColumnHeaderCell>Status</Table.ColumnHeaderCell>
-                            </Table.Row>
-                        </Table.Header>
-
-                        <Table.Body>
-                            <Table.Row>
-                                <Table.RowHeaderCell>Danilo Sousa</Table.RowHeaderCell>
-                                <Table.Cell>bingusdingus</Table.Cell>
-                                <Table.Cell className={styles.tableCell}><PendingStatus /></Table.Cell>
-                            </Table.Row>
-                        </Table.Body>
-                    </Table.Root>
-                </Tabs.Content>
-
-
-
                 <Tabs.Content value="add">
                     <div className={styles.addContainer}>
 
@@ -339,6 +424,15 @@ export default function Friends() {
                         </div>
                     </div>
                 </Tabs.Content>
+
+
+                <Tabs.Content value="requests" className={styles.reqContent}>
+                    <div className={styles.requestCardHolder}>
+                        {incomingRequestsList && incomingRequestsList.map((req: requestType) => (<IncomingRequestPersonCard key={req.id} req={req} />))}
+                        
+                    </div>
+                </Tabs.Content>
+
             </Tabs.Root>
 
         </div>

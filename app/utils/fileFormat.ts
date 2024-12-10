@@ -64,3 +64,10 @@ export interface FolderStructure{
     lastModified:number,
 }
 
+export interface requestType{
+    id:string,
+    senderId:string,
+    receiverId:string,
+    status:string,
+    createdAt:number
+}
