@@ -157,11 +157,10 @@ export default function Friends() {
                 </div>
                 <div className={styles.action}>
                     {action===null && <Button onClick={() => { getAction() }}>get action</Button>}
-                    {action==="add" && (<Button>Add</Button>)}
-                    {action==="cancel" && (<Button>Cancel</Button>)}
-                    {action==="remove" && (<Button>Remove</Button>)}
-                    {action==="accept/reject" && (<><Button><CircleCheck/></Button><Button><X/></Button></>)}
-                    {/* <Button color="red">Remove</Button> */}
+                    {action==="add" && (<Button color="green">Add</Button>)}
+                    {action==="cancel" && (<Button color="red">Cancel</Button>)}
+                    {action==="remove" && (<Button color="red">Remove</Button>)}
+                    {action==="accept/reject" && (<><Button color="green"><CircleCheck/></Button><Button color="red"><X/></Button></>)}
                 </div>
             </div>
 
