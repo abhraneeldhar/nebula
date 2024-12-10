@@ -156,7 +156,7 @@ export default function Friends() {
                     </div>
                 </div>
                 <div className={styles.action}>
-                    <Button onClick={() => { getAction() }}>get action</Button>
+                    {action===null && <Button onClick={() => { getAction() }}>get action</Button>}
                     {action==="add" && (<Button>Add</Button>)}
                     {action==="cancel" && (<Button>Cancel</Button>)}
                     {action==="remove" && (<Button>Remove</Button>)}
