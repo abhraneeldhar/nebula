@@ -8,6 +8,7 @@ import { SupabaseAdapter } from "@auth/supabase-adapter"
 import jwt from "jsonwebtoken"
 import { userType } from "@/app/utils/fileFormat"
 import { v4 as uuidv4 } from "uuid";
+import { userDetailsType } from "@/app/setupAccount/page"
 
 
 export const options: NextAuthOptions = {
@@ -37,7 +38,7 @@ export const options: NextAuthOptions = {
 
                     if (existingUserCheck==0) {
                         console.log("if trigerred\n\n")
-                        const newUser: userType = {
+                        const newUser = {
                             userId: user.id as string,
                             name: user.name as string,
                             userName: (String(user.name?.replace(/\s/g,''))+ String(uuidv4().slice(0, 5))).toLowerCase() as string,
