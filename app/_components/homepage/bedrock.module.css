@@ -67,16 +67,17 @@
 }
 
 
-.reqPopoverContainer{
+.reqPopoverContainer {
     position: fixed;
     right: 30px;
 }
 
-.reqTriggerContainer{
+.reqTriggerContainer {
     display: flex;
     position: relative;
 }
-.reqBadge{
+
+.reqBadge {
     position: absolute;
     border-radius: 50%;
     bottom: -5px;
@@ -93,6 +94,7 @@
     opacity: 1;
     background-color: red;
 }
+
 .friendRequestsPopover {
     width: 400px;
     padding: 5px;
@@ -172,14 +174,16 @@
         justify-content: center;
         gap: 5px;
     }
-    .reqSpinner{
+
+    .reqSpinner {
         margin: auto;
         opacity: 1;
         color: white;
         height: 30px;
         width: 30px;
     }
-    .noReq{
+
+    .noReq {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -366,4 +370,81 @@
     background-color: rgb(39, 39, 39);
     font-weight: 300;
     overflow: hidden;
+}
+
+@media (max-width: 520px) {
+    .tabBar {
+        width: 100vw;
+        position: absolute;
+        overflow: hidden;
+    }
+
+    .main {
+        overflow: hidden;
+        width: 100vw;
+        position: static;
+        zoom: 1;
+        .displayContent{
+            padding: 0;
+        }
+
+    }
+    .coverImage img{
+        border-radius: 0;
+    }
+    .coverImage{
+        .profilePic img{
+            height: 100px;
+            width: 100px;
+            border-radius: 50%;
+        }
+    }
+
+    .notesAndOthersContainer {
+        width: 100%;
+        padding: 0px 15px;
+
+        .notesSection h2 {
+            font-size: 1em;
+            height: fit-content;
+            display: flex;
+            align-items: center;
+
+            .rightArrow {
+                height: 30px;
+                width: 30px;
+            }
+        }
+
+        .notesSection {
+            width: 100%;
+            overflow: hidden;
+
+            .notesContainer {
+                display: flex;
+                height: fit-content;
+                flex-direction: column;
+                width: 100%;
+                overflow: hidden;
+                .loadingNote{
+                    height: 70px;
+                    width: 100%;
+                    border-radius: 30px;
+                }
+                .noteCard {
+                    width: 100%;
+                    height: fit-content;
+
+                    .noteTitle {
+                        overflow: hidden;
+                    }
+
+                    .noteSnippet {
+                        padding: 2px 7px;
+                        height: 3.2em;
+                    }
+                }
+            }
+        }
+    }
 }

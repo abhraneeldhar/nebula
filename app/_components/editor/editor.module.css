@@ -133,3 +133,37 @@
     /* background-color: black; */
     color: white;
 }
+
+@media (max-width:500px){
+    .main{
+        overflow: hidden;
+        width: 100%;
+        position: relative;
+        zoom: 1;
+        padding: 0;
+    }
+    .tabBar {
+        width: 100vw;
+        position: fixed;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        padding-top: 0;
+    }
+    .tabName{
+        width: 200px;
+    }
+    .tabButtons{
+        display: flex;
+        align-items: center;
+    }
+    .editorSection{
+        width: 100%;
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+}

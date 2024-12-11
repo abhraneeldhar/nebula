@@ -1,8 +1,9 @@
-body{
+body {
     background-color: black;
 }
+
 .ql-toolbar {
-    
+
     /* background-color: blue; */
     display: flex;
     border-radius: 20px;
@@ -11,7 +12,7 @@ body{
     justify-content: center;
     align-items: center;
     position: fixed;
-    top: 0;
+    top:0;
     left: 50%;
     gap: 15px;
     z-index: 3;
@@ -64,7 +65,7 @@ body{
 
 .ql-toolbar.ql-snow .ql-formats {
     /* background-color: #1b1c1d; */
-    background-color:#171717;
+    background-color: #171717;
     padding: 5px;
     border-radius: 5px;
     height: fit-content;
@@ -154,4 +155,47 @@ body {
         width: 30%;
         margin-left: 10px;
     }
+}
+
+@media (max-width:500px) {
+    #container {
+        margin: 0;
+        height: 100%;
+        padding: 0;
+    }
+
+    .ql-editor {
+        border-radius: 10px;
+        margin: 0;
+        margin-top: 50px;
+        height: 100%;
+    }
+
+    .ql-toolbar {
+        justify-content: center;
+        position: fixed;
+        left: 50%;
+        transform: translateX(-50%);
+        gap: 5px;
+        padding: 0;
+        font-size: 0.5em;
+        display: flex;
+        width: 100vw;
+        flex-wrap: wrap;
+        top: auto;
+        bottom: 5%;
+        margin-bottom: 10px;
+        row-gap: 0;
+    }
+    .ql-toolbar::after{
+        display: none;
+        height: 0;
+        width: 0;
+    }
+    .ql-toolbar.ql-snow {
+        height: 45px;
+        width: 100%;
+        /* background-color: rgb(0, 255, 81); */
+    }
+
 }

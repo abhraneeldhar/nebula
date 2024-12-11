@@ -39,6 +39,7 @@ import { fetchUserId } from "@/app/utils/fetchUserId"
 import { userDetailsType } from "@/app/setupAccount/page"
 import { getUserDetails } from "@/app/utils/getUserDetails"
 import { signOut } from "next-auth/react"
+import { SheetContent, SheetTitle } from "./sheet"
 
 
 const items = [
@@ -119,13 +120,13 @@ export function AppSidebar() {
 
   return (
     <Sidebar className={styles.sidebar}>
-
+      
       <SidebarContent>
         <div className={styles.appLogo}>NEBULA</div>
 
         <SidebarGroup>
           <SidebarGroupLabel>Application</SidebarGroupLabel>
-          <SidebarGroupContent>
+          <SidebarGroupContent>          
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
@@ -147,6 +148,7 @@ export function AppSidebar() {
 
           <SidebarGroupLabel>Notes</SidebarGroupLabel>
           <SidebarGroupContent>
+            
             <SidebarMenu>
               <SidebarMenuItem className={styles.newNoteMenuItem}>
                 <SidebarMenuButton onClick={()=>{router.push("/editor")}}>
@@ -177,7 +179,6 @@ export function AppSidebar() {
       }
       <SidebarGroup>
         <SidebarGroupContent>
-
           <SidebarFooter className={styles.sidebarFooter}>
             <DropdownMenu>
               {showFooterMenu && (<FooterMenu />)}
