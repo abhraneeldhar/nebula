@@ -374,18 +374,19 @@
 
 @media (max-width: 520px) {
     .tabBar {
-        width: 100vw;
+        width: 100%;
         position: absolute;
         overflow: hidden;
     }
 
     .main {
         overflow: hidden;
-        width: 100vw;
+        width: 100%;
         position: static;
         zoom: 1;
         .displayContent{
             padding: 0;
+            width: 100%;
         }
 
     }
