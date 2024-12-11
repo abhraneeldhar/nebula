@@ -34,14 +34,26 @@ import { Spinner } from "@radix-ui/themes"
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import { Label } from "@/components/ui/label"
+
+
 
 export default function EditorComponent({ id }: { id: string }) {
     const localCollectionOfNotesState = appStore((state) => state.localCollectionOfNotesState) as DisplayNote[];
     const setlocalCollectionOfNotesState = appStore((state) => state.setlocalCollectionOfNotesState);
 
-    const [refreshCollectionOfNotes,setRefreshCollectionOfNotes]=useState(false)
-    const [refreshCurrentNote,setRefreshCurrentNote]=useState(false)
-    
+    const [refreshCollectionOfNotes, setRefreshCollectionOfNotes] = useState(false)
+    const [refreshCurrentNote, setRefreshCurrentNote] = useState(false)
+
 
 
     const [loadingEditorState, setLoadingEditorState] = useState(true);
@@ -94,16 +106,16 @@ export default function EditorComponent({ id }: { id: string }) {
 
     }, [localCollectionOfNotesState, userId])
 
-    useEffect(()=>{
-        if(userId){
-        const asyncDisplayNotes = async () => {
-            console.log("fetching notes")
-            setlocalCollectionOfNotesState(await getDisplayNotes(userId));
+    useEffect(() => {
+        if (userId) {
+            const asyncDisplayNotes = async () => {
+                console.log("fetching notes")
+                setlocalCollectionOfNotesState(await getDisplayNotes(userId));
+            }
+            asyncDisplayNotes();
+            console.log("should set local notestate")
         }
-        asyncDisplayNotes();
-        console.log("should set local notestate")
-    }
-    },[refreshCollectionOfNotes])
+    }, [refreshCollectionOfNotes])
 
 
     const currentOpenNoteId = id;
@@ -128,21 +140,44 @@ export default function EditorComponent({ id }: { id: string }) {
             }
             getNoteData();
         }
-        
-    }, [userId,refreshCurrentNote])
+
+    }, [userId, refreshCurrentNote])
 
     // useEffect(() => {
     //     console.log("notedata>>>>>>", noteData);
 
     // }, [noteData])
 
+    const [shareDialogboxOpen, setShareDialogboxOpen] = useState(false)
 
     const Tab = () => {
         const { toggleSidebar, open } = useSidebar();
         return (<>
             <div className={styles.tabBar}>
-                <div className={styles.tabContent}>
+                <Dialog onOpenChange={setShareDialogboxOpen} defaultOpen={true}>
 
+                    <DialogContent className={styles.shareDialogContent}>
+                        <DialogHeader>
+                            <DialogTitle>Share</DialogTitle>
+                            <DialogDescription>
+                                Share your note with friends
+                            </DialogDescription>
+                        </DialogHeader>
+
+                            <Input id="name" className={styles.shareInput} placeholder="search for friends.." />
+                        <div className={styles.searchResultContainer}>
+                            bonk
+                        </div>
+
+                        <div className={styles.actionButtonContainer}>
+                            <Button className={styles.closeDialogBtn}>Close</Button>
+                            <Button className={styles.shareDialogBtn}>Share</Button>
+                        </div>
+                        
+                    </DialogContent>
+                </Dialog>
+
+                <div className={styles.tabContent}>
                     <div className={styles.tabnameContainer}>
                         <div className={styles.sidebarBtn}>
                             <Image src={open ? closeSVG : menuSVG} alt="sidebarBtn" onClick={() => {
@@ -163,17 +198,13 @@ export default function EditorComponent({ id }: { id: string }) {
                     <div className={styles.tabButtons}>
                         <Button className={styles.shareBtn} onClick={() => {
                             console.log("share btn press")
+                            setShareDialogboxOpen(true);
                         }}>Share</Button>
-
 
                         <Button loading={savingState} disabled={savingState || loadingEditorState} className={styles.saveBtn} onClick={() => {
                             saveFunction()
                         }}>Save</Button>
                     </div>
-
-
-
-
                 </div>
             </div>
         </>)
@@ -239,7 +270,7 @@ export default function EditorComponent({ id }: { id: string }) {
             undoBtn?.removeEventListener("click", () => { quillRef.current?.history.undo() })
             redoBtn?.removeEventListener("click", () => { quillRef.current?.history.redo() })
         })
-    }, [, currentOpenNoteId, noteData,refreshCurrentNote])
+    }, [, currentOpenNoteId, noteData, refreshCurrentNote])
 
 
 
@@ -264,45 +295,33 @@ export default function EditorComponent({ id }: { id: string }) {
             }
             await postNote(newNote);
             setSavingState(false);
-            toast.success("Saved",{position:"bottom-center",theme:"dark"})
+            toast.success("Saved", { position: "bottom-center", theme: "dark" })
             // console.log("saving state>>>>", savingState);
         }
         else {
             console.log("userId not found");
             setSavingState(false);
         }
-        setRefreshCollectionOfNotes((prev)=>!prev)
-        setRefreshCurrentNote((prev)=>!prev)
+        setRefreshCollectionOfNotes((prev) => !prev)
+        setRefreshCurrentNote((prev) => !prev)
     }
 
 
-    return (<div className={styles.main}>
+    return (<>
+        <div className={styles.main}>
+            <Tab />
+            {loadingEditorState && !noteData && (
 
-        <Tab />
-        {loadingEditorState && !noteData && (
-
-            <div className={styles.containerLoaderContainer}>
-                <Spinner size="3" className={styles.containerSpinner} />
-            </div>
-        )}
-        <ToastContainer/>
-        <div className={styles.editorSection}>
-            <div id="container" ref={toolbarRef}>
+                <div className={styles.containerLoaderContainer}>
+                    <Spinner size="3" className={styles.containerSpinner} />
+                </div>
+            )}
+            <ToastContainer />
+            <div className={styles.editorSection}>
+                <div id="container" ref={toolbarRef}>
+                </div>
             </div>
         </div>
-
-        {/* <button onClick={() => {
-            console.log(quillRef.current?.getContents())
-        }}>Get contents</button>
-        <button onClick={() => {
-            console.log(quillRef.current?.getText())
-        }}>Get Text</button>
-        <button onClick={() => {
-            console.log(quillRef.current?.getSemanticHTML())
-        }}>Get Semantic HTML</button>
-        <button onClick={()=>{
-            console.log(tabNameRef.current?.value)
-        }}>Get tabname</button> */}
-
-    </div>)
+    </>
+    )
 }

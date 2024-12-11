@@ -16,20 +16,27 @@ import { Button, Tabs } from "@radix-ui/themes";
 import { Table } from "@radix-ui/themes";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
-import { FriendSearch } from "../utils/friendMechanics/friendSearch";
-import { getUserDetails } from "../utils/getUserDetails";
-import { fetchUserId } from "../utils/fetchUserId";
-import { userDetailsType } from "../setupAccount/page";
+import { FriendSearch } from "../../utils/friendMechanics/friendSearch";
+import { getUserDetails } from "../../utils/getUserDetails";
+import { fetchUserId } from "../../utils/fetchUserId";
+import { userDetailsType } from "../../setupAccount/page";
 import { useSession } from "next-auth/react";
-import { updateFriendList } from "../utils/friendMechanics/updateFriendList";
-import { updateUserDetails } from "../utils/updateUserDetails";
+import { updateFriendList } from "../../utils/friendMechanics/updateFriendList";
+import { updateUserDetails } from "../../utils/updateUserDetails";
 import { UUID } from "mongodb";
 import { StartupSnapshot } from "v8";
-import { requestType } from "../utils/fileFormat";
+import { DisplayNote, requestType } from "../../utils/fileFormat";
 
 
+import closeSVG from "../../../public/close_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png"
+import menuSVG from "../../../public/menu_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png"
+import { useSidebar } from "@/components/ui/sidebar";
+
+import { appStore } from "@/app/store";
+import { getDisplayNotes } from "@/app/utils/getDisplayNotes";
 
 export default function Friends() {
+    const { toggleSidebar, open } = useSidebar();
     const [searchedFriendsList, setSearchedFriendsList] = useState<any>();
     const { data: session } = useSession();
     const [userId, setUserId] = useState<string | null>(null)
@@ -62,6 +69,22 @@ export default function Friends() {
     }, [userId])
 
     const [loadingSearchResults, setLoadingSearchResults] = useState(false);
+
+    const localCollectionOfNotesState = appStore((state) => state.localCollectionOfNotesState) as DisplayNote[]
+    const setlocalCollectionOfNotesState = appStore((state) => state.setlocalCollectionOfNotesState)
+
+    // const [loadingDisplayNotes, setLoadingDisplayNotes] = useState(true);
+    useEffect(() => {
+        if (localCollectionOfNotesState == null && userId != null) {
+            const asyncDisplayNotes = async () => {
+                console.log("fetching notes")
+                // setLoadingDisplayNotes(true);
+                setlocalCollectionOfNotesState(await getDisplayNotes(userId));
+                // setLoadingDisplayNotes(false);
+            }
+            asyncDisplayNotes();
+        }
+    }, [userId])
 
     useEffect(() => {
         const test = async () => {
@@ -152,7 +175,7 @@ export default function Friends() {
 
         }
         useEffect(() => { getAction() }, [])
-        
+
         const addAction = async () => {
             setAction(null);
             const { data, error } = await supabase
@@ -361,11 +384,11 @@ export default function Friends() {
     useEffect(() => {
 
         const getFriends = async () => {
-            var tempFriendList:userDetailsType[]=[]
+            var tempFriendList: userDetailsType[] = []
             if (userDetails) {
                 userDetails?.friendList.forEach((friendId) => {
                     const asyncFunc = async () => {
-                        console.log("getting deatil for ",friendId)
+                        console.log("getting deatil for ", friendId)
                         const newUserDetails = await getUserDetails(friendId);
                         tempFriendList.push(newUserDetails)
                     }
@@ -376,7 +399,7 @@ export default function Friends() {
         }
         getFriends();
     }, [userDetails])
-    const FriendCard = ({user}:{user:userDetailsType}) => {
+    const FriendCard = ({ user }: { user: userDetailsType }) => {
         return (<>
             <div className={styles.friendCard}>
                 <div className={styles.friendProfilePic}>
@@ -397,7 +420,12 @@ export default function Friends() {
     return (<>
         <div className={styles.main}>
             <div className={styles.tab}>
-                <ChevronLeft className={styles.backBtn} />
+                <div className={styles.sidebarBtn}>
+                    <Image src={open ? closeSVG : menuSVG} alt="sidebarBtn" onClick={() => {
+                        toggleSidebar();
+                    }
+                    } />
+                </div>
                 <p>Friends</p>
             </div>
             <Tabs.Root defaultValue="friends">
@@ -411,7 +439,7 @@ export default function Friends() {
 
                 <Tabs.Content value="friends" className={styles.tableContent}>
                     <div className={styles.friendCardHolder}>
-                        {friendList && friendList.map((friend:userDetailsType)=>(<FriendCard key={friend.userId} user={friend}/>))}
+                        {friendList && friendList.map((friend: userDetailsType) => (<FriendCard key={friend.userId} user={friend} />))}
                     </div>
                 </Tabs.Content>
 
@@ -440,7 +468,7 @@ export default function Friends() {
                 <Tabs.Content value="requests" className={styles.reqContent}>
                     <div className={styles.requestCardHolder}>
                         {incomingRequestsList && incomingRequestsList.map((req: requestType) => (<IncomingRequestPersonCard key={req.id} req={req} />))}
-                        
+
 
                     </div>
                 </Tabs.Content>

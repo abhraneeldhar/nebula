@@ -1,11 +1,12 @@
-.main{
+.main {
     position: relative;
     width: 100%;
     background-color: black;
     /* margin-top: 0; */
     height: 100%;
 }
-.tabBar{
+
+.tabBar {
     /* background-color: white; */
     color: white;
     display: flex;
@@ -26,7 +27,8 @@
     padding-top: 5px;
     /* top: 0; */
 }
-.tabContent{
+
+.tabContent {
     display: flex;
     /* position: fixed; */
     justify-content: space-between;
@@ -34,7 +36,8 @@
     /* right: 0; */
     width: 100%;
 }
-.tabnameContainer{
+
+.tabnameContainer {
     display: flex;
     width: 100%;
     /* justify-content: space-between; */
@@ -42,7 +45,8 @@
     background-color: black;
 
 }
-.tabName{
+
+.tabName {
     display: inline-block;
     align-items: center;
     vertical-align: middle;
@@ -53,53 +57,104 @@
     padding: 15px;
     width: 250px;
 }
-.tabButtons{
+
+.tabButtons {
     display: flex;
     gap: 15px;
 }
 
-.shareBtn{
+
+.shareBtn {
     background-color: rgb(49, 150, 5);
     transition: all 0.3s;
 }
-.shareBtn:active{
+
+.shareBtn:active {
     transform: scale(0.9);
 }
-.shareBtn:hover{
+
+.shareBtn:hover {
     background-color: rgb(95, 165, 64);
 }
-.saveBtn{
+
+.saveBtn {
     /* right: 0; */
     background-color: rgb(60, 95, 222);
     color: white;
     transition: all 0.3s;
 }
-.saveBtn:hover{
+
+.saveBtn:hover {
     background-color: rgb(83, 163, 255);
 }
-.saveBtn:active{
+
+.saveBtn:active {
     transform: scale(0.9);
 }
 
 
-.sidebarBtn{
+.sidebarBtn {
     display: inline-block;
     height: 35px;
     aspect-ratio: 1/1;
     transition: 0.1s ease-in;
     margin-left: 10px;
 }
-.sidebarBtn:hover{
+
+.sidebarBtn:hover {
     transform: scale(1.2);
 }
-.sidebarBtn img{
+
+.sidebarBtn img {
     height: 100%;
     width: 100%;
 }
-.editorSection{
+
+
+.shareDialogContent {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.shareInput {
+    background-color: black;
+    color: white;
+}
+
+.searchResultContainer {
+    display: flex;
+    width: 100%;
+}
+
+.actionButtonContainer {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+    justify-content: flex-end;
+
+    .closeDialogBtn {
+        background-color: rgb(238, 51, 51);
+    }
+    .shareDialogBtn {
+        background-color: rgb(18, 173, 18);
+    }
+    .closeDialogBtn,.shareDialogBtn{
+        padding: 5px 10px;
+        border-radius: 10px;
+    }
+}
+
+
+
+
+
+
+.editorSection {
     padding: 0px 10px;
 }
-.loadingSpinnerContainer{
+
+.loadingSpinnerContainer {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -110,12 +165,14 @@
     background-color: rgb(30, 30, 30);
     border-radius: 10px;
 }
-.loadingEditorSpinner{
+
+.loadingEditorSpinner {
     height: 25px;
     width: 25px;
     color: white;
 }
-.containerLoaderContainer{
+
+.containerLoaderContainer {
     position: absolute;
     display: flex;
     justify-content: center;
@@ -127,21 +184,28 @@
     /* background-color: red; */
     /* background-color: black; */
 }
-.containerSpinner{
+
+.containerSpinner {
     height: 50px;
     width: 40px;
     /* background-color: black; */
     color: white;
 }
 
-@media (max-width:500px){
-    .main{
+
+
+
+
+
+@media (max-width:500px) {
+    .main {
         overflow: hidden;
         width: 100%;
         position: relative;
         zoom: 1;
         padding: 0;
     }
+
     .tabBar {
         width: 100vw;
         position: fixed;
@@ -150,14 +214,17 @@
         align-items: center;
         padding-top: 0;
     }
-    .tabName{
+
+    .tabName {
         width: 200px;
     }
-    .tabButtons{
+
+    .tabButtons {
         display: flex;
         align-items: center;
     }
-    .editorSection{
+
+    .editorSection {
         width: 100%;
         padding: 0;
         margin: 0;

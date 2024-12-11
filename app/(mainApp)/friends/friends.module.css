@@ -3,17 +3,48 @@
     min-height: 100vh;
     /* max-width: 100vw; */
     background-color: #0f131d;
+    padding-top: 50px;
 
 }
 
+
 .tab {
-    /* height: 40px; */
-    background-color: black;
     color: white;
+    /* background-color: white; */
     display: flex;
+    flex-direction: row;
     align-items: center;
-    /* gap: 10px; */
-    padding: 5px;
+    vertical-align: middle;
+    background-color: black;
+    gap: 5px;
+    height: 50px;
+    position: fixed;
+    z-index: 3;
+    width: 100%;
+    top: 0;
+}
+
+.tab p {
+    display: inline-block;
+    font-size: 20px;
+    font-weight: 400;
+    margin-left: 10px;
+}
+.sidebarBtn {
+    display: inline-block;
+    height: 35px;
+    aspect-ratio: 1/1;
+    transition: 0.1s ease-in;
+    margin-left: 10px;
+}
+
+.sidebarBtn:hover {
+    transform: scale(1.2);
+}
+
+.sidebarBtn img {
+    height: 100%;
+    width: 100%;
 }
 
 .tableContent {
