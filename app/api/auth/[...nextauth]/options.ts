@@ -10,7 +10,6 @@ import { userType } from "@/app/utils/fileFormat"
 import { v4 as uuidv4 } from "uuid";
 import { userDetailsType } from "@/app/setupAccount/page"
 
-
 export const options: NextAuthOptions = {
     adapter: SupabaseAdapter({
         url: process.env.SUPABASE_URL as string,

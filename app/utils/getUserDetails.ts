@@ -1,5 +1,4 @@
 "use server"
-
 export const getUserDetails= async (userId:string)=>{
 
     try {

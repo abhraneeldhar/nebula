@@ -14,5 +14,4 @@ export async function checkUsernameinDB(userId: string, usernameState: string) {
     else {
         return (false);
     }
-
 }

@@ -1,7 +1,5 @@
 import { mongoClientCS } from "@/app/utils/mongoConnector";
 
-
-
 export async function POST(req: Request, res: Response){
     
     try{

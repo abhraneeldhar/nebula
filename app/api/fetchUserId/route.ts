@@ -4,7 +4,6 @@ export async function GET(request: Request){
     const {searchParams}= new URL(request.url);
     const userEmail=searchParams.get("email");
     try{
-
         await mongoClientCS.connect();
         const db=mongoClientCS.db("notesApp");
         const usersCollection=db.collection("users");

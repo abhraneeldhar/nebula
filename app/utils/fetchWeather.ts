@@ -1,5 +1,4 @@
 "use server"
-
 export const fetchWeather= async (lat: number, lon: number)=>{
 
     try {

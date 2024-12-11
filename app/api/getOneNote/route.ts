@@ -6,7 +6,6 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const noteId= searchParams.get("noteId");
     const userId=searchParams.get("userId");
-
     try{
         await mongoClientCS.connect();
         const db=mongoClientCS.db("notesApp");

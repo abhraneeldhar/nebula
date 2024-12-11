@@ -11,7 +11,6 @@ export async function DELETE(req:Request){
         console.log(res);
         return Response.json({message: `deleted ${noteId}`,res})
 
-
     }
     catch(error){
         console.log(error);

@@ -6,7 +6,6 @@ export async function GET(request: Request,) {
     const apiKey = process.env.NEXT_PUBLIC_WEATHER_KEY;
 
     try{
-
         const res = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&cnt=24`)
         const data = await res.json()
         // console.log("data from inside route>>>>>>>>",data)

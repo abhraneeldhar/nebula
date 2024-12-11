@@ -1,5 +1,4 @@
 "use server"
-
 import { userDetailsType } from "@/app/setupAccount/page";
 import { mongoClientCS } from "../mongoConnector";
 export async function updateFriendList(userId:string,newUserDetails:userDetailsType){

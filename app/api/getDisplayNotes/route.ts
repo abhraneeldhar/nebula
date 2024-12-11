@@ -1,4 +1,5 @@
 import { mongoClientCS } from "@/app/utils/mongoConnector";
+
 export async function GET(req: Request){
     const {searchParams}=new URL(req.url);
     const userId=searchParams.get("userid");

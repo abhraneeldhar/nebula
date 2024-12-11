@@ -8,5 +8,4 @@ export async function postNote(newNote: Note){
           body: JSON.stringify(newNote),
     });
     console.log(response)
-
 }

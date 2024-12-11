@@ -16,6 +16,5 @@ export async function FriendSearch(selfUserId:string,searchName: string) {
         ...user,
         _id: user._id.toString(), // Convert ObjectId to a string
       }));
-
     return serializedUsers;
 }

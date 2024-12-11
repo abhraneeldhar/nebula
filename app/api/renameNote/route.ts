@@ -1,5 +1,6 @@
 import { mongoClientCS } from "@/app/utils/mongoConnector";
 
+
 export async function PATCH(req:Request){
     const {searchParams}=new URL(req.url);
     const noteId=searchParams.get("noteId");
