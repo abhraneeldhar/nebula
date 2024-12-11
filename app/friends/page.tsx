@@ -152,25 +152,8 @@ export default function Friends() {
 
         }
         useEffect(() => { getAction() }, [])
+        
         const addAction = async () => {
-            //check if user.userId,is in userDetails>>>> add if not
-            //check if userId is in user.frirends[]>>>>add if not
-            // if(!userDetails?.friendList.includes(user.userId)){
-            //     console.log(user.userId," not present in ",userDetails?.friendList)
-            //     let updatedUserDetails=userDetails;
-            //     updatedUserDetails?.friendList.push(user.userId)
-            //     const res1= await updateFriendList(userDetails?.userId as string,updatedUserDetails as userDetailsType);
-            //     console.log("res1>>>> ",res1);
-            // }
-            // if(!user.friendList.includes(userId as string)){
-            //     console.log(userId," not present in ",user.friendList);
-            //     let updatedUserDetails=user;
-            //     updatedUserDetails.friendList.push(userId as string);
-            //     const res2=await updateFriendList(user.userId,updatedUserDetails);
-            //     console.log("res2>>>",res2);
-            // }
-
-            //make an outgoing request
             setAction(null);
             const { data, error } = await supabase
                 .from('friendRequest')
