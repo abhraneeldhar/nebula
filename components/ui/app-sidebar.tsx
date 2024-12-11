@@ -1,5 +1,5 @@
 "use client"
-import { Home } from "lucide-react"
+import { Home, NotebookPen, NotebookText, Settings, Users } from "lucide-react"
 import {
   Sidebar,
   SidebarContent,
@@ -47,6 +47,22 @@ const items = [
     url: "/home",
     icon: Home,
   },
+  {
+    title: "Friends",
+    url: "/friends",
+    icon: Users,
+  },
+  {
+    title: "All Notes",
+    url: "/allnotes",
+    icon: NotebookPen,
+  },
+  {
+    title: "Settings",
+    url: "/settings",
+    icon: Settings,
+  },
+  
 ]
 
 
@@ -94,7 +110,7 @@ export function AppSidebar() {
       <div className={styles.footerMenu}>
         <div className={styles.footerMenuItem}>Edging</div>
         <div className={styles.footerMenuItem}>Gooning</div>
-        <div className={styles.footerMenuItem} onClick={() =>router.push("/settings")}>Settings</div>
+        <div className={styles.footerMenuItem} onClick={() => router.push("/settings")}>Settings</div>
         <div className={`${styles.footerMenuItem} ${styles.signOut}`} onClick={() => { signOut() }}>Sign Out</div>
       </div>
 
@@ -114,7 +130,7 @@ export function AppSidebar() {
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <div onClick={() => { router.push("/home") }}>
+                    <div onClick={() => { router.push(item.url) }}>
                       <item.icon />
                       <span>{item.title}</span>
                     </div>
@@ -132,7 +148,11 @@ export function AppSidebar() {
           <SidebarGroupLabel>Notes</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-
+              <SidebarMenuItem className={styles.newNoteMenuItem}>
+                <SidebarMenuButton onClick={()=>{router.push("/editor")}}>
+                  New Note
+                </SidebarMenuButton>
+              </SidebarMenuItem>
               {/* <ScrollArea className="h-22 w-48 rounded-md border"> */}
               {localCollectionOfNotesState?.sort((a, b) => b.lastModifiedAt - a.lastModifiedAt)?.map((note: DisplayNote) => (
                 <SidebarMenuItem key={note.id}>
@@ -140,7 +160,7 @@ export function AppSidebar() {
                     console.log("lunn");
                     router.push(`/editor/${note.id}`);
                     // setCurrentNoteState(note.id)
-                  }}>{note.title}</SidebarMenuButton>
+                  }}><NotebookText/>{note.title}</SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
 

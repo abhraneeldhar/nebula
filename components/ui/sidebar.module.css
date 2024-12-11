@@ -79,6 +79,15 @@
     overflow: none;
     transition: all 0.2s;
 }
+.newNoteMenuItem{
+    text-align: center;
+}
+.newNoteMenuItem button{
+    display: flex;
+    justify-content: center;
+    background-color: rgb(56, 56, 56);
+    border: 1px solid rgba(180, 180, 180, 0.603);
+}
 .noteBtn{
     overflow: hidden;
     
