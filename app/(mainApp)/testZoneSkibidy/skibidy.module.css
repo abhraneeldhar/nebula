@@ -1,0 +1,91 @@
+.main{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    height: 100%;
+    align-items: center;
+}
+.shareDialogContent {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+.shareInput {
+    background-color: black;
+    color: white;
+}
+
+.searchResultContainer {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 5px;
+    .reqPersonCard {
+        display: flex;
+        background-color: black;
+        color: white;
+        width: 100%;
+        padding: 10px;
+        border-radius: 10px;
+        align-items: center;
+        justify-content: space-between;
+        vertical-align: middle;
+    }
+
+    .reqProfilePic {
+        display: flex;
+    }
+
+    .reqProfilePic img {
+        border-radius: 50%;
+        margin-right: 20px;
+        height: 50px;
+        width: 50px;
+    }
+
+    .reqNameHolder {
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        gap: 0px;
+        color: white;
+    }
+
+    .reqName {
+        font-size: 20px;
+        font-weight: 100;
+    }
+
+    .reqUsername {
+        font-size: 15px;
+        font-weight: 600;
+        color: rgb(164, 164, 164);
+    }
+    .friendCardSpinner {
+        opacity: 1;
+        color: white;
+        height: 20px;
+        margin-right: 20px;
+        width: 10px;
+        margin: none;
+    }
+}
+
+.actionButtonContainer {
+    display: flex;
+    width: 100%;
+    gap: 10px;
+    justify-content: flex-end;
+
+    .closeDialogBtn {
+        background-color: rgb(238, 51, 51);
+    }
+    .shareDialogBtn {
+        background-color: rgb(18, 173, 18);
+    }
+    .closeDialogBtn,.shareDialogBtn{
+        padding: 5px 10px;
+        border-radius: 10px;
+    }
+}

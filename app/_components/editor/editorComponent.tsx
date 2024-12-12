@@ -10,7 +10,7 @@ import Image from "next/image"
 import closeSVG from "../../../public/close_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png"
 import menuSVG from "../../../public/menu_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png"
 
-import { Button } from "@radix-ui/themes"
+import { Box, Button, CheckboxCards, Text } from "@radix-ui/themes"
 import { useSidebar } from "@/components/ui/sidebar"
 import { appStore } from "@/app/store"
 
@@ -295,7 +295,7 @@ export default function EditorComponent({ id }: { id: string }) {
         if (userId && shareDialogboxOpen) {
             const f = async () => {
                 const friendDetails = await getFriends(userId)
-                if(friendDetails!=shareFirendsDetailsList){
+                if (friendDetails != shareFirendsDetailsList) {
                     setShareFirendsDetailsList(friendDetails)
                 }
                 console.log(friendDetails);
@@ -319,7 +319,11 @@ export default function EditorComponent({ id }: { id: string }) {
 
                     <Input id="name" className={styles.shareInput} placeholder="search for friends.." />
                     <div className={styles.searchResultContainer}>
+
+
                         {(shareFirendsDetailsList && shareFirendsDetailsList.length > 0) && (shareFirendsDetailsList.map((friendDetail) => (
+
+
                             <div className={styles.reqPersonCard} key={friendDetail.userId}>
                                 <div className={styles.reqProfilePic}>
                                     <Image src={friendDetail.imageUrl} alt="pfp" height={50} width={50} unoptimized={true} />
@@ -329,10 +333,13 @@ export default function EditorComponent({ id }: { id: string }) {
                                     </div>
                                 </div>
                             </div>
+
                         ))
                         )}
+
+
                         {
-                            !shareFirendsDetailsList &&(<><Spinner className={styles.friendCardSpinner}/></>)
+                            !shareFirendsDetailsList && (<><Spinner className={styles.friendCardSpinner} /></>)
                         }
                     </div>
 
