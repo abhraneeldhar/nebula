@@ -436,7 +436,6 @@ export default function Friends() {
                 </Tabs.List>
 
 
-
                 <Tabs.Content value="friends" className={styles.tableContent}>
                     <div className={styles.friendCardHolder}>
                         {friendList && friendList.map((friend: userDetailsType) => (<FriendCard key={friend.userId} user={friend} />))}
@@ -468,8 +467,6 @@ export default function Friends() {
                 <Tabs.Content value="requests" className={styles.reqContent}>
                     <div className={styles.requestCardHolder}>
                         {incomingRequestsList && incomingRequestsList.map((req: requestType) => (<IncomingRequestPersonCard key={req.id} req={req} />))}
-
-
                     </div>
                 </Tabs.Content>
 

@@ -44,6 +44,8 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
+import { getFriends } from "@/app/utils/shareMechanics/getFriends"
+import { userDetailsType } from "@/app/setupAccount/page"
 
 
 
@@ -154,29 +156,6 @@ export default function EditorComponent({ id }: { id: string }) {
         const { toggleSidebar, open } = useSidebar();
         return (<>
             <div className={styles.tabBar}>
-                <Dialog onOpenChange={setShareDialogboxOpen} defaultOpen={true}>
-
-                    <DialogContent className={styles.shareDialogContent}>
-                        <DialogHeader>
-                            <DialogTitle>Share</DialogTitle>
-                            <DialogDescription>
-                                Share your note with friends
-                            </DialogDescription>
-                        </DialogHeader>
-
-                            <Input id="name" className={styles.shareInput} placeholder="search for friends.." />
-                        <div className={styles.searchResultContainer}>
-                            bonk
-                        </div>
-
-                        <div className={styles.actionButtonContainer}>
-                            <Button className={styles.closeDialogBtn}>Close</Button>
-                            <Button className={styles.shareDialogBtn}>Share</Button>
-                        </div>
-                        
-                    </DialogContent>
-                </Dialog>
-
                 <div className={styles.tabContent}>
                     <div className={styles.tabnameContainer}>
                         <div className={styles.sidebarBtn}>
@@ -211,12 +190,10 @@ export default function EditorComponent({ id }: { id: string }) {
     }
 
 
-
-
-
     const toolbarRef = useRef<HTMLDivElement | null>(null);
     const quillRef = useRef<Quill | null>(null)
     const tabNameRef = useRef<HTMLInputElement>(null)
+
 
     const toolbarOptions = [
         [{ 'header': '1' }, { 'header': '2' }],
@@ -226,6 +203,7 @@ export default function EditorComponent({ id }: { id: string }) {
         ['link', 'image'],
         // ['undo','redo']
     ];
+
 
     useEffect(() => {
         // const quill = new Quill("#container", { theme: "snow", modules: { toolbar: toolbarOptions } });
@@ -273,7 +251,6 @@ export default function EditorComponent({ id }: { id: string }) {
     }, [, currentOpenNoteId, noteData, refreshCurrentNote])
 
 
-
     const saveFunction = async () => {
         setSavingState(true);
         console.log("saving state>>>>", savingState);
@@ -307,9 +284,64 @@ export default function EditorComponent({ id }: { id: string }) {
     }
 
 
+    // const handleShareSearch=async(searchParam:string)=>{
+    //     if(searchParam!=""&&searchParam!=" "){
+
+    //     }
+    // }
+
+    const [shareFirendsDetailsList, setShareFirendsDetailsList] = useState<userDetailsType[]>([])
+    useEffect(() => {
+        if (userId && shareDialogboxOpen) {
+            const f = async () => {
+                const friendDetails = await getFriends(userId)
+                if(friendDetails!=shareFirendsDetailsList){
+                    setShareFirendsDetailsList(friendDetails)
+                }
+                console.log(friendDetails);
+            }
+            f();
+        }
+
+    }, [userId, shareDialogboxOpen])
+
     return (<>
         <div className={styles.main}>
             <Tab />
+            <Dialog open={shareDialogboxOpen} onOpenChange={setShareDialogboxOpen} defaultOpen={true}>
+                <DialogContent className={styles.shareDialogContent}>
+                    <DialogHeader>
+                        <DialogTitle>Share</DialogTitle>
+                        <DialogDescription>
+                            Share your note with friends
+                        </DialogDescription>
+                    </DialogHeader>
+
+                    <Input id="name" className={styles.shareInput} placeholder="search for friends.." />
+                    <div className={styles.searchResultContainer}>
+                        {(shareFirendsDetailsList && shareFirendsDetailsList.length > 0) && (shareFirendsDetailsList.map((friendDetail) => (
+                            <div className={styles.reqPersonCard} key={friendDetail.userId}>
+                                <div className={styles.reqProfilePic}>
+                                    <Image src={friendDetail.imageUrl} alt="pfp" height={50} width={50} unoptimized={true} />
+                                    <div className={styles.reqNameHolder}>
+                                        <p className={styles.reqName}>{friendDetail.name}</p>
+                                        <p className={styles.reqUsername}>@{friendDetail.userName}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                        )}
+                        {
+                            !shareFirendsDetailsList &&(<><Spinner className={styles.friendCardSpinner}/></>)
+                        }
+                    </div>
+
+                    <div className={styles.actionButtonContainer}>
+                        <Button className={styles.closeDialogBtn}>Close</Button>
+                        <Button className={styles.shareDialogBtn}>Share</Button>
+                    </div>
+                </DialogContent>
+            </Dialog>
             {loadingEditorState && !noteData && (
 
                 <div className={styles.containerLoaderContainer}>
