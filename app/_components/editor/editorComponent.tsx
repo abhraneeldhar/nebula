@@ -46,6 +46,8 @@ import {
 import { Label } from "@/components/ui/label"
 import { getFriends } from "@/app/utils/shareMechanics/getFriends"
 import { userDetailsType } from "@/app/setupAccount/page"
+import { Circle, CircleCheckBig } from "lucide-react"
+import { shareToFriends } from "@/app/utils/shareMechanics/shareToFreinds"
 
 
 
@@ -291,19 +293,47 @@ export default function EditorComponent({ id }: { id: string }) {
     // }
 
     const [shareFirendsDetailsList, setShareFirendsDetailsList] = useState<userDetailsType[]>([])
+    const [selectedFriends, setSelectedFriends] = useState<string[]>([])
+
     useEffect(() => {
+        setSelectedFriends([]);
         if (userId && shareDialogboxOpen) {
             const f = async () => {
                 const friendDetails = await getFriends(userId)
                 if (friendDetails != shareFirendsDetailsList) {
                     setShareFirendsDetailsList(friendDetails)
                 }
-                console.log(friendDetails);
+                setSelectedFriends([]);
             }
             f();
         }
 
     }, [userId, shareDialogboxOpen])
+
+    const handleSelection = (userId: string) => {
+        if (!selectedFriends.includes(userId)) {
+            setSelectedFriends([...selectedFriends, userId])
+        }
+        else {
+            setSelectedFriends(selectedFriends.filter((id) => {
+                if (id != userId) {
+                    return true
+                }
+                else {
+                    return false
+                }
+            }))
+        }
+    }
+    const shareAction = async () => {
+        if (userId && noteData && selectedFriends.length > 0) {
+            const res=await shareToFriends(userId,selectedFriends,noteData);
+            console.log("sent to",selectedFriends);
+            setSelectedFriends([]);
+        }
+        setShareDialogboxOpen(false);
+
+    }
 
     return (<>
         <div className={styles.main}>
@@ -322,9 +352,7 @@ export default function EditorComponent({ id }: { id: string }) {
 
 
                         {(shareFirendsDetailsList && shareFirendsDetailsList.length > 0) && (shareFirendsDetailsList.map((friendDetail) => (
-
-
-                            <div className={styles.reqPersonCard} key={friendDetail.userId}>
+                            <div className={styles.reqPersonCard} key={friendDetail.userId} onClick={() => { handleSelection(friendDetail.userId) }} >
                                 <div className={styles.reqProfilePic}>
                                     <Image src={friendDetail.imageUrl} alt="pfp" height={50} width={50} unoptimized={true} />
                                     <div className={styles.reqNameHolder}>
@@ -332,11 +360,12 @@ export default function EditorComponent({ id }: { id: string }) {
                                         <p className={styles.reqUsername}>@{friendDetail.userName}</p>
                                     </div>
                                 </div>
+                                <div>
+                                    {selectedFriends.includes(friendDetail.userId) ? <CircleCheckBig color="#7CFC00" /> : <Circle />}
+                                </div>
                             </div>
-
                         ))
                         )}
-
 
                         {
                             !shareFirendsDetailsList && (<><Spinner className={styles.friendCardSpinner} /></>)
@@ -344,13 +373,17 @@ export default function EditorComponent({ id }: { id: string }) {
                     </div>
 
                     <div className={styles.actionButtonContainer}>
-                        <Button className={styles.closeDialogBtn}>Close</Button>
-                        <Button className={styles.shareDialogBtn}>Share</Button>
+                        <Button className={styles.closeDialogBtn} onClick={() => {
+                            setShareDialogboxOpen(false);
+                            setSelectedFriends([]);
+                        }}>Close</Button>
+                        <Button className={styles.shareDialogBtn} onClick={() => { shareAction() }} disabled={selectedFriends.length == 0}>Share</Button>
                     </div>
                 </DialogContent>
             </Dialog>
-            {loadingEditorState && !noteData && (
 
+
+            {loadingEditorState && !noteData && (
                 <div className={styles.containerLoaderContainer}>
                     <Spinner size="3" className={styles.containerSpinner} />
                 </div>
