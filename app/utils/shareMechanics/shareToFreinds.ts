@@ -15,7 +15,7 @@ export async function shareToFriends(senderId:string,selectedFriends:string[],no
     for(const friendId in selectedFriends){
         const sharedNotePackage:sharedNotePackage={
             senderId:senderId,
-            receiverId:friendId,
+            receiverId:selectedFriends[friendId],
             sharedAt:Date.now(),
             sharedNote:noteData
         }

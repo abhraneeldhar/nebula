@@ -48,6 +48,7 @@ import { getFriends } from "@/app/utils/shareMechanics/getFriends"
 import { userDetailsType } from "@/app/setupAccount/page"
 import { Circle, CircleCheckBig } from "lucide-react"
 import { shareToFriends } from "@/app/utils/shareMechanics/shareToFreinds"
+import { FriendSearch } from "@/app/utils/shareMechanics/searchFriends"
 
 
 
@@ -292,11 +293,15 @@ export default function EditorComponent({ id }: { id: string }) {
     //     }
     // }
 
+    const [searchedFriendsList, setSearchedFriendsList] = useState<any>([])
     const [shareFirendsDetailsList, setShareFirendsDetailsList] = useState<userDetailsType[]>([])
     const [selectedFriends, setSelectedFriends] = useState<string[]>([])
+    const shareSearchInputRef = useRef<HTMLInputElement>(null);
+    const [searchParam, setSearchparam] = useState<string>()
 
     useEffect(() => {
         setSelectedFriends([]);
+        setSearchparam("");
         if (userId && shareDialogboxOpen) {
             const f = async () => {
                 const friendDetails = await getFriends(userId)
@@ -325,16 +330,28 @@ export default function EditorComponent({ id }: { id: string }) {
             }))
         }
     }
+    const handleShareSearch = async (searchParam: string) => {
+        if (userId && searchParam != " " && searchParam != "") {
+            const res = await FriendSearch(userId, searchParam);
+            setSearchedFriendsList(res);
+        }
+        if (searchParam == "" || searchParam == " ") {
+            setSearchedFriendsList([])
+        }
+    }
     const shareAction = async () => {
         if (userId && noteData && selectedFriends.length > 0) {
-            const res=await shareToFriends(userId,selectedFriends,noteData);
-            console.log("sent to",selectedFriends);
+            const res = await shareToFriends(userId, selectedFriends, noteData);
+            console.log("sent to", selectedFriends);
             setSelectedFriends([]);
+            setSearchparam("");
         }
         setShareDialogboxOpen(false);
-
     }
 
+    useEffect(()=>{
+        console.log(searchParam)
+    },[searchParam])
     return (<>
         <div className={styles.main}>
             <Tab />
@@ -347,11 +364,31 @@ export default function EditorComponent({ id }: { id: string }) {
                         </DialogDescription>
                     </DialogHeader>
 
-                    <Input id="name" className={styles.shareInput} placeholder="search for friends.." />
+                    <Input ref={shareSearchInputRef} className={styles.shareInput} placeholder="search for friends.." onChange={(e) => {
+                        handleShareSearch(e.target.value);
+                        setSearchparam(e.target.value);
+                    }} />
                     <div className={styles.searchResultContainer}>
 
+                        {(searchedFriendsList && searchedFriendsList.length > 0 && searchParam) && (searchedFriendsList.map((friendDetail: userDetailsType) => (
+                            <div className={styles.reqPersonCard} key={friendDetail.userId} onClick={() => { handleSelection(friendDetail.userId) }} >
+                                <div className={styles.reqProfilePic}>
+                                    <Image src={friendDetail.imageUrl} alt="pfp" height={50} width={50} unoptimized={true} />
+                                    <div className={styles.reqNameHolder}>
+                                        <p className={styles.reqName}>{friendDetail.name}</p>
+                                        <p className={styles.reqUsername}>@{friendDetail.userName}</p>
+                                    </div>
+                                </div>
+                                <div>
+                                    {selectedFriends.includes(friendDetail.userId) ? <CircleCheckBig color="#7CFC00" /> : <Circle />}
+                                </div>
+                            </div>
+                        ))
+                        )}
 
-                        {(shareFirendsDetailsList && shareFirendsDetailsList.length > 0) && (shareFirendsDetailsList.map((friendDetail) => (
+
+
+                        {(!searchParam && shareFirendsDetailsList && shareFirendsDetailsList.length > 0) && (shareFirendsDetailsList.map((friendDetail: userDetailsType) => (
                             <div className={styles.reqPersonCard} key={friendDetail.userId} onClick={() => { handleSelection(friendDetail.userId) }} >
                                 <div className={styles.reqProfilePic}>
                                     <Image src={friendDetail.imageUrl} alt="pfp" height={50} width={50} unoptimized={true} />
@@ -376,6 +413,7 @@ export default function EditorComponent({ id }: { id: string }) {
                         <Button className={styles.closeDialogBtn} onClick={() => {
                             setShareDialogboxOpen(false);
                             setSelectedFriends([]);
+                            setSearchparam("");
                         }}>Close</Button>
                         <Button className={styles.shareDialogBtn} onClick={() => { shareAction() }} disabled={selectedFriends.length == 0}>Share</Button>
                     </div>
