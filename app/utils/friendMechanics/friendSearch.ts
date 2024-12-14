@@ -7,7 +7,7 @@ export async function FriendSearch(selfUserId: string, searchName: string) {
   const users = db.collection("users");
   const searchResults = await users.find({
     $or: [
-      { username: { $regex: searchName.trim(), $options: "i" } },
+      { userName: { $regex: searchName.trim(), $options: "i" } },
       { name: { $regex: searchName.trim(), $options: "i" } }
     ],
     ...(selfUserId && { userId: { $ne: (selfUserId) } }), // Exclude the specific user

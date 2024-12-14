@@ -9,7 +9,7 @@ export async function FriendSearch(selfUserId:string,searchName: string) {
         $and: [
           {
             $or: [
-              { username: { $regex: searchName.trim(), $options: "i" } },
+              { userName: { $regex: searchName.trim(), $options: "i" } },
               { name: { $regex: searchName.trim(), $options: "i" } }
             ]
           },
