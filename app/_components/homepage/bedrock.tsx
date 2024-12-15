@@ -16,7 +16,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useSidebar } from "@/components/ui/sidebar";
 import { Card, CardContent, CardHeader, CardDescription, CardTitle, CardFooter } from "@/components/ui/card";
 
-import { Note, Folder, DisplayNote, requestType } from "../../utils/fileFormat";
+import { Note, Folder, DisplayNote, requestType, sharedNoteType } from "../../utils/fileFormat";
 
 
 import rightArrow from "../../../public/arrowright.png";
@@ -39,10 +39,14 @@ import { userDetailsType } from "@/app/setupAccount/page";
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { Popover } from "@radix-ui/themes";
-import { CircleCheck, Users, X } from "lucide-react";
+import { CircleCheck, Inbox, Users, X } from "lucide-react";
 import { useTheme } from "next-themes";
 import { supabase } from "@/app/utils/supabase/client";
 import { updateFriendList } from "@/app/utils/friendMechanics/updateFriendList";
+import { getIncomingNotes } from "@/app/utils/shareMechanics/getIncomingNotes";
+import { v4 as uuidv4 } from "uuid";
+import { postNote } from "@/app/utils/postNote";
+import { deleteSharedNote } from "@/app/utils/shareMechanics/deleteSharedNote";
 
 export default function Bedrock() {
     const router = useRouter();
@@ -113,7 +117,9 @@ export default function Bedrock() {
     const Tab = ({ tabName }: { tabName: string }) => {
         const { toggleSidebar, open } = useSidebar();
         const [reqOpen, setReqOpen] = useState(false);
+        const [inboxOpen, setInboxOpen] = useState(false);
         const [incomingRequestsList, setIncomingRequestsList] = useState<any>();
+        const [incomingNotesList, setIncomingNotesList] = useState<any>();
         const [loadingDetails, setLoadingDetails] = useState(false)
         const getIncomingReq = async () => {
 
@@ -122,7 +128,9 @@ export default function Bedrock() {
                 const { data: incomingReqArray, error } = await supabase.from("friendRequest").select("*").eq("receiverId", userId).eq("status", "pending")
                 // console.log(incomingReqArray);
                 setLoadingDetails(false)
-                setIncomingRequestsList(incomingReqArray);
+                if (incomingReqArray != incomingRequestsList) {
+                    setIncomingRequestsList(incomingReqArray);
+                }
                 console.log(error);
             }
         };
@@ -219,7 +227,90 @@ export default function Bedrock() {
             </>)
         }
 
+        const getInbox = async () => {
+            setLoadingDetails(true);
+            const res = await getIncomingNotes(userId as string);
+            if (res != incomingNotesList) {
+                setIncomingNotesList(res);
+            }
+            setLoadingDetails(false);
+        }
+        useEffect(() => {
+            if (userId) {
+                console.log("getting inbox")
+                getInbox();
+            }
+        }
+            , [userId])
+        useEffect(() => {
+            if (userId && inboxOpen == true) {
+                console.log("getting inbox")
+                getInbox();
+            }
+        }, [userId, inboxOpen])
 
+        useEffect(() => {
+            console.log(incomingNotesList)
+        }, [incomingNotesList])
+
+        const InboxCard = ({ sharedNoteData }: { sharedNoteData: sharedNoteType }) => {
+            const [senderDetails, setSenderDetails] = useState<userDetailsType>()
+            const [loadingActions, setLoadingActions] = useState(false);
+
+            useEffect(() => {
+                const getDetails = async () => {
+                    setLoadingActions(true);
+                    const newUserDetails = await getUserDetails(sharedNoteData.senderId);
+                    if (senderDetails != newUserDetails) {
+                        setSenderDetails(newUserDetails);
+                    }
+                    console.log("senderid>>>>", senderDetails)
+                    setLoadingActions(false);
+                }
+                getDetails();
+
+            }, [sharedNoteData])
+
+            const acceptNote = async () => {
+                setLoadingActions(true);
+                if (userId) {
+                    var JackRyan = sharedNoteData.sharedNote;
+                    JackRyan.id = uuidv4();
+                    JackRyan.createdAt = Date.now();
+                    JackRyan.owner = userId;
+                    JackRyan.lastModifiedAt=Date.now();
+                    await postNote(JackRyan);
+                    await deleteSharedNote(sharedNoteData.id)
+                    getInbox();
+                }
+                setLoadingActions(false);
+            }
+            const rejectNote=async()=>{
+                setLoadingActions(true);
+                await deleteSharedNote(sharedNoteData.id);
+                getInbox();
+                setLoadingActions(false);
+            }
+
+
+
+            return (<>
+                <div className={styles.inboxCard}>
+                    <div className={styles.inboxCardDetails}>
+                        <div className={styles.noteName}>
+                            <p>{sharedNoteData.sharedNote.title}</p>
+                        </div>
+                        <div className={styles.senderName}>
+                            <p>sent by {senderDetails?.name}</p>
+                        </div>
+                    </div>
+                    <div className={styles.reqAction}>
+                        {loadingActions && <Spinner className={styles.friendCardSpinner} />}
+                        {(incomingRequestsList && !loadingActions) && (<><Button color="green" onClick={() => { acceptNote()}} ><CircleCheck /></Button><Button color="red" onClick={() => { rejectNote() }}><X /></Button></>)}
+                    </div>
+                </div>
+            </>)
+        }
 
 
         return (<>
@@ -235,13 +326,29 @@ export default function Bedrock() {
                     <Popover.Root open={reqOpen} onOpenChange={setReqOpen}>
                         <Popover.Trigger>
                             <div className={styles.reqTriggerContainer}>
-                                <Users />{(incomingRequestsList && incomingRequestsList.length>0) &&<div className={styles.reqBadge}>{incomingRequestsList.length}</div>}
+                                <Users />{(incomingRequestsList && incomingRequestsList.length > 0) && <div className={styles.reqBadge}>{incomingRequestsList.length}</div>}
                             </div>
                         </Popover.Trigger>
                         <Popover.Content className={styles.friendRequestsPopover}>
                             {incomingRequestsList && incomingRequestsList.map((req: requestType) => (<IncomingRequestPersonCard key={req.id} req={req} />))}
                             {(incomingRequestsList && incomingRequestsList.length == 0) && (<>
                                 <div className={styles.noReq}>No requests for now....</div>
+                            </>)}
+                            {loadingDetails && (<Spinner className={styles.reqSpinner} />)}
+                        </Popover.Content>
+                    </Popover.Root>
+
+
+                    <Popover.Root open={inboxOpen} onOpenChange={setInboxOpen}>
+                        <Popover.Trigger>
+                            <div className={styles.reqTriggerContainer}>
+                                <Inbox />{(incomingNotesList && incomingNotesList.length > 0) && <div className={styles.reqBadge}>{incomingNotesList.length}</div>}
+                            </div>
+                        </Popover.Trigger>
+                        <Popover.Content className={styles.friendRequestsPopover}>
+                            {incomingNotesList && incomingNotesList.map((sharedNote: sharedNoteType) => (<InboxCard key={sharedNote.sharedNote.id} sharedNoteData={sharedNote} />))}
+                            {(incomingNotesList && incomingNotesList.length == 0) && (<>
+                                <div className={styles.noReq}>Your inbox is empty</div>
                             </>)}
                             {loadingDetails && (<Spinner className={styles.reqSpinner} />)}
                         </Popover.Content>

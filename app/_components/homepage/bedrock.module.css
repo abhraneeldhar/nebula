@@ -70,6 +70,8 @@
 .reqPopoverContainer {
     position: fixed;
     right: 30px;
+    display: flex;
+    gap: 20px;
 }
 
 .reqTriggerContainer {
@@ -190,7 +192,25 @@
     }
 }
 
-
+.inboxCard{
+    display: flex;
+    color: white;
+    width: 100%;
+    background-color: black;
+    padding: 5px 10px;
+    border-radius: 10px;
+    justify-content: space-between;
+    .inboxCardDetails{
+        .noteName p{           
+            font-size: 1.2em;
+            max-width: 12em;
+        }
+        .senderName p{
+            font-size: 0.7em;
+            color: rgb(172, 172, 172);
+        }
+    }
+}
 
 
 

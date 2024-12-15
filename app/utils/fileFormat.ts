@@ -70,3 +70,12 @@ export interface requestType{
     status:string,
     createdAt:number
 }
+
+export interface sharedNoteType{
+    _id:string,
+    id:string,
+    senderId:string,
+    receiverId:string,
+    sharedAt:number,
+    sharedNote:Note
+}
