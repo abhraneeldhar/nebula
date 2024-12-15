@@ -282,6 +282,8 @@ export default function Bedrock() {
                     await postNote(JackRyan);
                     await deleteSharedNote(sharedNoteData.id)
                     getInbox();
+                    const displayNotes= await getDisplayNotes(userId);
+                    setlocalCollectionOfNotesState(displayNotes);
                 }
                 setLoadingActions(false);
             }
