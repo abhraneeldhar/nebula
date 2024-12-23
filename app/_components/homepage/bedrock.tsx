@@ -294,8 +294,6 @@ export default function Bedrock() {
                 setLoadingActions(false);
             }
 
-
-
             return (<>
                 <div className={styles.inboxCard}>
                     <div className={styles.inboxCardDetails}>

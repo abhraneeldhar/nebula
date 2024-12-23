@@ -12,7 +12,7 @@ body {
     justify-content: center;
     align-items: center;
     position: fixed;
-    top:0;
+    top: 0;
     left: 50%;
     gap: 15px;
     z-index: 3;
@@ -187,20 +187,66 @@ body {
         margin-bottom: 10px;
         row-gap: 0;
     }
-    .ql-toolbar::after{
+
+    .ql-toolbar::after {
         display: none;
         height: 0;
         width: 0;
     }
+
     .ql-toolbar.ql-snow {
         height: 45px;
         width: 100%;
         /* background-color: rgb(0, 255, 81); */
     }
+
     .ql-container.ql-snow {
         img {
             width: 60%;
             margin-left: 10px;
+        }
+    }
+
+    .ql-toolbar.ql-snow .ql-formats:first-of-type {
+        button:nth-of-type(2) {
+            display: none;
+        }
+    }
+    .ql-toolbar.ql-snow .ql-formats:nth-of-type(2) {
+        button:nth-of-type(4) {
+            display: none;
+        }
+        button:nth-of-type(5) {
+            display: none;
+        }
+    }
+    .ql-toolbar.ql-snow .ql-formats:nth-of-type(3) {
+        .ql-picker:nth-of-type(2) {
+            display: none;
+        }
+        .ql-picker:nth-of-type(1){
+            position: relative;
+            .ql-picker-options{
+                position: absolute;
+                transform: translateY(-110%);
+                top: 0;
+            }
+
+        }
+
+        
+    }
+    .ql-toolbar.ql-snow .ql-formats:nth-of-type(4) {
+        span:nth-of-type(1) {
+            display: none;
+        }
+        button:nth-of-type(1) {
+            display: none;
+        }
+    }
+    .ql-toolbar.ql-snow .ql-formats:nth-of-type(5) {
+        button:nth-of-type(1) {
+            display: none;
         }
     }
 
