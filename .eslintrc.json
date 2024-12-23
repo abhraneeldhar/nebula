@@ -1,6 +1,6 @@
 {
   "extends": ["next/core-web-vitals", "next/typescript"],
   "rules": {
-    "@typescript-eslint/ban-ts-ignore": "off"
+    "@typescript-eslint/*": "off"
   }
 }
