@@ -5,14 +5,14 @@ import { Note, Folder, FolderStructure } from "./utils/fileFormat"
 type store = {
     // showSidebar: boolean,
     userId: string | null,
-    localCollectionOfNotesState: CollectionOfNotes | null | {},
+    localCollectionOfNotesState: Note[] | null | {},
     // localFolderStructureState: FolderStructure | {},
     currentOpenNoteIdState: string | null;
 
     // toggleSidebarVariable: () => void,
     setUserId:(newUserId:string)=>void,
     setCurrentOpenNoteIdState:(newNotesIdState: string|null)=>void
-    setlocalCollectionOfNotesState: (newlocalCollectionOfNotesState: CollectionOfNotes | {}) => void,
+    setlocalCollectionOfNotesState: (newlocalCollectionOfNotesState: Note[] | {}) => void,
     // setLocalFolderStructureState: (newlocalFolderStructureState: FolderStructure | {}) => void
 }
 
@@ -28,7 +28,7 @@ export const appStore = create<store>((set) => ({
     // })),
     setUserId:(newUserId:string)=>set({userId: newUserId}),
     setCurrentOpenNoteIdState:(newNotesIdState: string|null)=>set({currentOpenNoteIdState:newNotesIdState}),
-    setlocalCollectionOfNotesState: (newlocalCollectionOfNotesState: CollectionOfNotes | {}) => set({ localCollectionOfNotesState: newlocalCollectionOfNotesState }),
+    setlocalCollectionOfNotesState: (newlocalCollectionOfNotesState: Note[] | {}) => set({ localCollectionOfNotesState: newlocalCollectionOfNotesState }),
     // setLocalFolderStructureState: (newlocalFolderStructureState: FolderStructure | {}) => set({ localFolderStructureState: newlocalFolderStructureState })
 
 }))
