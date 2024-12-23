@@ -1,6 +1,6 @@
 import { create } from "zustand"
 import { shallow } from "zustand/shallow"
-import { Note, Folder, FolderStructure, CollectionOfNotes } from "./utils/fileFormat"
+import { Note, Folder, FolderStructure } from "./utils/fileFormat"
 
 type store = {
     // showSidebar: boolean,
