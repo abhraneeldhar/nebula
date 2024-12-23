@@ -4,4 +4,4 @@ export {default} from "next-auth/middleware"
 // export async function middleware(request: NextRequest) {
 //   return await updateSession(request)
 // }
-export const config={matcher: ["/home","/editor","/authtesting","/setupAccount","/friends"]}
+export const config={matcher: ["/home","/authtesting","/setupAccount","/friends"]}
