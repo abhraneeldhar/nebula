@@ -24,81 +24,81 @@ export const options: NextAuthOptions = {
     session: {
         strategy: "jwt",
     },
-    // callbacks: {
+    callbacks: {
 
-    //     async signIn({ user }) {
-    //         await mongoClientCS.connect();
-    //         const db = mongoClientCS.db("notesApp");
-    //         const usersCollection = db.collection("users");
-    //         const existingUserCheck = await usersCollection.countDocuments({ email: user.email });
-    //         // console.log("existing check>>>>>>>>>>",existingUserCheck)
-    //         try {
-    //             if (user) {
+        async signIn({ user }) {
+            await mongoClientCS.connect();
+            const db = mongoClientCS.db("notesApp");
+            const usersCollection = db.collection("users");
+            const existingUserCheck = await usersCollection.countDocuments({ email: user.email });
+            // console.log("existing check>>>>>>>>>>",existingUserCheck)
+            try {
+                if (user) {
 
-    //                 if (existingUserCheck==0) {
-    //                     console.log("if trigerred\n\n")
-    //                     const newUser = {
-    //                         userId: user.id as string,
-    //                         name: user.name as string,
-    //                         userName: (String(user.name?.replace(/\s/g,''))+ String(uuidv4().slice(0, 5))).toLowerCase() as string,
-    //                         email: user.email as string,
-    //                         bio:"",
-    //                         imageUrl: user.image as string,
-    //                         dateOfJoining: Number(new Date),
-    //                         friendList:[]
-    //                     }
-    //                     await usersCollection.insertOne(newUser);
-    //                     console.log("inserted new user")
-    //                     return "/setupAccount";
-    //                 }
-    //             }
+                    if (existingUserCheck==0) {
+                        console.log("if trigerred\n\n")
+                        const newUser = {
+                            userId: user.id as string,
+                            name: user.name as string,
+                            userName: (String(user.name?.replace(/\s/g,''))+ String(uuidv4().slice(0, 5))).toLowerCase() as string,
+                            email: user.email as string,
+                            bio:"",
+                            imageUrl: user.image as string,
+                            dateOfJoining: Number(new Date),
+                            friendList:[]
+                        }
+                        await usersCollection.insertOne(newUser);
+                        console.log("inserted new user")
+                        return "/setupAccount";
+                    }
+                }
                 
                 
-    //         }
-    //         catch (error) {
-    //             console.log(error)
-    //         }
-    //         return true;
-    //     },
-    //     // async session({ session, user }) {
+            }
+            catch (error) {
+                console.log(error)
+            }
+            return true;
+        },
+        // async session({ session, user }) {
 
-    //     //     const signingSecret = process.env.SUPABASE_JWT_SECRET as string
-    //     //     if (user && session) {
-    //     //         const payload = {
-    //     //             aud: "authenticated",
-    //     //             exp: Math.floor(new Date(session.expires).getTime() / 1000),
-    //     //             sub: user.id as string,
-    //     //             email: user.email as string,
-    //     //             role: "authenticated",
-    //     //         }
-    //     //         session.supabaseAccessToken = jwt.sign(payload, signingSecret)
-    //     //     }
+        //     const signingSecret = process.env.SUPABASE_JWT_SECRET as string
+        //     if (user && session) {
+        //         const payload = {
+        //             aud: "authenticated",
+        //             exp: Math.floor(new Date(session.expires).getTime() / 1000),
+        //             sub: user.id as string,
+        //             email: user.email as string,
+        //             role: "authenticated",
+        //         }
+        //         session.supabaseAccessToken = jwt.sign(payload, signingSecret)
+        //     }
             
             
-    //     //     return session
-    //     // },
-    //     async jwt({ token, user }) {
-    //         // Attach user data to the token on initial login
-    //         if (user) {
-    //             token.id = user.id;
-    //             token.email = user.email;
-    //         }
-    //         return token;
-    //     },
-    //     async session({ session, token }) {
-    //         if (token && session) {
-    //             const signingSecret = process.env.SUPABASE_JWT_SECRET as string;
-    //             const payload = {
-    //                 aud: "authenticated",
-    //                 exp: Math.floor(new Date(session.expires).getTime() / 1000),
-    //                 sub: token.id as string,
-    //                 email: token.email as string,
-    //                 role: "authenticated",
-    //             };
-    //             session.supabaseAccessToken = jwt.sign(payload, signingSecret);
-    //         }
-    //         return session;
-    //     },
-    // },
+        //     return session
+        // },
+        async jwt({ token, user }) {
+            // Attach user data to the token on initial login
+            if (user) {
+                token.id = user.id;
+                token.email = user.email;
+            }
+            return token;
+        },
+        async session({ session, token }) {
+            if (token && session) {
+                const signingSecret = process.env.SUPABASE_JWT_SECRET as string;
+                const payload = {
+                    aud: "authenticated",
+                    exp: Math.floor(new Date(session.expires).getTime() / 1000),
+                    sub: token.id as string,
+                    email: token.email as string,
+                    role: "authenticated",
+                };
+                session.supabaseAccessToken = jwt.sign(payload, signingSecret);
+            }
+            return session;
+        },
+    },
 
 }
