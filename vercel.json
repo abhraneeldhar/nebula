@@ -1,9 +1,9 @@
 {
     "functions": {
-      "/api/auth/[...nextauth]": {
+      "api/auth/[...nextauth]": {
         "maxDuration": 60
       },
-      "app/api/auth/[...nextauth]/route.ts":{
+      "api/auth/[...nextauth]/route.ts":{
         "maxDuration":60
       }
     }
