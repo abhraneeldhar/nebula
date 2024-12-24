@@ -1,8 +1,5 @@
 {
     "functions": {
-      "api/auth/callback/google": {
-        "maxDuration": 60
-      },
       "api/auth/[...nextauth]/route.ts":{
         "maxDuration":60
       }
