@@ -2,6 +2,7 @@
     display: flex;
     /* min-height: 100vh; */
     /* height: 100vh; */
+    flex-direction: column;
     color: white;
     width: 100%;
     overflow: hidden;
@@ -22,25 +23,30 @@
     transform: translateX(-50%);
 }
 
-.sidebar {
-    flex: 1;
-    background-color: #1f1f21;
-    /* height: 100vh; */
-    border-right: 2px solid rgb(64, 64, 64);
-    font-size: 15px;
-    font-weight: 400;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    z-index:4;
-}
 
-.sidebarOption {
-    /* background-color: gray; */
-    padding: 5px 15px;
-    border-radius: 10px;
-    transition: all 0.2s;
+
+.tab {
+    display: flex;
+    padding: 10px;
+    background-color: rgb(11, 11, 11);
+
+    .back {
+        height: fit-content;
+        border: 2px solid rgba(255, 255, 255, 0.508);
+        padding: 10px;
+        border-radius: 20px;
+        transition: 0.3s;
+        background-color: black;
+    }
+    .back :hover{
+        transform: scale(0.95);
+    }
+
+    .settingsHeader {
+        flex: 9;
+        text-align: center;
+        font-size: 2em;
+    }
 }
 
 .redOption {

@@ -14,7 +14,8 @@ import { supabase } from "../../utils/supabase/client"
 import { updateUserDetails } from "../../utils/updateUserDetails"
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-
+import { ArrowBigLeft } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 
 function isAlphaNumeric(str: string) {
@@ -119,7 +120,7 @@ export default function Account() {
 
 
     const updateProfile = async () => {
-        toast.info("Updating Profile...",{
+        toast.info("Updating Profile...", {
             position: "top-right",
             theme: "dark"
         })
@@ -147,7 +148,7 @@ export default function Account() {
             await updateUserDetails(userDetails.userId, formName, formUsername, formBio, imgUrl.publicUrl);
 
             console.log("updated profile")
-            toast.success("Profile Updated !",{
+            toast.success("Profile Updated !", {
                 position: "top-right",
                 theme: "dark"
             })
@@ -155,18 +156,22 @@ export default function Account() {
 
     }
 
+    const router=useRouter();
 
     return (<>
         <div className={styles.main}>
             <Spinner loading={!userDetails} className={styles.spinner} />
-            {/* <div className={styles.sidebar}>
-                <div className={styles.sidebarOption}>Profile</div>
-                <div className={styles.sidebarOption}>Display</div>
-                <div className={styles.sidebarOption}>Account</div>
-                <div className={`${styles.sidebarOption} ${styles.redOption}`}>Log Out</div>
-            </div> */}
+
+            <div className={styles.tab}>
+                <div className={styles.back} onClick={()=>{router.back()}}>
+                    <ArrowBigLeft />
+                </div>
+                <div className={styles.settingsHeader}>Account</div>
+            </div>
+
             <div className={styles.mainContent}>
-                <ToastContainer/>
+                <ToastContainer />
+
                 <div className={styles.profilePicture}>
                     <h1>Profile Picture</h1>
                     <div className={styles.picBox}>
