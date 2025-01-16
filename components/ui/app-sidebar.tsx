@@ -156,7 +156,7 @@ export function AppSidebar() {
                 </SidebarMenuButton>
               </SidebarMenuItem>
               {/* <ScrollArea className="h-22 w-48 rounded-md border"> */}
-              {localCollectionOfNotesState?.sort((a, b) => b.lastModifiedAt - a.lastModifiedAt)?.map((note: DisplayNote) => (
+              {localCollectionOfNotesState && localCollectionOfNotesState?.sort((a, b) => b.lastModifiedAt - a.lastModifiedAt)?.map((note: DisplayNote) => (
                 <SidebarMenuItem key={note.id}>
                   <SidebarMenuButton className={styles.noteBtn} onClick={() => {
                     console.log("lunn");
@@ -190,7 +190,7 @@ export function AppSidebar() {
                 <SidebarMenuButton className={styles.usernameBox}>
                   <Avatar className={styles.avatarImg}>
                     <AvatarImage src={userDetails?.imageUrl} alt="User" />
-                    <AvatarFallback>{userDetails?.name.slice(0, 1)}</AvatarFallback>
+                    <AvatarFallback>{userDetails && userDetails?.name.slice(0, 1)}</AvatarFallback>
                   </Avatar>
                   {userDetails?.name || "Username"}
                   <ChevronUp className="ml-auto" />

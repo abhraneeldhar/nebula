@@ -9,6 +9,8 @@ import jwt from "jsonwebtoken"
 import { userType } from "@/app/utils/fileFormat"
 import { v4 as uuidv4 } from "uuid";
 import { userDetailsType } from "@/app/setupAccount/page"
+import { supabase } from "@/app/utils/supabase/client"
+import { defaultPfpUpdate } from "@/app/utils/defaultPfpUpdate"
 
 export const options: NextAuthOptions = {
     // adapter: SupabaseAdapter({
@@ -35,26 +37,28 @@ export const options: NextAuthOptions = {
             try {
                 if (user) {
 
-                    if (existingUserCheck==0) {
+                    if (existingUserCheck == 0) {
                         console.log("if trigerred\n\n")
+                        
                         const newUser = {
                             userId: user.id as string,
                             name: user.name as string,
-                            userName: (String(user.name?.replace(/\s/g,''))+ String(uuidv4().slice(0, 5))).toLowerCase() as string,
+                            userName: (String(user.name?.replace(/\s/g, '')) + String(uuidv4().slice(0, 5))).toLowerCase() as string,
                             email: user.email as string,
-                            bio:"",
-                            imageUrl: user.image as string,
+                            bio: "",
+                            imageUrl: null,
                             dateOfJoining: Number(new Date),
-                            friendList:[]
+                            friendList: []
                         }
                         await usersCollection.insertOne(newUser);
                         console.log("inserted new user")
-                        // return "/setupAccount";
+                        // return "/settings/account";
                         return(true)
+                        
                     }
                 }
-                
-                
+
+
             }
             catch (error) {
                 console.log(error)
@@ -74,8 +78,8 @@ export const options: NextAuthOptions = {
         //         }
         //         session.supabaseAccessToken = jwt.sign(payload, signingSecret)
         //     }
-            
-            
+
+
         //     return session
         // },
         async jwt({ token, user }) {
