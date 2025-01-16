@@ -49,7 +49,7 @@ export const options: NextAuthOptions = {
                         }
                         await usersCollection.insertOne(newUser);
                         console.log("inserted new user")
-                        return "/setupAccount";
+                        // return "/setupAccount";
                     }
                 }
                 
