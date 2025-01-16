@@ -428,7 +428,7 @@ export default function Friends() {
                 </div>
                 <p>Friends</p>
             </div>
-            <Tabs.Root defaultValue="friends">
+            <Tabs.Root defaultValue="add">
                 <Tabs.List size="2" color="ruby" className={styles.tabsList}>
                     <Tabs.Trigger value="friends" className={styles.tabsTrigger}>Friends</Tabs.Trigger>
                     <Tabs.Trigger value="add" className={styles.tabsTrigger}>Add</Tabs.Trigger>

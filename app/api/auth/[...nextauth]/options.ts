@@ -11,10 +11,10 @@ import { v4 as uuidv4 } from "uuid";
 import { userDetailsType } from "@/app/setupAccount/page"
 
 export const options: NextAuthOptions = {
-    adapter: SupabaseAdapter({
-        url: process.env.SUPABASE_URL as string,
-        secret: process.env.SUPABASE_SERVICE_ROLE_KEY as string,
-    }),
+    // adapter: SupabaseAdapter({
+    //     url: process.env.NEXT_PUBLIC_SUPABASE_URL as string,
+    //     secret: process.env.SUPABASE_SERVICE_ROLE_KEY as string,
+    // }),
     providers: [
         GoogleProvider({
             clientId: process.env.GOOGLE_ID as string,
@@ -50,6 +50,7 @@ export const options: NextAuthOptions = {
                         await usersCollection.insertOne(newUser);
                         console.log("inserted new user")
                         // return "/setupAccount";
+                        return(true)
                     }
                 }
                 
