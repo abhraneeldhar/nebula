@@ -159,13 +159,12 @@ export default function Account() {
     return (<>
         <div className={styles.main}>
             <Spinner loading={!userDetails} className={styles.spinner} />
-            <div className={styles.sidebar}>
+            {/* <div className={styles.sidebar}>
                 <div className={styles.sidebarOption}>Profile</div>
                 <div className={styles.sidebarOption}>Display</div>
                 <div className={styles.sidebarOption}>Account</div>
                 <div className={`${styles.sidebarOption} ${styles.redOption}`}>Log Out</div>
-                {/* <div className={styles.sidebarOption}>Sidebar Option</div> */}
-            </div>
+            </div> */}
             <div className={styles.mainContent}>
                 <ToastContainer/>
                 <div className={styles.profilePicture}>

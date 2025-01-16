@@ -26,3 +26,34 @@
     }
 }
 
+.optionsHolder{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px ;
+    /* width: 100vw; */
+    flex-direction: column;
+    gap: 10px;
+    .option :hover{
+        transform: scale(0.95);
+    }
+    .option{
+        display: flex;
+        /* flex-direction: column; */
+        align-items: center;
+        justify-content: space-between;
+        background-color: rgb(10, 10, 10);
+        padding: 10px 20px;
+        border-radius: 10px;
+        width: 40%;
+        transition: all 0.3s;
+        .optionHeader{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .optionHeader h2{
+            font-size: 1.5em;
+        }
+    }
+}
