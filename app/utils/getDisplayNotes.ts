@@ -1,7 +1,10 @@
+import { mongoClientCS } from "./mongoConnector";
+
 export async function getDisplayNotes(userId: string){
-    const response= await fetch(process.env.NEXT_PUBLIC_URL+`/api/getDisplayNotes?userid=${userId}`,{
-        method: "GET"
-    });
-    const data=response.json();
-    return(data)
+    await mongoClientCS.connect();
+        const db=mongoClientCS.db("notesApp");
+        const notesCollection=db.collection("notes");
+        const displayNotes= await notesCollection.find({ owner: userId },{projection:{content:0}}).toArray();
+        // console.log(displayNotes)
+        return (displayNotes)
 }

@@ -133,14 +133,17 @@ export default function EditorComponent({ id }: { id: string }) {
                 // const noteData = await getOneNote(userId as string, currentOpenNoteId as string);
                 setLoadingEditorState(true);
                 const response = await getOneNote(userId as string, currentOpenNoteId as string)
-                if (response.status == 403) {
-                    console.log("we fucked up");
-                    setLoadingEditorState(false);
-                }
-                else {
-                    setNoteData(response);
-                    setLoadingEditorState(false);
-                }
+                setNoteData(response);
+                setLoadingEditorState(false);
+
+                // if (response?.status == 403) {
+                //     console.log("we fucked up");
+                //     setLoadingEditorState(false);
+                // }
+                // else {
+                //     setNoteData(response);
+                //     setLoadingEditorState(false);
+                // }
                 // console.log("userid>>>",userId," noteid>>>",currentOpenNoteId);
             }
             getNoteData();
@@ -349,9 +352,9 @@ export default function EditorComponent({ id }: { id: string }) {
         setShareDialogboxOpen(false);
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log(searchParam)
-    },[searchParam])
+    }, [searchParam])
     return (<>
         <div className={styles.main}>
             <Tab />
