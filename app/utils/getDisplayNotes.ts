@@ -1,3 +1,4 @@
+"use server"
 import { mongoClientCS } from "./mongoConnector";
 
 export async function getDisplayNotes(userId: string){

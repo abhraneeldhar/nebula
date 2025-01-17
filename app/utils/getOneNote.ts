@@ -1,3 +1,4 @@
+"use server"
 import { Delta } from "quill/core";
 import { mongoClientCS } from "./mongoConnector";
 import { Note } from "./fileFormat";
