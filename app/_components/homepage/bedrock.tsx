@@ -48,6 +48,7 @@ import { v4 as uuidv4 } from "uuid";
 import { postNote } from "@/app/utils/postNote";
 import { deleteSharedNote } from "@/app/utils/shareMechanics/deleteSharedNote";
 import { setupNewAccount } from "@/app/utils/setupNewAccount";
+import cubeLoader from "../../../public/cubeLoader.gif"
 
 export default function Bedrock() {
     const router = useRouter();
@@ -59,7 +60,7 @@ export default function Bedrock() {
 
     const { data: session } = useSession();
     const [userId, setUserId] = useState<string | null>(null)
-    const [userDetails, setUserDetails] = useState<userType|null>()
+    const [userDetails, setUserDetails] = useState<userType | null>()
     useEffect(() => {
         if (!userId && session?.user?.email) {
             const getUserId = async () => {
@@ -68,7 +69,7 @@ export default function Bedrock() {
                     setUserId(newUserId)
 
                 }
-                console.log("fetched userId: ",newUserId);
+                console.log("fetched userId: ", newUserId);
             }
             getUserId();
         }
@@ -80,8 +81,8 @@ export default function Bedrock() {
             const asyncGetUserDetails = async () => {
                 const newUserDetails = await getUserDetails(userId);
                 setUserDetails(newUserDetails);
-                console.log("fetched user details: ",newUserDetails)
-                if(newUserDetails.newAccount){
+                console.log("fetched user details: ", newUserDetails)
+                if (newUserDetails.newAccount) {
                     console.log("setting up new account>>>>>>>>>>")
                     await setupNewAccount(userId);
                     console.log("done setting up enw account >>>>>>")
@@ -161,7 +162,7 @@ export default function Bedrock() {
 
         const IncomingRequestPersonCard = ({ req }: { req: requestType }) => {
             // const [action, setAction] = useState<"add" | "remove" | "cancel" | "accept/reject" | null>(null);
-            const [reqUserDetails, setReqUserDetails] = useState<userType|null>()
+            const [reqUserDetails, setReqUserDetails] = useState<userType | null>()
             const [loadingDetails, setLoadingDetails] = useState(false)
             const [loadingActions, setloadingActions] = useState(false)
 
@@ -266,7 +267,7 @@ export default function Bedrock() {
         }, [incomingNotesList])
 
         const InboxCard = ({ sharedNoteData }: { sharedNoteData: sharedNoteType }) => {
-            const [senderDetails, setSenderDetails] = useState<userType|null>()
+            const [senderDetails, setSenderDetails] = useState<userType | null>()
             const [loadingActions, setLoadingActions] = useState(false);
 
             useEffect(() => {
@@ -290,16 +291,16 @@ export default function Bedrock() {
                     JackRyan.id = uuidv4();
                     JackRyan.createdAt = Date.now();
                     JackRyan.owner = userId;
-                    JackRyan.lastModifiedAt=Date.now();
+                    JackRyan.lastModifiedAt = Date.now();
                     await postNote(JSON.stringify(JackRyan));
                     await deleteSharedNote(sharedNoteData.id)
                     getInbox();
-                    const displayNotes= await getDisplayNotes(userId);
+                    const displayNotes = await getDisplayNotes(userId);
                     setlocalCollectionOfNotesState(displayNotes);
                 }
                 setLoadingActions(false);
             }
-            const rejectNote=async()=>{
+            const rejectNote = async () => {
                 setLoadingActions(true);
                 await deleteSharedNote(sharedNoteData.id);
                 getInbox();
@@ -318,7 +319,7 @@ export default function Bedrock() {
                     </div>
                     <div className={styles.reqAction}>
                         {loadingActions && <Spinner className={styles.friendCardSpinner} />}
-                        {(incomingRequestsList && !loadingActions) && (<><Button color="green" onClick={() => { acceptNote()}} ><CircleCheck /></Button><Button color="red" onClick={() => { rejectNote() }}><X /></Button></>)}
+                        {(incomingRequestsList && !loadingActions) && (<><Button color="green" onClick={() => { acceptNote() }} ><CircleCheck /></Button><Button color="red" onClick={() => { rejectNote() }}><X /></Button></>)}
                     </div>
                 </div>
             </>)
@@ -376,6 +377,10 @@ export default function Bedrock() {
         <Tab tabName="Home" />
 
 
+        
+
+
+
         <div className={styles.main}>
             <NewNoteBtn />
             <ToastContainer />
@@ -387,7 +392,6 @@ export default function Bedrock() {
                     </div>
                 </div>
 
-                {/* <WeathersTab /> */}
 
                 <div className={styles.notesAndOthersContainer}>
                     <div className={styles.notesSection} onClick={() => {
