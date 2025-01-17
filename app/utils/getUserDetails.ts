@@ -1,20 +1,23 @@
 "use server"
-export const getUserDetails= async (userId:string)=>{
+import { userDetailsType } from "../setupAccount/page";
+import { userType } from "./fileFormat";
+import { mongoClientCS } from "./mongoConnector";
 
-    try {
-        const response = await fetch(process.env.NEXT_PUBLIC_URL+`/api/fetchUserDetails?id=${userId}`,{
-            method: "GET"
-        });
-
-        if (!response.ok) {
-            console.log('Failed to fetch  user details');
-        }
-
-        const data = await response.json();
-        console.log(data)
-        return(data)
-       
-    } catch (error) {
-        console.log(error);
+export const getUserDetails = async (userId: string) => {
+    await mongoClientCS.connect();
+    const db = mongoClientCS.db("notesApp");
+    const usersCollection = db.collection("users");
+    const userDetailsJson = await usersCollection.findOne({ userId: userId });
+    const userDetails: userType = {
+        _id: String(userDetailsJson?._id),
+        userId: userDetailsJson?.userId,
+        name: userDetailsJson?.name,
+        userName: userDetailsJson?.userName,
+        email: userDetailsJson?.email,
+        imageUrl: userDetailsJson?.imageUrl,
+        bio: userDetailsJson?.bio,
+        dateOfJoining: userDetailsJson?.dateOfJoining,
+        friendList: userDetailsJson?.friendList
     }
+    return (userDetails)
 }

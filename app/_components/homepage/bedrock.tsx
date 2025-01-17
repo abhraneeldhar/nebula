@@ -16,7 +16,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useSidebar } from "@/components/ui/sidebar";
 import { Card, CardContent, CardHeader, CardDescription, CardTitle, CardFooter } from "@/components/ui/card";
 
-import { Note, Folder, DisplayNote, requestType, sharedNoteType } from "../../utils/fileFormat";
+import { Note, Folder, DisplayNote, requestType, sharedNoteType, userType } from "../../utils/fileFormat";
 
 
 import rightArrow from "../../../public/arrowright.png";
@@ -58,7 +58,7 @@ export default function Bedrock() {
 
     const { data: session } = useSession();
     const [userId, setUserId] = useState<string | null>(null)
-    const [userDetails, setUserDetails] = useState<userDetailsType>()
+    const [userDetails, setUserDetails] = useState<userType|null>()
     useEffect(() => {
         if (!userId && session?.user?.email) {
             const getUserId = async () => {
@@ -149,7 +149,7 @@ export default function Bedrock() {
 
         const IncomingRequestPersonCard = ({ req }: { req: requestType }) => {
             // const [action, setAction] = useState<"add" | "remove" | "cancel" | "accept/reject" | null>(null);
-            const [reqUserDetails, setReqUserDetails] = useState<userDetailsType>()
+            const [reqUserDetails, setReqUserDetails] = useState<userType|null>()
             const [loadingDetails, setLoadingDetails] = useState(false)
             const [loadingActions, setloadingActions] = useState(false)
 
@@ -254,7 +254,7 @@ export default function Bedrock() {
         }, [incomingNotesList])
 
         const InboxCard = ({ sharedNoteData }: { sharedNoteData: sharedNoteType }) => {
-            const [senderDetails, setSenderDetails] = useState<userDetailsType>()
+            const [senderDetails, setSenderDetails] = useState<userType|null>()
             const [loadingActions, setLoadingActions] = useState(false);
 
             useEffect(() => {
