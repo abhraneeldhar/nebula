@@ -67,6 +67,7 @@ export default function Bedrock() {
                     setUserId(newUserId)
 
                 }
+                console.log("fetched userId: ",newUserId);
             }
             getUserId();
         }
@@ -78,6 +79,7 @@ export default function Bedrock() {
             const asyncGetUserDetails = async () => {
                 const newUserDetails = await getUserDetails(userId);
                 setUserDetails(newUserDetails);
+                console.log("fetched user details: ",newUserDetails)
 
             }
             asyncGetUserDetails();
@@ -92,12 +94,17 @@ export default function Bedrock() {
             const asyncDisplayNotes = async () => {
                 console.log("fetching notes")
                 setLoadingDisplayNotes(true);
-                setlocalCollectionOfNotesState(await getDisplayNotes(userId));
+                setlocalCollectionOfNotesState((await getDisplayNotes(userId)));
                 setLoadingDisplayNotes(false);
             }
             asyncDisplayNotes();
         }
     }, [localCollectionOfNotesState, userId])
+
+    useEffect(()=>{
+        console.log("localcollectionofnotes state: ",localCollectionOfNotesState)
+    },[localCollectionOfNotesState])
+
 
     useEffect(() => {
         if (userId != null) {

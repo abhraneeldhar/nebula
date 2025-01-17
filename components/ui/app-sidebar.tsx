@@ -63,7 +63,7 @@ const items = [
     url: "/settings",
     icon: Settings,
   },
-  
+
 ]
 
 
@@ -120,13 +120,13 @@ export function AppSidebar() {
 
   return (
     <Sidebar className={styles.sidebar}>
-      
+
       <SidebarContent>
         <div className={styles.appLogo}>NEBULA</div>
 
         <SidebarGroup>
           <SidebarGroupLabel>Application</SidebarGroupLabel>
-          <SidebarGroupContent>          
+          <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
@@ -148,23 +148,24 @@ export function AppSidebar() {
 
           <SidebarGroupLabel>Notes</SidebarGroupLabel>
           <SidebarGroupContent>
-            
+
             <SidebarMenu>
               <SidebarMenuItem className={styles.newNoteMenuItem}>
-                <SidebarMenuButton onClick={()=>{router.push("/editor")}}>
+                <SidebarMenuButton onClick={() => { router.push("/editor") }}>
                   New Note
                 </SidebarMenuButton>
               </SidebarMenuItem>
               {/* <ScrollArea className="h-22 w-48 rounded-md border"> */}
-              {localCollectionOfNotesState && localCollectionOfNotesState?.sort((a, b) => b.lastModifiedAt - a.lastModifiedAt)?.map((note: DisplayNote) => (
-                <SidebarMenuItem key={note.id}>
-                  <SidebarMenuButton className={styles.noteBtn} onClick={() => {
-                    console.log("lunn");
-                    router.push(`/editor/${note.id}`);
-                    // setCurrentNoteState(note.id)
-                  }}><NotebookText/>{note.title}</SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
+              {localCollectionOfNotesState &&
+                Array.isArray(localCollectionOfNotesState) && localCollectionOfNotesState?.sort((a, b) => b.lastModifiedAt - a.lastModifiedAt)?.map((note: DisplayNote) => (
+                  <SidebarMenuItem key={note.id}>
+                    <SidebarMenuButton className={styles.noteBtn} onClick={() => {
+                      console.log("lunn");
+                      router.push(`/editor/${note.id}`);
+                      // setCurrentNoteState(note.id)
+                    }}><NotebookText />{note.title}</SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
 
 
 

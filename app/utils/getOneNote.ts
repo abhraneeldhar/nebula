@@ -3,7 +3,7 @@ import { Delta } from "quill/core";
 import { mongoClientCS } from "./mongoConnector";
 import { Note } from "./fileFormat";
 
-export async function getOneNote(userId: string,noteId:string){
+export async function getOneNote(userId: string, noteId: string) {
     await mongoClientCS.connect();
         const db=mongoClientCS.db("notesApp");
         const notesCollection=db.collection("notes");
@@ -24,5 +24,14 @@ export async function getOneNote(userId: string,noteId:string){
                 title:"Untitled"
             }
             return (newNote)
+        }
+        else{
+            if(noteData.owner!=userId){
+                return null;
+            }
+            else if(noteData.owner==userId){
+                const noteData=await notesCollection.findOne({id:noteId, owner:userId});
+                return (JSON.parse(JSON.stringify(noteData)))
+            }
         }
 }

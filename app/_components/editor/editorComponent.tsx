@@ -124,7 +124,7 @@ export default function EditorComponent({ id }: { id: string }) {
 
 
     const currentOpenNoteId = id;
-    const [noteData, setNoteData] = useState<Note>()
+    const [noteData, setNoteData] = useState<Note|null>()
 
     useEffect(() => {
         if (userId) {
@@ -132,7 +132,7 @@ export default function EditorComponent({ id }: { id: string }) {
             const getNoteData = async () => {
                 // const noteData = await getOneNote(userId as string, currentOpenNoteId as string);
                 setLoadingEditorState(true);
-                const response = await getOneNote(userId as string, currentOpenNoteId as string)
+                const response = await getOneNote(userId as string, currentOpenNoteId as string) as Note
                 setNoteData(response);
                 setLoadingEditorState(false);
 
@@ -276,7 +276,7 @@ export default function EditorComponent({ id }: { id: string }) {
                     folderName: "root"
                 }
             }
-            await postNote(newNote);
+            const res= await postNote(JSON.stringify(newNote));
             setSavingState(false);
             toast.success("Saved", { position: "bottom-center", theme: "dark" })
             // console.log("saving state>>>>", savingState);
