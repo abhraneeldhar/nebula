@@ -1,5 +1,4 @@
 "use server"
-import { userDetailsType } from "../setupAccount/page";
 import { userType } from "./fileFormat";
 import { mongoClientCS } from "./mongoConnector";
 
