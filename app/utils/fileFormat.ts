@@ -9,7 +9,8 @@ export interface userType{
     imageUrl: string,
     bio:string,
     dateOfJoining: number
-    friendList:string[]
+    friendList:string[],
+    newAccount:boolean
 }
 
 

@@ -47,6 +47,7 @@ import { getIncomingNotes } from "@/app/utils/shareMechanics/getIncomingNotes";
 import { v4 as uuidv4 } from "uuid";
 import { postNote } from "@/app/utils/postNote";
 import { deleteSharedNote } from "@/app/utils/shareMechanics/deleteSharedNote";
+import { setupNewAccount } from "@/app/utils/setupNewAccount";
 
 export default function Bedrock() {
     const router = useRouter();
@@ -80,7 +81,11 @@ export default function Bedrock() {
                 const newUserDetails = await getUserDetails(userId);
                 setUserDetails(newUserDetails);
                 console.log("fetched user details: ",newUserDetails)
-
+                if(newUserDetails.newAccount){
+                    console.log("setting up new account>>>>>>>>>>")
+                    await setupNewAccount(userId);
+                    console.log("done setting up enw account >>>>>>")
+                }
             }
             asyncGetUserDetails();
         }
@@ -101,9 +106,9 @@ export default function Bedrock() {
         }
     }, [localCollectionOfNotesState, userId])
 
-    useEffect(()=>{
-        console.log("localcollectionofnotes state: ",localCollectionOfNotesState)
-    },[localCollectionOfNotesState])
+    // useEffect(()=>{
+    //     console.log("localcollectionofnotes state: ",localCollectionOfNotesState)
+    // },[localCollectionOfNotesState])
 
 
     useEffect(() => {

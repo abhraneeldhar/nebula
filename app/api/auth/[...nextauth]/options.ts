@@ -48,7 +48,8 @@ export const options: NextAuthOptions = {
                             bio: "",
                             imageUrl: null,
                             dateOfJoining: Number(new Date),
-                            friendList: []
+                            friendList: [],
+                            newAccount:true
                         }
                         await usersCollection.insertOne(newUser);
                         console.log("inserted new user")
