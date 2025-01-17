@@ -286,7 +286,7 @@ export default function Bedrock() {
                     JackRyan.createdAt = Date.now();
                     JackRyan.owner = userId;
                     JackRyan.lastModifiedAt=Date.now();
-                    await postNote(JackRyan);
+                    await postNote(JSON.stringify(JackRyan));
                     await deleteSharedNote(sharedNoteData.id)
                     getInbox();
                     const displayNotes= await getDisplayNotes(userId);
