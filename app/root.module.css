@@ -159,6 +159,7 @@
     .main{
         width: 100vw;
         overflow: hidden;
+        margin: 0;
         /* zoom: 1; */
         /* background-color: red; */
     }
@@ -167,17 +168,24 @@
         max-width: 100vw;
     }
     .tab{
-        width: 100%;
+        /* width: 100%; */
         margin: 10px;
         gap: 5px;
         .sectionTags{
             gap: 0;
             justify-content: space-between;
+            padding-right: 10px;
             /* margin-right: 10px; */
         }
     }
     .cloudGif{
         width: 100vw;
+        object-fit: cover;
+        filter: blur(20px);
+        margin: 0;
+    }
+    .getStarted{
+        bottom: 20%;
     }
     .sectionHeading{
         font-size: 30px;
@@ -190,15 +198,26 @@
         /* padding: 0; */
         width: 100vw;
     }
+    
+
+    .shareDiv .para{
+        flex-direction: column;
+        /* align-items: flex-start; */
+        /* justify-content: flex-start; */
+        /* border: 3px solid red; */
+        padding: 0;
+        margin-bottom: 10px;
+    }
     .shareDiv .picsHolder{
         flex-wrap: wrap;
         margin: 0;
-        gap: 0;
+        gap: 20px;
         padding: 0;
         justify-content: center;
     }
     .documentEditing img{
-        width: 300px;
+        width: 100%;
+        margin-top: 20px;
         /* border: 3px solid red; */
     }
     .shareDiv .friendsTabImg{
