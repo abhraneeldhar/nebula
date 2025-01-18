@@ -3,7 +3,9 @@
     position: relative;
     /* background-color: purple; */
 }
-
+.heroDiv{
+    height: 100vh;
+}
 .cloudGif {
     position: absolute;
     z-index: -1;
@@ -96,6 +98,7 @@
     align-items: center;
     gap: 5px;
     /* z-index: 2; */
+    /* border: 3px solid red; */
 }
 
 .getStarted:hover {
@@ -108,35 +111,44 @@
     font-weight: 400;
     margin-bottom: 10px;
     color: white;
+    /* border: 3px solid red; */
 }
-.sectionGap{
-    position: relative;
-    /* height: calc(100vh-50px); */
-    /* height: 100vh; */
-    /* transform: translateY(-50px); */
-}
-.documentEditing {
+
+.documentEditing,.shareDiv {
     background-color: black;
     display: flex;
     flex-direction: column;
     padding: 20px;
 }
-
-.sectionDiv {
-    background-color: black;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-}
-
-.documentEditing p {
+.documentEditing p,.shareDiv p {
     margin-left: 20px;
     color: rgb(205, 205, 205);
 }
-
-
 .documentEditing img {
     margin-top: 20px;
     height: 600px;
+    object-fit: contain;
+}
+.shareDiv .para{
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 50px;
+}
+.shareDiv .picsHolder{
+    display: flex;
+    /* margin-top: 20px; */
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-left: 20px;
+}
+.shareDiv .friendsTabImg{
+    height: 500px;
+    width: 800px;
+    object-fit: contain;
+}
+.shareDiv .shareBoxImg{
+    height: 400px;
+    width: 500px;
     object-fit: contain;
 }
