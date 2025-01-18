@@ -1,0 +1,106 @@
+.main {
+    min-height: 100vh;
+    position: relative;
+    /* background-color: purple; */
+
+}
+
+.cloudGif {
+    position: absolute;
+    z-index: -1;
+    height: 100vh;
+    width: 100vw;
+    filter: blur(5px);
+}
+
+.tab {
+    background-color: #5e37b149;
+    display: flex;
+    margin: 10px;
+    /* margin-top: 10px; */
+    height: 40px;
+    align-items: center;
+    padding: 0px 3px;
+    border-radius: 20px;
+    justify-content: space-between;
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0px;
+
+}
+
+.tab img {
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+}
+
+.sectionTags {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    width: 100%;
+}
+
+.sectionTags a {
+    font-weight: 500;
+    transition: all 0.2s;
+}
+.sectionTags a:hover{
+    transform: scale(0.95);
+    cursor: pointer;
+}
+.bigAghLogo{
+    position: absolute;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    /* border: 3px solid red; */
+}
+.bigAghLogo h1{
+    font-size: 60px;
+    letter-spacing: 40px;
+    font-weight: 500;
+    animation: bigLogoAnimation 1s ease-in;
+}
+
+@keyframes bigLogoAnimation{
+    0%{
+        opacity: 0;
+        transform:translateY(10px);
+    }
+}
+
+.getStarted{
+    background-color: #5d1de2;
+    padding: 10px 15px;
+    font-size: 20px;
+    font-weight: 400;
+    height: 50px;
+    border-radius: 15px;
+    position: absolute;
+    bottom: 100px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.getStarted:hover{
+    background-color: #7139e9;
+    transform: scale(0.95);
+}
+
+.documentEditing{
+    margin-top: 0;
+    margin-top: 100vh;
+    transform: translateY(-50px);
+    background-color: red;
+    display: flex;
+    height: 100px;
+}
+
