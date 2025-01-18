@@ -169,7 +169,9 @@
     }
     .tab{
         /* width: 100%; */
-        margin: 10px;
+        margin: 0px;
+        padding: 25px 5px;
+        border-radius: 0;
         gap: 5px;
         .sectionTags{
             gap: 0;
