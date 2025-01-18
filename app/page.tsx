@@ -1,6 +1,10 @@
+"use server"
+import style from "./root.module.css"
 export default function Main(){
 
   return(
-      <>root of site</>
+      <div className={style.main}>
+        
+      </div>
   )
 }
