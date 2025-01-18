@@ -82,11 +82,12 @@ export default function Bedrock() {
                 const newUserDetails = await getUserDetails(userId);
                 setUserDetails(newUserDetails);
                 console.log("fetched user details: ", newUserDetails)
-                if (newUserDetails.newAccount) {
-                    console.log("setting up new account>>>>>>>>>>")
-                    await setupNewAccount(userId);
-                    console.log("done setting up enw account >>>>>>")
-                }
+                // if (newUserDetails.newAccount) {
+                //     // setting up newaccount new account
+                //     console.log("setting up new account>>>>>>>>>>")
+                //     await setupNewAccount(userId);
+                //     console.log("done setting up enw account >>>>>>")
+                // }
             }
             asyncGetUserDetails();
         }

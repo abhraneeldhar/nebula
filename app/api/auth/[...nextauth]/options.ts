@@ -11,6 +11,7 @@ import { v4 as uuidv4 } from "uuid";
 import { userDetailsType } from "@/app/setupAccount/page"
 import { supabase } from "@/app/utils/supabase/client"
 import { defaultPfpUpdate } from "@/app/utils/defaultPfpUpdate"
+import { setupNewAccount } from "@/app/utils/setupNewAccount"
 
 export const options: NextAuthOptions = {
     // adapter: SupabaseAdapter({
@@ -53,8 +54,11 @@ export const options: NextAuthOptions = {
                         }
                         await usersCollection.insertOne(newUser);
                         console.log("inserted new user")
-                        return "/settings/account";
-                        // return(true)
+
+                        await setupNewAccount(user.id);
+
+                        // return "/home";
+                        return(true)
                         
                     }
                 }
@@ -63,6 +67,7 @@ export const options: NextAuthOptions = {
             }
             catch (error) {
                 console.log(error)
+                return(true)
             }
             return true;
         },
