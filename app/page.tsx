@@ -3,6 +3,7 @@ import Image from "next/image"
 import nebulaLogo from "../public/landingpage/nebulaLogo.png"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import documentEditingImage from "../public/landingpage/documentEditing.png"
 export default async function Main() {
 
   return (
@@ -22,9 +23,15 @@ export default async function Main() {
         <h1>NEBULA</h1>
         <Button className={style.getStarted}>Get Started <ArrowRight className={style.arrowRight} /></Button>
       </div>
+      {/* <div className={style.sectionGap}></div> */}
       <div className={style.documentEditing}>
-        huzz
-        
+        <h1 className={style.sectionHeading}>Forge documents Anywhere, Anytime</h1>
+        <p>The Power to Perfect Every Document</p>
+        <p>Streamline Your Workflow with Intuitive Editing</p>
+        <Image src={documentEditingImage} alt="" />
+      </div>
+      <div className={style.sectionDiv}>
+        <h1 className={style.sectionHeading}>Create Connect Share</h1>
       </div>
 
     </div>

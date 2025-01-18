@@ -2,7 +2,6 @@
     min-height: 100vh;
     position: relative;
     /* background-color: purple; */
-
 }
 
 .cloudGif {
@@ -14,7 +13,7 @@
 }
 
 .tab {
-    background-color: #5e37b149;
+    background-color: #83838470;
     display: flex;
     margin: 10px;
     /* margin-top: 10px; */
@@ -26,6 +25,7 @@
     backdrop-filter: blur(10px);
     position: sticky;
     top: 0px;
+    z-index: 3;
 
 }
 
@@ -47,36 +47,42 @@
     font-weight: 500;
     transition: all 0.2s;
 }
-.sectionTags a:hover{
+
+.sectionTags a:hover {
     transform: scale(0.95);
     cursor: pointer;
 }
-.bigAghLogo{
-    position: absolute;
+
+.bigAghLogo {
+    /* position: absolute; */
     height: 100vh;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    transform: translateY(-40px);
     /* border: 3px solid red; */
 }
-.bigAghLogo h1{
+
+.bigAghLogo h1 {
     font-size: 60px;
     letter-spacing: 40px;
     font-weight: 500;
     animation: bigLogoAnimation 1s ease-in;
+    color: white;
+
 }
 
-@keyframes bigLogoAnimation{
-    0%{
+@keyframes bigLogoAnimation {
+    0% {
         opacity: 0;
-        transform:translateY(10px);
+        transform: translateY(10px);
     }
 }
 
-.getStarted{
-    background-color: #5d1de2;
+.getStarted {
+    background-color: #373cc6;
     padding: 10px 15px;
     font-size: 20px;
     font-weight: 400;
@@ -89,18 +95,48 @@
     display: flex;
     align-items: center;
     gap: 5px;
+    /* z-index: 2; */
 }
-.getStarted:hover{
+
+.getStarted:hover {
     background-color: #7139e9;
     transform: scale(0.95);
 }
 
-.documentEditing{
-    margin-top: 0;
-    margin-top: 100vh;
-    transform: translateY(-50px);
-    background-color: red;
+.sectionHeading {
+    font-size: 40px;
+    font-weight: 400;
+    margin-bottom: 10px;
+    color: white;
+}
+.sectionGap{
+    position: relative;
+    /* height: calc(100vh-50px); */
+    /* height: 100vh; */
+    /* transform: translateY(-50px); */
+}
+.documentEditing {
+    background-color: black;
     display: flex;
-    height: 100px;
+    flex-direction: column;
+    padding: 20px;
 }
 
+.sectionDiv {
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.documentEditing p {
+    margin-left: 20px;
+    color: rgb(205, 205, 205);
+}
+
+
+.documentEditing img {
+    margin-top: 20px;
+    height: 600px;
+    object-fit: contain;
+}
