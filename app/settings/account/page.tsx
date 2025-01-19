@@ -163,7 +163,7 @@ export default function Account() {
             <Spinner loading={!userDetails} className={styles.spinner} />
 
             <div className={styles.tab}>
-                <div className={styles.back} onClick={()=>{router.push("/home")}}>
+                <div className={styles.back} onClick={()=>{router.push("/settings")}}>
                     <ArrowBigLeft />
                 </div>
                 <div className={styles.settingsHeader}>Account</div>
