@@ -11,7 +11,7 @@ export default function Settings() {
         <div className={styles.main}>
 
             <div className={styles.tab}>
-                <div className={styles.back} onClick={()=>{router.back()}}>
+                <div className={styles.back} onClick={()=>{router.push("/home")}}>
                     <ArrowBigLeft />
                 </div>
                 <div className={styles.settingsHeader}>Settings</div>

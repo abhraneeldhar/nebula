@@ -6,7 +6,7 @@ export default function Displaysettings(){
     const router=useRouter();
     return(<>
     <div className={styles.tab}>
-                    <div className={styles.back} onClick={()=>{router.back()}}>
+                    <div className={styles.back} onClick={()=>{router.push("/home")}}>
                         <ArrowBigLeft />
                     </div>
                     <div className={styles.settingsHeader}>Display</div>
