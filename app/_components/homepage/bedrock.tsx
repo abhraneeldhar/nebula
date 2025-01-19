@@ -399,7 +399,7 @@ export default function Bedrock() {
                         router.push("/allnotes")
                         console.log("opens notes page");
                     }}>
-                        <h2>Open Notes<Image src={rightArrow} alt=">" className={styles.rightArrow} /></h2>
+                        <h2>All Documents<Image src={rightArrow} alt=">" className={styles.rightArrow} /></h2>
                         <div className={styles.notesContainer}>
                             {loadingDisplayNotes && !localCollectionOfNotesState && (<>
                                 <Skeleton className={styles.loadingNote} onClick={(e) => { e.stopPropagation() }}>

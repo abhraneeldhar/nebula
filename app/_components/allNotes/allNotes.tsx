@@ -118,7 +118,7 @@ export default function AllNotesComponent() {
 
     return (<>
 
-        <Tab tabName="Notes Manager" />
+        <Tab tabName="Documents Manager" />
 
         <Dialog open={openRename} onOpenChange={(e) => {
             setRenameOpen(e);
@@ -140,7 +140,7 @@ export default function AllNotesComponent() {
                     setRefreshCollectionOfNotes((prev)=>!prev);
                 }}>
                     <DialogHeader>
-                        <DialogTitle>Rename note</DialogTitle>
+                        <DialogTitle>Rename Document</DialogTitle>
                         <DialogDescription>
                             Make changes to your document.
                         </DialogDescription>
