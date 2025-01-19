@@ -54,7 +54,7 @@ const items = [
     icon: Users,
   },
   {
-    title: "All Notes",
+    title: "All Documents",
     url: "/allnotes",
     icon: NotebookPen,
   },
@@ -146,13 +146,13 @@ export function AppSidebar() {
 
         <SidebarGroup>
 
-          <SidebarGroupLabel>Notes</SidebarGroupLabel>
+          <SidebarGroupLabel>Docs</SidebarGroupLabel>
           <SidebarGroupContent>
 
             <SidebarMenu>
               <SidebarMenuItem className={styles.newNoteMenuItem}>
                 <SidebarMenuButton onClick={() => { router.push("/editor") }}>
-                  New Note
+                  New Document
                 </SidebarMenuButton>
               </SidebarMenuItem>
               {/* <ScrollArea className="h-22 w-48 rounded-md border"> */}
