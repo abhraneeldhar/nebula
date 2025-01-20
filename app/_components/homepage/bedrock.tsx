@@ -10,7 +10,7 @@ import menuSVG from "../../../public/menu_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24
 import coverImage from ".././assetImages/coverimage.png"
 import profilePic from ".././assetImages/profilePic.jpg"
 
-import WeathersTab from "../weathersTab/weatherstab";
+// import WeathersTab from "../weathersTab/weatherstab";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useSidebar } from "@/components/ui/sidebar";
@@ -61,6 +61,8 @@ export default function Bedrock() {
     const { data: session } = useSession();
     const [userId, setUserId] = useState<string | null>(null)
     const [userDetails, setUserDetails] = useState<userType | null>()
+
+    // fetches userId
     useEffect(() => {
         if (!userId && session?.user?.email) {
             const getUserId = async () => {
@@ -76,6 +78,7 @@ export default function Bedrock() {
     }, [userId, session])
 
 
+    // fetches userdetails
     useEffect(() => {
         if (userId) {
             const asyncGetUserDetails = async () => {
@@ -96,6 +99,7 @@ export default function Bedrock() {
     const [refreshCollectionOfNotes, setRefreshCollectionOfNotes] = useState(false)
 
 
+    // fetches display notes
     useEffect(() => {
         if (localCollectionOfNotesState == null && userId != null) {
             const asyncDisplayNotes = async () => {
@@ -113,6 +117,7 @@ export default function Bedrock() {
     // },[localCollectionOfNotesState])
 
 
+    // not sure if this ever triggers
     useEffect(() => {
         if (userId != null) {
             const asyncDisplayNotes = async () => {
@@ -128,6 +133,7 @@ export default function Bedrock() {
 
 
 
+    // tab component
     const Tab = ({ tabName }: { tabName: string }) => {
         const { toggleSidebar, open } = useSidebar();
         const [reqOpen, setReqOpen] = useState(false);
@@ -137,6 +143,7 @@ export default function Bedrock() {
         const [loadingDetails, setLoadingDetails] = useState(false)
         const getIncomingReq = async () => {
 
+            
             if (userId) {
                 setLoadingDetails(true);
                 const { data: incomingReqArray, error } = await supabase.from("friendRequest").select("*").eq("receiverId", userId).eq("status", "pending")
@@ -149,11 +156,14 @@ export default function Bedrock() {
             }
         };
 
-        useEffect(() => {
 
+        // fetches incoming requests
+        useEffect(() => {
             getIncomingReq();
             console.log("getitng incoming reqs")
         }, [userId])
+        
+        // fetches incoming requests
         useEffect(() => {
             if (reqOpen && userId) {
                 getIncomingReq();
