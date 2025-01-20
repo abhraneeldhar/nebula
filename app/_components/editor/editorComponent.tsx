@@ -10,13 +10,12 @@ import Image from "next/image"
 import closeSVG from "../../../public/close_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png"
 import menuSVG from "../../../public/menu_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png"
 
-import { Box, Button, CheckboxCards, Text } from "@radix-ui/themes"
+import { Button} from "@radix-ui/themes"
 import { useSidebar } from "@/components/ui/sidebar"
 import { appStore } from "@/app/store"
 
 
 import { DisplayNote, Note } from "@/app/utils/fileFormat"
-import { fetchUserId } from "@/app/utils/fetchUserId"
 
 import { useSession } from "next-auth/react"
 import { Delta } from "quill/core"
@@ -25,10 +24,7 @@ import { postNote } from "@/app/utils/postNote"
 import { Input } from "@/components/ui/input"
 import { getOneNote } from "@/app/utils/getOneNote"
 import { getDisplayNotes } from "@/app/utils/getDisplayNotes"
-// import Input from "postcss/lib/input"
-// import { Input } from "postcss"
 
-import { Flex, Skeleton } from "@radix-ui/themes"
 import { Spinner } from "@radix-ui/themes"
 
 import { toast, ToastContainer } from 'react-toastify';
@@ -38,12 +34,9 @@ import {
     Dialog,
     DialogContent,
     DialogDescription,
-    DialogFooter,
     DialogHeader,
     DialogTitle,
-    DialogTrigger,
 } from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
 import { getFriends } from "@/app/utils/shareMechanics/getFriends"
 import { userDetailsType } from "@/app/setupAccount/page"
 import { Circle, CircleCheckBig } from "lucide-react"
