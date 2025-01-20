@@ -58,13 +58,11 @@ export default function EditorComponent({ id }: { id: string }) {
     const setlocalCollectionOfNotesState = appStore((state) => state.setlocalCollectionOfNotesState);
 
     const [refreshCollectionOfNotes, setRefreshCollectionOfNotes] = useState(false)
-    // const [refreshCurrentNote, setRefreshCurrentNote] = useState(false)
-
 
     const [loadingEditorState, setLoadingEditorState] = useState(true);
     const [savingState, setSavingState] = useState(false);
 
-    
+
     const { data: session } = useSession();
     const [userId, setUserId] = useState<string | null>(null)
 
@@ -87,20 +85,20 @@ export default function EditorComponent({ id }: { id: string }) {
 
 
     useEffect(() => {
-        if (localCollectionOfNotesState == null && userId != null) {
+        if (localCollectionOfNotesState == null && userDetails != null) {
             const asyncDisplayNotes = async () => {
                 console.log("fetching display notes")
-                setlocalCollectionOfNotesState(await getDisplayNotes(userId));
+                setlocalCollectionOfNotesState(await getDisplayNotes(userDetails.userId));
             }
             asyncDisplayNotes();
         }
 
-        return (() => {
-            console.log("unmounting editorcomponent")
-        })
 
-    }, [localCollectionOfNotesState, userId])
+        // }, [localCollectionOfNotesState, userDetails])
+    }, [userDetails])
 
+
+    // need to avoid refetching
     useEffect(() => {
         if (userId) {
             const asyncDisplayNotes = async () => {
@@ -113,8 +111,9 @@ export default function EditorComponent({ id }: { id: string }) {
 
 
     const currentOpenNoteId = id;
-    const [noteData, setNoteData] = useState<Note|null>()
+    const [noteData, setNoteData] = useState<Note | null>()
 
+    // gets current open note data
     useEffect(() => {
         if (userDetails) {
             const getNoteData = async () => {
@@ -234,12 +233,12 @@ export default function EditorComponent({ id }: { id: string }) {
 
 
     const saveFunction = async () => {
-        setSavingState(true);
-        console.log("saving state>>>>", savingState);
+        // console.log("saving state>>>>", savingState);
         const noteSnippet = quillRef.current?.getText() as string
-        if (userId) {
+        if (userDetails) {
+            setSavingState(true);
             const newNote: Note = {
-                owner: userId,
+                owner: userDetails.userId,
                 id: currentOpenNoteId,
                 createdAt: noteData?.createdAt as number,
                 lastModifiedAt: Number(new Date()),
@@ -252,15 +251,12 @@ export default function EditorComponent({ id }: { id: string }) {
                     folderName: "root"
                 }
             }
-            const res= await postNote(JSON.stringify(newNote));
+            const res = await postNote(JSON.stringify(newNote));
             setSavingState(false);
             toast.success("Saved", { position: "bottom-center", theme: "dark" })
             // console.log("saving state>>>>", savingState);
         }
-        else {
-            console.log("userId not found");
-            setSavingState(false);
-        }
+
         setRefreshCollectionOfNotes((prev) => !prev)
         // setRefreshCurrentNote((prev) => !prev)
     }
