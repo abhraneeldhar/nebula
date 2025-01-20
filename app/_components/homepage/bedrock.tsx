@@ -52,6 +52,7 @@ import { deleteSharedNote } from "@/app/utils/shareMechanics/deleteSharedNote";
 export default function Bedrock() {
     const router = useRouter();
 
+    // only the dsiplay notes
     const localCollectionOfNotesState = appStore((state) => state.localCollectionOfNotesState) as DisplayNote[]
     const setlocalCollectionOfNotesState = appStore((state) => state.setlocalCollectionOfNotesState)
 
