@@ -354,9 +354,6 @@ export default function EditorComponent({ id }: { id: string }) {
         setShareDialogboxOpen(false);
     }
 
-    useEffect(() => {
-        console.log(searchParam)
-    }, [searchParam])
     return (<>
         <div className={styles.main}>
             <Tab />
