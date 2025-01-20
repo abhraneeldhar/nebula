@@ -72,6 +72,7 @@ export default function Bedrock() {
                 console.log("fetching user details via email");
                 const res= await getUserDetailsFromEmail(session?.user?.email as string);
                 console.log("fetched user details via email: ",res)
+                setUserId(res.userId)
             }
             fetchingUserDetails();
         }
@@ -119,16 +120,16 @@ export default function Bedrock() {
 
     // fetches display notes
     useEffect(() => {
-        if (localCollectionOfNotesState == null && userId != null) {
+        if (localCollectionOfNotesState == null && userDetails != null) {
             const asyncDisplayNotes = async () => {
                 console.log("fetching notes")
                 setLoadingDisplayNotes(true);
-                setlocalCollectionOfNotesState((await getDisplayNotes(userId)));
+                setlocalCollectionOfNotesState((await getDisplayNotes(userDetails.userId)));
                 setLoadingDisplayNotes(false);
             }
             asyncDisplayNotes();
         }
-    }, [localCollectionOfNotesState, userId])
+    }, [localCollectionOfNotesState, userDetails])
 
     // useEffect(()=>{
     //     console.log("localcollectionofnotes state: ",localCollectionOfNotesState)
@@ -148,9 +149,9 @@ export default function Bedrock() {
         const getIncomingReq = async () => {
 
             
-            if (userId) {
+            if (userDetails) {
                 setLoadingDetails(true);
-                const { data: incomingReqArray, error } = await supabase.from("friendRequest").select("*").eq("receiverId", userId).eq("status", "pending")
+                const { data: incomingReqArray, error } = await supabase.from("friendRequest").select("*").eq("receiverId", userDetails.userId).eq("status", "pending")
                 // console.log(incomingReqArray);
                 setLoadingDetails(false)
                 if (incomingReqArray != incomingRequestsList) {
@@ -165,11 +166,11 @@ export default function Bedrock() {
         useEffect(() => {
             getIncomingReq();
             console.log("getitng incoming reqs")
-        }, [userId])
+        }, [userDetails])
         
         // fetches incoming requests
         useEffect(() => {
-            if (reqOpen && userId) {
+            if (reqOpen && userDetails) {
                 getIncomingReq();
                 console.log("getitng incoming reqs");
             }
@@ -200,7 +201,7 @@ export default function Bedrock() {
                 const { data, error } = await supabase
                     .from('friendRequest')
                     .update({ status: "accepted" })
-                    .eq("senderId", req.senderId).eq("receiverId", userId).eq("status", "pending")
+                    .eq("senderId", req.senderId).eq("receiverId", userDetails?.userId).eq("status", "pending")
                     .select();
                 console.log(data)
                 console.log(error)
@@ -212,10 +213,10 @@ export default function Bedrock() {
                     const res1 = await updateFriendList(userDetails?.userId as string, updatedUserDetails as userDetailsType);
                     console.log("res1>>>> ", res1);
                 }
-                if (!reqUserDetails?.friendList.includes(userId as string)) {
-                    console.log(userId, " not present in ", reqUserDetails?.friendList);
+                if (!reqUserDetails?.friendList.includes(userDetails?.userId as string)) {
+                    console.log(userDetails?.userId, " not present in ", reqUserDetails?.friendList);
                     let updatedUserDetails = reqUserDetails as userDetailsType;
-                    updatedUserDetails.friendList.push(userId as string);
+                    updatedUserDetails.friendList.push(userDetails?.userId as string);
                     const res2 = await updateFriendList(req.senderId, updatedUserDetails);
                     console.log("res2>>>", res2);
                 }
@@ -227,7 +228,7 @@ export default function Bedrock() {
                 const { data, error } = await supabase
                     .from('friendRequest')
                     .update({ status: "rejected" })
-                    .eq("senderId", req.senderId).eq("receiverId", userId).eq("status", "pending")
+                    .eq("senderId", req.senderId).eq("receiverId", userDetails?.userId).eq("status", "pending")
                     .select();
                 console.log(data)
                 console.log(null)
