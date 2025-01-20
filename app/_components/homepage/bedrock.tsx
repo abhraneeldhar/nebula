@@ -34,7 +34,7 @@ import { Button } from "@radix-ui/themes";
 
 
 import { getUserDetails } from "@/app/utils/getUserDetails";
-import { userDetailsType } from "@/app/setupAccount/page";
+// import { userType } from "../../utils/fileFormat";
 
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
@@ -48,6 +48,7 @@ import { v4 as uuidv4 } from "uuid";
 import { postNote } from "@/app/utils/postNote";
 import { deleteSharedNote } from "@/app/utils/shareMechanics/deleteSharedNote";
 import { getUserDetailsFromEmail } from "@/app/utils/getUserDetailsFromEmail";
+import LoadingPage from "../loadingPage/page";
 
 
 export default function Bedrock() {
@@ -57,10 +58,11 @@ export default function Bedrock() {
     const localCollectionOfNotesState = appStore((state) => state.localCollectionOfNotesState) as DisplayNote[]
     const setlocalCollectionOfNotesState = appStore((state) => state.setlocalCollectionOfNotesState)
 
+    const [loadingDisplayNotes, setLoadingDisplayNotes] = useState(true);
+
+
     const userDetails = appStore((state) => state.userDetails)
     const setUserDetails = appStore((state) => state.setUserDetails)
-
-    const [loadingDisplayNotes, setLoadingDisplayNotes] = useState(true);
 
     const { data: session } = useSession();
     const [userId, setUserId] = useState<string | null>(null)
@@ -77,45 +79,6 @@ export default function Bedrock() {
             fetchingUserDetails();
         }
     }, [session])
-
-
-
-
-    // const [userDetails, setUserDetails] = useState<userType | null>()
-
-    // // fetches userId
-    // useEffect(() => {
-    //     if (!userId && session?.user?.email) {
-    //         const getUserId = async () => {
-    //             const newUserId = await fetchUserId(String(session?.user?.email))
-    //             if (newUserId != userId) {
-    //                 setUserId(newUserId)
-
-    //             }
-    //             console.log("fetched userId: ", newUserId);
-    //         }
-    //         getUserId();
-    //     }
-    // }, [userId, session])
-
-
-    // // fetches userdetails
-    // useEffect(() => {
-    //     if (userId) {
-    //         const asyncGetUserDetails = async () => {
-    //             const newUserDetails = await getUserDetails(userId);
-    //             setUserDetails(newUserDetails);
-    //             console.log("fetched user details: ", newUserDetails)
-    //             // if (newUserDetails.newAccount) {
-    //             //     // setting up newaccount new account
-    //             //     console.log("setting up new account>>>>>>>>>>")
-    //             //     await setupNewAccount(userId);
-    //             //     console.log("done setting up enw account >>>>>>")
-    //             // }
-    //         }
-    //         asyncGetUserDetails();
-    //     }
-    // }, [userId])
 
 
     // fetches display notes
@@ -205,12 +168,12 @@ export default function Bedrock() {
                     console.log(req.senderId, " not present in ", userDetails?.friendList)
                     let updatedUserDetails = userDetails;
                     updatedUserDetails?.friendList.push(req.senderId)
-                    const res1 = await updateFriendList(userDetails?.userId as string, updatedUserDetails as userDetailsType);
+                    const res1 = await updateFriendList(userDetails?.userId as string, updatedUserDetails as userType);
                     console.log("res1>>>> ", res1);
                 }
                 if (!reqUserDetails?.friendList.includes(userDetails?.userId as string)) {
                     console.log(userDetails?.userId, " not present in ", reqUserDetails?.friendList);
-                    let updatedUserDetails = reqUserDetails as userDetailsType;
+                    let updatedUserDetails = reqUserDetails as userType;
                     updatedUserDetails.friendList.push(userDetails?.userId as string);
                     const res2 = await updateFriendList(req.senderId, updatedUserDetails);
                     console.log("res2>>>", res2);
@@ -338,6 +301,7 @@ export default function Bedrock() {
 
 
         return (<>
+            <LoadingPage />
             <div className={styles.tabBar}>
                 <div className={styles.sidebarBtn}>
                     <Image src={open ? closeSVG : menuSVG} alt="sidebarBtn" onClick={() => {

@@ -34,39 +34,31 @@ import { useSidebar } from "@/components/ui/sidebar";
 
 import { appStore } from "@/app/store";
 import { getDisplayNotes } from "@/app/utils/getDisplayNotes";
+import { getUserDetailsFromEmail } from "@/app/utils/getUserDetailsFromEmail";
 
 export default function Friends() {
     const { toggleSidebar, open } = useSidebar();
     const [searchedFriendsList, setSearchedFriendsList] = useState<any>();
+    
+
+    const userDetails = appStore((state) => state.userDetails)
+    const setUserDetails = appStore((state) => state.setUserDetails)
+
     const { data: session } = useSession();
     const [userId, setUserId] = useState<string | null>(null)
-    const [userDetails, setUserDetails] = useState<userDetailsType>()
-
 
     useEffect(() => {
-        if (!userId && session?.user?.email) {
-            const getUserId = async () => {
-                const newUserId = await fetchUserId(String(session?.user?.email))
-                if (newUserId != userId) {
-                    setUserId(newUserId)
-
-                }
+        if (!userDetails && session?.user?.email) {
+            const fetchingUserDetails = async () => {
+                console.log("fetching user details via email");
+                const res = await getUserDetailsFromEmail(session?.user?.email as string);
+                setUserDetails(res)
+                console.log("fetched user details via email: ", res)
+                setUserId(res.userId)
             }
-            getUserId();
+            fetchingUserDetails();
         }
-    }, [userId, session])
-
-
-    useEffect(() => {
-        if (userId) {
-            const asyncGetUserDetails = async () => {
-                const newUserDetails = await getUserDetails(userId);
-                setUserDetails(newUserDetails);
-
-            }
-            asyncGetUserDetails();
-        }
-    }, [userId])
+    }, [session])
 
     const [loadingSearchResults, setLoadingSearchResults] = useState(false);
 

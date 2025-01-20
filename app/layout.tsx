@@ -39,7 +39,6 @@ export default function RootLayout({
       >
         <Providers>
           <Theme>
-
             <SessionWrapper>
               {children}
             </SessionWrapper>
