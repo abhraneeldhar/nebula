@@ -224,6 +224,42 @@ export default function EditorComponent({ id }: { id: string }) {
         })
     }, [, currentOpenNoteId, noteData])
 
+    const updateLocalCollection = (currentNote:Note) => {
+        const existingNoteIndex = localCollectionOfNotesState.findIndex(
+            (note: DisplayNote) => note.id === currentNote.id
+        );
+    
+        if (existingNoteIndex !== -1) {
+            // Update existing note
+            const updatedNote = {
+                ...localCollectionOfNotesState[existingNoteIndex],
+                title: currentNote.title,
+                snippet: currentNote.snippet,
+                lastModifiedAt: currentNote.lastModifiedAt
+            };
+            setlocalCollectionOfNotesState([
+                ...localCollectionOfNotesState.slice(0, existingNoteIndex),
+                updatedNote,
+                ...localCollectionOfNotesState.slice(existingNoteIndex + 1)
+            ]);
+        } else {
+            // Add new note
+            const newNote: DisplayNote = {
+                owner:currentNote.owner,
+                id: currentNote.id,
+                type: "Note",
+                snippet:currentNote.snippet,
+                parent:{
+                    folderId:currentNote.parent.folderId,
+                    folderName:currentNote.parent.folderName
+                },
+                title:currentNote.title,
+                createdAt:currentNote.createdAt,
+                lastModifiedAt:currentNote.lastModifiedAt
+            };
+            setlocalCollectionOfNotesState([newNote, ...localCollectionOfNotesState]);
+        }
+    };
 
     const saveFunction = async () => {
         // console.log("saving state>>>>", savingState);
@@ -248,9 +284,10 @@ export default function EditorComponent({ id }: { id: string }) {
             setSavingState(false);
             toast.success("Saved", { position: "bottom-center", theme: "dark" })
             // console.log("saving state>>>>", savingState);
+            updateLocalCollection(newNote)
         }
 
-        setRefreshCollectionOfNotes((prev) => !prev)
+        // setRefreshCollectionOfNotes((prev) => !prev)
         // setRefreshCurrentNote((prev) => !prev)
     }
 
