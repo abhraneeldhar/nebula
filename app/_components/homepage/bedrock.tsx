@@ -57,8 +57,8 @@ export default function Bedrock() {
     const localCollectionOfNotesState = appStore((state) => state.localCollectionOfNotesState) as DisplayNote[]
     const setlocalCollectionOfNotesState = appStore((state) => state.setlocalCollectionOfNotesState)
 
-    const userDetails=appStore((state)=>state.userDetails)
-    const setUserDetails=appStore((state)=>state.setUserDetails)
+    const userDetails = appStore((state) => state.userDetails)
+    const setUserDetails = appStore((state) => state.setUserDetails)
 
     const [loadingDisplayNotes, setLoadingDisplayNotes] = useState(true);
 
@@ -66,17 +66,18 @@ export default function Bedrock() {
     const [userId, setUserId] = useState<string | null>(null)
 
 
-    useEffect(()=>{
-        if(!userDetails && session?.user?.email){
-            const fetchingUserDetails=async()=>{
+    useEffect(() => {
+        if (!userDetails && session?.user?.email) {
+            const fetchingUserDetails = async () => {
                 console.log("fetching user details via email");
-                const res= await getUserDetailsFromEmail(session?.user?.email as string);
-                console.log("fetched user details via email: ",res)
+                const res = await getUserDetailsFromEmail(session?.user?.email as string);
+                setUserDetails(res)
+                console.log("fetched user details via email: ", res)
                 setUserId(res.userId)
             }
             fetchingUserDetails();
         }
-    },[session])
+    }, [session])
 
 
 
@@ -131,11 +132,6 @@ export default function Bedrock() {
         }
     }, [localCollectionOfNotesState, userDetails])
 
-    // useEffect(()=>{
-    //     console.log("localcollectionofnotes state: ",localCollectionOfNotesState)
-    // },[localCollectionOfNotesState])
-
-
 
 
     // tab component
@@ -148,7 +144,7 @@ export default function Bedrock() {
         const [loadingDetails, setLoadingDetails] = useState(false)
         const getIncomingReq = async () => {
 
-            
+
             if (userDetails) {
                 setLoadingDetails(true);
                 const { data: incomingReqArray, error } = await supabase.from("friendRequest").select("*").eq("receiverId", userDetails.userId).eq("status", "pending")
@@ -167,7 +163,7 @@ export default function Bedrock() {
             getIncomingReq();
             console.log("getitng incoming reqs")
         }, [userDetails])
-        
+
         // fetches incoming requests
         useEffect(() => {
             if (reqOpen && userDetails) {
@@ -393,10 +389,6 @@ export default function Bedrock() {
         <Tab tabName="Home" />
 
 
-        
-
-
-
         <div className={styles.main}>
             <NewNoteBtn />
             <ToastContainer />
@@ -404,7 +396,9 @@ export default function Bedrock() {
                 <div className={styles.coverImage}>
                     <Image src={coverImage} alt="cover image" />
                     <div className={styles.profilePic}>
-                        <Image src={userDetails?.imageUrl || profilePic} unoptimized={true} priority={true} width={100} height={100} alt="profilePic" />
+                        {userDetails &&
+                            <Image src={userDetails?.imageUrl} unoptimized={true} priority={true} width={100} height={100} alt="profilePic" />
+                        }
                     </div>
                 </div>
 
