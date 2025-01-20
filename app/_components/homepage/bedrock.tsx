@@ -301,7 +301,7 @@ export default function Bedrock() {
 
 
         return (<>
-            <LoadingPage />
+            {/* <LoadingPage /> */}
             <div className={styles.tabBar}>
                 <div className={styles.sidebarBtn}>
                     <Image src={open ? closeSVG : menuSVG} alt="sidebarBtn" onClick={() => {

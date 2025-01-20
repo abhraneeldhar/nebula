@@ -15,7 +15,7 @@ import { useSidebar } from "@/components/ui/sidebar"
 import { appStore } from "@/app/store"
 
 
-import { DisplayNote, Note } from "@/app/utils/fileFormat"
+import { DisplayNote, Note, userType } from "@/app/utils/fileFormat"
 
 import { useSession } from "next-auth/react"
 import { Delta } from "quill/core"
@@ -38,7 +38,7 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog"
 import { getFriends } from "@/app/utils/shareMechanics/getFriends"
-import { userDetailsType } from "@/app/setupAccount/page"
+// import { userDetailsType } from "@/app/setupAccount/page"
 import { Circle, CircleCheckBig } from "lucide-react"
 import { shareToFriends } from "@/app/utils/shareMechanics/shareToFreinds"
 import { FriendSearch } from "@/app/utils/shareMechanics/searchFriends"
@@ -299,7 +299,7 @@ export default function EditorComponent({ id }: { id: string }) {
     // }
 
     const [searchedFriendsList, setSearchedFriendsList] = useState<any>([])
-    const [shareFirendsDetailsList, setShareFirendsDetailsList] = useState<userDetailsType[]>([])
+    const [shareFirendsDetailsList, setShareFirendsDetailsList] = useState<userType[]>([])
     const [selectedFriends, setSelectedFriends] = useState<string[]>([])
     const shareSearchInputRef = useRef<HTMLInputElement>(null);
     const [searchParam, setSearchparam] = useState<string>()
@@ -372,7 +372,7 @@ export default function EditorComponent({ id }: { id: string }) {
                     }} />
                     <div className={styles.searchResultContainer}>
 
-                        {(searchedFriendsList && searchedFriendsList.length > 0 && searchParam) && (searchedFriendsList.map((friendDetail: userDetailsType) => (
+                        {(searchedFriendsList && searchedFriendsList.length > 0 && searchParam) && (searchedFriendsList.map((friendDetail: userType) => (
                             <div className={styles.reqPersonCard} key={friendDetail.userId} onClick={() => { handleSelection(friendDetail.userId) }} >
                                 <div className={styles.reqProfilePic}>
                                     <Image src={friendDetail.imageUrl} alt="pfp" height={50} width={50} unoptimized={true} />
@@ -390,7 +390,7 @@ export default function EditorComponent({ id }: { id: string }) {
 
 
 
-                        {(!searchParam && shareFirendsDetailsList && shareFirendsDetailsList.length > 0) && (shareFirendsDetailsList.map((friendDetail: userDetailsType) => (
+                        {(!searchParam && shareFirendsDetailsList && shareFirendsDetailsList.length > 0) && (shareFirendsDetailsList.map((friendDetail: userType) => (
                             <div className={styles.reqPersonCard} key={friendDetail.userId} onClick={() => { handleSelection(friendDetail.userId) }} >
                                 <div className={styles.reqProfilePic}>
                                     <Image src={friendDetail.imageUrl} alt="pfp" height={50} width={50} unoptimized={true} />

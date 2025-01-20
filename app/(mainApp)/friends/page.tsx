@@ -19,13 +19,13 @@ import Image from "next/image";
 import { FriendSearch } from "../../utils/friendMechanics/friendSearch";
 import { getUserDetails } from "../../utils/getUserDetails";
 import { fetchUserId } from "../../utils/fetchUserId";
-import { userDetailsType } from "../../setupAccount/page";
+// import { userDetailsType } from "../../setupAccount/page";
 import { useSession } from "next-auth/react";
 import { updateFriendList } from "../../utils/friendMechanics/updateFriendList";
 import { updateUserDetails } from "../../utils/updateUserDetails";
 import { UUID } from "mongodb";
 import { StartupSnapshot } from "v8";
-import { DisplayNote, requestType } from "../../utils/fileFormat";
+import { DisplayNote, requestType, userType } from "../../utils/fileFormat";
 
 
 import closeSVG from "../../../public/close_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png"
@@ -123,7 +123,7 @@ export default function Friends() {
     }
 
 
-    const SearchFriendCard = ({ user }: { user: userDetailsType }) => {
+    const SearchFriendCard = ({ user }: { user: userType }) => {
 
         const [action, setAction] = useState<"add" | "remove" | "cancel" | "accept/reject" | null>(null);
         // setAction(null);
@@ -196,16 +196,16 @@ export default function Friends() {
                 console.log("removing at ", index)
                 newUserDetails?.friendList.splice(index, 1);
             }
-            const res1 = await updateFriendList(userId as string, newUserDetails as userDetailsType)
+            const res1 = await updateFriendList(userId as string, newUserDetails as userType)
             console.log(res1)
 
-            newUserDetails = user as userDetailsType
+            newUserDetails = user as userType
             index = newUserDetails?.friendList.indexOf(userId as string) as number;
             if (index > -1) {
                 console.log("removing at ", index)
                 newUserDetails?.friendList.splice(index, 1);
             }
-            const res2 = await updateFriendList(user.userId as string, newUserDetails as userDetailsType)
+            const res2 = await updateFriendList(user.userId as string, newUserDetails as userType)
             console.log(res2);
             getAction();
         }
@@ -223,7 +223,7 @@ export default function Friends() {
                 console.log(user.userId, " not present in ", userDetails?.friendList)
                 let updatedUserDetails = userDetails;
                 updatedUserDetails?.friendList.push(user.userId)
-                const res1 = await updateFriendList(userDetails?.userId as string, updatedUserDetails as userDetailsType);
+                const res1 = await updateFriendList(userDetails?.userId as string, updatedUserDetails as userType);
                 console.log("res1>>>> ", res1);
             }
             if (!user.friendList.includes(userId as string)) {
@@ -291,7 +291,7 @@ export default function Friends() {
 
     const IncomingRequestPersonCard = ({ req }: { req: requestType }) => {
         const [action, setAction] = useState<"add" | "remove" | "cancel" | "accept/reject" | null>(null);
-        const [reqUserDetails, setReqUserDetails] = useState<userDetailsType>()
+        const [reqUserDetails, setReqUserDetails] = useState<userType>()
         const [loadingDetails, setLoadingDetails] = useState(true)
         const [loadingActions, setloadingActions] = useState(false)
 
@@ -323,12 +323,12 @@ export default function Friends() {
                 console.log(req.senderId, " not present in ", userDetails?.friendList)
                 let updatedUserDetails = userDetails;
                 updatedUserDetails?.friendList.push(req.senderId)
-                const res1 = await updateFriendList(userDetails?.userId as string, updatedUserDetails as userDetailsType);
+                const res1 = await updateFriendList(userDetails?.userId as string, updatedUserDetails as userType);
                 console.log("res1>>>> ", res1);
             }
             if (!reqUserDetails?.friendList.includes(userId as string)) {
                 console.log(userId, " not present in ", reqUserDetails?.friendList);
-                let updatedUserDetails = reqUserDetails as userDetailsType;
+                let updatedUserDetails = reqUserDetails as userType;
                 updatedUserDetails.friendList.push(userId as string);
                 const res2 = await updateFriendList(req.senderId, updatedUserDetails);
                 console.log("res2>>>", res2);
@@ -376,7 +376,7 @@ export default function Friends() {
     useEffect(() => {
 
         const getFriends = async () => {
-            var tempFriendList: userDetailsType[] = []
+            var tempFriendList: userType[] = []
             if (userDetails) {
                 userDetails?.friendList.forEach((friendId) => {
                     const asyncFunc = async () => {
@@ -391,7 +391,7 @@ export default function Friends() {
         }
         getFriends();
     }, [userDetails])
-    const FriendCard = ({ user }: { user: userDetailsType }) => {
+    const FriendCard = ({ user }: { user: userType }) => {
         return (<>
             <div className={styles.friendCard}>
                 <div className={styles.friendProfilePic}>
@@ -430,7 +430,7 @@ export default function Friends() {
 
                 <Tabs.Content value="friends" className={styles.tableContent}>
                     <div className={styles.friendCardHolder}>
-                        {friendList && friendList.map((friend: userDetailsType) => (<FriendCard key={friend.userId} user={friend} />))}
+                        {friendList && friendList.map((friend: userType) => (<FriendCard key={friend.userId} user={friend} />))}
                     </div>
                 </Tabs.Content>
 
@@ -445,7 +445,7 @@ export default function Friends() {
                         </div>
 
                         <div className={styles.searchedPeople}>
-                            {searchedFriendsList && searchedFriendsList.map((friend: userDetailsType) => (
+                            {searchedFriendsList && searchedFriendsList.map((friend: userType) => (
                                 <SearchFriendCard key={friend.userId} user={friend} />
                             ))}
                             {loadingSearchResults &&
