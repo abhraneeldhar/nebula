@@ -47,8 +47,7 @@ import { getIncomingNotes } from "@/app/utils/shareMechanics/getIncomingNotes";
 import { v4 as uuidv4 } from "uuid";
 import { postNote } from "@/app/utils/postNote";
 import { deleteSharedNote } from "@/app/utils/shareMechanics/deleteSharedNote";
-import { setupNewAccount } from "@/app/utils/setupNewAccount";
-import cubeLoader from "../../../public/cubeLoader.gif"
+
 
 export default function Bedrock() {
     const router = useRouter();
