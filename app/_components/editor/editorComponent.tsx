@@ -58,7 +58,7 @@ export default function EditorComponent({ id }: { id: string }) {
     const setlocalCollectionOfNotesState = appStore((state) => state.setlocalCollectionOfNotesState);
 
     const [refreshCollectionOfNotes, setRefreshCollectionOfNotes] = useState(false)
-    const [refreshCurrentNote, setRefreshCurrentNote] = useState(false)
+    // const [refreshCurrentNote, setRefreshCurrentNote] = useState(false)
 
 
     const [loadingEditorState, setLoadingEditorState] = useState(true);
@@ -126,7 +126,7 @@ export default function EditorComponent({ id }: { id: string }) {
             }
             getNoteData();
         }
-    }, [userDetails, refreshCurrentNote])
+    }, [userDetails])
 
     // useEffect(() => {
     //     console.log("notedata>>>>>>", noteData);
@@ -230,7 +230,7 @@ export default function EditorComponent({ id }: { id: string }) {
             undoBtn?.removeEventListener("click", () => { quillRef.current?.history.undo() })
             redoBtn?.removeEventListener("click", () => { quillRef.current?.history.redo() })
         })
-    }, [, currentOpenNoteId, noteData, refreshCurrentNote])
+    }, [, currentOpenNoteId, noteData])
 
 
     const saveFunction = async () => {
@@ -262,7 +262,7 @@ export default function EditorComponent({ id }: { id: string }) {
             setSavingState(false);
         }
         setRefreshCollectionOfNotes((prev) => !prev)
-        setRefreshCurrentNote((prev) => !prev)
+        // setRefreshCurrentNote((prev) => !prev)
     }
 
 
