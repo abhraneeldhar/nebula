@@ -65,7 +65,6 @@ export default function Bedrock() {
     const { data: session } = useSession();
     const [userId, setUserId] = useState<string | null>(null)
 
-
     useEffect(() => {
         if (!userDetails && session?.user?.email) {
             const fetchingUserDetails = async () => {

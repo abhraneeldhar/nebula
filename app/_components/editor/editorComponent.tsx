@@ -49,6 +49,7 @@ import { userDetailsType } from "@/app/setupAccount/page"
 import { Circle, CircleCheckBig } from "lucide-react"
 import { shareToFriends } from "@/app/utils/shareMechanics/shareToFreinds"
 import { FriendSearch } from "@/app/utils/shareMechanics/searchFriends"
+import { getUserDetailsFromEmail } from "@/app/utils/getUserDetailsFromEmail"
 
 
 
@@ -60,51 +61,40 @@ export default function EditorComponent({ id }: { id: string }) {
     const [refreshCurrentNote, setRefreshCurrentNote] = useState(false)
 
 
-
     const [loadingEditorState, setLoadingEditorState] = useState(true);
     const [savingState, setSavingState] = useState(false);
 
-    // gets the user id
+    
     const { data: session } = useSession();
     const [userId, setUserId] = useState<string | null>(null)
-    useEffect(() => {
-        if (!userId && session?.user?.email) {
-            const getUserId = async () => {
-                const newUserId = await fetchUserId(String(session?.user?.email))
-                if (newUserId != userId) {
-                    setUserId(newUserId)
-                }
-            }
-            getUserId();
-        }
-    }, [userId, session])
+
+    const userDetails = appStore((state) => state.userDetails)
+    const setUserDetails = appStore((state) => state.setUserDetails)
 
     useEffect(() => {
-        if (userId) {
-            console.log("userid>>>>", userId)
+        if (!userDetails && session?.user?.email) {
+            const fetchingUserDetails = async () => {
+                console.log("fetching user details via email");
+                const res = await getUserDetailsFromEmail(session?.user?.email as string);
+                setUserDetails(res)
+                console.log("fetched user details via email: ", res)
+                setUserId(res.userId)
+            }
+            fetchingUserDetails();
         }
-    }, [userId])
+    }, [session])
 
 
 
     useEffect(() => {
         if (localCollectionOfNotesState == null && userId != null) {
             const asyncDisplayNotes = async () => {
-                console.log("fetching notes")
+                console.log("fetching display notes")
                 setlocalCollectionOfNotesState(await getDisplayNotes(userId));
             }
             asyncDisplayNotes();
-            console.log("should set local notestate")
         }
 
-        // if (localCollectionOfNotesState == null && userId != null) {
-        //     const asyncDisplayNotes = async () => {
-        //         console.log("fetching notes")
-        //         setlocalCollectionOfNotesState(await getDisplayNotes(userId));
-        //     }
-        //     asyncDisplayNotes();
-        //     console.log("should set local notestate")
-        // }
         return (() => {
             console.log("unmounting editorcomponent")
         })
@@ -114,11 +104,10 @@ export default function EditorComponent({ id }: { id: string }) {
     useEffect(() => {
         if (userId) {
             const asyncDisplayNotes = async () => {
-                console.log("fetching notes")
+                console.log("fetching display notes")
                 setlocalCollectionOfNotesState(await getDisplayNotes(userId));
             }
             asyncDisplayNotes();
-            console.log("should set local notestate")
         }
     }, [refreshCollectionOfNotes])
 
@@ -127,33 +116,20 @@ export default function EditorComponent({ id }: { id: string }) {
     const [noteData, setNoteData] = useState<Note|null>()
 
     useEffect(() => {
-        if (userId) {
-
+        if (userDetails) {
             const getNoteData = async () => {
-                // const noteData = await getOneNote(userId as string, currentOpenNoteId as string);
+                console.log("getting current note data")
                 setLoadingEditorState(true);
-                const response = await getOneNote(userId as string, currentOpenNoteId as string) as Note
+                const response = await getOneNote(userDetails.userId as string, currentOpenNoteId as string) as Note
                 setNoteData(response);
                 setLoadingEditorState(false);
-
-                // if (response?.status == 403) {
-                //     console.log("we fucked up");
-                //     setLoadingEditorState(false);
-                // }
-                // else {
-                //     setNoteData(response);
-                //     setLoadingEditorState(false);
-                // }
-                // console.log("userid>>>",userId," noteid>>>",currentOpenNoteId);
             }
             getNoteData();
         }
-
-    }, [userId, refreshCurrentNote])
+    }, [userDetails, refreshCurrentNote])
 
     // useEffect(() => {
     //     console.log("notedata>>>>>>", noteData);
-
     // }, [noteData])
 
     const [shareDialogboxOpen, setShareDialogboxOpen] = useState(false)
