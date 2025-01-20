@@ -1,20 +1,22 @@
 import { create } from "zustand"
-import { shallow } from "zustand/shallow"
-import { Note, Folder, FolderStructure } from "./utils/fileFormat"
+import { Note, userType } from "./utils/fileFormat"
 
 type store = {
+    userDetails:userType|null,
     localCollectionOfNotesState: Note[] | null | {},
     currentOpenNoteIdState: string | null,
 
+    setUserDetails:(newUserDetails:userType)=>void;
     setCurrentOpenNoteIdState:(newNotesIdState: string|null)=>void,
     setlocalCollectionOfNotesState: (newlocalCollectionOfNotesState: Note[] | {}) => void,
 }
 
 export const appStore = create<store>((set) => ({
+    userDetails:null,
     localCollectionOfNotesState:null,
     currentOpenNoteIdState:null,
     
+    setUserDetails:(newUserDetails:userType)=>set({userDetails:newUserDetails}),
     setCurrentOpenNoteIdState:(newNotesIdState: string|null)=>set({currentOpenNoteIdState:newNotesIdState}),
     setlocalCollectionOfNotesState: (newlocalCollectionOfNotesState: Note[] | {}) => set({ localCollectionOfNotesState: newlocalCollectionOfNotesState }),
-
 }))

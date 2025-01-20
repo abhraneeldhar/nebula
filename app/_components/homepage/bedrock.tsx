@@ -47,6 +47,7 @@ import { getIncomingNotes } from "@/app/utils/shareMechanics/getIncomingNotes";
 import { v4 as uuidv4 } from "uuid";
 import { postNote } from "@/app/utils/postNote";
 import { deleteSharedNote } from "@/app/utils/shareMechanics/deleteSharedNote";
+import { getUserDetailsFromEmail } from "@/app/utils/getUserDetailsFromEmail";
 
 
 export default function Bedrock() {
@@ -56,47 +57,64 @@ export default function Bedrock() {
     const localCollectionOfNotesState = appStore((state) => state.localCollectionOfNotesState) as DisplayNote[]
     const setlocalCollectionOfNotesState = appStore((state) => state.setlocalCollectionOfNotesState)
 
+    const userDetails=appStore((state)=>state.userDetails)
+    const setUserDetails=appStore((state)=>state.setUserDetails)
+
     const [loadingDisplayNotes, setLoadingDisplayNotes] = useState(true);
 
     const { data: session } = useSession();
     const [userId, setUserId] = useState<string | null>(null)
-    const [userDetails, setUserDetails] = useState<userType | null>()
 
-    // fetches userId
-    useEffect(() => {
-        if (!userId && session?.user?.email) {
-            const getUserId = async () => {
-                const newUserId = await fetchUserId(String(session?.user?.email))
-                if (newUserId != userId) {
-                    setUserId(newUserId)
 
-                }
-                console.log("fetched userId: ", newUserId);
+    useEffect(()=>{
+        if(!userDetails && session?.user?.email){
+            const fetchingUserDetails=async()=>{
+                console.log("fetching user details via email");
+                const res= await getUserDetailsFromEmail(session?.user?.email as string);
+                console.log("fetched user details via email: ",res)
             }
-            getUserId();
+            fetchingUserDetails();
         }
-    }, [userId, session])
+    },[session])
 
 
-    // fetches userdetails
-    useEffect(() => {
-        if (userId) {
-            const asyncGetUserDetails = async () => {
-                const newUserDetails = await getUserDetails(userId);
-                setUserDetails(newUserDetails);
-                console.log("fetched user details: ", newUserDetails)
-                // if (newUserDetails.newAccount) {
-                //     // setting up newaccount new account
-                //     console.log("setting up new account>>>>>>>>>>")
-                //     await setupNewAccount(userId);
-                //     console.log("done setting up enw account >>>>>>")
-                // }
-            }
-            asyncGetUserDetails();
-        }
-    }, [userId])
 
-    const [refreshCollectionOfNotes, setRefreshCollectionOfNotes] = useState(false)
+
+    // const [userDetails, setUserDetails] = useState<userType | null>()
+
+    // // fetches userId
+    // useEffect(() => {
+    //     if (!userId && session?.user?.email) {
+    //         const getUserId = async () => {
+    //             const newUserId = await fetchUserId(String(session?.user?.email))
+    //             if (newUserId != userId) {
+    //                 setUserId(newUserId)
+
+    //             }
+    //             console.log("fetched userId: ", newUserId);
+    //         }
+    //         getUserId();
+    //     }
+    // }, [userId, session])
+
+
+    // // fetches userdetails
+    // useEffect(() => {
+    //     if (userId) {
+    //         const asyncGetUserDetails = async () => {
+    //             const newUserDetails = await getUserDetails(userId);
+    //             setUserDetails(newUserDetails);
+    //             console.log("fetched user details: ", newUserDetails)
+    //             // if (newUserDetails.newAccount) {
+    //             //     // setting up newaccount new account
+    //             //     console.log("setting up new account>>>>>>>>>>")
+    //             //     await setupNewAccount(userId);
+    //             //     console.log("done setting up enw account >>>>>>")
+    //             // }
+    //         }
+    //         asyncGetUserDetails();
+    //     }
+    // }, [userId])
 
 
     // fetches display notes
@@ -116,20 +134,6 @@ export default function Bedrock() {
     //     console.log("localcollectionofnotes state: ",localCollectionOfNotesState)
     // },[localCollectionOfNotesState])
 
-
-    // not sure if this ever triggers
-    useEffect(() => {
-        if (userId != null) {
-            const asyncDisplayNotes = async () => {
-                console.log("fetching notes")
-                setLoadingDisplayNotes(true);
-                setlocalCollectionOfNotesState(await getDisplayNotes(userId));
-                setLoadingDisplayNotes(false);
-            }
-            asyncDisplayNotes();
-        }
-
-    }, [, refreshCollectionOfNotes])
 
 
 
