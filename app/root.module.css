@@ -69,11 +69,10 @@
 
 .bigAghLogo h1 {
     font-size: 60px;
-    letter-spacing: 40px;
+    /* letter-spacing: 40px; */
     font-weight: 500;
     animation: bigLogoAnimation 1s ease-in;
     color: white;
-
 }
 
 @keyframes bigLogoAnimation {
@@ -185,6 +184,9 @@
         object-fit: cover;
         filter: blur(20px);
         margin: 0;
+    }
+    .bigAghLogo{
+        transform: translateY(-10%);
     }
     .getStarted{
         bottom: 20%;

@@ -27,7 +27,7 @@ export default async function Main() {
           </div>
         </div>
         <div className={style.bigAghLogo}>
-          <h1>NEBULA</h1>
+          <h1>N{" "}E{" "}B{" "}U{" "}L{" "}A</h1>
           <Button className={style.getStarted}>Get Started <ArrowRight className={style.arrowRight} /></Button>
         </div>
 
