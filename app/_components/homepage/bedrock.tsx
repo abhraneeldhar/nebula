@@ -392,16 +392,16 @@ export default function Bedrock() {
         <div className={styles.main}>
             <NewNoteBtn />
             <ToastContainer />
+
             <div className={styles.displayContent}>
                 <div className={styles.coverImage}>
                     <Image src={coverImage} alt="cover image" />
                     <div className={styles.profilePic}>
                         {userDetails &&
-                            <Image src={userDetails?.imageUrl} unoptimized={true} priority={true} width={100} height={100} alt="profilePic" />
+                            <Image src={userDetails?.imageUrl} unoptimized={true} priority={true} width={100} height={100} alt="" />
                         }
                     </div>
                 </div>
-
 
                 <div className={styles.notesAndOthersContainer}>
                     <div className={styles.notesSection} onClick={() => {
@@ -418,13 +418,13 @@ export default function Bedrock() {
                             </>)}
 
                             {localCollectionOfNotesState && localCollectionOfNotesState.length == 0 && (
-                                <p> no recent notes</p>
+                                <p>No Documents</p>
                             )}
                             {(localCollectionOfNotesState) && (localCollectionOfNotesState.length > 0) && localCollectionOfNotesState?.sort((a, b) => b.lastModifiedAt - a.lastModifiedAt).slice(0, 3)?.map((note) => (
 
                                 <div className={styles.noteCard} key={note.id} onClick={(e) => {
                                     e.stopPropagation();
-                                    console.log("Note card clicked");
+                                    // console.log("Note card clicked");
                                     router.push(`/editor/${note.id}`);
                                 }}>
                                     <h3>{note.title}</h3>

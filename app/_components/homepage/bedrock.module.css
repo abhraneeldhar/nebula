@@ -347,6 +347,7 @@
     height: 200px;
     width: 200px;
     border-radius: 15px;
+    background-color: rgb(74, 74, 74);
 }
 
 .noteCard {

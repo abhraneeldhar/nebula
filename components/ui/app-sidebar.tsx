@@ -76,41 +76,42 @@ export function AppSidebar() {
   const localCollectionOfNotesState = appStore((state) => state.localCollectionOfNotesState) as DisplayNote[]
   const [showFooterMenu, setShowFooterMenu] = useState(false);
 
-  const { data: session } = useSession();
-  const [userId, setUserId] = useState<string | null>(null)
-  const [userDetails, setUserDetails] = useState<userDetailsType>()
+  // const { data: session } = useSession();
+  // const [userId, setUserId] = useState<string | null>(null)
+  // const [userDetails, setUserDetails] = useState<userDetailsType>()
+  const userDetails = appStore((state) => state.userDetails)
 
-  useEffect(() => {
-    if (!userId && session?.user?.email) {
-      console.log("session>>>", session)
-      const getUserId = async () => {
-        console.log("fetching user Id");
-        const newUserId = await fetchUserId(String(session?.user?.email))
-        console.log("userId>>>>", newUserId);
-        if (newUserId != userId) {
-          setUserId(newUserId)
-        }
-      }
-      getUserId();
-    }
-  }, [, userId, session])
+  // useEffect(() => {
+  //   if (!userId && session?.user?.email) {
+  //     console.log("session>>>", session)
+  //     const getUserId = async () => {
+  //       console.log("fetching user Id");
+  //       const newUserId = await fetchUserId(String(session?.user?.email))
+  //       console.log("userId>>>>", newUserId);
+  //       if (newUserId != userId) {
+  //         setUserId(newUserId)
+  //       }
+  //     }
+  //     getUserId();
+  //   }
+  // }, [, userId, session])
 
-  useEffect(() => {
-    if (userId) {
-      const asyncGetUserDetails = async () => {
-        const newUserDetails = await getUserDetails(userId);
-        setUserDetails(newUserDetails);
-      }
-      asyncGetUserDetails();
-    }
-  }, [userId])
+  // useEffect(() => {
+  //   if (userId) {
+  //     const asyncGetUserDetails = async () => {
+  //       const newUserDetails = await getUserDetails(userId);
+  //       setUserDetails(newUserDetails);
+  //     }
+  //     asyncGetUserDetails();
+  //   }
+  // }, [userId])
 
   const FooterMenu = () => {
     return (<>
 
       <div className={styles.footerMenu}>
-        <div className={styles.footerMenuItem}>Edging</div>
-        <div className={styles.footerMenuItem}>Gooning</div>
+        {/* <div className={styles.footerMenuItem}>Edging</div> */}
+        {/* <div className={styles.footerMenuItem}>Gooning</div> */}
         <div className={styles.footerMenuItem} onClick={() => router.push("/settings")}>Settings</div>
         <div className={`${styles.footerMenuItem} ${styles.signOut}`} onClick={() => { signOut() }}>Sign Out</div>
       </div>
@@ -156,16 +157,15 @@ export function AppSidebar() {
                 </SidebarMenuButton>
               </SidebarMenuItem>
               {/* <ScrollArea className="h-22 w-48 rounded-md border"> */}
-              {localCollectionOfNotesState &&
-                Array.isArray(localCollectionOfNotesState) && localCollectionOfNotesState?.sort((a, b) => b.lastModifiedAt - a.lastModifiedAt)?.map((note: DisplayNote) => (
-                  <SidebarMenuItem key={note.id}>
-                    <SidebarMenuButton className={styles.noteBtn} onClick={() => {
-                      console.log("lunn");
-                      router.push(`/editor/${note.id}`);
-                      // setCurrentNoteState(note.id)
-                    }}><NotebookText />{note.title}</SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
+              {localCollectionOfNotesState && localCollectionOfNotesState?.sort((a, b) => b.lastModifiedAt - a.lastModifiedAt)?.map((note: DisplayNote) => (
+                <SidebarMenuItem key={note.id}>
+                  <SidebarMenuButton className={styles.noteBtn} onClick={() => {
+                    console.log("lunn");
+                    router.push(`/editor/${note.id}`);
+                    // setCurrentNoteState(note.id)
+                  }}><NotebookText />{note.title}</SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
 
 
 
@@ -190,10 +190,12 @@ export function AppSidebar() {
               }}>
                 <SidebarMenuButton className={styles.usernameBox}>
                   <Avatar className={styles.avatarImg}>
-                    <AvatarImage src={userDetails?.imageUrl} alt="User" />
+                    {userDetails &&
+                      <AvatarImage src={userDetails?.imageUrl} alt="" />
+                    }
                     <AvatarFallback>{userDetails && userDetails?.name.slice(0, 1)}</AvatarFallback>
                   </Avatar>
-                  {userDetails?.name || "Username"}
+                  {userDetails?.name}
                   <ChevronUp className="ml-auto" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
