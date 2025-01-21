@@ -7,7 +7,7 @@ import "./editor.css"
 import styles from "./editor.module.css"
 
 import Image from "next/image"
-import closeSVG from "../../../public/close_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png"
+// import closeSVG from "../../../public/close_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png"
 import menuSVG from "../../../public/menu_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png"
 
 import { Button} from "@radix-ui/themes"
@@ -133,7 +133,7 @@ export default function EditorComponent({ id }: { id: string }) {
                 <div className={styles.tabContent}>
                     <div className={styles.tabnameContainer}>
                         <div className={styles.sidebarBtn}>
-                            <Image src={open ? closeSVG : menuSVG} alt="sidebarBtn" onClick={() => {
+                            <Image src={menuSVG} alt="X" onClick={() => {
                                 toggleSidebar();
                             }
                             } />
