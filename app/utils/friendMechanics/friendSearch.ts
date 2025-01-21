@@ -1,5 +1,5 @@
 "use server";
-import { userDetailsType } from "@/app/setupAccount/page";
+// import { userDetailsType } from "@/app/setupAccount/page";
 import { mongoClientCS } from "../mongoConnector";
 export async function FriendSearch(selfUserId: string, searchName: string) {
   await mongoClientCS.connect();

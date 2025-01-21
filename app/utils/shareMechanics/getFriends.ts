@@ -1,11 +1,12 @@
 "use server"
 
-import { userDetailsType } from "@/app/setupAccount/page";
+import { userType } from "../fileFormat";
+// import { userDetailsType } from "@/app/setupAccount/page";
 import { getUserDetails } from "../getUserDetails";
 import { mongoClientCS } from "../mongoConnector"
 
 export async function getFriends(selfUserId: string) {
-    var friendDetailsArray: userDetailsType[];
+    var friendDetailsArray: userType[];
     friendDetailsArray = [];
     await mongoClientCS.connect();
     const db = mongoClientCS.db("notesApp");
