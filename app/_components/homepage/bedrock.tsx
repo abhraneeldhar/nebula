@@ -4,31 +4,31 @@ import { useEffect, useState } from "react";
 import { appStore } from "../../store";
 import Image from "next/image";
 
-import closeSVG from "../../../public/close_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png"
+// import closeSVG from "../../../public/close_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png"
 import menuSVG from "../../../public/menu_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png"
 
 import coverImage from ".././assetImages/coverimage.png"
-import profilePic from ".././assetImages/profilePic.jpg"
+// import profilePic from ".././assetImages/profilePic.jpg"
 
 // import WeathersTab from "../weathersTab/weatherstab";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+// import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useSidebar } from "@/components/ui/sidebar";
-import { Card, CardContent, CardHeader, CardDescription, CardTitle, CardFooter } from "@/components/ui/card";
+// import { Card, CardContent, CardHeader, CardDescription, CardTitle, CardFooter } from "@/components/ui/card";
 
-import { Note, Folder, DisplayNote, requestType, sharedNoteType, userType } from "../../utils/fileFormat";
+import { DisplayNote, requestType, sharedNoteType, userType } from "../../utils/fileFormat";
 
 
 import rightArrow from "../../../public/arrowright.png";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { fetchUserId } from "@/app/utils/fetchUserId";
-import { getDisplayName } from "next/dist/shared/lib/utils";
+// import { fetchUserId } from "@/app/utils/fetchUserId";
+// import { getDisplayName } from "next/dist/shared/lib/utils";
 import { getDisplayNotes } from "@/app/utils/getDisplayNotes";
 import NewNoteBtn from "../newNoteBtn/newNoteBtn";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Badge, Spinner } from "@radix-ui/themes";
-import { Flex } from "@radix-ui/themes";
+import { Spinner } from "@radix-ui/themes";
+// import { Flex } from "@radix-ui/themes";
 import { Button } from "@radix-ui/themes";
 // import { supabase } from "@/app/utils/supabase/client";
 
@@ -48,7 +48,7 @@ import { v4 as uuidv4 } from "uuid";
 import { postNote } from "@/app/utils/postNote";
 import { deleteSharedNote } from "@/app/utils/shareMechanics/deleteSharedNote";
 import { getUserDetailsFromEmail } from "@/app/utils/getUserDetailsFromEmail";
-import LoadingPage from "../loadingPage/page";
+// import LoadingPage from "../loadingPage/page";
 
 
 export default function Bedrock() {
@@ -304,7 +304,7 @@ export default function Bedrock() {
             {/* <LoadingPage /> */}
             <div className={styles.tabBar}>
                 <div className={styles.sidebarBtn}>
-                    <Image src={open ? closeSVG : menuSVG} alt="sidebarBtn" onClick={() => {
+                    <Image src={menuSVG} alt="X" onClick={() => {
                         toggleSidebar();
                     }
                     } />
