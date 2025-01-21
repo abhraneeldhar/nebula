@@ -389,7 +389,6 @@ export default function EditorComponent({ id }: { id: string }) {
                         )}
 
 
-
                         {(!searchParam && shareFirendsDetailsList && shareFirendsDetailsList.length > 0) && (shareFirendsDetailsList.map((friendDetail: userType) => (
                             <div className={styles.reqPersonCard} key={friendDetail.userId} onClick={() => { handleSelection(friendDetail.userId) }} >
                                 <div className={styles.reqProfilePic}>
