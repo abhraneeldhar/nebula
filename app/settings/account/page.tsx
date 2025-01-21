@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react"
 import { getUserDetails } from "../../utils/getUserDetails"
 import { fetchUserId } from "../../utils/fetchUserId"
 import { useSession } from "next-auth/react"
-import { userDetailsType } from "../../setupAccount/page"
+// import { userDetailsType } from "../../setupAccount/page"
 import { Spinner } from "@radix-ui/themes"
 import { checkUsernameinDB } from "../../utils/checkUsernameinDB"
 import { supabase } from "../../utils/supabase/client"
@@ -16,6 +16,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { ArrowBigLeft } from "lucide-react"
 import { useRouter } from "next/navigation"
+import { userType } from "@/app/utils/fileFormat"
 
 
 function isAlphaNumeric(str: string) {
@@ -38,7 +39,7 @@ export default function Account() {
     const [uploadPfp, setUploadPfp] = useState<File>();
     const { data: session } = useSession();
     const [userId, setUserId] = useState<string | null>(null)
-    const [userDetails, setUserDetails] = useState<userDetailsType>()
+    const [userDetails, setUserDetails] = useState<userType>()
     const [nameState, setNameState] = useState("");
     const [usernameState, setUsernameState] = useState("")
     const [bioState, setBioState] = useState("")
