@@ -54,9 +54,14 @@ export default function FriendsPage() {
 
                         }} />
                     </div>
-
-                    <div className={styles.searchedPeople}>
-
+                </div>
+                <div className={styles.currentFriends}>
+                    <div className={styles.currentFriendsCard}>
+                        <Image className={styles.friendAvatar} src="/testingImages/grizzy.jpg" alt="" height={60} width={60} />
+                        <div className={styles.friendDetails}>
+                            <h1 className={styles.friendName}>Abhraneel Dhar</h1>
+                            <p className={styles.friendUsername}>@username</p>
+                        </div>
                     </div>
                 </div>
             </div>

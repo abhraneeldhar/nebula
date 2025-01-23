@@ -7,7 +7,6 @@
     /* align-items: center; */
 }
 
-
 .tab {
     color: white;
     /* background-color: white; */
@@ -51,7 +50,6 @@
     color: white;
 }
 
-
 .addContainer {
     margin: 20px;
     display: flex;
@@ -79,4 +77,26 @@
     justify-content: center;
     margin: auto;
     border: 2px solid red ;
+    flex-direction: column;
+}
+.currentFriendsCard{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    .friendAvatar{
+        border-radius: 50%;
+    }
+    .friendDetails{
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        .friendName{
+            font-size: 20px;
+            color: white;
+        }
+        .friendUsername{
+            font-size: 15px;
+            color: rgb(210, 210, 210);
+        }
+    }
 }
