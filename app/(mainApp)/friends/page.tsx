@@ -16,6 +16,7 @@ import { getDisplayNotes } from "@/app/utils/getDisplayNotes";
 import { FriendSearch } from "@/app/utils/friendMechanics/friendSearch";
 import { Button } from "@radix-ui/themes";
 import { X } from "lucide-react";
+import { getUserDetails } from "@/app/utils/getUserDetails";
 
 export default function FriendsPage() {
     const { toggleSidebar, open } = useSidebar();
@@ -24,7 +25,6 @@ export default function FriendsPage() {
     const setUserDetails = appStore((state) => state.setUserDetails)
 
     const { data: session } = useSession();
-    // const [userId, setUserId] = useState<string | null>(null)
 
     useEffect(() => {
         if (!userDetails && session?.user?.email) {
@@ -55,7 +55,7 @@ export default function FriendsPage() {
 
 
     const [searchedFriendsList, setSearchedFriendsList] = useState<any>();
-    const inputRef=useRef<HTMLInputElement>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
     const handleFriendSearch = async (searchParam: string) => {
         if (userDetails && searchParam != "" && searchParam != " ") {
             console.log("searchin for ", searchParam)
@@ -66,8 +66,34 @@ export default function FriendsPage() {
         else {
             setSearchedFriendsList(null);
         }
-
     }
+
+    const [currentFriends, setCurrentFriends] = useState<userType[]>()
+
+    useEffect(() => {
+        if (userDetails) {
+
+            const getFriends = async () => {
+                var tempFriendList: userType[] = []
+
+                userDetails?.friendList.forEach((friendId) => {
+                    const asyncFunc = async () => {
+                        // console.log("getting deatil for ", friendId)
+                        const newUserDetails = await getUserDetails(friendId);
+                        tempFriendList.push(newUserDetails)
+                    }
+                    asyncFunc()
+                })
+
+                setCurrentFriends(tempFriendList)
+            }
+            getFriends();
+        }
+    }, [userDetails])
+
+    useEffect(() => {
+        console.log("friendslsit: ", currentFriends)
+    }, [currentFriends])
 
     return (<>
         <div className={styles.main}>
@@ -86,12 +112,13 @@ export default function FriendsPage() {
                         <Input ref={inputRef} className={styles.searchInput} placeholder="username...." onChange={(e) => {
                             handleFriendSearch(e.target.value);
                         }} />
-                        <Button className={styles.clearSearchBtn} onClick={()=>{
-                            if(inputRef.current){
-                                inputRef.current.value=""
+                        <Button className={styles.clearSearchBtn} onClick={() => {
+                            if (inputRef.current) {
+                                inputRef.current.value = ""
                             }
-                            setSearchedFriendsList(null)}
-                            }><X/></Button>
+                            setSearchedFriendsList(null)
+                        }
+                        }><X /></Button>
                     </div>
                 </div>
 
@@ -109,29 +136,17 @@ export default function FriendsPage() {
                     ))}
 
 
-                    {!searchedFriendsList &&
-                        (<>
-                            <div className={styles.currentFriendsCard}>
-                                <Image className={styles.friendAvatar} src="/testingImages/grizzy.jpg" alt="" height={60} width={60} />
+                    {!searchedFriendsList && currentFriends &&
+                        (currentFriends.map((friendDetails)=>(
+                                <div className={styles.currentFriendsCard}>
+                                <Image className={styles.friendAvatar} src={friendDetails.imageUrl} alt="" height={60} width={60} />
                                 <div className={styles.friendDetails}>
-                                    <h1 className={styles.friendName}>Abhraneel Dhar</h1>
-                                    <p className={styles.friendUsername}>@username</p>
+                                    <h1 className={styles.friendName}>{friendDetails.name}</h1>
+                                    <p className={styles.friendUsername}>@{friendDetails.userName}</p>
                                 </div>
                             </div>
-                            <div className={styles.currentFriendsCard}>
-                                <Image className={styles.friendAvatar} src="/testingImages/grizzy.jpg" alt="" height={60} width={60} />
-                                <div className={styles.friendDetails}>
-                                    <h1 className={styles.friendName}>Abhraneel Dhar</h1>
-                                    <p className={styles.friendUsername}>@username</p>
-                                </div>
-                            </div>
-                            <div className={styles.currentFriendsCard}>
-                                <Image className={styles.friendAvatar} src="/testingImages/grizzy.jpg" alt="" height={60} width={60} />
-                                <div className={styles.friendDetails}>
-                                    <h1 className={styles.friendName}>Abhraneel Dhar</h1>
-                                    <p className={styles.friendUsername}>@username</p>
-                                </div>
-                            </div></>)
+                            ))
+                        )
                     }
                 </div>
             </div>
