@@ -11,6 +11,8 @@ import { useSession } from "next-auth/react";
 import { appStore } from "@/app/store";
 import { getUserDetailsFromEmail } from "@/app/utils/getUserDetailsFromEmail";
 import { Input } from "@/components/ui/input";
+import { DisplayNote } from "@/app/utils/fileFormat";
+import { getDisplayNotes } from "@/app/utils/getDisplayNotes";
 
 export default function FriendsPage() {
     const { toggleSidebar, open } = useSidebar();
@@ -34,6 +36,19 @@ export default function FriendsPage() {
         }
     }, [session])
 
+    const localCollectionOfNotesState = appStore((state) => state.localCollectionOfNotesState) as DisplayNote[]
+    const setlocalCollectionOfNotesState = appStore((state) => state.setlocalCollectionOfNotesState)
+
+    useEffect(() => {
+        if (localCollectionOfNotesState == null && userDetails != null) {
+            const asyncDisplayNotes = async () => {
+                const res= await getDisplayNotes(userDetails.userId)
+                setlocalCollectionOfNotesState(res);
+            }
+            asyncDisplayNotes();
+        }
+    }, [userDetails])
+
     return (<>
         <div className={styles.main}>
             <div className={styles.tab}>
@@ -47,7 +62,6 @@ export default function FriendsPage() {
             </div>
 
             <div className={styles.mainContents}>
-
                 <div className={styles.addContainer}>
                     <div className={styles.searchBar}>
                         <Input className={styles.searchInput} placeholder="username...." onChange={(e) => {
@@ -55,7 +69,9 @@ export default function FriendsPage() {
                         }} />
                     </div>
                 </div>
-                <div className={styles.currentFriends}>
+
+                
+                <div className={styles.friendsContainer}>
 
                     <div className={styles.currentFriendsCard}>
                         <Image className={styles.friendAvatar} src="/testingImages/grizzy.jpg" alt="" height={60} width={60} />

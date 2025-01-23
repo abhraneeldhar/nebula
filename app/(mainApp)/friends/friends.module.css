@@ -76,11 +76,11 @@
     height: 100%;
     justify-content: center;
     margin: auto;
-    border: 2px solid red ;
+    /* border: 2px solid red ; */
     flex-direction: column;
     padding: 0px 10px;
 }
-.currentFriends{
+.friendsContainer{
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -109,4 +109,7 @@
             color: rgb(210, 210, 210);
         }
     }
+}
+.currentFriendsCard:hover{
+    background-color: rgb(27, 27, 27);
 }
