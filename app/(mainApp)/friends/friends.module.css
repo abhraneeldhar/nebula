@@ -61,7 +61,7 @@
 }
 
 .searchBar {
-    width: 500px;
+    width: 100%
 }
 
 .searchInput {
@@ -78,11 +78,21 @@
     margin: auto;
     border: 2px solid red ;
     flex-direction: column;
+    padding: 0px 10px;
+}
+.currentFriends{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 .currentFriendsCard{
     display: flex;
     gap: 10px;
     align-items: center;
+    background-color: black;
+    padding: 10px;
+    border-radius: 15px;
+    
     .friendAvatar{
         border-radius: 50%;
     }
