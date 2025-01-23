@@ -6,13 +6,16 @@ import styles from "./friends.module.css";
 // import closeSVG from "../../../public/close_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png"
 import menuSVG from "../../../public/menu_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png"
 import { useSidebar } from "@/components/ui/sidebar";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { appStore } from "@/app/store";
 import { getUserDetailsFromEmail } from "@/app/utils/getUserDetailsFromEmail";
 import { Input } from "@/components/ui/input";
-import { DisplayNote } from "@/app/utils/fileFormat";
+import { DisplayNote, userType } from "@/app/utils/fileFormat";
 import { getDisplayNotes } from "@/app/utils/getDisplayNotes";
+import { FriendSearch } from "@/app/utils/friendMechanics/friendSearch";
+import { Button } from "@radix-ui/themes";
+import { X } from "lucide-react";
 
 export default function FriendsPage() {
     const { toggleSidebar, open } = useSidebar();
@@ -42,12 +45,29 @@ export default function FriendsPage() {
     useEffect(() => {
         if (localCollectionOfNotesState == null && userDetails != null) {
             const asyncDisplayNotes = async () => {
-                const res= await getDisplayNotes(userDetails.userId)
+                const res = await getDisplayNotes(userDetails.userId)
                 setlocalCollectionOfNotesState(res);
             }
             asyncDisplayNotes();
         }
     }, [userDetails])
+
+
+
+    const [searchedFriendsList, setSearchedFriendsList] = useState<any>();
+    const inputRef=useRef<HTMLInputElement>(null);
+    const handleFriendSearch = async (searchParam: string) => {
+        if (userDetails && searchParam != "" && searchParam != " ") {
+            console.log("searchin for ", searchParam)
+            const friendList = await FriendSearch(userDetails.userId, searchParam);
+            // console.log("friens searched result: ", friendList)
+            setSearchedFriendsList(friendList);
+        }
+        else {
+            setSearchedFriendsList(null);
+        }
+
+    }
 
     return (<>
         <div className={styles.main}>
@@ -55,8 +75,7 @@ export default function FriendsPage() {
                 <div className={styles.sidebarBtn}>
                     <Image src={menuSVG} alt="sidebarBtn" onClick={() => {
                         toggleSidebar();
-                    }
-                    } />
+                    }} />
                 </div>
                 <p>Friends</p>
             </div>
@@ -64,36 +83,56 @@ export default function FriendsPage() {
             <div className={styles.mainContents}>
                 <div className={styles.addContainer}>
                     <div className={styles.searchBar}>
-                        <Input className={styles.searchInput} placeholder="username...." onChange={(e) => {
-
+                        <Input ref={inputRef} className={styles.searchInput} placeholder="username...." onChange={(e) => {
+                            handleFriendSearch(e.target.value);
                         }} />
+                        <Button className={styles.clearSearchBtn} onClick={()=>{
+                            if(inputRef.current){
+                                inputRef.current.value=""
+                            }
+                            setSearchedFriendsList(null)}
+                            }><X/></Button>
                     </div>
                 </div>
 
-                
+
                 <div className={styles.friendsContainer}>
 
-                    <div className={styles.currentFriendsCard}>
-                        <Image className={styles.friendAvatar} src="/testingImages/grizzy.jpg" alt="" height={60} width={60} />
-                        <div className={styles.friendDetails}>
-                            <h1 className={styles.friendName}>Abhraneel Dhar</h1>
-                            <p className={styles.friendUsername}>@username</p>
+                    {searchedFriendsList && searchedFriendsList.map((friendDetails: userType) => (
+                        <div key={friendDetails.userId} className={styles.currentFriendsCard}>
+                            <Image className={styles.friendAvatar} src={friendDetails.imageUrl} alt="" height={60} width={60} />
+                            <div className={styles.friendDetails}>
+                                <h1 className={styles.friendName}>{friendDetails.name}</h1>
+                                <p className={styles.friendUsername}>@{friendDetails.userName}</p>
+                            </div>
                         </div>
-                    </div>
-                    <div className={styles.currentFriendsCard}>
-                        <Image className={styles.friendAvatar} src="/testingImages/grizzy.jpg" alt="" height={60} width={60} />
-                        <div className={styles.friendDetails}>
-                            <h1 className={styles.friendName}>Abhraneel Dhar</h1>
-                            <p className={styles.friendUsername}>@username</p>
-                        </div>
-                    </div>
-                    <div className={styles.currentFriendsCard}>
-                        <Image className={styles.friendAvatar} src="/testingImages/grizzy.jpg" alt="" height={60} width={60} />
-                        <div className={styles.friendDetails}>
-                            <h1 className={styles.friendName}>Abhraneel Dhar</h1>
-                            <p className={styles.friendUsername}>@username</p>
-                        </div>
-                    </div>
+                    ))}
+
+
+                    {!searchedFriendsList &&
+                        (<>
+                            <div className={styles.currentFriendsCard}>
+                                <Image className={styles.friendAvatar} src="/testingImages/grizzy.jpg" alt="" height={60} width={60} />
+                                <div className={styles.friendDetails}>
+                                    <h1 className={styles.friendName}>Abhraneel Dhar</h1>
+                                    <p className={styles.friendUsername}>@username</p>
+                                </div>
+                            </div>
+                            <div className={styles.currentFriendsCard}>
+                                <Image className={styles.friendAvatar} src="/testingImages/grizzy.jpg" alt="" height={60} width={60} />
+                                <div className={styles.friendDetails}>
+                                    <h1 className={styles.friendName}>Abhraneel Dhar</h1>
+                                    <p className={styles.friendUsername}>@username</p>
+                                </div>
+                            </div>
+                            <div className={styles.currentFriendsCard}>
+                                <Image className={styles.friendAvatar} src="/testingImages/grizzy.jpg" alt="" height={60} width={60} />
+                                <div className={styles.friendDetails}>
+                                    <h1 className={styles.friendName}>Abhraneel Dhar</h1>
+                                    <p className={styles.friendUsername}>@username</p>
+                                </div>
+                            </div></>)
+                    }
                 </div>
             </div>
         </div>
