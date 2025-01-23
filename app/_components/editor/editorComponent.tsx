@@ -7,7 +7,6 @@ import "./editor.css"
 import styles from "./editor.module.css"
 
 import Image from "next/image"
-// import closeSVG from "../../../public/close_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png"
 import menuSVG from "../../../public/menu_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png"
 
 import { Button} from "@radix-ui/themes"
@@ -38,7 +37,6 @@ import {
     DialogTitle,
 } from "@/components/ui/dialog"
 import { getFriends } from "@/app/utils/shareMechanics/getFriends"
-// import { userDetailsType } from "@/app/setupAccount/page"
 import { Circle, CircleCheckBig } from "lucide-react"
 import { shareToFriends } from "@/app/utils/shareMechanics/shareToFreinds"
 import { FriendSearch } from "@/app/utils/shareMechanics/searchFriends"

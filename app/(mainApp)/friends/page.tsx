@@ -65,131 +65,99 @@ export default function Friends() {
     const localCollectionOfNotesState = appStore((state) => state.localCollectionOfNotesState) as DisplayNote[]
     const setlocalCollectionOfNotesState = appStore((state) => state.setlocalCollectionOfNotesState)
 
-    // const [loadingDisplayNotes, setLoadingDisplayNotes] = useState(true);
     useEffect(() => {
-        if (localCollectionOfNotesState == null && userId != null) {
+        if (localCollectionOfNotesState == null && userDetails != null) {
             const asyncDisplayNotes = async () => {
-                console.log("fetching notes")
-                // setLoadingDisplayNotes(true);
-                setlocalCollectionOfNotesState(await getDisplayNotes(userId));
-                // setLoadingDisplayNotes(false);
+                // console.log("fetching notes")
+                const res= await getDisplayNotes(userDetails.userId)
+                setlocalCollectionOfNotesState(res);
             }
             asyncDisplayNotes();
         }
-    }, [userId])
+    }, [userDetails])
 
-    useEffect(() => {
-        const test = async () => {
-
-            const { data, error } = await supabase
-                .from('friendRequest')
-                .insert([
-                    { senderId: "b642cf01-c9aa-4211-8296-58ef8afca5d5", receiverId: "b642cf01-c9aa-4211-8296-58ef8afca5d5", status: "pending", createdAt: Date.now() },
-                ])
-                .select()
-            console.log("data>>>>", data);
-            console.log("error>>>", error);
-        };
-        // test();
-    }, [])
-
-    function PendingStatus() {
-        return (<>
-            <Check className={styles.acceptActionIcon} />/<X className={styles.rejectActionIcon} />
-        </>)
-    }
-    function AcceptedStatus() {
-        return (<>
-            <CircleCheck className={styles.accepIcon} /> <p>Accepted</p>
-        </>)
-    }
-    function RejectedStatus() {
-        return (<>
-            <CircleX className={styles.rejIcon} /> <p>Rejected</p>
-        </>)
-    }
+    
 
     const handleFriendSearch = async (searchParam: string) => {
-        if (userId && searchParam != "" && searchParam != " ") {
+        if (userDetails && searchParam != "" && searchParam != " ") {
             setLoadingSearchResults(true);
-            const friendList = await FriendSearch(userId, searchParam);
+            console.log("searchin for ",searchParam)
+            const friendList = await FriendSearch(userDetails.userId, searchParam);
+            console.log("friens searched result: ",friendList)
             setSearchedFriendsList(friendList);
             setLoadingSearchResults(false);
         }
         else if (searchParam == "") {
-            setSearchedFriendsList([])
+            setSearchedFriendsList([]);
+            setLoadingSearchResults(false);
         }
 
     }
 
 
     const SearchFriendCard = ({ user }: { user: userType }) => {
-
-        const [action, setAction] = useState<"add" | "remove" | "cancel" | "accept/reject" | null>(null);
-        // setAction(null);
+        // const [action, setAction] = useState<"add" | "remove" | "cancel" | "accept/reject" | null>(null);
+        var action:"add" | "remove" | "cancel" | "accept/reject" | null;
+        action=null;
         const getAction = async () => {
             console.log("getting action");
             if (user.friendList.includes(userId as string)) {
-                setAction("remove");
-                console.log("action is remove");
+                // setAction("remove");
+                action="remove";
+                // console.log("action is remove");
                 return 1;
             }
-            // if (action == null) {
-            console.log("checking for outgoing")
+            // console.log("checking for outgoing")
             const { data: outgoing } = await supabase.from("friendRequest").select("*").eq("senderId", userId).eq("receiverId", user.userId).eq("status", "pending");
             if (outgoing?.length) {
                 if (outgoing.length > 0) {
-                    setAction("cancel")
-                    console.log("action is cancel");
-                    console.log("you can ", action, " outgoing request ", outgoing);
+                    action="cancel"
                     return 1;
                 }
             }
 
-            // }
-            // if (action == null) {
-            console.log("checking for incoming")
+            // console.log("checking for incoming")
             const { data: incoming, error } = await supabase.from("friendRequest").select("*").eq("senderId", user.userId).eq("receiverId", userId).eq("status", "pending");
             if (incoming?.length) {
                 if (incoming.length > 0) {
-                    setAction("accept/reject");
-                    console.log("action is accept/reject");
+                    action="accept/reject";
                     return 1;
                 }
             }
-            // }
-            // if (action == null) {
-            setAction("add");
-            console.log("action is add")
+        
+            action="add";
             return 1;
-            // }
-
 
         }
-        useEffect(() => { getAction() }, [])
+        
+        getAction();
 
         const addAction = async () => {
-            setAction(null);
+            // setAction(null);
             const { data, error } = await supabase
                 .from('friendRequest')
                 .insert({ senderId: userId, receiverId: user.userId, status: "pending", createdAt: Date.now() })
                 .select()
 
-            console.log(data)
-            console.log(error)
-            getAction();
+            console.log(data);
+            console.log(error);
+            // getAction();
+            // setAction("cancel");
+            action="cancel"
         }
 
         const cancelAction = async () => {
-            setAction(null);
+            // setAction(null);
             const res = await supabase
                 .from('friendRequest')
                 .delete()
                 .eq("senderId", userId).eq("receiverId", user.userId).eq("status", "pending")
-            getAction();
+            // getAction();
+            // setAction("add");
+            action="add";
         }
         const removeAction = async () => {
-            setAction(null)
+            // setAction(null)
             let newUserDetails = userDetails
             var index = newUserDetails?.friendList.indexOf(user.userId) as number;
             if (index > -1) {
@@ -207,10 +175,12 @@ export default function Friends() {
             }
             const res2 = await updateFriendList(user.userId as string, newUserDetails as userType)
             console.log(res2);
-            getAction();
+            // getAction();
+            // setAction("add");
+            action="add";
         }
         const acceptAction = async () => {
-            setAction(null)
+            // setAction(null)
             const { data, error } = await supabase
                 .from('friendRequest')
                 .update({ status: "accepted" })
@@ -233,10 +203,12 @@ export default function Friends() {
                 const res2 = await updateFriendList(user.userId, updatedUserDetails);
                 console.log("res2>>>", res2);
             }
-            getAction()
+            // getAction();
+            // setAction("remove");
+            action="remove";
         }
         const rejectAction = async () => {
-            setAction(null)
+            // setAction(null);
             const { data, error } = await supabase
                 .from('friendRequest')
                 .update({ status: "rejected" })
@@ -244,7 +216,9 @@ export default function Friends() {
                 .select();
             console.log(data)
             console.log(null)
-            getAction()
+            // getAction();
+            // setAction("add");
+            action="add";
         }
 
         return (<>
@@ -440,6 +414,7 @@ export default function Friends() {
 
                         <div className={styles.searchBar}>
                             <Input className={styles.searchInput} placeholder="username...." onChange={(e) => {
+                                // console.log(e.target.value);
                                 handleFriendSearch(e.target.value);
                             }} />
                         </div>
