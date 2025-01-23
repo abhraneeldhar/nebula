@@ -45,16 +45,19 @@ export default function FriendsPage() {
                 </div>
                 <p>Friends</p>
             </div>
-            <div className={styles.addContainer}>
 
-                <div className={styles.searchBar}>
-                    <Input className={styles.searchInput} placeholder="username...." onChange={(e) => {
-                        
-                    }} />
-                </div>
+            <div className={styles.mainContents}>
 
-                <div className={styles.searchedPeople}>
-                    
+                <div className={styles.addContainer}>
+                    <div className={styles.searchBar}>
+                        <Input className={styles.searchInput} placeholder="username...." onChange={(e) => {
+
+                        }} />
+                    </div>
+
+                    <div className={styles.searchedPeople}>
+
+                    </div>
                 </div>
             </div>
         </div>
