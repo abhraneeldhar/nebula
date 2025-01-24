@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { DisplayNote, userType } from "@/app/utils/fileFormat";
 import { getDisplayNotes } from "@/app/utils/getDisplayNotes";
 import { FriendSearch } from "@/app/utils/friendMechanics/friendSearch";
-import { Button } from "@radix-ui/themes";
+import { Button, Skeleton } from "@radix-ui/themes";
 import { X } from "lucide-react";
 import { getUserDetails } from "@/app/utils/getUserDetails";
 
@@ -54,25 +54,24 @@ export default function FriendsPage() {
 
 
 
-    const [searchedFriendsList, setSearchedFriendsList] = useState<any>();
+    const [searchedFriendsList, setSearchedFriendsList] = useState<userType[] | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
     const handleFriendSearch = async (searchParam: string) => {
         if (userDetails && searchParam != "" && searchParam != " ") {
             console.log("searchin for ", searchParam)
             const friendList = await FriendSearch(userDetails.userId, searchParam);
             // console.log("friens searched result: ", friendList)
-            setSearchedFriendsList(friendList);
+            setSearchedFriendsList(friendList as userType[]);
         }
         else {
             setSearchedFriendsList(null);
         }
     }
 
-    const [currentFriends, setCurrentFriends] = useState<userType[]>()
+    const [currentFriends, setCurrentFriends] = useState<userType[]|null>(null)
 
     useEffect(() => {
         if (userDetails) {
-
             const getFriends = async () => {
                 var tempFriendList: userType[] = []
 
@@ -84,7 +83,6 @@ export default function FriendsPage() {
                     }
                     asyncFunc()
                 })
-
                 setCurrentFriends(tempFriendList)
             }
             getFriends();
@@ -135,17 +133,25 @@ export default function FriendsPage() {
                         </div>
                     ))}
 
-
-                    {!searchedFriendsList && currentFriends &&
-                        (currentFriends.map((friendDetails)=>(
-                                <div className={styles.currentFriendsCard}>
+                    {/* {!searchedFriendsList && !currentFriends && (
+                        <div className="flex items-center space-x-4">
+                            <Skeleton className="h-12 w-12 rounded-full" />
+                            <div className="space-y-2">
+                                <Skeleton className="h-4 w-[250px]" />
+                                <Skeleton className="h-4 w-[200px]" />
+                            </div>
+                        </div>
+                    )} */}
+                    {currentFriends &&
+                        (currentFriends.map((friendDetails) => (
+                            <div key={friendDetails.userId} className={styles.currentFriendsCard}>
                                 <Image className={styles.friendAvatar} src={friendDetails.imageUrl} alt="" height={60} width={60} />
                                 <div className={styles.friendDetails}>
                                     <h1 className={styles.friendName}>{friendDetails.name}</h1>
                                     <p className={styles.friendUsername}>@{friendDetails.userName}</p>
                                 </div>
                             </div>
-                            ))
+                        ))
                         )
                     }
                 </div>
