@@ -64,7 +64,7 @@ export default function Bedrock() {
                 console.log("fetching user details via email");
                 const res = await getUserDetailsFromEmail(session?.user?.email as string);
                 setUserDetails(res)
-                console.log("fetched user details via email: ", res)
+                // console.log("fetched user details via email: ", res)
                 setUserId(res.userId)
             }
             fetchingUserDetails();

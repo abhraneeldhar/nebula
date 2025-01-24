@@ -131,3 +131,19 @@
 .currentFriendsCard:hover{
     background-color: rgb(27, 27, 27);
 }
+.friendsListSkeletonContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.friendsListSkeleton{
+    display: flex;
+    /* flex-direction: column; */
+    gap: 10px;
+    align-items: center;
+}
+.friendsAvatarSkeleton{
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+}

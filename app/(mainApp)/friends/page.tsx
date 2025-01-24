@@ -31,14 +31,13 @@ export default function FriendsPage() {
             const fetchingUserDetails = async () => {
                 console.log("fetching user details via email");
                 const res = await getUserDetailsFromEmail(session?.user?.email as string);
-                setUserDetails(res)
-                console.log("fetched user details via email: ", res)
-                // setUserId(res.userId)
+                setUserDetails(res);
             }
             fetchingUserDetails();
         }
     }, [session])
 
+    // getsdisplay notes
     const localCollectionOfNotesState = appStore((state) => state.localCollectionOfNotesState) as DisplayNote[]
     const setlocalCollectionOfNotesState = appStore((state) => state.setlocalCollectionOfNotesState)
 
@@ -53,7 +52,9 @@ export default function FriendsPage() {
     }, [userDetails])
 
 
+    const [showSkeleton, setShowSkeleton] = useState(false);
 
+    // gets searched people
     const [searchedFriendsList, setSearchedFriendsList] = useState<userType[] | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
     const handleFriendSearch = async (searchParam: string) => {
@@ -69,11 +70,12 @@ export default function FriendsPage() {
     }
 
     // getting currentfriendlist
-    const currentFriendList=appStore((state) => state.currentFriendList)
-    const setCurrentFriendList=appStore((state) => state.setCurrentFriendList)
-    useEffect(()=>{
-        if(userDetails && !currentFriendList){
+    const currentFriendList = appStore((state) => state.currentFriendList)
+    const setCurrentFriendList = appStore((state) => state.setCurrentFriendList)
+    useEffect(() => {
+        if (userDetails && !currentFriendList) {
             const getFriends = async () => {
+                setShowSkeleton(true);
                 var tempFriendList: userType[] = []
 
                 userDetails?.friendList.forEach((friendId) => {
@@ -85,10 +87,14 @@ export default function FriendsPage() {
                     asyncFunc()
                 })
                 setCurrentFriendList(tempFriendList);
+                setShowSkeleton(false)
             }
             getFriends();
         }
-    },[userDetails])
+        else{
+            setShowSkeleton(false);
+        }
+    }, [userDetails])
 
     return (<>
         <div className={styles.main}>
@@ -144,15 +150,31 @@ export default function FriendsPage() {
                         </div>
                     ))}
 
-                    {/* {!searchedFriendsList && !currentFriends && (
-                        <div className="flex items-center space-x-4">
-                            <Skeleton className="h-12 w-12 rounded-full" />
-                            <div className="space-y-2">
-                                <Skeleton className="h-4 w-[250px]" />
-                                <Skeleton className="h-4 w-[200px]" />
+                    {showSkeleton && (
+                        <div className={styles.friendsListSkeletonContainer}>
+                            <div className={styles.friendsListSkeleton}>
+                                <Skeleton className={styles.friendsAvatarSkeleton} />
+                                <div className="space-y-2">
+                                    <Skeleton className="h-4 w-[250px]" />
+                                    <Skeleton className="h-4 w-[200px]" />
+                                </div>
+                            </div>
+                            <div className={styles.friendsListSkeleton}>
+                                <Skeleton className={styles.friendsAvatarSkeleton} />
+                                <div className="space-y-2">
+                                    <Skeleton className="h-4 w-[250px]" />
+                                    <Skeleton className="h-4 w-[200px]" />
+                                </div>
+                            </div>
+                            <div className={styles.friendsListSkeleton}>
+                                <Skeleton className={styles.friendsAvatarSkeleton} />
+                                <div className="space-y-2">
+                                    <Skeleton className="h-4 w-[250px]" />
+                                    <Skeleton className="h-4 w-[200px]" />
+                                </div>
                             </div>
                         </div>
-                    )} */}
+                    )}
 
                 </div>
             </div>
