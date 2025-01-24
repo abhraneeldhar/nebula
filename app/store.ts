@@ -5,18 +5,22 @@ type store = {
     userDetails:userType|null,
     localCollectionOfNotesState: Note[] | null | {},
     currentOpenNoteIdState: string | null,
+    currentFriendList:userType[]|null,
 
     setUserDetails:(newUserDetails:userType)=>void;
     setCurrentOpenNoteIdState:(newNotesIdState: string|null)=>void,
     setlocalCollectionOfNotesState: (newlocalCollectionOfNotesState: Note[] | {}) => void,
+    setCurrentFriendList:(newFriendsList:userType[]|null)=>void,
 }
 
 export const appStore = create<store>((set) => ({
     userDetails:null,
     localCollectionOfNotesState:null,
     currentOpenNoteIdState:null,
+    currentFriendList:null,
     
     setUserDetails:(newUserDetails:userType)=>set({userDetails:newUserDetails}),
     setCurrentOpenNoteIdState:(newNotesIdState: string|null)=>set({currentOpenNoteIdState:newNotesIdState}),
     setlocalCollectionOfNotesState: (newlocalCollectionOfNotesState: Note[] | {}) => set({ localCollectionOfNotesState: newlocalCollectionOfNotesState }),
+    setCurrentFriendList:(newFriendsList:userType[]|null)=>set({currentFriendList:newFriendsList})
 }))

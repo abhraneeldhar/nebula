@@ -68,7 +68,7 @@ export default function FriendsPage() {
         }
     }
 
-    const [currentFriends, setCurrentFriends] = useState<userType[]|null>(null)
+    const [currentFriends, setCurrentFriends] = useState<userType[] | null>(null)
 
     useEffect(() => {
         if (userDetails) {
@@ -83,7 +83,8 @@ export default function FriendsPage() {
                     }
                     asyncFunc()
                 })
-                setCurrentFriends(tempFriendList)
+                setCurrentFriends(tempFriendList);
+                setSearchedFriendsList(null);
             }
             getFriends();
         }
@@ -123,6 +124,20 @@ export default function FriendsPage() {
 
                 <div className={styles.friendsContainer}>
 
+                    {!searchedFriendsList && currentFriends &&
+                        (currentFriends.map((friendDetails) => (
+                            <div key={friendDetails.userId} className={styles.currentFriendsCard}>
+                                <Image className={styles.friendAvatar} src={friendDetails.imageUrl} alt="" height={60} width={60} />
+                                <div className={styles.friendDetails}>
+                                    <h1 className={styles.friendName}>{friendDetails.name}</h1>
+                                    <p className={styles.friendUsername}>@{friendDetails.userName}</p>
+                                </div>
+                            </div>
+                        ))
+                        )
+                    }
+
+
                     {searchedFriendsList && searchedFriendsList.map((friendDetails: userType) => (
                         <div key={friendDetails.userId} className={styles.currentFriendsCard}>
                             <Image className={styles.friendAvatar} src={friendDetails.imageUrl} alt="" height={60} width={60} />
@@ -142,18 +157,7 @@ export default function FriendsPage() {
                             </div>
                         </div>
                     )} */}
-                    {currentFriends &&
-                        (currentFriends.map((friendDetails) => (
-                            <div key={friendDetails.userId} className={styles.currentFriendsCard}>
-                                <Image className={styles.friendAvatar} src={friendDetails.imageUrl} alt="" height={60} width={60} />
-                                <div className={styles.friendDetails}>
-                                    <h1 className={styles.friendName}>{friendDetails.name}</h1>
-                                    <p className={styles.friendUsername}>@{friendDetails.userName}</p>
-                                </div>
-                            </div>
-                        ))
-                        )
-                    }
+
                 </div>
             </div>
         </div>
