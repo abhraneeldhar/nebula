@@ -19,7 +19,9 @@ import { X } from "lucide-react";
 import { getUserDetails } from "@/app/utils/getUserDetails";
 
 export default function FriendsPage() {
+    const setShowLoadingPage = appStore((state) => state.setShowLoadingPage)
     const { toggleSidebar, open } = useSidebar();
+
 
     const userDetails = appStore((state) => state.userDetails)
     const setUserDetails = appStore((state) => state.setUserDetails)
@@ -29,9 +31,11 @@ export default function FriendsPage() {
     useEffect(() => {
         if (!userDetails && session?.user?.email) {
             const fetchingUserDetails = async () => {
+                setShowLoadingPage(true);
                 // console.log("fetching user details via email");
                 const res = await getUserDetailsFromEmail(session?.user?.email as string);
                 setUserDetails(res);
+                setShowLoadingPage(false);
             }
             fetchingUserDetails();
         }
