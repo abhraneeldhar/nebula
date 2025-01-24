@@ -68,10 +68,11 @@ export default function FriendsPage() {
         }
     }
 
-    const [currentFriends, setCurrentFriends] = useState<userType[] | null>(null)
-
-    useEffect(() => {
-        if (userDetails) {
+    // getting currentfriendlist
+    const currentFriendList=appStore((state) => state.currentFriendList)
+    const setCurrentFriendList=appStore((state) => state.setCurrentFriendList)
+    useEffect(()=>{
+        if(userDetails && !currentFriendList){
             const getFriends = async () => {
                 var tempFriendList: userType[] = []
 
@@ -83,16 +84,11 @@ export default function FriendsPage() {
                     }
                     asyncFunc()
                 })
-                setCurrentFriends(tempFriendList);
-                setSearchedFriendsList(null);
+                setCurrentFriendList(tempFriendList);
             }
             getFriends();
         }
-    }, [userDetails])
-
-    useEffect(() => {
-        console.log("friendslsit: ", currentFriends)
-    }, [currentFriends])
+    },[userDetails])
 
     return (<>
         <div className={styles.main}>
@@ -124,8 +120,8 @@ export default function FriendsPage() {
 
                 <div className={styles.friendsContainer}>
 
-                    {!searchedFriendsList && currentFriends &&
-                        (currentFriends.map((friendDetails) => (
+                    {!searchedFriendsList && currentFriendList &&
+                        (currentFriendList.map((friendDetails) => (
                             <div key={friendDetails.userId} className={styles.currentFriendsCard}>
                                 <Image className={styles.friendAvatar} src={friendDetails.imageUrl} alt="" height={60} width={60} />
                                 <div className={styles.friendDetails}>

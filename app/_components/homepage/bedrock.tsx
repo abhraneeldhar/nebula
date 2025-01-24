@@ -85,6 +85,28 @@ export default function Bedrock() {
         }
     }, [localCollectionOfNotesState, userDetails])
 
+    // getting currentfriendlist
+    const currentFriendList=appStore((state) => state.currentFriendList)
+    const setCurrentFriendList=appStore((state) => state.setCurrentFriendList)
+    useEffect(()=>{
+        if(userDetails && !currentFriendList){
+            const getFriends = async () => {
+                var tempFriendList: userType[] = []
+
+                userDetails?.friendList.forEach((friendId) => {
+                    const asyncFunc = async () => {
+                        // console.log("getting deatil for ", friendId)
+                        const newUserDetails = await getUserDetails(friendId);
+                        tempFriendList.push(newUserDetails)
+                    }
+                    asyncFunc()
+                })
+                setCurrentFriendList(tempFriendList);
+            }
+            getFriends();
+        }
+    },[userDetails])
+
 
 
     // tab component
