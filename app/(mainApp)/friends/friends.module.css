@@ -147,3 +147,9 @@
     width: 60px;
     border-radius: 50%;
 }
+
+@media (max-width: 520px) {
+    .mainContents{
+        width: 100%;
+    }
+}
