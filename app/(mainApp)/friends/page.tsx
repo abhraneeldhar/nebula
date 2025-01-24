@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { DisplayNote, userType } from "@/app/utils/fileFormat";
 import { getDisplayNotes } from "@/app/utils/getDisplayNotes";
 import { FriendSearch } from "@/app/utils/friendMechanics/friendSearch";
-import { Button } from "@radix-ui/themes";
+import { Button, Skeleton } from "@radix-ui/themes";
 import { X } from "lucide-react";
 import { getUserDetails } from "@/app/utils/getUserDetails";
 
@@ -29,16 +29,15 @@ export default function FriendsPage() {
     useEffect(() => {
         if (!userDetails && session?.user?.email) {
             const fetchingUserDetails = async () => {
-                console.log("fetching user details via email");
+                // console.log("fetching user details via email");
                 const res = await getUserDetailsFromEmail(session?.user?.email as string);
-                setUserDetails(res)
-                console.log("fetched user details via email: ", res)
-                // setUserId(res.userId)
+                setUserDetails(res);
             }
             fetchingUserDetails();
         }
     }, [session])
 
+    // getsdisplay notes
     const localCollectionOfNotesState = appStore((state) => state.localCollectionOfNotesState) as DisplayNote[]
     const setlocalCollectionOfNotesState = appStore((state) => state.setlocalCollectionOfNotesState)
 
@@ -53,47 +52,45 @@ export default function FriendsPage() {
     }, [userDetails])
 
 
+    const [showSkeleton, setShowSkeleton] = useState(false);
 
-    const [searchedFriendsList, setSearchedFriendsList] = useState<any>();
+    // gets searched people
+    const [searchedFriendsList, setSearchedFriendsList] = useState<userType[] | null>(null);
     const inputRef = useRef<HTMLInputElement>(null);
     const handleFriendSearch = async (searchParam: string) => {
         if (userDetails && searchParam != "" && searchParam != " ") {
-            console.log("searchin for ", searchParam)
+            setShowSkeleton(true);
             const friendList = await FriendSearch(userDetails.userId, searchParam);
-            // console.log("friens searched result: ", friendList)
-            setSearchedFriendsList(friendList);
+            setSearchedFriendsList(friendList as userType[]);
+            setShowSkeleton(false);
         }
         else {
             setSearchedFriendsList(null);
         }
     }
 
-    const [currentFriends, setCurrentFriends] = useState<userType[]>()
-
+    // getting currentfriendlist
+    const currentFriendList = appStore((state) => state.currentFriendList)
+    const setCurrentFriendList = appStore((state) => state.setCurrentFriendList)
     useEffect(() => {
-        if (userDetails) {
-
+        if (userDetails && !currentFriendList) {
             const getFriends = async () => {
+                setShowSkeleton(true);
                 var tempFriendList: userType[] = []
 
                 userDetails?.friendList.forEach((friendId) => {
                     const asyncFunc = async () => {
-                        // console.log("getting deatil for ", friendId)
                         const newUserDetails = await getUserDetails(friendId);
                         tempFriendList.push(newUserDetails)
                     }
                     asyncFunc()
                 })
-
-                setCurrentFriends(tempFriendList)
+                setCurrentFriendList(tempFriendList);
+                setShowSkeleton(false)
             }
             getFriends();
         }
     }, [userDetails])
-
-    useEffect(() => {
-        console.log("friendslsit: ", currentFriends)
-    }, [currentFriends])
 
     return (<>
         <div className={styles.main}>
@@ -125,6 +122,20 @@ export default function FriendsPage() {
 
                 <div className={styles.friendsContainer}>
 
+                    {!searchedFriendsList && currentFriendList && !showSkeleton &&
+                        (currentFriendList.map((friendDetails) => (
+                            <div key={friendDetails.userId} className={styles.currentFriendsCard}>
+                                <Image className={styles.friendAvatar} src={friendDetails.imageUrl} alt="" height={60} width={60} />
+                                <div className={styles.friendDetails}>
+                                    <h1 className={styles.friendName}>{friendDetails.name}</h1>
+                                    <p className={styles.friendUsername}>@{friendDetails.userName}</p>
+                                </div>
+                            </div>
+                        ))
+                        )
+                    }
+
+
                     {searchedFriendsList && searchedFriendsList.map((friendDetails: userType) => (
                         <div key={friendDetails.userId} className={styles.currentFriendsCard}>
                             <Image className={styles.friendAvatar} src={friendDetails.imageUrl} alt="" height={60} width={60} />
@@ -135,19 +146,32 @@ export default function FriendsPage() {
                         </div>
                     ))}
 
-
-                    {!searchedFriendsList && currentFriends &&
-                        (currentFriends.map((friendDetails)=>(
-                                <div className={styles.currentFriendsCard}>
-                                <Image className={styles.friendAvatar} src={friendDetails.imageUrl} alt="" height={60} width={60} />
-                                <div className={styles.friendDetails}>
-                                    <h1 className={styles.friendName}>{friendDetails.name}</h1>
-                                    <p className={styles.friendUsername}>@{friendDetails.userName}</p>
+                    {showSkeleton && (
+                        <div className={styles.friendsListSkeletonContainer}>
+                            <div className={styles.friendsListSkeleton}>
+                                <Skeleton className={styles.friendsAvatarSkeleton} />
+                                <div className="space-y-2">
+                                    <Skeleton className="h-4 w-[250px]" />
+                                    <Skeleton className="h-4 w-[200px]" />
                                 </div>
                             </div>
-                            ))
-                        )
-                    }
+                            <div className={styles.friendsListSkeleton}>
+                                <Skeleton className={styles.friendsAvatarSkeleton} />
+                                <div className="space-y-2">
+                                    <Skeleton className="h-4 w-[250px]" />
+                                    <Skeleton className="h-4 w-[200px]" />
+                                </div>
+                            </div>
+                            <div className={styles.friendsListSkeleton}>
+                                <Skeleton className={styles.friendsAvatarSkeleton} />
+                                <div className="space-y-2">
+                                    <Skeleton className="h-4 w-[250px]" />
+                                    <Skeleton className="h-4 w-[200px]" />
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                 </div>
             </div>
         </div>

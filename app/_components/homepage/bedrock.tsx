@@ -64,7 +64,7 @@ export default function Bedrock() {
                 console.log("fetching user details via email");
                 const res = await getUserDetailsFromEmail(session?.user?.email as string);
                 setUserDetails(res)
-                console.log("fetched user details via email: ", res)
+                // console.log("fetched user details via email: ", res)
                 setUserId(res.userId)
             }
             fetchingUserDetails();
@@ -84,6 +84,28 @@ export default function Bedrock() {
             asyncDisplayNotes();
         }
     }, [localCollectionOfNotesState, userDetails])
+
+    // getting currentfriendlist
+    const currentFriendList=appStore((state) => state.currentFriendList)
+    const setCurrentFriendList=appStore((state) => state.setCurrentFriendList)
+    useEffect(()=>{
+        if(userDetails && !currentFriendList){
+            const getFriends = async () => {
+                var tempFriendList: userType[] = []
+
+                userDetails?.friendList.forEach((friendId) => {
+                    const asyncFunc = async () => {
+                        // console.log("getting deatil for ", friendId)
+                        const newUserDetails = await getUserDetails(friendId);
+                        tempFriendList.push(newUserDetails)
+                    }
+                    asyncFunc()
+                })
+                setCurrentFriendList(tempFriendList);
+            }
+            getFriends();
+        }
+    },[userDetails])
 
 
 
