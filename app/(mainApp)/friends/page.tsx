@@ -29,7 +29,7 @@ export default function FriendsPage() {
     useEffect(() => {
         if (!userDetails && session?.user?.email) {
             const fetchingUserDetails = async () => {
-                console.log("fetching user details via email");
+                // console.log("fetching user details via email");
                 const res = await getUserDetailsFromEmail(session?.user?.email as string);
                 setUserDetails(res);
             }
@@ -59,10 +59,13 @@ export default function FriendsPage() {
     const inputRef = useRef<HTMLInputElement>(null);
     const handleFriendSearch = async (searchParam: string) => {
         if (userDetails && searchParam != "" && searchParam != " ") {
-            console.log("searchin for ", searchParam)
+            // console.log("searchin for ", searchParam)
+            // setShowSkeleton(true);
+            // setSearchedFriendsList([]);
             const friendList = await FriendSearch(userDetails.userId, searchParam);
             // console.log("friens searched result: ", friendList)
             setSearchedFriendsList(friendList as userType[]);
+            setShowSkeleton(false);
         }
         else {
             setSearchedFriendsList(null);
@@ -76,6 +79,7 @@ export default function FriendsPage() {
         if (userDetails && !currentFriendList) {
             const getFriends = async () => {
                 setShowSkeleton(true);
+                // console.log("fetching currentfreinsdlsist")
                 var tempFriendList: userType[] = []
 
                 userDetails?.friendList.forEach((friendId) => {
@@ -87,12 +91,10 @@ export default function FriendsPage() {
                     asyncFunc()
                 })
                 setCurrentFriendList(tempFriendList);
+                // console.log("show skeleton is false", tempFriendList)
                 setShowSkeleton(false)
             }
             getFriends();
-        }
-        else{
-            setShowSkeleton(false);
         }
     }, [userDetails])
 
@@ -150,7 +152,7 @@ export default function FriendsPage() {
                         </div>
                     ))}
 
-                    {showSkeleton && (
+                    {!currentFriendList && !searchedFriendsList && (
                         <div className={styles.friendsListSkeletonContainer}>
                             <div className={styles.friendsListSkeleton}>
                                 <Skeleton className={styles.friendsAvatarSkeleton} />
