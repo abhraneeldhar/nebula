@@ -59,11 +59,8 @@ export default function FriendsPage() {
     const inputRef = useRef<HTMLInputElement>(null);
     const handleFriendSearch = async (searchParam: string) => {
         if (userDetails && searchParam != "" && searchParam != " ") {
-            // console.log("searchin for ", searchParam)
-            // setShowSkeleton(true);
-            // setSearchedFriendsList([]);
+            setShowSkeleton(true);
             const friendList = await FriendSearch(userDetails.userId, searchParam);
-            // console.log("friens searched result: ", friendList)
             setSearchedFriendsList(friendList as userType[]);
             setShowSkeleton(false);
         }
@@ -79,19 +76,16 @@ export default function FriendsPage() {
         if (userDetails && !currentFriendList) {
             const getFriends = async () => {
                 setShowSkeleton(true);
-                // console.log("fetching currentfreinsdlsist")
                 var tempFriendList: userType[] = []
 
                 userDetails?.friendList.forEach((friendId) => {
                     const asyncFunc = async () => {
-                        // console.log("getting deatil for ", friendId)
                         const newUserDetails = await getUserDetails(friendId);
                         tempFriendList.push(newUserDetails)
                     }
                     asyncFunc()
                 })
                 setCurrentFriendList(tempFriendList);
-                // console.log("show skeleton is false", tempFriendList)
                 setShowSkeleton(false)
             }
             getFriends();
@@ -128,7 +122,7 @@ export default function FriendsPage() {
 
                 <div className={styles.friendsContainer}>
 
-                    {!searchedFriendsList && currentFriendList &&
+                    {!searchedFriendsList && currentFriendList && !showSkeleton &&
                         (currentFriendList.map((friendDetails) => (
                             <div key={friendDetails.userId} className={styles.currentFriendsCard}>
                                 <Image className={styles.friendAvatar} src={friendDetails.imageUrl} alt="" height={60} width={60} />
@@ -152,7 +146,7 @@ export default function FriendsPage() {
                         </div>
                     ))}
 
-                    {!currentFriendList && !searchedFriendsList && (
+                    {showSkeleton && (
                         <div className={styles.friendsListSkeletonContainer}>
                             <div className={styles.friendsListSkeleton}>
                                 <Skeleton className={styles.friendsAvatarSkeleton} />
