@@ -45,6 +45,9 @@ import { getUserDetailsFromEmail } from "@/app/utils/getUserDetailsFromEmail"
 
 
 export default function EditorComponent({ id }: { id: string }) {
+    const setShowLoadingPage = appStore((state) => state.setShowLoadingPage)
+
+
     const localCollectionOfNotesState = appStore((state) => state.localCollectionOfNotesState) as DisplayNote[];
     const setlocalCollectionOfNotesState = appStore((state) => state.setlocalCollectionOfNotesState);
 
@@ -63,11 +66,13 @@ export default function EditorComponent({ id }: { id: string }) {
     useEffect(() => {
         if (!userDetails && session?.user?.email) {
             const fetchingUserDetails = async () => {
-                console.log("fetching user details via email");
+                setShowLoadingPage(true);
+                // console.log("fetching user details via email");
                 const res = await getUserDetailsFromEmail(session?.user?.email as string);
                 setUserDetails(res)
                 console.log("fetched user details via email: ", res)
                 setUserId(res.userId)
+                setShowLoadingPage(false);
             }
             fetchingUserDetails();
         }

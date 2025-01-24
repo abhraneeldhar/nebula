@@ -44,6 +44,8 @@ import { getUserDetailsFromEmail } from "@/app/utils/getUserDetailsFromEmail";
 
 export default function Bedrock() {
     const router = useRouter();
+    const setShowLoadingPage = appStore((state) => state.setShowLoadingPage)
+
 
     // only the dsiplay notes
     const localCollectionOfNotesState = appStore((state) => state.localCollectionOfNotesState) as DisplayNote[]
@@ -61,11 +63,13 @@ export default function Bedrock() {
     useEffect(() => {
         if (!userDetails && session?.user?.email) {
             const fetchingUserDetails = async () => {
+                setShowLoadingPage(true);
                 console.log("fetching user details via email");
                 const res = await getUserDetailsFromEmail(session?.user?.email as string);
                 setUserDetails(res)
                 // console.log("fetched user details via email: ", res)
                 setUserId(res.userId)
+                setShowLoadingPage(false);
             }
             fetchingUserDetails();
         }

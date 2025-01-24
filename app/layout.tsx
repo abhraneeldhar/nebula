@@ -8,6 +8,8 @@ import "@radix-ui/themes/styles.css";
 import SessionWrapper from "./_components/sessionWrapper";
 import { Providers } from "./providers"
 import { Theme } from "@radix-ui/themes";
+import { createContext } from "vm";
+import { useState } from "react";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -24,15 +26,20 @@ export const metadata: Metadata = {
   description: "desc",
 };
 
+// const loadingPageContext=createContext();
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  // const [showLoadingPage, setShowLoadingPage] = useState(false);
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-      <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
@@ -40,6 +47,7 @@ export default function RootLayout({
         <Providers>
           <Theme>
             <SessionWrapper>
+              {/* <loadingPageContext.Provider value={{showLoadingPage,setShowLoadingPage}}></loadingPageContext.Provider> */}
               {children}
             </SessionWrapper>
           </Theme>

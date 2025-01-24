@@ -131,6 +131,9 @@
 .currentFriendsCard:hover{
     background-color: rgb(27, 27, 27);
 }
+.currentFriendsCard:active{
+    transform: scale(0.98);
+}
 .friendsListSkeletonContainer{
     display: flex;
     flex-direction: column;
