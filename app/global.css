@@ -42,6 +42,7 @@ body{
     gap: 10px;
     align-items: center;
     justify-content: center;
+    animation: breathingAnimation 0.8s infinite;
     h2{
       font-weight: 500;
       font-size: 30px;
@@ -51,7 +52,18 @@ body{
     }
   }
 }
+@keyframes breathingAnimation{
+  0%{
+    opacity: 1;
+  }
+  50%{
+    opacity: 0.5;
+  }
+  100%{
+    opacity: 1;
 
+  }
+}
 
 @layer base {
   :root {
