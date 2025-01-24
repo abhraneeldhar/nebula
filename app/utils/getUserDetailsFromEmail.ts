@@ -19,5 +19,6 @@ export const getUserDetailsFromEmail = async (email: string) => {
         friendList: userDetailsJson?.friendList,
         newAccount: userDetailsJson?.newAccount
     }
+    // console.log("userdetails:\n",userDetails);
     return (userDetails)
 }

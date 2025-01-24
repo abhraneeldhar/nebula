@@ -4,17 +4,12 @@ import { useEffect, useState } from "react";
 import { appStore } from "../../store";
 import Image from "next/image";
 
-// import closeSVG from "../../../public/close_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png"
+
 import menuSVG from "../../../public/menu_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png"
 
 import coverImage from ".././assetImages/coverimage.png"
-// import profilePic from ".././assetImages/profilePic.jpg"
 
-// import WeathersTab from "../weathersTab/weatherstab";
-
-// import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useSidebar } from "@/components/ui/sidebar";
-// import { Card, CardContent, CardHeader, CardDescription, CardTitle, CardFooter } from "@/components/ui/card";
 
 import { DisplayNote, requestType, sharedNoteType, userType } from "../../utils/fileFormat";
 
@@ -22,19 +17,15 @@ import { DisplayNote, requestType, sharedNoteType, userType } from "../../utils/
 import rightArrow from "../../../public/arrowright.png";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-// import { fetchUserId } from "@/app/utils/fetchUserId";
-// import { getDisplayName } from "next/dist/shared/lib/utils";
+
 import { getDisplayNotes } from "@/app/utils/getDisplayNotes";
 import NewNoteBtn from "../newNoteBtn/newNoteBtn";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Spinner } from "@radix-ui/themes";
-// import { Flex } from "@radix-ui/themes";
 import { Button } from "@radix-ui/themes";
-// import { supabase } from "@/app/utils/supabase/client";
 
 
 import { getUserDetails } from "@/app/utils/getUserDetails";
-// import { userType } from "../../utils/fileFormat";
 
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
