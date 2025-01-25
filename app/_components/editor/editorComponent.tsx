@@ -9,7 +9,7 @@ import styles from "./editor.module.css"
 import Image from "next/image"
 import menuSVG from "../../../public/menu_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.png"
 
-import { Button} from "@radix-ui/themes"
+import { Button } from "@radix-ui/themes"
 import { useSidebar } from "@/components/ui/sidebar"
 import { appStore } from "@/app/store"
 
@@ -141,13 +141,13 @@ export default function EditorComponent({ id }: { id: string }) {
                             }
                             } />
                         </div>
-                        <Input disabled={loadingEditorState} defaultValue={noteData?.title} type="text" placeholder="Untitled Note" ref={tabNameRef} className={styles.tabName} />
-                        {loadingEditorState && !noteData && (
+                        <Input disabled={loadingEditorState} defaultValue={noteData?.title}  placeholder="Untitled Note" ref={tabNameRef} className={styles.tabName} />
+
+                        {/* {loadingEditorState && !noteData && (
                             <div className={styles.loadingSpinnerContainer}>
                                 <Spinner size="3" className={styles.loadingEditorSpinner} />
                             </div>
-                        )}
-
+                        )} */}
                     </div>
 
 
@@ -175,9 +175,9 @@ export default function EditorComponent({ id }: { id: string }) {
     const toolbarOptions = [
         [{ 'header': '1' }, { 'header': '2' }],
         ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-        [{ 'color': [] }, { 'background': [] }],
+        [{ 'color': [] }, { 'background': [] }, 'link'],
         [{ 'align': [] }, { 'list': 'ordered' }, { 'list': 'bullet' }],
-        ['link', 'image'],
+        // ['link', 'image'],
         // ['undo','redo']
     ];
 
@@ -227,11 +227,11 @@ export default function EditorComponent({ id }: { id: string }) {
         })
     }, [, currentOpenNoteId, noteData])
 
-    const updateLocalCollection = (currentNote:Note) => {
+    const updateLocalCollection = (currentNote: Note) => {
         const existingNoteIndex = localCollectionOfNotesState.findIndex(
             (note: DisplayNote) => note.id === currentNote.id
         );
-    
+
         if (existingNoteIndex !== -1) {
             // Update existing note
             const updatedNote = {
@@ -248,17 +248,17 @@ export default function EditorComponent({ id }: { id: string }) {
         } else {
             // Add new note
             const newNote: DisplayNote = {
-                owner:currentNote.owner,
+                owner: currentNote.owner,
                 id: currentNote.id,
                 type: "Note",
-                snippet:currentNote.snippet,
-                parent:{
-                    folderId:currentNote.parent.folderId,
-                    folderName:currentNote.parent.folderName
+                snippet: currentNote.snippet,
+                parent: {
+                    folderId: currentNote.parent.folderId,
+                    folderName: currentNote.parent.folderName
                 },
-                title:currentNote.title,
-                createdAt:currentNote.createdAt,
-                lastModifiedAt:currentNote.lastModifiedAt
+                title: currentNote.title,
+                createdAt: currentNote.createdAt,
+                lastModifiedAt: currentNote.lastModifiedAt
             };
             setlocalCollectionOfNotesState([newNote, ...localCollectionOfNotesState]);
         }
