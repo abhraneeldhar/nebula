@@ -89,6 +89,11 @@ export default function Bedrock() {
         }
     }, [localCollectionOfNotesState, userDetails])
 
+    // makes editor page loading faster
+    useEffect(() => {
+        router.prefetch('/editors'); // Preloads the /editors page
+      }, []);
+
     // getting currentfriendlist
     const currentFriendList=appStore((state) => state.currentFriendList)
     const setCurrentFriendList=appStore((state) => state.setCurrentFriendList)
