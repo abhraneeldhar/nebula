@@ -47,6 +47,7 @@
     border: 1px solid rgba(255, 255, 255, 0.53);
     padding: 15px;
     display: flex;
+    max-width: 250px;
 }
 
 .tabButtons {
