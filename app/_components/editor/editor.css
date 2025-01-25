@@ -183,7 +183,7 @@ body {
         width: 100vw;
         flex-wrap: wrap;
         top: auto;
-        bottom: 5%;
+        bottom: 1%;
         margin-bottom: 10px;
         row-gap: 0;
     }
