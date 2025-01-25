@@ -51,14 +51,14 @@ export default function EditorComponent({ id }: { id: string }) {
     const localCollectionOfNotesState = appStore((state) => state.localCollectionOfNotesState) as DisplayNote[];
     const setlocalCollectionOfNotesState = appStore((state) => state.setlocalCollectionOfNotesState);
 
-    const [refreshCollectionOfNotes, setRefreshCollectionOfNotes] = useState(false)
+    // const [refreshCollectionOfNotes, setRefreshCollectionOfNotes] = useState(false)
 
     const [loadingEditorState, setLoadingEditorState] = useState(true);
     const [savingState, setSavingState] = useState(false);
 
 
+    // const [userId, setUserId] = useState<string | null>(null)
     const { data: session } = useSession();
-    const [userId, setUserId] = useState<string | null>(null)
 
     const userDetails = appStore((state) => state.userDetails)
     const setUserDetails = appStore((state) => state.setUserDetails)
@@ -67,11 +67,9 @@ export default function EditorComponent({ id }: { id: string }) {
         if (!userDetails && session?.user?.email) {
             const fetchingUserDetails = async () => {
                 setShowLoadingPage(true);
-                // console.log("fetching user details via email");
                 const res = await getUserDetailsFromEmail(session?.user?.email as string);
-                setUserDetails(res)
-                console.log("fetched user details via email: ", res)
-                setUserId(res.userId)
+                setUserDetails(res);
+                console.log("fetched user details via email: ", res);
                 setShowLoadingPage(false);
             }
             fetchingUserDetails();
@@ -89,21 +87,19 @@ export default function EditorComponent({ id }: { id: string }) {
             asyncDisplayNotes();
         }
 
-
-        // }, [localCollectionOfNotesState, userDetails])
     }, [userDetails])
 
 
     // need to avoid refetching
-    useEffect(() => {
-        if (userId) {
-            const asyncDisplayNotes = async () => {
-                console.log("fetching display notes")
-                setlocalCollectionOfNotesState(await getDisplayNotes(userId));
-            }
-            asyncDisplayNotes();
-        }
-    }, [refreshCollectionOfNotes])
+    // useEffect(() => {
+    //     if (userId) {
+    //         const asyncDisplayNotes = async () => {
+    //             console.log("fetching display notes")
+    //             setlocalCollectionOfNotesState(await getDisplayNotes(userId));
+    //         }
+    //         asyncDisplayNotes();
+    //     }
+    // }, [refreshCollectionOfNotes])
 
 
     const currentOpenNoteId = id;
@@ -310,9 +306,9 @@ export default function EditorComponent({ id }: { id: string }) {
     useEffect(() => {
         setSelectedFriends([]);
         setSearchparam("");
-        if (userId && shareDialogboxOpen) {
+        if (userDetails?.userId && shareDialogboxOpen) {
             const f = async () => {
-                const friendDetails = await getFriends(userId)
+                const friendDetails = await getFriends(userDetails.userId)
                 if (friendDetails != shareFirendsDetailsList) {
                     setShareFirendsDetailsList(friendDetails)
                 }
@@ -321,7 +317,7 @@ export default function EditorComponent({ id }: { id: string }) {
             f();
         }
 
-    }, [userId, shareDialogboxOpen])
+    }, [userDetails, shareDialogboxOpen])
 
     const handleSelection = (userId: string) => {
         if (!selectedFriends.includes(userId)) {
@@ -339,8 +335,8 @@ export default function EditorComponent({ id }: { id: string }) {
         }
     }
     const handleShareSearch = async (searchParam: string) => {
-        if (userId && searchParam != " " && searchParam != "") {
-            const res = await FriendSearch(userId, searchParam);
+        if (userDetails && searchParam != " " && searchParam != "") {
+            const res = await FriendSearch(userDetails.userId, searchParam);
             setSearchedFriendsList(res);
         }
         if (searchParam == "" || searchParam == " ") {
@@ -348,8 +344,8 @@ export default function EditorComponent({ id }: { id: string }) {
         }
     }
     const shareAction = async () => {
-        if (userId && noteData && selectedFriends.length > 0) {
-            const res = await shareToFriends(userId, selectedFriends, noteData);
+        if (userDetails && noteData && selectedFriends.length > 0) {
+            const res = await shareToFriends(userDetails.userId, selectedFriends, noteData);
             console.log("sent to", selectedFriends);
             setSelectedFriends([]);
             setSearchparam("");
