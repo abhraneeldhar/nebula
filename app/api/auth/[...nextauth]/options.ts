@@ -29,7 +29,7 @@ async function setupNewAccount(userId: string) {
 
     console.log("created supabase client")
 
-    // await mongoClientCS.connect();
+    await mongoClientCS.connect();
     const db = mongoClientCS.db("notesApp");
     const defaultNotes = db.collection("defaultNotes");
     const notesCollection=db.collection("notes");
@@ -47,8 +47,12 @@ async function setupNewAccount(userId: string) {
         };
     });
 
-    const result = await notesCollection.insertMany(newDefaultNotes);
-    console.log("inserted default notes: ",result)
+    console.log("default notes are: ",newDefaultNotes);
+    console.log("inserting default notes");
+    await notesCollection.insertMany(newDefaultNotes);
+
+
+    console.log("inserted default notes: ")
     
 
 
@@ -127,8 +131,8 @@ export const options: NextAuthOptions = {
 
                         await setupNewAccount(user.id);
 
-                        // return "/home";
-                        return(true)
+                        return "/home";
+                        // return(true)
                         
                     }
                 }
