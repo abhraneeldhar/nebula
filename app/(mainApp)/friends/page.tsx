@@ -18,6 +18,16 @@ import { Button, Skeleton } from "@radix-ui/themes";
 import { X } from "lucide-react";
 import { getUserDetails } from "@/app/utils/getUserDetails";
 
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+
 export default function FriendsPage() {
     const setShowLoadingPage = appStore((state) => state.setShowLoadingPage)
     const { toggleSidebar, open } = useSidebar();
@@ -94,10 +104,31 @@ export default function FriendsPage() {
             }
             getFriends();
         }
+
     }, [userDetails])
+
+
+    const [friendPopoverOpen, setFriendPopoverOpen] = useState(false)
+    const [friendDetailsPopover,setFriendDetailsPopover]=useState<userType|null>(null)
 
     return (<>
         <div className={styles.main}>
+            <Dialog open={friendPopoverOpen} onOpenChange={setFriendPopoverOpen}>
+                <DialogTitle></DialogTitle>
+                <DialogContent className="sm:max-w-[425px]">
+                    <div className={styles.popoverMain}>
+                        <div className={styles.popoverProfilePic}>
+                            <Image unoptimized alt="" src={friendDetailsPopover?.imageUrl||""} height={60} width={60}/>
+                        </div>
+                        <div className={styles.popoverFriendDetails}>
+                            <h2>{friendDetailsPopover?.name}</h2>
+                            <h3>@{friendDetailsPopover?.userName}</h3>
+                            <p>{friendDetailsPopover?.bio}</p>
+                        </div>
+                    </div>
+                </DialogContent>
+            </Dialog>
+
             <div className={styles.tab}>
                 <div className={styles.sidebarBtn}>
                     <Image src={menuSVG} alt="sidebarBtn" onClick={() => {
@@ -128,7 +159,10 @@ export default function FriendsPage() {
 
                     {!searchedFriendsList && currentFriendList && !showSkeleton &&
                         (currentFriendList.map((friendDetails) => (
-                            <div key={friendDetails.userId} className={styles.currentFriendsCard}>
+                            <div key={friendDetails.userId} className={styles.currentFriendsCard} onClick={(e) => {
+                                setFriendPopoverOpen(true);
+                                setFriendDetailsPopover(friendDetails);
+                            }}>
                                 <Image className={styles.friendAvatar} src={friendDetails.imageUrl} alt="" height={60} width={60} />
                                 <div className={styles.friendDetails}>
                                     <h1 className={styles.friendName}>{friendDetails.name}</h1>
@@ -141,7 +175,10 @@ export default function FriendsPage() {
 
 
                     {searchedFriendsList && searchedFriendsList.map((friendDetails: userType) => (
-                        <div key={friendDetails.userId} className={styles.currentFriendsCard}>
+                        <div key={friendDetails.userId} className={styles.currentFriendsCard} onClick={(e) => {
+                            setFriendPopoverOpen(true);
+                            setFriendDetailsPopover(friendDetails);
+                        }}>
                             <Image className={styles.friendAvatar} src={friendDetails.imageUrl} alt="" height={60} width={60} />
                             <div className={styles.friendDetails}>
                                 <h1 className={styles.friendName}>{friendDetails.name}</h1>

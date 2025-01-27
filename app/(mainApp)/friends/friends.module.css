@@ -150,6 +150,36 @@
     width: 60px;
     border-radius: 50%;
 }
+.popoverMain{
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+    .popoverProfilePic{
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+    }
+    .popoverProfilePic img{
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
+    }
+    .popoverFriendDetails{
+        display: flex;
+        flex-direction: column;
+    }
+    .popoverFriendDetails h2{
+        font-size: 25px;
+        line-height: 20px;
+    }
+    .popoverFriendDetails h3{
+        color: rgb(187, 187, 187);
+    }
+    .popoverFriendDetails p{
+        margin-top: 15px;
+    }
+
+}
 
 @media (max-width: 520px) {
     .mainContents{
