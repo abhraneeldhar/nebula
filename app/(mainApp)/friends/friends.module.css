@@ -177,9 +177,24 @@
     }
     .popoverFriendDetails p{
         margin-top: 15px;
+        padding-left: 20px;
     }
-
 }
+.popoverFriendAction{
+    display: flex;
+    justify-content: center;
+}
+.popoverAddAction{
+    background-color: rgb(0, 212, 32);
+    padding: 5px 20px;
+    border-radius: 20px;
+    color: white;
+    transition: all 0.2s;
+}
+.popoverAddAction:hover{
+    background-color:rgb(22, 242, 55) ;
+}
+
 
 @media (max-width: 520px) {
     .mainContents{

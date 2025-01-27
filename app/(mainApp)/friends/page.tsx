@@ -28,6 +28,8 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 
+
+
 export default function FriendsPage() {
     const setShowLoadingPage = appStore((state) => state.setShowLoadingPage)
     const { toggleSidebar, open } = useSidebar();
@@ -109,7 +111,7 @@ export default function FriendsPage() {
 
 
     const [friendPopoverOpen, setFriendPopoverOpen] = useState(false)
-    const [friendDetailsPopover,setFriendDetailsPopover]=useState<userType|null>(null)
+    const [friendDetailsPopover, setFriendDetailsPopover] = useState<userType | null>(null)
 
     return (<>
         <div className={styles.main}>
@@ -118,7 +120,7 @@ export default function FriendsPage() {
                 <DialogContent className="sm:max-w-[425px]">
                     <div className={styles.popoverMain}>
                         <div className={styles.popoverProfilePic}>
-                            <Image unoptimized alt="" src={friendDetailsPopover?.imageUrl||""} height={60} width={60}/>
+                            <Image unoptimized alt="" src={friendDetailsPopover?.imageUrl || ""} height={60} width={60} />
                         </div>
                         <div className={styles.popoverFriendDetails}>
                             <h2>{friendDetailsPopover?.name}</h2>
@@ -126,6 +128,9 @@ export default function FriendsPage() {
                             <p>{friendDetailsPopover?.bio}</p>
                         </div>
                     </div>
+                    <div className={styles.popoverFriendAction}>
+                            <Button className={styles.popoverAddAction}>Add</Button>
+                        </div>
                 </DialogContent>
             </Dialog>
 
