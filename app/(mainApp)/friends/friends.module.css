@@ -29,6 +29,7 @@
     font-weight: 400;
     margin-left: 10px;
 }
+
 .sidebarBtn {
     display: inline-block;
     height: 35px;
@@ -44,7 +45,7 @@
 .sidebarBtn img {
     height: 100%;
     width: 100%;
-    
+
 }
 
 .tabsTrigger {
@@ -73,22 +74,24 @@
     background-color: black;
     color: white;
 }
-.clearSearchBtn{
+
+.clearSearchBtn {
     position: absolute;
     top: 50%;
     /* bottom: -50%; */
     transform: translateY(-50%);
-    right: 2px ;
+    right: 2px;
     height: 30px;
     width: 35px;
     background-color: rgb(22, 22, 22);
     border-radius: 10px 40px 40px 10px;
 }
-.clearSearchBtn:hover{
+
+.clearSearchBtn:hover {
     background-color: rgb(41, 41, 41);
 }
 
-.mainContents{
+.mainContents {
     display: flex;
     width: 50%;
     height: 100%;
@@ -98,12 +101,14 @@
     flex-direction: column;
     padding: 0px 10px;
 }
-.friendsContainer{
+
+.friendsContainer {
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
-.currentFriendsCard{
+
+.currentFriendsCard {
     display: flex;
     gap: 10px;
     align-items: center;
@@ -111,93 +116,114 @@
     padding: 10px;
     border-radius: 15px;
     transition: all 0.2s;
-    .friendAvatar{
+
+    .friendAvatar {
         border-radius: 50%;
     }
-    .friendDetails{
+
+    .friendDetails {
         display: flex;
         flex-direction: column;
         gap: 0;
-        .friendName{
+
+        .friendName {
             font-size: 20px;
             color: white;
         }
-        .friendUsername{
+
+        .friendUsername {
             font-size: 15px;
             color: rgb(210, 210, 210);
         }
     }
 }
-.currentFriendsCard:hover{
+
+.currentFriendsCard:hover {
     background-color: rgb(27, 27, 27);
 }
-.currentFriendsCard:active{
+
+.currentFriendsCard:active {
     transform: scale(0.98);
 }
-.friendsListSkeletonContainer{
+
+.friendsListSkeletonContainer {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
-.friendsListSkeleton{
+
+.friendsListSkeleton {
     display: flex;
     /* flex-direction: column; */
     gap: 10px;
     align-items: center;
 }
-.friendsAvatarSkeleton{
+
+.friendsAvatarSkeleton {
     height: 60px;
     width: 60px;
     border-radius: 50%;
 }
-.popoverMain{
+
+.popoverMain {
     display: flex;
     flex-direction: column;
     height: 300px;
-    .popoverProfilePic{
+
+    .popoverProfilePic {
         display: flex;
         justify-content: center;
         padding: 20px;
     }
-    .popoverProfilePic img{
+
+    .popoverProfilePic img {
         height: 100px;
         width: 100px;
         border-radius: 50%;
     }
-    .popoverFriendDetails{
+
+    .popoverFriendDetails {
         display: flex;
         flex-direction: column;
     }
-    .popoverFriendDetails h2{
+
+    .popoverFriendDetails h2 {
         font-size: 25px;
         line-height: 20px;
     }
-    .popoverFriendDetails h3{
+
+    .popoverFriendDetails h3 {
         color: rgb(187, 187, 187);
     }
-    .popoverFriendDetails p{
+
+    .popoverFriendDetails p {
         margin-top: 15px;
         padding-left: 20px;
     }
 }
-.popoverFriendAction{
+
+.popoverFriendAction {
     display: flex;
     justify-content: center;
 }
-.popoverAddAction{
-    background-color: rgb(0, 212, 32);
+
+.popoverFriendAction button {
     padding: 5px 20px;
     border-radius: 20px;
     color: white;
     transition: all 0.2s;
 }
-.popoverAddAction:hover{
-    background-color:rgb(22, 242, 55) ;
+
+.popoverAddAction {
+    background-color: rgb(0, 212, 32);
+}
+.popoverRemoveAction{
+    background-color: rgb(246, 11, 11);
 }
 
 
 @media (max-width: 520px) {
-    .mainContents{
+    .mainContents {
         width: 100%;
     }
 }

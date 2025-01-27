@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { DisplayNote, userType } from "@/app/utils/fileFormat";
 import { getDisplayNotes } from "@/app/utils/getDisplayNotes";
 import { FriendSearch } from "@/app/utils/friendMechanics/friendSearch";
-import { Button, Skeleton } from "@radix-ui/themes";
+import { Button, Skeleton, Spinner } from "@radix-ui/themes";
 import { X } from "lucide-react";
 import { getUserDetails } from "@/app/utils/getUserDetails";
 
@@ -27,6 +27,8 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
+import { supabase } from "@/app/utils/supabase/client";
+import { updateFriendList } from "@/app/utils/friendMechanics/updateFriendList";
 
 
 
@@ -112,15 +114,64 @@ export default function FriendsPage() {
 
     const [friendPopoverOpen, setFriendPopoverOpen] = useState(false)
     const [friendDetailsPopover, setFriendDetailsPopover] = useState<userType | null>(null)
+    const [friendPopoverAction, setFriendPopoverAction] = useState<"add" | "cancel" | "remove" | "accept/reject" | null>(null)
+
+    useEffect(() => {
+        if (friendPopoverOpen) {
+            const getAction = async () => {
+                // checking if already friends
+                setFriendPopoverAction(null)
+                if (friendDetailsPopover?.friendList.includes(userDetails?.userId as string)) {
+                    console.log("action is remove")
+                    setFriendPopoverAction("remove")
+                    return 1;
+                }
+
+                // console.log("checking for outgoing")
+                const { data: outgoing } = await supabase.from("friendRequest").select("*").eq("senderId", userDetails?.userId).eq("receiverId", friendDetailsPopover?.userId).eq("status", "pending");
+                if (outgoing?.length) {
+                    if (outgoing.length > 0) {
+                        console.log("action is cancel")
+                        setFriendPopoverAction("cancel");
+                        return 1;
+                    }
+                }
+
+                // console.log("checking for incoming")
+                const { data: incoming, error } = await supabase.from("friendRequest").select("*").eq("senderId", friendDetailsPopover?.userId).eq("receiverId", userDetails?.userId).eq("status", "pending");
+                if (incoming?.length) {
+                    if (incoming.length > 0) {
+                        console.log("action is accept/reject");
+                        setFriendPopoverAction("accept/reject");
+                        return 1;
+                    }
+                }
+
+                if (!friendPopoverAction) {
+                    console.log("action is add")
+                    setFriendPopoverAction("add");
+                }
+            }
+            getAction();
+        }
+    }, [friendPopoverOpen])
 
     return (<>
         <div className={styles.main}>
-            <Dialog open={friendPopoverOpen} onOpenChange={setFriendPopoverOpen}>
+            <Dialog open={friendPopoverOpen} onOpenChange={(e) => {
+                setFriendPopoverOpen(e);
+                setFriendPopoverAction(null);
+                setFriendDetailsPopover(null);
+
+            }}>
                 <DialogTitle></DialogTitle>
+                <DialogDescription></DialogDescription>
                 <DialogContent className="sm:max-w-[425px]">
                     <div className={styles.popoverMain}>
                         <div className={styles.popoverProfilePic}>
-                            <Image unoptimized alt="" src={friendDetailsPopover?.imageUrl || ""} height={60} width={60} />
+                            {friendDetailsPopover?.imageUrl &&
+                                <Image unoptimized alt="" src={friendDetailsPopover.imageUrl} height={60} width={60} />
+                            }
                         </div>
                         <div className={styles.popoverFriendDetails}>
                             <h2>{friendDetailsPopover?.name}</h2>
@@ -129,8 +180,63 @@ export default function FriendsPage() {
                         </div>
                     </div>
                     <div className={styles.popoverFriendAction}>
-                            <Button className={styles.popoverAddAction}>Add</Button>
-                        </div>
+                        {!friendPopoverAction && <>loading</>}
+                        {friendPopoverAction == "add" &&
+                            <Button className={styles.popoverAddAction} onClick={() => {
+                                const addAction = async () => {
+                                    const { data, error } = await supabase
+                                        .from('friendRequest')
+                                        .insert({ senderId: userDetails?.userId, receiverId: friendDetailsPopover?.userId, status: "pending", createdAt: Date.now() })
+                                        .select()
+
+                                    console.log(data);
+                                    console.log(error);
+                                    setFriendPopoverAction("cancel")
+                                }
+                                addAction();
+                            }}>Add</Button>}
+                        {friendPopoverAction == "remove" &&
+                            <Button className={styles.popoverRemoveAction} onClick={() => {
+                                const removeAction = async () => {
+                                    // setAction(null)
+                                    let newUserDetails = userDetails
+                                    var index = newUserDetails?.friendList.indexOf(friendDetailsPopover?.userId as string) as number;
+                                    if (index > -1) {
+                                        console.log("removing at ", index)
+                                        newUserDetails?.friendList.splice(index, 1);
+                                    }
+                                    const res1 = await updateFriendList(userDetails?.userId as string, newUserDetails as userType)
+                                    console.log(res1)
+
+                                    newUserDetails = friendDetailsPopover as userType
+                                    index = newUserDetails?.friendList.indexOf(userDetails?.userId as string) as number;
+                                    if (index > -1) {
+                                        console.log("removing at ", index)
+                                        newUserDetails?.friendList.splice(index, 1);
+                                    }
+                                    const res2 = await updateFriendList(friendDetailsPopover?.userId as string, newUserDetails as userType)
+                                    console.log(res2);
+                                    setFriendPopoverAction("add");
+                                }
+                                removeAction();
+                            }}>
+                                Remove
+                            </Button>}
+                        {friendPopoverAction=="cancel" && <Button onClick={()=>{
+                            const cancelAction = async () => {
+                                const res = await supabase
+                                    .from('friendRequest')
+                                    .delete()
+                                    .eq("senderId", userDetails?.userId).eq("receiverId", friendDetailsPopover?.userId).eq("status", "pending")
+                                setFriendPopoverAction("add");
+                            }
+                            cancelAction();
+
+                        }}>Cancel</Button>
+
+                        }
+
+                    </div>
                 </DialogContent>
             </Dialog>
 
