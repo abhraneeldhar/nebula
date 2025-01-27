@@ -345,10 +345,12 @@ export default function EditorComponent({ id }: { id: string }) {
     }
     const shareAction = async () => {
         if (userDetails && noteData && selectedFriends.length > 0) {
+            toast.info("Sending", { position: "bottom-center", theme: "dark" })
             const res = await shareToFriends(userDetails.userId, selectedFriends, noteData);
             console.log("sent to", selectedFriends);
             setSelectedFriends([]);
             setSearchparam("");
+            toast.success("Sent", { position: "bottom-center", theme: "dark" })
         }
         setShareDialogboxOpen(false);
     }

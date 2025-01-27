@@ -222,7 +222,7 @@ export default function FriendsPage() {
                             }}>
                                 Remove
                             </Button>}
-                        {friendPopoverAction=="cancel" && <Button onClick={()=>{
+                        {friendPopoverAction == "cancel" && <Button onClick={() => {
                             const cancelAction = async () => {
                                 const res = await supabase
                                     .from('friendRequest')
@@ -234,7 +234,51 @@ export default function FriendsPage() {
 
                         }}>Cancel</Button>
 
+
                         }
+                        {friendPopoverAction == "accept/reject" && (<>
+                            <Button onClick={() => {
+                                const acceptAction = async () => {
+                                    const { data, error } = await supabase
+                                        .from('friendRequest')
+                                        .delete()
+                                        .eq("senderId", friendDetailsPopover?.userId).eq("receiverId", userDetails?.userId).eq("status", "pending")
+                                        .select();
+                                    console.log(data)
+                                    console.log(error)
+
+                                    if (!userDetails?.friendList.includes(friendDetailsPopover?.userId as string)) {
+                                        console.log(friendDetailsPopover?.userId, " not present in ", userDetails?.friendList)
+                                        let updatedUserDetails = userDetails;
+                                        updatedUserDetails?.friendList.push(friendDetailsPopover?.userId as string)
+                                        const res1 = await updateFriendList(userDetails?.userId as string, updatedUserDetails as userType);
+                                        console.log("res1>>>> ", res1);
+                                    }
+                                    if (!friendDetailsPopover?.friendList.includes(userDetails?.userId as string)) {
+                                        console.log(userDetails?.userId, " not present in ", friendDetailsPopover?.friendList);
+                                        let updatedUserDetails = friendDetailsPopover;
+                                        updatedUserDetails?.friendList.push(userDetails?.userId as string);
+                                        const res2 = await updateFriendList(friendDetailsPopover?.userId as string, updatedUserDetails as userType);
+                                        console.log("res2>>>", res2);
+                                    }
+                                    setFriendPopoverAction("remove");
+                                }
+                                acceptAction();
+                            }}>Accept</Button>
+                            <Button onClick={() => {
+                                const rejectAction = async () => {
+                                    const { data, error } = await supabase
+                                        .from('friendRequest')
+                                        .update({ status: "rejected" })
+                                        .eq("senderId", friendDetailsPopover?.userId).eq("receiverId", userDetails?.userId).eq("status", "pending")
+                                        .select();
+                                    console.log(data);
+                                    console.log(null);
+                                    setFriendPopoverAction("add");
+                                }
+                                rejectAction();
+                            }}>Reject</Button>
+                        </>)}
 
                     </div>
                 </DialogContent>
