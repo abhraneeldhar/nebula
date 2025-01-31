@@ -41,6 +41,7 @@ import { Circle, CircleCheckBig } from "lucide-react"
 import { shareToFriends } from "@/app/utils/shareMechanics/shareToFreinds"
 import { FriendSearch } from "@/app/utils/shareMechanics/searchFriends"
 import { getUserDetailsFromEmail } from "@/app/utils/getUserDetailsFromEmail"
+// import { title } from "process"
 
 
 
@@ -50,8 +51,6 @@ export default function EditorComponent({ id }: { id: string }) {
 
     const localCollectionOfNotesState = appStore((state) => state.localCollectionOfNotesState) as DisplayNote[];
     const setlocalCollectionOfNotesState = appStore((state) => state.setlocalCollectionOfNotesState);
-
-    // const [refreshCollectionOfNotes, setRefreshCollectionOfNotes] = useState(false)
 
     const [loadingEditorState, setLoadingEditorState] = useState(true);
     const [savingState, setSavingState] = useState(false);
@@ -137,7 +136,13 @@ export default function EditorComponent({ id }: { id: string }) {
                             }
                             } />
                         </div>
-                        <Input disabled={loadingEditorState} defaultValue={noteData?.title}  placeholder="Untitled Note" ref={tabNameRef} className={styles.tabName} />
+                        <Input disabled={loadingEditorState} defaultValue={noteData?.title} placeholder="Untitled Note" ref={tabNameRef} className={styles.tabName} onChange={(e) => {
+                            console.log(e.target.value);
+                            const newNoteData={...noteData,title:String(e.target.value)}
+                            setNoteData(newNoteData as Note)
+
+                        }
+                        } />
 
                         {/* {loadingEditorState && !noteData && (
                             <div className={styles.loadingSpinnerContainer}>

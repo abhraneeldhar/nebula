@@ -38,6 +38,7 @@ import { Spinner } from "@radix-ui/themes";
 
 import { renameNote } from "@/app/utils/renameNote";
 import { deleteNote } from "@/app/utils/deleteNote";
+import { getUserDetailsFromEmail } from "@/app/utils/getUserDetailsFromEmail";
 
 export default function AllNotesComponent() {
     const router = useRouter();
@@ -52,51 +53,47 @@ export default function AllNotesComponent() {
     const [deleteNoteId, setDeleteNoteId] = useState("");
     const [deleteNoteName, setDeleteNoteName] = useState("");
 
-    // var refreshToggle=useRef<number>(0)
+
+    const setShowLoadingPage = appStore((state) => state.setShowLoadingPage)
+
     const [loadingDisplayNotes, setLoadingDisplayNotes] = useState(true);
 
     const { data: session } = useSession();
-    const [userId, setUserId] = useState<string | null>(null)
+
+    const userDetails = appStore((state) => state.userDetails)
+    const setUserDetails = appStore((state) => state.setUserDetails)
+
     useEffect(() => {
-        if (!userId && session?.user?.email) {
-            const getUserId = async () => {
-                const newUserId = await fetchUserId(String(session?.user?.email))
-                if (newUserId != userId) {
-                    setUserId(newUserId)
-                }
+        if (!userDetails && session?.user?.email) {
+            const fetchingUserDetails = async () => {
+                setShowLoadingPage(true);
+                const res = await getUserDetailsFromEmail(session?.user?.email as string);
+                setUserDetails(res);
+                console.log("fetched user details via email: ", res);
+                setShowLoadingPage(false);
             }
-            getUserId();
+            fetchingUserDetails();
         }
-    }, [userId, session])
+    }, [session])
 
-    const [refreshCollectionOfNotes,setRefreshCollectionOfNotes]=useState(false)
 
 
     useEffect(() => {
-        if (localCollectionOfNotesState == null && userId != null) {
+        if (localCollectionOfNotesState == null && userDetails != null) {
             const asyncDisplayNotes = async () => {
-                console.log("fetching notes")
-                setLoadingDisplayNotes(true);
-                setlocalCollectionOfNotesState(await getDisplayNotes(userId));
-                setLoadingDisplayNotes(false);
+                console.log("fetching display notes")
+                setlocalCollectionOfNotesState(await getDisplayNotes(userDetails.userId));
             }
             asyncDisplayNotes();
         }
-        console.log(localCollectionOfNotesState)
-    }, [localCollectionOfNotesState, userId])
 
-    useEffect(() => {
-        if (userId != null) {
-            const asyncDisplayNotes = async () => {
-                console.log("fetching notes")
-                setLoadingDisplayNotes(true);
-                setlocalCollectionOfNotesState(await getDisplayNotes(userId));
-                setLoadingDisplayNotes(false);
-            }
-            asyncDisplayNotes();
-        }
-        console.log(localCollectionOfNotesState)
-    }, [, refreshCollectionOfNotes])
+    }, [userDetails])
+
+
+
+    
+
+   
 
 
     // const renameInputRef = useRef<HTMLInputElement>(null);
@@ -131,13 +128,12 @@ export default function AllNotesComponent() {
 
             <DialogContent className={`${styles.renameDialog}`}>
                 <form onSubmit={(e) => {
-                    // e.preventDefault();
+                    e.preventDefault();
                     setRenameOpen(false);
                     renameNote(renameNoteId, renameNoteName);
                     // refreshToggle.current+=1;
                     // console.log("refresh: ", refreshToggle)
                     console.log("renaming ", renameNoteId, " to ", renameNoteName);
-                    setRefreshCollectionOfNotes((prev)=>!prev);
                 }}>
                     <DialogHeader>
                         <DialogTitle>Rename Document</DialogTitle>
@@ -177,7 +173,6 @@ export default function AllNotesComponent() {
                     e.preventDefault();
                     setOpenDelete(false);
                     deleteNote(deleteNoteId)
-                    setRefreshCollectionOfNotes((prev)=>!prev)
                 }}>
                     <DialogHeader>
                         <DialogTitle>Delete note</DialogTitle>
