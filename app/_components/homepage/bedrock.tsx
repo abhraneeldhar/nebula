@@ -92,13 +92,13 @@ export default function Bedrock() {
     // makes editor page loading faster
     useEffect(() => {
         router.prefetch('/editors'); // Preloads the /editors page
-      }, []);
+    }, []);
 
     // getting currentfriendlist
-    const currentFriendList=appStore((state) => state.currentFriendList)
-    const setCurrentFriendList=appStore((state) => state.setCurrentFriendList)
-    useEffect(()=>{
-        if(userDetails && !currentFriendList){
+    const currentFriendList = appStore((state) => state.currentFriendList)
+    const setCurrentFriendList = appStore((state) => state.setCurrentFriendList)
+    useEffect(() => {
+        if (userDetails && !currentFriendList) {
             const getFriends = async () => {
                 var tempFriendList: userType[] = []
 
@@ -114,7 +114,7 @@ export default function Bedrock() {
             }
             getFriends();
         }
-    },[userDetails])
+    }, [userDetails])
 
 
 
@@ -407,14 +407,12 @@ export default function Bedrock() {
                             )}
                             {(localCollectionOfNotesState) && (localCollectionOfNotesState.length > 0) && localCollectionOfNotesState?.sort((a, b) => b.lastModifiedAt - a.lastModifiedAt).slice(0, 3)?.map((note) => (
 
-                                <div className={styles.noteCard} key={note.id} onClick={(e) => {
-                                    e.stopPropagation();
-                                    // console.log("Note card clicked");
-                                    router.push(`/editor/${note.id}`);
-                                }}>
-                                    <h3>{note.title}</h3>
-                                    <div className={styles.noteSnippet}>{note.snippet}
-                                    </div>
+                                <div className={styles.noteCard} key={note.id}>
+                                    <a href={`/editor/${note.id}`}>
+                                        <h3>{note.title}</h3>
+                                        <div className={styles.noteSnippet}>{note.snippet}
+                                        </div>
+                                    </a>
                                 </div>
 
                             ))}
