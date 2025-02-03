@@ -361,6 +361,7 @@
     background-color: black;
     transition: all 0.2s;
     position: relative;
+    cursor: pointer;
 }
 
 .noteCard:active {
@@ -378,6 +379,7 @@
     vertical-align: middle;
     /* background-color: blue; */
     width: 80%;
+    cursor: pointer;
 }
 
 
@@ -391,6 +393,7 @@
     background-color: rgb(39, 39, 39);
     font-weight: 300;
     overflow: hidden;
+    cursor: pointer;
 }
 
 @media (max-width: 520px) {

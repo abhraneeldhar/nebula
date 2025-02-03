@@ -19,5 +19,6 @@ export const getUserDetails = async (userId: string) => {
         friendList: userDetailsJson?.friendList,
         newAccount: userDetailsJson?.newAccount
     }
+
     return (userDetails)
 }
