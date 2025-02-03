@@ -407,7 +407,7 @@ export default function Bedrock() {
                             )}
                             {(localCollectionOfNotesState) && (localCollectionOfNotesState.length > 0) && localCollectionOfNotesState?.sort((a, b) => b.lastModifiedAt - a.lastModifiedAt).slice(0, 3)?.map((note) => (
 
-                                <div className={styles.noteCard} key={note.id}>
+                                <div className={styles.noteCard} key={note.id} onClick={(e)=>{e.stopPropagation}}>
                                     <a href={`/editor/${note.id}`}>
                                         <h3>{note.title}</h3>
                                         <div className={styles.noteSnippet}>{note.snippet}
