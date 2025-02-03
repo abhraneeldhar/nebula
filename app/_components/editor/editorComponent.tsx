@@ -262,7 +262,7 @@ export default function EditorComponent({ id }: { id: string }) {
                 content: quillRef.current?.getContents() as Delta,
                 type: "Note",
                 snippet: noteSnippet.slice(0, 70) + "...",
-                title: tabNameRef.current?.value || "Untitled",
+                title: currentNoteTitle || "Untitled",
                 parent: {
                     folderId: null,
                     folderName: "root"
