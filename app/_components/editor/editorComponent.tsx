@@ -66,6 +66,7 @@ export default function EditorComponent({ id }: { id: string }) {
         if (!userDetails && session?.user?.email) {
             const fetchingUserDetails = async () => {
                 setShowLoadingPage(true);
+                console.log("getting user details");
                 const res = await getUserDetailsFromEmail(session?.user?.email as string);
                 setUserDetails(res);
                 console.log("fetched user details via email: ", res);
@@ -89,21 +90,10 @@ export default function EditorComponent({ id }: { id: string }) {
     }, [userDetails])
 
 
-    // need to avoid refetching
-    // useEffect(() => {
-    //     if (userId) {
-    //         const asyncDisplayNotes = async () => {
-    //             console.log("fetching display notes")
-    //             setlocalCollectionOfNotesState(await getDisplayNotes(userId));
-    //         }
-    //         asyncDisplayNotes();
-    //     }
-    // }, [refreshCollectionOfNotes])
-
-
     const currentOpenNoteId = id;
     const [noteData, setNoteData] = useState<Note | null>()
 
+    const [currentNoteTitle,setCurrentNoteTitle]=useState<string|null>()
     // gets current open note data
     useEffect(() => {
         if (userDetails) {
@@ -111,6 +101,7 @@ export default function EditorComponent({ id }: { id: string }) {
                 console.log("getting current note data")
                 setLoadingEditorState(true);
                 const response = await getOneNote(userDetails.userId as string, currentOpenNoteId as string) as Note
+                setCurrentNoteTitle(response.title);
                 setNoteData(response);
                 setLoadingEditorState(false);
             }
@@ -118,14 +109,11 @@ export default function EditorComponent({ id }: { id: string }) {
         }
     }, [userDetails])
 
-    // useEffect(() => {
-    //     console.log("notedata>>>>>>", noteData);
-    // }, [noteData])
 
     const [shareDialogboxOpen, setShareDialogboxOpen] = useState(false)
 
     const Tab = () => {
-        const { toggleSidebar, open } = useSidebar();
+        const { toggleSidebar } = useSidebar();
         return (<>
             <div className={styles.tabBar}>
                 <div className={styles.tabContent}>
@@ -136,19 +124,15 @@ export default function EditorComponent({ id }: { id: string }) {
                             }
                             } />
                         </div>
-                        <Input disabled={loadingEditorState} defaultValue={noteData?.title} placeholder="Untitled Note" ref={tabNameRef} className={styles.tabName} onChange={(e) => {
-                            console.log(e.target.value);
-                            const newNoteData={...noteData,title:String(e.target.value)}
-                            setNoteData(newNoteData as Note)
-
-                        }
-                        } />
+                        <Input disabled={loadingEditorState} defaultValue={currentNoteTitle||""} placeholder="Untitled Note" className={styles.tabName} onBlur={(e)=>{setCurrentNoteTitle(e.target.value)}}
+                        />
 
                         {/* {loadingEditorState && !noteData && (
                             <div className={styles.loadingSpinnerContainer}>
                                 <Spinner size="3" className={styles.loadingEditorSpinner} />
                             </div>
                         )} */}
+
                     </div>
 
 
@@ -211,9 +195,9 @@ export default function EditorComponent({ id }: { id: string }) {
         }
         else {
             quillRef.current.setContents(noteData.content)
-            if (tabNameRef.current) {
-                tabNameRef.current.value = noteData.title;
-            }
+            // if (tabNameRef.current) {
+            //     tabNameRef.current.value = noteData.title;
+            // }
         }
 
         return (() => {
