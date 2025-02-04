@@ -50,13 +50,14 @@
     margin-top: 50px;
 }
 
+
+
 .notesContainer{
     display: flex;
-    gap: 20px;
-    padding: 20px;
-    /* grid-template-columns: 1fr 1fr 1fr 1fr 1fr; */
-    justify-items: center;
+    gap: 10px;
     flex-wrap: wrap;
+    background-color: red;
+    padding: 0px 10px;
 }
 
 .loadingNote{
@@ -76,6 +77,7 @@
     background-color: black;
     transition: all 0.2s;
     position: relative;
+    margin: auto;
 }
 .noteCard:active{
     transform: scale(0.95);
@@ -178,14 +180,16 @@
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
-            justify-content: flex-start;
+            /* justify-content: flex-start; */
             gap: 0;
             column-gap: 10px;
             row-gap: 10px;
+            justify-content: center;
             padding: 0;
             
             .noteCard{
-                width: 170px;
+                width: 150px;
+                height: 150px;
                 box-sizing: border-box;
                 margin: 0;
             }
