@@ -86,10 +86,8 @@
 
 .noteCard h3 {
     font-size: 1em;
-    /* overflow: hidden; */
     margin-left: 10px;
     font-weight: 500;
-    /* height: 2em; */
     max-height: 3em;
     text-align: center;
     vertical-align: middle;
