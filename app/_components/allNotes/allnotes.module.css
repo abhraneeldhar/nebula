@@ -1,4 +1,4 @@
-.tabBar{
+.tabBar {
     /* background-color: white; */
     color: white;
     display: flex;
@@ -15,7 +15,8 @@
     width: 100%;
     top: 0;
 }
-.tabBar p{
+
+.tabBar p {
     display: inline-block;
     font-size: 20px;
     font-weight: 400;
@@ -24,52 +25,51 @@
 }
 
 
-.sidebarBtn{
+.sidebarBtn {
     display: inline-block;
     height: 35px;
     aspect-ratio: 1/1;
     transition: 0.1s ease-in;
     margin-left: 10px;
 }
-.sidebarBtn:hover{
+
+.sidebarBtn:hover {
     transform: scale(1.2);
 }
-.sidebarBtn img{
+
+.sidebarBtn img {
     height: 100%;
     width: 100%;
 }
 
-.main{
+.main {
     color: white;
-    /* background-color: #232228; */
-    /* background-color: rgb(24, 24, 24); */
     background-color: rgb(16, 16, 16);
     width: 100%;
-    height: 100%;   
-    padding-top: 50px; 
+    height: 100%;
+    padding-top: 50px;
     margin-top: 50px;
 }
 
 
 
-.notesContainer{
-    display: flex;
+.notesContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
     gap: 10px;
-    flex-wrap: wrap;
-    /* background-color: red; */
     padding: 0px 10px;
 }
 
-.loadingNote{
+.loadingNote {
     height: 200px;
     width: 200px;
     border-radius: 15px;
 }
 
-.noteCard{
+.noteCard {
     display: flex;
     flex-direction: column;
-    width: 200px;
+    /* width: 200px; */
     height: 200px;
     overflow: hidden;
     padding: 10px;
@@ -77,18 +77,17 @@
     background-color: black;
     transition: all 0.2s;
     position: relative;
-    margin: auto;
+    flex: 1;
 }
-.noteCard:active{
+
+.noteCard:active {
     transform: scale(0.95);
 }
 
-.noteCard h3{
+.noteCard h3 {
     font-size: 1em;
-    /* overflow: hidden; */
     margin-left: 10px;
     font-weight: 500;
-    /* height: 2em; */
     max-height: 3em;
     text-align: center;
     vertical-align: middle;
@@ -97,7 +96,7 @@
 }
 
 
-.noteSnippet{
+.noteSnippet {
     margin-top: 10px;
     /* border: 1px solid white; */
     padding: 10px;
@@ -108,97 +107,85 @@
     font-weight: 300;
     overflow: hidden;
 }
-.dropDownMenu{
+
+.dropDownMenu {
     background-color: rgb(9, 9, 9);
     color: white;
     border: 1px solid rgb(60, 60, 60);
 }
-.dropDownMenuTrigger{
+
+.dropDownMenuTrigger {
     position: absolute;
     font-size: 2em;
     top: -7px;
     right: 15px;
 }
-.deleteBtn{
+
+.deleteBtn {
     color: red;
 }
 
-.renameDialog, .deleteDialog{
+.renameDialog,
+.deleteDialog {
     background-color: rgb(9, 9, 9);
     color: white;
     border: 0.1px solid rgb(98, 98, 98);
     width: 300px;
 }
-.renameDialog{
+
+.renameDialog {
     width: 400px;
 }
-.deleteDialog{
+
+.deleteDialog {
     width: 300px;
 }
-.renameDialog input, .deleteDialog input{
+
+.renameDialog input,
+.deleteDialog input {
     border: 1px solid white;
 }
 
 
-.cancelRename{
+.cancelRename {
     background-color: rgb(243, 83, 83);
 }
-.cancelRename:hover{
+
+.cancelRename:hover {
     background-color: rgb(234, 42, 42);
 }
-.deleteBtn{
+
+.deleteBtn {
     color: white;
-    background-color:  rgb(243, 83, 83);
+    background-color: rgb(243, 83, 83);
 }
-.deleteBtn:hover{
+
+.deleteBtn:hover {
     background-color: rgb(234, 42, 42);
 }
-.dialogFooter{
+
+.dialogFooter {
     margin-top: 30px;
 }
 
-@media (max-width: 500px){
+@media (max-width: 500px) {
     .tabBar {
-        width: 100vw;
+        width: 100%;
         position: fixed;
         overflow: hidden;
     }
+    .notesContainer{
+        grid-template-columns: repeat(auto-fit,minmax(160px,1fr));
 
-    .main {
-        overflow: hidden;
-        width: 100%;
-        position: static;
-        zoom: 1;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        .notesContainer{
-            margin: 10px;
-            width:fit-content;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            /* justify-content: flex-start; */
-            gap: 0;
-            column-gap: 10px;
-            row-gap: 10px;
-            justify-content: center;
-            padding: 0;
-            
-            .noteCard{
-                width: 150px;
-                height: 150px;
-                box-sizing: border-box;
-                margin: 0;
-            }
-        }
     }
-    .deleteDialog,.renameDialog{
+
+
+    .deleteDialog,
+    .renameDialog {
         border-radius: 15px;
     }
-    .dialogFooter{
+
+    .dialogFooter {
         display: flex;
         flex-direction: column;
         gap: 10px;
