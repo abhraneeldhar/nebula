@@ -131,8 +131,8 @@ export const options: NextAuthOptions = {
 
                         await setupNewAccount(user.id);
 
-                        return "/home";
-                        // return(true)
+                        // return "home";
+                        return(true);
                         
                     }
                 }
