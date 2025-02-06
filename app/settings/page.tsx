@@ -1,5 +1,5 @@
 "use server"
-import { ArrowBigLeft, Monitor, PersonStanding, User } from "lucide-react";
+import { ArrowBigLeft, ArrowLeft, Monitor, PersonStanding, User } from "lucide-react";
 import styles from "./settings.module.css"
 
 export default async function Settings() {
@@ -7,12 +7,8 @@ export default async function Settings() {
     return (<>
         <div className={styles.main}>
 
-            <div className={styles.tab}>
-                <div className={styles.back}>
-                    <ArrowBigLeft />
-                </div>
-                <div className={styles.settingsHeader}>Settings</div>
-            </div>
+            <ArrowLeft className={styles.back} />
+
 
             <div className={styles.managePref}>
                 <h1>Customize Your Experience
@@ -24,17 +20,17 @@ export default async function Settings() {
                 <div className={styles.card}>
                     <div className={styles.cardHeader}>
                         <span>Personal</span>
-                        <User/>
+                        <User />
                     </div>
                     <h1>Account</h1>
                     <p>Customize Your Experience
-                    Select a category to manage your preferences</p>
+                        Select a category to manage your preferences</p>
                 </div>
 
                 <div className={styles.card}>
                     <div className={styles.cardHeader}>
                         <span>Appearance</span>
-                        <Monitor/>
+                        <Monitor />
                     </div>
                     <h1>Display</h1>
                     <p>Customize your viewing experience</p>

@@ -1,53 +1,51 @@
-.main{
+.main {
     background-color: #040a19;
     height: 100vh;
-}
-.tab {
-    display: flex;
-    padding: 10px;
-    background-color:#02050d;
-
-    .back {
-        height: fit-content;
-        border: 2px solid rgba(255, 255, 255, 0.508);
-        padding: 10px;
-        border-radius: 20px;
-        transition: 0.3s;
-        background-color: black;
-    }
-    .back :hover{
-        transform: scale(0.95);
-    }
-
-    .settingsHeader {
-        flex: 9;
-        text-align: center;
-        font-size: 2em;
-    }
+    position: relative;
 }
 
-.managePref{
+.back {
+    height: 40px;
+    width: 40px;
+    transition: all 0.2s;
+    margin: 10px;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    /* background-color: red; */
+}
+
+.back :hover {
+    transform: scale(0.95);
+}
+
+
+.managePref {
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin: 40px;
+    margin-top: 60px;
 }
-.managePref h1{
+
+.managePref h1 {
     text-align: center;
     font-size: 2em;
     font-weight: 500;
 }
-.managePref p{
+
+.managePref p {
     text-align: center;
 }
 
-.cardHolder{
+.cardHolder {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
 }
-.cardHolder .card{
+
+.cardHolder .card {
     display: flex;
     flex-direction: column;
     width: 350px;
@@ -58,14 +56,17 @@
     padding: 15px;
     transition: all 0.2s;
 }
-.card:hover{
+
+.card:hover {
     transform: scale(1.01);
 }
-.card .cardHeader{
+
+.card .cardHeader {
     display: flex;
     justify-content: space-between;
 }
-.cardHeader span{
+
+.cardHeader span {
     background-color: #1e293b;
     color: white;
     padding: 1px 7px;
@@ -73,10 +74,20 @@
     font-weight: 200;
     font-size: 15px;
 }
-.card h1{
+
+.card h1 {
     font-weight: 600;
     font-size: 30px;
 }
-.card p{
+
+.card p {
     font-size: 15px;
+}
+
+@media (max-width:500px) {
+    .tab {
+        height: 60px;
+        font-size: 10px;
+    }
+
 }
