@@ -117,11 +117,12 @@ export default function Bedrock() {
 
     // getting incoming requests
     const [incomingRequestsList, setIncomingRequestsList] = useState<userType[]>();
+    const [reqOpen, setReqOpen] = useState(false);
 
     useEffect(() => {
         const getIncomingReq = async () => {
             if (userDetails) {
-                console.log("getting incoming friend  requeusts")
+                console.log("getting incoming friend  requests")
                 const { data: incomingReqArray, error } = await supabase.from("friendRequest").select("*").eq("receiverId", userDetails.userId).eq("status", "pending")
                 
                 if (incomingReqArray) {
@@ -129,10 +130,8 @@ export default function Bedrock() {
                     incomingReqArray.forEach(async (oneReq) => {
                         incomingReqDetails.push(await getUserDetails(oneReq.senderId))
                     })
-                    // console.log("incoming req details: ",incomingReqDetails);
                     setIncomingRequestsList(incomingReqDetails);
                 }
-
             }
         };
         getIncomingReq();
@@ -145,15 +144,14 @@ export default function Bedrock() {
     // tab component
     const Tab = ({ tabName }: { tabName: string }) => {
         const { toggleSidebar, open } = useSidebar();
-        const [reqOpen, setReqOpen] = useState(false);
         const [inboxOpen, setInboxOpen] = useState(false);
         const [incomingNotesList, setIncomingNotesList] = useState<any>();
 
         const IncomingRequestPersonCard = ({ reqUserDetails }: { reqUserDetails: userType }) => {
-
+            const [reqResolved,setReqResolved]=useState<false|"accepted"|"rejected">(false);
 
             const acceptAction = async () => {
-
+                setReqResolved("accepted");
                 if (!userDetails?.friendList.includes(reqUserDetails.userId)) {
                     console.log(reqUserDetails.userId, " not present in ", userDetails?.friendList)
                     let updatedUserDetails = userDetails;
@@ -179,7 +177,11 @@ export default function Bedrock() {
                     .eq("senderId", reqUserDetails.userId).eq("receiverId", userDetails?.userId).eq("status", "pending")
 
             }
+
             const rejectAction = async () => {
+                setReqResolved("rejected");
+
+
                 const response = await supabase
                     .from('friendRequest')
                     .delete()
@@ -198,11 +200,13 @@ export default function Bedrock() {
                         </div>
                     </div>
                     <div className={styles.reqAction}>
-                        <Button color="green" onClick={() => { acceptAction() }} ><CircleCheck /></Button><Button color="red" onClick={() => { rejectAction() }}><X /></Button>
+                        {!reqResolved &&(<>
+                        <Button color="green" onClick={() => { acceptAction() }} ><CircleCheck /></Button><Button color="red" onClick={() => { rejectAction() }}><X /></Button></>)
+                        }
+                        {reqResolved && (<>{reqResolved}</>)}
                     </div>
                 </div>
             )}
-                {/* {loadingDetails && (<Spinner className={styles.friendCardSpinner} />)} */}
             </>)
         }
 
