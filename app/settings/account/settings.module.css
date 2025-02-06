@@ -40,13 +40,14 @@
 }
 .banner img{
     object-fit: cover;
+    border-radius: 20px;
 }
 .pfp{
     position: absolute;
     border-radius: 50%;
     bottom: 0;
     left: 5%;
-    border: 5px solid rgb(11, 7, 23) ;
+    border: 7px solid rgb(11, 7, 23) ;
     transform: translateY(50%);
     height: 200px;
     width: 200px;

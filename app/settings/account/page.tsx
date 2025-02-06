@@ -51,7 +51,7 @@ export default function AccountsPage() {
             <div className={styles.mainContent}>
                 <div className={styles.photosSection}>
                     <Image className={styles.banner} src={banner} alt="" />
-                    <Image className={styles.pfp} src={pfp} alt="" />
+                    <Image className={styles.pfp} src={userDetails?.imageUrl||pfp} height={200} width={200} alt="" />
                 </div>
 
                 <div className={styles.detailsHolder}>
