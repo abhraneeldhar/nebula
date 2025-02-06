@@ -142,6 +142,7 @@ button {
     height: 100%;
     font-weight: 300;
     font-family: Roboto, Poppins, sans-serif;
+    line-height: 1.2em;
 }
 
 
@@ -163,13 +164,14 @@ body {
         height: 100%;
         padding: 0;
     }
-
+    
     .ql-editor {
         border-radius: 10px;
         margin: 0;
         margin-top: 50px;
         height: 100%;
         font-size: 18px;
+        
     }
 
     .ql-toolbar {
