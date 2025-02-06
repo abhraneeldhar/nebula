@@ -92,10 +92,10 @@ export default function Bedrock() {
 
 
     // getting currentfriendlist
-    const currentFriendList=appStore((state) => state.currentFriendList)
-    const setCurrentFriendList=appStore((state) => state.setCurrentFriendList)
-    useEffect(()=>{
-        if(userDetails && !currentFriendList){
+    const currentFriendList = appStore((state) => state.currentFriendList)
+    const setCurrentFriendList = appStore((state) => state.setCurrentFriendList)
+    useEffect(() => {
+        if (userDetails && !currentFriendList) {
             const getFriends = async () => {
                 var tempFriendList: userType[] = []
 
@@ -111,7 +111,34 @@ export default function Bedrock() {
             }
             getFriends();
         }
-    },[userDetails])
+    }, [userDetails])
+
+
+
+    // getting incoming requests
+    const [incomingRequestsList, setIncomingRequestsList] = useState<userType[]>();
+
+    useEffect(() => {
+        const getIncomingReq = async () => {
+            if (userDetails) {
+                console.log("getting incoming friend  requeusts")
+                const { data: incomingReqArray, error } = await supabase.from("friendRequest").select("*").eq("receiverId", userDetails.userId).eq("status", "pending")
+                
+                if (incomingReqArray) {
+                    const incomingReqDetails: userType[] = []
+                    incomingReqArray.forEach(async (oneReq) => {
+                        incomingReqDetails.push(await getUserDetails(oneReq.senderId))
+                    })
+                    // console.log("incoming req details: ",incomingReqDetails);
+                    setIncomingRequestsList(incomingReqDetails);
+                }
+
+            }
+        };
+        getIncomingReq();
+
+    }, [userDetails])
+
 
 
 
@@ -120,73 +147,17 @@ export default function Bedrock() {
         const { toggleSidebar, open } = useSidebar();
         const [reqOpen, setReqOpen] = useState(false);
         const [inboxOpen, setInboxOpen] = useState(false);
-        const [incomingRequestsList, setIncomingRequestsList] = useState<any>();
         const [incomingNotesList, setIncomingNotesList] = useState<any>();
-        const [loadingDetails, setLoadingDetails] = useState(false)
-        const getIncomingReq = async () => {
 
-
-            if (userDetails) {
-                setLoadingDetails(true);
-                const { data: incomingReqArray, error } = await supabase.from("friendRequest").select("*").eq("receiverId", userDetails.userId).eq("status", "pending")
-                // console.log(incomingReqArray);
-                setLoadingDetails(false)
-                if (incomingReqArray != incomingRequestsList) {
-                    setIncomingRequestsList(incomingReqArray);
-                }
-                console.log(error);
-            }
-        };
-
-
-        // fetches incoming requests
-        useEffect(() => {
-            getIncomingReq();
-            console.log("getitng incoming reqs")
-        }, [userDetails])
-
-        // fetches incoming requests
-        useEffect(() => {
-            if (reqOpen && userDetails) {
-                getIncomingReq();
-                console.log("getitng incoming reqs");
-            }
-        }, [reqOpen])
-
-        const IncomingRequestPersonCard = ({ req }: { req: requestType }) => {
-            // const [action, setAction] = useState<"add" | "remove" | "cancel" | "accept/reject" | null>(null);
-            const [reqUserDetails, setReqUserDetails] = useState<userType | null>()
-            const [loadingDetails, setLoadingDetails] = useState(false)
-            const [loadingActions, setloadingActions] = useState(false)
-
-            useEffect(() => {
-                const getReqUserDetails = async () => {
-                    setLoadingDetails(true);
-
-                    const newUserDetails = await getUserDetails(req.senderId);
-                    // console.log(newUserDetails)
-                    setReqUserDetails(newUserDetails);
-                    setLoadingDetails(false);
-
-                }
-                getReqUserDetails()
-            }, [])
+        const IncomingRequestPersonCard = ({ reqUserDetails }: { reqUserDetails: userType }) => {
 
 
             const acceptAction = async () => {
-                setloadingActions(true)
-                const { data, error } = await supabase
-                    .from('friendRequest')
-                    .update({ status: "accepted" })
-                    .eq("senderId", req.senderId).eq("receiverId", userDetails?.userId).eq("status", "pending")
-                    .select();
-                console.log(data)
-                console.log(error)
 
-                if (!userDetails?.friendList.includes(req.senderId)) {
-                    console.log(req.senderId, " not present in ", userDetails?.friendList)
+                if (!userDetails?.friendList.includes(reqUserDetails.userId)) {
+                    console.log(reqUserDetails.userId, " not present in ", userDetails?.friendList)
                     let updatedUserDetails = userDetails;
-                    updatedUserDetails?.friendList.push(req.senderId)
+                    updatedUserDetails?.friendList.push(reqUserDetails.userId)
                     const res1 = await updateFriendList(userDetails?.userId as string, updatedUserDetails as userType);
                     console.log("res1>>>> ", res1);
                 }
@@ -194,23 +165,26 @@ export default function Bedrock() {
                     console.log(userDetails?.userId, " not present in ", reqUserDetails?.friendList);
                     let updatedUserDetails = reqUserDetails as userType;
                     updatedUserDetails.friendList.push(userDetails?.userId as string);
-                    const res2 = await updateFriendList(req.senderId, updatedUserDetails);
+                    const res2 = await updateFriendList(reqUserDetails.userId, updatedUserDetails);
                     console.log("res2>>>", res2);
                 }
-                // setloadingActions(false);
-                getIncomingReq();
+
+                let newCurrentFriendsList=currentFriendList;
+                newCurrentFriendsList?.push(reqUserDetails);
+                setCurrentFriendList(newCurrentFriendsList);
+
+                const response = await supabase
+                    .from('friendRequest')
+                    .delete()
+                    .eq("senderId", reqUserDetails.userId).eq("receiverId", userDetails?.userId).eq("status", "pending")
+
             }
             const rejectAction = async () => {
-                setloadingActions(true)
-                const { data, error } = await supabase
+                const response = await supabase
                     .from('friendRequest')
-                    .update({ status: "rejected" })
-                    .eq("senderId", req.senderId).eq("receiverId", userDetails?.userId).eq("status", "pending")
-                    .select();
-                console.log(data)
-                console.log(null)
-                // setloadingActions(false)
-                getIncomingReq();
+                    .delete()
+                    .eq("senderId", reqUserDetails.userId).eq("receiverId", userDetails?.userId).eq("status", "pending")
+
             }
 
 
@@ -224,22 +198,21 @@ export default function Bedrock() {
                         </div>
                     </div>
                     <div className={styles.reqAction}>
-                        {loadingActions && <Spinner className={styles.friendCardSpinner} />}
-                        {(incomingRequestsList && !loadingActions) && (<><Button color="green" onClick={() => { acceptAction() }} ><CircleCheck /></Button><Button color="red" onClick={() => { rejectAction() }}><X /></Button></>)}
+                        <Button color="green" onClick={() => { acceptAction() }} ><CircleCheck /></Button><Button color="red" onClick={() => { rejectAction() }}><X /></Button>
                     </div>
                 </div>
             )}
-                {loadingDetails && (<Spinner className={styles.friendCardSpinner} />)}
+                {/* {loadingDetails && (<Spinner className={styles.friendCardSpinner} />)} */}
             </>)
         }
 
         const getInbox = async () => {
-            setLoadingDetails(true);
+            // setLoadingDetails(true);
             const res = await getIncomingNotes(userId as string);
             if (res != incomingNotesList) {
                 setIncomingNotesList(res);
             }
-            setLoadingDetails(false);
+            // setLoadingDetails(false);
         }
         useEffect(() => {
             if (userId) {
@@ -337,11 +310,11 @@ export default function Bedrock() {
                             </div>
                         </Popover.Trigger>
                         <Popover.Content className={styles.friendRequestsPopover}>
-                            {incomingRequestsList && incomingRequestsList.map((req: requestType) => (<IncomingRequestPersonCard key={req.id} req={req} />))}
+                            {incomingRequestsList && incomingRequestsList.map((req: userType) => (<IncomingRequestPersonCard key={req._id} reqUserDetails={req} />))}
                             {(incomingRequestsList && incomingRequestsList.length == 0) && (<>
                                 <div className={styles.noReq}>No requests for now....</div>
                             </>)}
-                            {loadingDetails && (<Spinner className={styles.reqSpinner} />)}
+                            {/* {loadingDetails && (<Spinner className={styles.reqSpinner} />)} */}
                         </Popover.Content>
                     </Popover.Root>
 
@@ -357,7 +330,7 @@ export default function Bedrock() {
                             {(incomingNotesList && incomingNotesList.length == 0) && (<>
                                 <div className={styles.noReq}>Your inbox is empty</div>
                             </>)}
-                            {loadingDetails && (<Spinner className={styles.reqSpinner} />)}
+                            {/* {loadingDetails && (<Spinner className={styles.reqSpinner} />)} */}
                         </Popover.Content>
                     </Popover.Root>
                 </div>
