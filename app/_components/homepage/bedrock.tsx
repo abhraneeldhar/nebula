@@ -115,13 +115,12 @@ export default function Bedrock() {
     // getting incoming requests
     const [incomingRequestsList, setIncomingRequestsList] = useState<userType[]>();
     const [reqOpen, setReqOpen] = useState(false);
-
     useEffect(() => {
         const getIncomingReq = async () => {
             if (userDetails) {
                 console.log("getting incoming friend  requests")
                 const { data: incomingReqArray, error } = await supabase.from("friendRequest").select("*").eq("receiverId", userDetails.userId).eq("status", "pending")
-                
+
                 if (incomingReqArray) {
                     const incomingReqDetails: userType[] = []
                     incomingReqArray.forEach(async (oneReq) => {
@@ -136,16 +135,36 @@ export default function Bedrock() {
     }, [userDetails])
 
 
+    //getting incoming shared notes
+
+    const [inboxOpen, setInboxOpen] = useState(false);
+    const [incomingNotesList, setIncomingNotesList] = useState<any>();
+    useEffect(()=>{
+        if(userDetails){
+            const getInbox = async () => {
+                console.log("getting incoming notes")
+                const res = await getIncomingNotes(userDetails.userId as string);
+                if (res != incomingNotesList) {
+                    setIncomingNotesList(res);
+                }
+            }
+            getInbox();
+
+        }
+    },[userDetails])
+    
+    
+    useEffect(() => {
+        console.log(incomingNotesList)
+    }, [incomingNotesList])
 
 
     // tab component
     const Tab = ({ tabName }: { tabName: string }) => {
         const { toggleSidebar, open } = useSidebar();
-        const [inboxOpen, setInboxOpen] = useState(false);
-        const [incomingNotesList, setIncomingNotesList] = useState<any>();
 
         const IncomingRequestPersonCard = ({ reqUserDetails }: { reqUserDetails: userType }) => {
-            const [reqResolved,setReqResolved]=useState<false|"accepted"|"rejected">(false);
+            const [reqResolved, setReqResolved] = useState<false | "accepted" | "rejected">(false);
 
             const acceptAction = async () => {
                 setReqResolved("accepted");
@@ -164,7 +183,7 @@ export default function Bedrock() {
                     console.log("res2>>>", res2);
                 }
 
-                let newCurrentFriendsList=currentFriendList;
+                let newCurrentFriendsList = currentFriendList;
                 newCurrentFriendsList?.push(reqUserDetails);
                 setCurrentFriendList(newCurrentFriendsList);
 
@@ -177,8 +196,6 @@ export default function Bedrock() {
 
             const rejectAction = async () => {
                 setReqResolved("rejected");
-
-
                 const response = await supabase
                     .from('friendRequest')
                     .delete()
@@ -197,8 +214,8 @@ export default function Bedrock() {
                         </div>
                     </div>
                     <div className={styles.reqAction}>
-                        {!reqResolved &&(<>
-                        <Button color="green" onClick={() => { acceptAction() }} ><CircleCheck /></Button><Button color="red" onClick={() => { rejectAction() }}><X /></Button></>)
+                        {!reqResolved && (<>
+                            <Button color="green" onClick={() => { acceptAction() }} ><CircleCheck /></Button><Button color="red" onClick={() => { rejectAction() }}><X /></Button></>)
                         }
                         {reqResolved && (<>{reqResolved}</>)}
                     </div>
@@ -207,71 +224,38 @@ export default function Bedrock() {
             </>)
         }
 
-        const getInbox = async () => {
-            // setLoadingDetails(true);
-            const res = await getIncomingNotes(userId as string);
-            if (res != incomingNotesList) {
-                setIncomingNotesList(res);
-            }
-            // setLoadingDetails(false);
-        }
-        useEffect(() => {
-            if (userId) {
-                console.log("getting inbox")
-                getInbox();
-            }
-        }
-            , [userId])
-        useEffect(() => {
-            if (userId && inboxOpen == true) {
-                console.log("getting inbox")
-                getInbox();
-            }
-        }, [userId, inboxOpen])
 
-        useEffect(() => {
-            console.log(incomingNotesList)
-        }, [incomingNotesList])
 
         const InboxCard = ({ sharedNoteData }: { sharedNoteData: sharedNoteType }) => {
             const [senderDetails, setSenderDetails] = useState<userType | null>()
-            const [loadingActions, setLoadingActions] = useState(false);
+            const [reqResolved,setReqResolved]=useState<false|"accepted"|"rejected">(false)
 
             useEffect(() => {
                 const getDetails = async () => {
-                    setLoadingActions(true);
                     const newUserDetails = await getUserDetails(sharedNoteData.senderId);
-                    if (senderDetails != newUserDetails) {
-                        setSenderDetails(newUserDetails);
-                    }
-                    console.log("senderid>>>>", senderDetails)
-                    setLoadingActions(false);
+                    setSenderDetails(newUserDetails);
                 }
                 getDetails();
 
             }, [sharedNoteData])
 
             const acceptNote = async () => {
-                setLoadingActions(true);
-                if (userId) {
+                if (userDetails) {
+                    setReqResolved("accepted");
                     var JackRyan = sharedNoteData.sharedNote;
                     JackRyan.id = uuidv4();
                     JackRyan.createdAt = Date.now();
-                    JackRyan.owner = userId;
+                    JackRyan.owner = userDetails.userId;
                     JackRyan.lastModifiedAt = Date.now();
                     await postNote(JSON.stringify(JackRyan));
                     await deleteSharedNote(sharedNoteData.id)
-                    getInbox();
-                    const displayNotes = await getDisplayNotes(userId);
+                    const displayNotes = await getDisplayNotes(userDetails.userId);
                     setlocalCollectionOfNotesState(displayNotes);
                 }
-                setLoadingActions(false);
             }
             const rejectNote = async () => {
-                setLoadingActions(true);
+                setReqResolved("rejected");
                 await deleteSharedNote(sharedNoteData.id);
-                getInbox();
-                setLoadingActions(false);
             }
 
             return (<>
@@ -285,8 +269,11 @@ export default function Bedrock() {
                         </div>
                     </div>
                     <div className={styles.reqAction}>
-                        {loadingActions && <Spinner className={styles.friendCardSpinner} />}
-                        {(incomingRequestsList && !loadingActions) && (<><Button color="green" onClick={() => { acceptNote() }} ><CircleCheck /></Button><Button color="red" onClick={() => { rejectNote() }}><X /></Button></>)}
+                        {!reqResolved &&(<>
+                            <Button color="green" onClick={() => { acceptNote() }} ><CircleCheck /></Button><Button color="red" onClick={() => { rejectNote() }}><X /></Button>
+                        
+                        </>)}
+                        {reqResolved && (reqResolved)}
                     </div>
                 </div>
             </>)

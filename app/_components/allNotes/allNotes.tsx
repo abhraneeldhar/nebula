@@ -91,9 +91,9 @@ export default function AllNotesComponent() {
 
 
 
-    
 
-   
+
+
 
 
     // const renameInputRef = useRef<HTMLInputElement>(null);
@@ -172,7 +172,9 @@ export default function AllNotesComponent() {
                 <form onSubmit={(e) => {
                     e.preventDefault();
                     setOpenDelete(false);
-                    deleteNote(deleteNoteId)
+                    deleteNote(deleteNoteId);
+                    setlocalCollectionOfNotesState(localCollectionOfNotesState.filter(x => x.id != deleteNoteId))
+
                 }}>
                     <DialogHeader>
                         <DialogTitle>Delete note</DialogTitle>
