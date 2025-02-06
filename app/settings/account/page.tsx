@@ -29,15 +29,15 @@ export default function AccountsPage() {
                 <div className={styles.detailsHolder}>
                     <div className={styles.detailCard}>
                         <h1>Name</h1>
-                        <Input placeholder="meow" />
+                        <Input  />
                     </div>
                     <div className={styles.detailCard}>
                         <h1>Username</h1>
-                        <Input placeholder="meow" />
+                        <Input  />
                     </div>
                     <div className={styles.detailCard}>
                         <h1>Bio</h1>
-                        <textarea placeholder="meoeoewmeow" />
+                        <textarea />
                     </div>
                 </div>
 
