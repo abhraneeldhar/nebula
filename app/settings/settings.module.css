@@ -16,7 +16,7 @@
 }
 
 .back :hover {
-    transform: scale(0.95);
+    transform: scale(0.90);
 }
 
 
@@ -49,6 +49,7 @@
     display: flex;
     flex-direction: column;
     width: 350px;
+    height: 170px;
     gap: 10px;
     background-color: #030a17;
     border: 1px solid #1e293b;
