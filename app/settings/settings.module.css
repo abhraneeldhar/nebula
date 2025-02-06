@@ -4,6 +4,86 @@
     position: relative;
 }
 
+.back {
+    height: 40px;
+    width: 40px;
+    transition: all 0.2s;
+    margin: 10px;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    /* background-color: red; */
+}
+
+.back :hover {
+    transform: scale(0.90);
+}
+
+
+.managePref {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 40px;
+    margin-top: 60px;
+}
+
+.managePref h1 {
+    text-align: center;
+    font-size: 2em;
+    font-weight: 500;
+}
+
+.managePref p {
+    text-align: center;
+}
+
+.cardHolder {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.cardHolder .card {
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    height: 170px;
+    gap: 10px;
+    background-color: #030a17;
+    border: 1px solid #1e293b;
+    border-radius: 10px;
+    padding: 15px;
+    transition: all 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.01);
+}
+
+.card .cardHeader {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cardHeader span {
+    background-color: #1e293b;
+    color: white;
+    padding: 1px 7px;
+    border-radius: 5px;
+    font-weight: 200;
+    font-size: 15px;
+}
+
+.card h1 {
+    font-weight: 600;
+    font-size: 30px;
+}
+
+.card p {
+    font-size: 15px;
+}
 
 @media (max-width:500px) {
     .tab {
