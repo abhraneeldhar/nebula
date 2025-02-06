@@ -1,53 +1,47 @@
-"use client"
+"use server"
+import { ArrowBigLeft, Monitor, PersonStanding, User } from "lucide-react";
 import styles from "./settings.module.css"
-import { ArrowBigLeft, ArrowBigRight, ArrowRight, PaintBucket } from "lucide-react"
-import { UserRound } from "lucide-react"
 
-import { useRouter } from "next/navigation"
-export default function Settings() {
-    const router=useRouter()
+export default async function Settings() {
 
     return (<>
         <div className={styles.main}>
 
             <div className={styles.tab}>
-                <div className={styles.back} onClick={()=>{router.push("/home")}}>
+                <div className={styles.back}>
                     <ArrowBigLeft />
                 </div>
                 <div className={styles.settingsHeader}>Settings</div>
             </div>
 
-            <div className={styles.optionsHolder}>
-
-                <div className={styles.option} onClick={(e)=>{e.stopPropagation;
-                    router.push("/settings/account")
-                }}>
-                    <div className={styles.optionleft}>
-                        <div className={styles.optionHeader}>
-                            <UserRound /> <h2>Account</h2>
-                        </div>
-                        <p>Configure your account</p>
-                    </div>
-                    <div className={styles.optionright}>
-                        <ArrowRight/>
-                    </div>
-                </div>
-
-                <div className={styles.option} onClick={(e)=>{e.stopPropagation;
-                    router.push("/settings/display")
-                }}>
-                    <div className={styles.optionleft}>
-                        <div className={styles.optionHeader}>
-                            <PaintBucket/> <h2>Display</h2>
-                        </div>
-                        <p>Configure how nebula looks</p>
-                    </div>
-                    <div className={styles.optionright}>
-                        <ArrowRight/>
-                    </div>
-                </div>
-
+            <div className={styles.managePref}>
+                <h1>Customize Your Experience
+                </h1>
+                <p>Select a category to manage your preferences</p>
             </div>
+
+            <div className={styles.cardHolder}>
+                <div className={styles.card}>
+                    <div className={styles.cardHeader}>
+                        <span>Personal</span>
+                        <User/>
+                    </div>
+                    <h1>Account</h1>
+                    <p>Customize Your Experience
+                    Select a category to manage your preferences</p>
+                </div>
+
+                <div className={styles.card}>
+                    <div className={styles.cardHeader}>
+                        <span>Appearance</span>
+                        <Monitor/>
+                    </div>
+                    <h1>Display</h1>
+                    <p>Customize your viewing experience</p>
+                </div>
+            </div>
+
+
         </div>
     </>)
 }

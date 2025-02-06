@@ -1,11 +1,11 @@
 .main{
-    background-color: rgb(45, 43, 43);
+    background-color: #040a19;
     height: 100vh;
 }
 .tab {
     display: flex;
     padding: 10px;
-    background-color: rgb(25, 25, 25);
+    background-color:#02050d;
 
     .back {
         height: fit-content;
@@ -26,34 +26,57 @@
     }
 }
 
-.optionsHolder{
+.managePref{
     display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 30px ;
-    /* width: 100vw; */
     flex-direction: column;
+    justify-content: center;
+    margin: 40px;
+}
+.managePref h1{
+    text-align: center;
+    font-size: 2em;
+    font-weight: 500;
+}
+.managePref p{
+    text-align: center;
+}
+
+.cardHolder{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 10px;
-    .option :hover{
-        transform: scale(0.95);
-    }
-    .option{
-        display: flex;
-        /* flex-direction: column; */
-        align-items: center;
-        justify-content: space-between;
-        background-color: rgb(10, 10, 10);
-        padding: 10px 20px;
-        border-radius: 10px;
-        width: 40%;
-        transition: all 0.3s;
-        .optionHeader{
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .optionHeader h2{
-            font-size: 1.5em;
-        }
-    }
+}
+.cardHolder .card{
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    gap: 10px;
+    background-color: #030a17;
+    border: 1px solid #1e293b;
+    border-radius: 10px;
+    padding: 15px;
+    transition: all 0.2s;
+}
+.card:hover{
+    transform: scale(1.01);
+}
+.card .cardHeader{
+    display: flex;
+    justify-content: space-between;
+}
+.cardHeader span{
+    background-color: #1e293b;
+    color: white;
+    padding: 1px 7px;
+    border-radius: 5px;
+    font-weight: 200;
+    font-size: 15px;
+}
+.card h1{
+    font-weight: 600;
+    font-size: 30px;
+}
+.card p{
+    font-size: 15px;
 }
