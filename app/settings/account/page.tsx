@@ -22,8 +22,8 @@ export default function AccountsPage() {
             </div>
             <div className={styles.mainContent}>
                 <div className={styles.photosSection}>
-                    <Image src={banner} alt="" />
-                    <Image src={pfp} alt="" />
+                    <Image className={styles.banner} src={banner} alt="" />
+                    <Image className={styles.pfp} src={pfp} alt="" />
                 </div>
 
                 <div className={styles.detailsHolder}>
