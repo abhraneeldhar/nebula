@@ -174,7 +174,6 @@ export default function AllNotesComponent() {
                     setOpenDelete(false);
                     deleteNote(deleteNoteId);
                     setlocalCollectionOfNotesState(localCollectionOfNotesState.filter(x => x.id != deleteNoteId))
-
                 }}>
                     <DialogHeader>
                         <DialogTitle>Delete note</DialogTitle>
