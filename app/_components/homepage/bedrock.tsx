@@ -243,6 +243,7 @@ export default function Bedrock() {
                 if (userDetails) {
                     setReqResolved("accepted");
                     var JackRyan = sharedNoteData.sharedNote;
+                    JackRyan._id=uuidv4();
                     JackRyan.id = uuidv4();
                     JackRyan.createdAt = Date.now();
                     JackRyan.owner = userDetails.userId;
@@ -250,6 +251,7 @@ export default function Bedrock() {
                     await postNote(JSON.stringify(JackRyan));
                     await deleteSharedNote(sharedNoteData.id)
                     const displayNotes = await getDisplayNotes(userDetails.userId);
+                    console.log("new display notes: ",displayNotes)
                     setlocalCollectionOfNotesState(displayNotes);
                 }
             }
@@ -313,7 +315,7 @@ export default function Bedrock() {
                             </div>
                         </Popover.Trigger>
                         <Popover.Content className={styles.friendRequestsPopover}>
-                            {incomingNotesList && incomingNotesList.map((sharedNote: sharedNoteType) => (<InboxCard key={sharedNote.sharedNote.id} sharedNoteData={sharedNote} />))}
+                            {incomingNotesList && incomingNotesList.map((sharedNote: sharedNoteType) => (<InboxCard key={incomingNotesList.indexOf(sharedNote)} sharedNoteData={sharedNote} />))}
                             {(incomingNotesList && incomingNotesList.length == 0) && (<>
                                 <div className={styles.noReq}>Your inbox is empty</div>
                             </>)}
