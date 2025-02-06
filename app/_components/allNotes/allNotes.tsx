@@ -182,8 +182,8 @@ export default function AllNotesComponent() {
                         </DialogDescription>
                     </DialogHeader>
                     <DialogFooter className={styles.dialogFooter}>
-                        <Button onClick={() => { setOpenDelete(false) }} className={styles.cancelDelete}>Cancel</Button>
                         <Button type="submit" className={styles.deleteBtn}>Delete</Button>
+                        <Button onClick={() => { setOpenDelete(false) }} className={styles.cancelDelete}>Cancel</Button>
                     </DialogFooter>
                 </form>
             </DialogContent>
