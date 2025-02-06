@@ -197,6 +197,7 @@
     display: flex;
     color: white;
     width: 100%;
+    gap: 10px;
     background-color: black;
     padding: 5px 10px;
     border-radius: 10px;
