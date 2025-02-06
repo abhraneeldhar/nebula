@@ -11,7 +11,7 @@ import coverImage from ".././assetImages/coverimage.png"
 
 import { useSidebar } from "@/components/ui/sidebar";
 
-import { DisplayNote, requestType, sharedNoteType, userType } from "../../utils/fileFormat";
+import { DisplayNote, sharedNoteType, userType } from "../../utils/fileFormat";
 
 
 import rightArrow from "../../../public/arrowright.png";
@@ -27,11 +27,9 @@ import { Button } from "@radix-ui/themes";
 
 import { getUserDetails } from "@/app/utils/getUserDetails";
 
-import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 import { Popover } from "@radix-ui/themes";
 import { CircleCheck, Inbox, Users, X } from "lucide-react";
-import { useTheme } from "next-themes";
 import { supabase } from "@/app/utils/supabase/client";
 import { updateFriendList } from "@/app/utils/friendMechanics/updateFriendList";
 import { getIncomingNotes } from "@/app/utils/shareMechanics/getIncomingNotes";
@@ -39,7 +37,6 @@ import { v4 as uuidv4 } from "uuid";
 import { postNote } from "@/app/utils/postNote";
 import { deleteSharedNote } from "@/app/utils/shareMechanics/deleteSharedNote";
 import { getUserDetailsFromEmail } from "@/app/utils/getUserDetailsFromEmail";
-// import LoadingPage from "../loadingPage/page";
 
 
 export default function Bedrock() {
@@ -297,7 +294,6 @@ export default function Bedrock() {
 
 
         return (<>
-            {/* <LoadingPage /> */}
             <div className={styles.tabBar}>
                 <div className={styles.sidebarBtn}>
                     <Image src={menuSVG} alt="X" onClick={() => {
@@ -350,7 +346,7 @@ export default function Bedrock() {
 
         <div className={styles.main}>
             <NewNoteBtn />
-            <ToastContainer />
+            {/* <ToastContainer /> */}
 
             <div className={styles.displayContent}>
                 <div className={styles.coverImage}>
