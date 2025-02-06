@@ -7,9 +7,37 @@ import banner from "../../../public/banner.jpg"
 import { Input } from "@/components/ui/input"
 
 import { ArrowLeft } from "lucide-react"
+import { appStore } from "@/app/store"
+import { useSession } from "next-auth/react"
+import { useEffect, useState } from "react"
+import { getUserDetailsFromEmail } from "@/app/utils/getUserDetailsFromEmail"
 
 
 export default function AccountsPage() {
+
+    const userDetails = appStore((state) => state.userDetails)
+    const setUserDetails = appStore((state) => state.setUserDetails)
+
+    const { data: session } = useSession();
+    const [userId, setUserId] = useState<string | null>(null)
+
+    useEffect(() => {
+        if (!userDetails && session?.user?.email) {
+            const fetchingUserDetails = async () => {
+                // setShowLoadingPage(true);
+                console.log("fetching user details via email");
+                const res = await getUserDetailsFromEmail(session?.user?.email as string);
+                setUserDetails(res)
+                // console.log("fetched user details via email: ", res)
+                setUserId(res.userId)
+                // setShowLoadingPage(false);
+            }
+            fetchingUserDetails();
+        }
+    }, [session])
+
+
+
     return (<>
         <div className={styles.main}>
             <div className={styles.tab}>
@@ -29,15 +57,15 @@ export default function AccountsPage() {
                 <div className={styles.detailsHolder}>
                     <div className={styles.detailCard}>
                         <h1>Name</h1>
-                        <Input  />
+                        <Input defaultValue={userDetails?.name} />
                     </div>
                     <div className={styles.detailCard}>
                         <h1>Username</h1>
-                        <Input  />
+                        <Input defaultValue={userDetails?.userName} />
                     </div>
                     <div className={styles.detailCard}>
                         <h1>Bio</h1>
-                        <textarea />
+                        <textarea defaultValue={userDetails?.bio} />
                     </div>
                 </div>
 
