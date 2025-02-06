@@ -98,7 +98,7 @@
 }
 
 .friendRequestsPopover {
-    width: 400px;
+    width: 100%;
     padding: 5px;
     display: flex;
     flex-direction: column;
@@ -117,6 +117,7 @@
         align-items: center;
         justify-content: space-between;
         vertical-align: middle;
+        gap: 10px;
     }
 
     .reqProfilePic {
@@ -125,7 +126,7 @@
 
     .reqProfilePic img {
         border-radius: 50%;
-        margin-right: 20px;
+        margin-right: 10px;
         height: 50px;
         width: 50px;
     }
