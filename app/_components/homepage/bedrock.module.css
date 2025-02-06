@@ -193,7 +193,7 @@
     }
 }
 
-.inboxCard{
+.inboxCard {
     display: flex;
     color: white;
     width: 100%;
@@ -202,12 +202,14 @@
     padding: 5px 10px;
     border-radius: 10px;
     justify-content: space-between;
-    .inboxCardDetails{
-        .noteName p{           
+
+    .inboxCardDetails {
+        .noteName p {
             font-size: 1.2em;
             max-width: 12em;
         }
-        .senderName p{
+
+        .senderName p {
             font-size: 0.7em;
             color: rgb(172, 172, 172);
         }
@@ -343,6 +345,7 @@
     /* align-items: center; */
     background-color: rgb(24, 24, 24);
     border-radius: 0px 0px 30px 30px;
+    user-select: none;
 }
 
 .loadingNote {
@@ -364,6 +367,9 @@
     transition: all 0.2s;
     position: relative;
     cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
 
 .noteCard:active {
@@ -372,7 +378,6 @@
 
 .noteCard h3 {
     font-size: 1em;
-    /* overflow: hidden; */
     margin-left: 10px;
     font-weight: 500;
     /* height: 2em; */
@@ -382,6 +387,9 @@
     /* background-color: blue; */
     width: 80%;
     cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
 
 
@@ -396,6 +404,9 @@
     font-weight: 300;
     overflow: hidden;
     cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
 
 @media (max-width: 520px) {
@@ -410,17 +421,20 @@
         width: 100%;
         position: static;
         zoom: 1;
-        .displayContent{
+
+        .displayContent {
             padding: 0;
             width: 100%;
         }
 
     }
-    .coverImage img{
+
+    .coverImage img {
         border-radius: 0;
     }
-    .coverImage{
-        .profilePic img{
+
+    .coverImage {
+        .profilePic img {
             height: 100px;
             width: 100px;
             border-radius: 50%;
@@ -453,11 +467,13 @@
                 flex-direction: column;
                 width: 100%;
                 overflow: hidden;
-                .loadingNote{
+
+                .loadingNote {
                     height: 70px;
                     width: 100%;
                     border-radius: 30px;
                 }
+
                 .noteCard {
                     width: 100%;
                     height: fit-content;

@@ -126,13 +126,6 @@ export default function EditorComponent({ id }: { id: string }) {
                         </div>
                         <Input disabled={loadingEditorState} defaultValue={currentNoteTitle||""} placeholder="Untitled Note" className={styles.tabName} onBlur={(e)=>{setCurrentNoteTitle(e.target.value)}}
                         />
-
-                        {/* {loadingEditorState && !noteData && (
-                            <div className={styles.loadingSpinnerContainer}>
-                                <Spinner size="3" className={styles.loadingEditorSpinner} />
-                            </div>
-                        )} */}
-
                     </div>
 
 
@@ -142,8 +135,9 @@ export default function EditorComponent({ id }: { id: string }) {
                             setShareDialogboxOpen(true);
                         }}>Share</Button>
 
-                        <Button loading={savingState} disabled={savingState || loadingEditorState} className={styles.saveBtn} onClick={() => {
-                            saveFunction()
+                        <Button loading={savingState} disabled={savingState || loadingEditorState} className={styles.saveBtn} onClick={async() => {
+                            await saveFunction();
+                            toast.success("Saved", { position: "bottom-center",autoClose: 500, theme: "dark" });
                         }}>Save</Button>
                     </div>
                 </div>
@@ -249,8 +243,9 @@ export default function EditorComponent({ id }: { id: string }) {
         }
     };
 
+
+    // saving the note
     const saveFunction = async () => {
-        // console.log("saving state>>>>", savingState);
         const noteSnippet = quillRef.current?.getText() as string
         if (userDetails) {
             setSavingState(true);
@@ -270,21 +265,18 @@ export default function EditorComponent({ id }: { id: string }) {
             }
             const res = await postNote(JSON.stringify(newNote));
             setSavingState(false);
-            toast.success("Saved", { position: "bottom-center", theme: "dark" })
-            // console.log("saving state>>>>", savingState);
             updateLocalCollection(newNote)
         }
-
-        // setRefreshCollectionOfNotes((prev) => !prev)
-        // setRefreshCurrentNote((prev) => !prev)
     }
 
+    // autosaving
+    const mainDivRef=useRef<HTMLDivElement>(null);
+    const handleBlur = async (event: React.FocusEvent<HTMLDivElement>) => {
+        if (!mainDivRef.current?.contains(event.relatedTarget)) {
+          await saveFunction();
+        }
+      };
 
-    // const handleShareSearch=async(searchParam:string)=>{
-    //     if(searchParam!=""&&searchParam!=" "){
-
-    //     }
-    // }
 
     const [searchedFriendsList, setSearchedFriendsList] = useState<any>([])
     const [shareFirendsDetailsList, setShareFirendsDetailsList] = useState<userType[]>([])
@@ -339,13 +331,13 @@ export default function EditorComponent({ id }: { id: string }) {
             console.log("sent to", selectedFriends);
             setSelectedFriends([]);
             setSearchparam("");
-            toast.success("Sent", { position: "bottom-center", theme: "dark" })
+            toast.success("Sent", { position: "bottom-center",autoClose: 500, theme: "dark" })
         }
         setShareDialogboxOpen(false);
     }
 
     return (<>
-        <div className={styles.main}>
+        <div className={styles.main} ref={mainDivRef} onBlur={handleBlur}>
             <Tab />
             <Dialog open={shareDialogboxOpen} onOpenChange={setShareDialogboxOpen} defaultOpen={true}>
                 <DialogContent className={styles.shareDialogContent}>

@@ -15,6 +15,7 @@ export interface userType{
 
 
 export interface Note{
+    _id?:string;
     owner:string,
     // id:number,
     id: string,

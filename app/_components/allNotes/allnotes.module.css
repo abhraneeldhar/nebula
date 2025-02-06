@@ -55,7 +55,7 @@
 
 .notesContainer {
     display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 10px;
     padding: 0px 10px;
 }
@@ -78,6 +78,9 @@
     transition: all 0.2s;
     position: relative;
     flex: 1;
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
 
 .noteCard:active {
@@ -121,7 +124,8 @@
     right: 15px;
     cursor: pointer;
 }
-.dropDownMenuTrigger:focus{
+
+.dropDownMenuTrigger:focus {
     outline: none;
 }
 
@@ -179,8 +183,9 @@
         position: fixed;
         overflow: hidden;
     }
-    .notesContainer{
-        grid-template-columns: repeat(auto-fit,minmax(160px,1fr));
+
+    .notesContainer {
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
 
     }
 
