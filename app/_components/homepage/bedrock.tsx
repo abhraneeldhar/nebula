@@ -37,7 +37,7 @@ import { v4 as uuidv4 } from "uuid";
 import { postNote } from "@/app/utils/postNote";
 import { deleteSharedNote } from "@/app/utils/shareMechanics/deleteSharedNote";
 import { getUserDetailsFromEmail } from "@/app/utils/getUserDetailsFromEmail";
-
+import EditorComponent from "../editor/editorComponent";
 
 export default function Bedrock() {
     const router = useRouter();
@@ -328,9 +328,18 @@ export default function Bedrock() {
     }
 
 
+    // trynna pre build the editor
+    const [prebuildEditor,setPrebuildEditor]=useState(true);
+    useEffect(()=>{
+        setPrebuildEditor(false);
+    },[])
+
+
 
     return (<>
         <Tab tabName="Home" />
+
+        {prebuildEditor && EditorComponent}
 
 
         <div className={styles.main}>
