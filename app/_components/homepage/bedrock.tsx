@@ -334,7 +334,7 @@ export default function Bedrock() {
     //     setPrebuildEditor(false);
     // },[])
 
-    router.prefetch("/editor/a")
+    // router.prefetch("/editor/a")
 
 
     return (<>
