@@ -1,53 +1,51 @@
-"use client"
+"use server"
+import { ArrowBigLeft, ArrowLeft, Monitor, PersonStanding, User } from "lucide-react";
 import styles from "./settings.module.css"
-import { ArrowBigLeft, ArrowBigRight, ArrowRight, PaintBucket } from "lucide-react"
-import { UserRound } from "lucide-react"
 
-import { useRouter } from "next/navigation"
-export default function Settings() {
-    const router=useRouter()
+export default async function Settings() {
 
     return (<>
         <div className={styles.main}>
 
-            <div className={styles.tab}>
-                <div className={styles.back} onClick={()=>{router.push("/home")}}>
-                    <ArrowBigLeft />
-                </div>
-                <div className={styles.settingsHeader}>Settings</div>
+            <a href="/home">
+                <ArrowLeft className={styles.back} />
+            </a>
+
+
+            <div className={styles.managePref}>
+                <h1>Customize Your Experience
+                </h1>
+                <p>Select a category to manage your preferences</p>
             </div>
 
-            <div className={styles.optionsHolder}>
 
-                <div className={styles.option} onClick={(e)=>{e.stopPropagation;
-                    router.push("/settings/account")
-                }}>
-                    <div className={styles.optionleft}>
-                        <div className={styles.optionHeader}>
-                            <UserRound /> <h2>Account</h2>
+
+            <div className={styles.cardHolder}>
+                <a href="/settings/account">
+                    <div className={styles.card}>
+                        <div className={styles.cardHeader}>
+                            <span>Personal</span>
+                            <User />
                         </div>
-                        <p>Configure your account</p>
+                        <h1>Account</h1>
+                        <p>Customize Your Experience
+                            Select a category to manage your preferences</p>
                     </div>
-                    <div className={styles.optionright}>
-                        <ArrowRight/>
-                    </div>
-                </div>
+                </a>
+            
 
-                <div className={styles.option} onClick={(e)=>{e.stopPropagation;
-                    router.push("/settings/display")
-                }}>
-                    <div className={styles.optionleft}>
-                        <div className={styles.optionHeader}>
-                            <PaintBucket/> <h2>Display</h2>
-                        </div>
-                        <p>Configure how nebula looks</p>
+            <a href="/settings/display">
+                <div className={styles.card}>
+                    <div className={styles.cardHeader}>
+                        <span>Appearance</span>
+                        <Monitor />
                     </div>
-                    <div className={styles.optionright}>
-                        <ArrowRight/>
-                    </div>
+                    <h1>Display</h1>
+                    <p>Customize your viewing experience</p>
                 </div>
+            </a>
 
-            </div>
         </div>
+    </div >
     </>)
 }
