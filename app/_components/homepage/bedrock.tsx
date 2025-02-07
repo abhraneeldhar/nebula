@@ -329,17 +329,17 @@ export default function Bedrock() {
 
 
     // trynna pre build the editor
-    const [prebuildEditor,setPrebuildEditor]=useState(true);
-    useEffect(()=>{
-        setPrebuildEditor(false);
-    },[])
+    const [prebuildEditor,setPrebuildEditor]=useState(false);
+    // useEffect(()=>{
+    //     setPrebuildEditor(false);
+    // },[])
 
 
 
     return (<>
         <Tab tabName="Home" />
 
-        {/* {prebuildEditor && <EditorComponent id="abcd"/>} */}
+        {prebuildEditor && <EditorComponent id="abcd"/>}
 
         <div className={styles.main}>
             <NewNoteBtn />
