@@ -37,7 +37,7 @@ import { v4 as uuidv4 } from "uuid";
 import { postNote } from "@/app/utils/postNote";
 import { deleteSharedNote } from "@/app/utils/shareMechanics/deleteSharedNote";
 import { getUserDetailsFromEmail } from "@/app/utils/getUserDetailsFromEmail";
-import EditorComponent from "../editor/editorComponent";
+import EditorComponent from "@/app/_components/editor/editorComponent";
 
 export default function Bedrock() {
     const router = useRouter();
@@ -139,8 +139,8 @@ export default function Bedrock() {
 
     const [inboxOpen, setInboxOpen] = useState(false);
     const [incomingNotesList, setIncomingNotesList] = useState<any>();
-    useEffect(()=>{
-        if(userDetails){
+    useEffect(() => {
+        if (userDetails) {
             const getInbox = async () => {
                 console.log("getting incoming notes")
                 const res = await getIncomingNotes(userDetails.userId as string);
@@ -151,9 +151,9 @@ export default function Bedrock() {
             getInbox();
 
         }
-    },[userDetails])
-    
-    
+    }, [userDetails])
+
+
     useEffect(() => {
         console.log(incomingNotesList)
     }, [incomingNotesList])
@@ -228,7 +228,7 @@ export default function Bedrock() {
 
         const InboxCard = ({ sharedNoteData }: { sharedNoteData: sharedNoteType }) => {
             const [senderDetails, setSenderDetails] = useState<userType | null>()
-            const [reqResolved,setReqResolved]=useState<false|"accepted"|"rejected">(false)
+            const [reqResolved, setReqResolved] = useState<false | "accepted" | "rejected">(false)
 
             useEffect(() => {
                 const getDetails = async () => {
@@ -243,7 +243,7 @@ export default function Bedrock() {
                 if (userDetails) {
                     setReqResolved("accepted");
                     var JackRyan = sharedNoteData.sharedNote;
-                    JackRyan._id=uuidv4();
+                    JackRyan._id = uuidv4();
                     JackRyan.id = uuidv4();
                     JackRyan.createdAt = Date.now();
                     JackRyan.owner = userDetails.userId;
@@ -251,7 +251,7 @@ export default function Bedrock() {
                     await postNote(JSON.stringify(JackRyan));
                     await deleteSharedNote(sharedNoteData.id)
                     const displayNotes = await getDisplayNotes(userDetails.userId);
-                    console.log("new display notes: ",displayNotes)
+                    console.log("new display notes: ", displayNotes)
                     setlocalCollectionOfNotesState(displayNotes);
                 }
             }
@@ -271,9 +271,9 @@ export default function Bedrock() {
                         </div>
                     </div>
                     <div className={styles.reqAction}>
-                        {!reqResolved &&(<>
+                        {!reqResolved && (<>
                             <Button color="green" onClick={() => { acceptNote() }} ><CircleCheck /></Button><Button color="red" onClick={() => { rejectNote() }}><X /></Button>
-                        
+
                         </>)}
                         {reqResolved && (reqResolved)}
                     </div>
@@ -329,7 +329,7 @@ export default function Bedrock() {
 
 
     // trynna pre build the editor
-    const [prebuildEditor,setPrebuildEditor]=useState(false);
+    const [prebuildEditor, setPrebuildEditor] = useState(false);
     // useEffect(()=>{
     //     setPrebuildEditor(false);
     // },[])
@@ -339,14 +339,14 @@ export default function Bedrock() {
     return (<>
         <Tab tabName="Home" />
 
-        
+
 
         <div className={styles.main}>
             <NewNoteBtn />
-            
+
 
             <div className={styles.displayContent}>
-            {prebuildEditor && <EditorComponent id="abcd"/>}
+                {prebuildEditor && <EditorComponent id="abcd" />}
                 <div className={styles.coverImage}>
                     <Image src={coverImage} alt="cover image" />
                     <div className={styles.profilePic}>
