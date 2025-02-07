@@ -341,7 +341,6 @@ export default function Bedrock() {
 
         {prebuildEditor && <EditorComponent id=""/>}
 
-
         <div className={styles.main}>
             <NewNoteBtn />
             {/* <ToastContainer /> */}
