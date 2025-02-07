@@ -329,11 +329,12 @@ export default function Bedrock() {
 
 
     // trynna pre build the editor
-    const [prebuildEditor, setPrebuildEditor] = useState(false);
+    // const [prebuildEditor, setPrebuildEditor] = useState(false);
     // useEffect(()=>{
     //     setPrebuildEditor(false);
     // },[])
 
+    router.prefetch("/editor/a")
 
 
     return (<>
@@ -346,7 +347,7 @@ export default function Bedrock() {
 
 
             <div className={styles.displayContent}>
-                {prebuildEditor && <EditorComponent id="abcd" />}
+                {/* {prebuildEditor && <EditorComponent id="abcd" />} */}
                 <div className={styles.coverImage}>
                     <Image src={coverImage} alt="cover image" />
                     <div className={styles.profilePic}>
