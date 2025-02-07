@@ -11,7 +11,7 @@ import coverImage from ".././assetImages/coverimage.png"
 
 import { useSidebar } from "@/components/ui/sidebar";
 
-import { DisplayNote, sharedNoteType, userType } from "../../utils/fileFormat";
+import { DisplayNote, Note, sharedNoteType, userType } from "../../utils/fileFormat";
 
 
 import rightArrow from "../../../public/arrowright.png";
@@ -38,6 +38,7 @@ import { postNote } from "@/app/utils/postNote";
 import { deleteSharedNote } from "@/app/utils/shareMechanics/deleteSharedNote";
 import { getUserDetailsFromEmail } from "@/app/utils/getUserDetailsFromEmail";
 import EditorComponent from "@/app/_components/editor/editorComponent";
+import { getOneNote } from "@/app/utils/getOneNote";
 
 export default function Bedrock() {
     const router = useRouter();
@@ -328,23 +329,24 @@ export default function Bedrock() {
     }
 
 
-    // trynna pre build the editor
-    // const [prebuildEditor, setPrebuildEditor] = useState(false);
-    // useEffect(()=>{
-    //     setPrebuildEditor(false);
-    // },[])
-
-    // router.prefetch("/editor/a")
-
+    
+    // prefetching notedata from mongo
+    useEffect(()=>{
+        if(userDetails && localCollectionOfNotesState){
+            let cacheNote:Note[]=[]
+            localCollectionOfNotesState?.sort((a, b) => b.lastModifiedAt - a.lastModifiedAt).slice(0, 3).forEach(async(oneNote)=>{
+                const res=await getOneNote(userDetails.userId,oneNote.id);
+                console.log("cached note: ",oneNote.id)
+                cacheNote.push(res);
+            })
+        }
+    },[userDetails,localCollectionOfNotesState])
 
     return (<>
         <Tab tabName="Home" />
 
-
-
         <div className={styles.main}>
             <NewNoteBtn />
-
 
             <div className={styles.displayContent}>
                 {/* {prebuildEditor && <EditorComponent id="abcd" />} */}
