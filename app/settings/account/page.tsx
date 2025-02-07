@@ -6,11 +6,12 @@ import pfp from "../../../public/pfp.jpeg"
 import banner from "../../../public/banner.jpg"
 import { Input } from "@/components/ui/input"
 
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft, RotateCcw, Save } from "lucide-react"
 import { appStore } from "@/app/store"
 import { useSession } from "next-auth/react"
 import { useEffect, useState } from "react"
 import { getUserDetailsFromEmail } from "@/app/utils/getUserDetailsFromEmail"
+import { Button } from "@radix-ui/themes"
 
 
 export default function AccountsPage() {
@@ -67,6 +68,15 @@ export default function AccountsPage() {
                         <h1>Bio</h1>
                         <textarea defaultValue={userDetails?.bio} />
                     </div>
+                </div>
+                <div className={styles.actionBtns}>
+                    <Button className={styles.resetBtn}>
+                        <RotateCcw/> Reset
+                    </Button>
+                    <Button className={styles.saveBtn}>
+                        <Save/> Save
+                    </Button>
+
                 </div>
 
 

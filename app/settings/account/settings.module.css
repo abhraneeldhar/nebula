@@ -7,6 +7,7 @@
     min-height: 100vh;
     align-items: center;
     background-color: #030a18;
+    height: 100%;
 }
 
 .tab {
@@ -23,26 +24,31 @@
     gap: 10px;
     padding: 10px;
 }
-.mainContent{
+
+.mainContent {
     padding: 30px;
     width: 70%;
     border-radius: 10px;
-    background-color:#11141c ;
+    background-color: #11141c;
 }
-.photosSection{
+
+.photosSection {
     position: relative;
     width: 100%;
     margin-bottom: 120px;
 }
-.banner{
+
+.banner {
     width: 100%;
     height: 300px;
     border-radius: 10px;
 }
-.banner img{
+
+.banner img {
     object-fit: cover;
 }
-.pfp{
+
+.pfp {
     position: absolute;
     border-radius: 50%;
     bottom: 0;
@@ -53,21 +59,85 @@
     width: 170px;
 }
 
-.detailsHolder{
+.detailsHolder {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
-.detailCard input,.detailCard textarea{
+
+.detailCard input,
+.detailCard textarea {
     background-color: rgb(35, 35, 35);
     color: white;
     border-radius: 5px;
 }
-.detailCard textarea{
+
+.detailCard textarea {
     padding: 5px 10px;
 }
-.detailCard{
+
+.detailCard {
     display: flex;
     flex-direction: column;
     gap: 5px;
+}
+
+.actionBtns {
+    display: flex;
+    margin-top: 20px;
+    gap: 20px;
+    justify-content: right;
+}
+
+.actionBtns button {
+    height: 35px;
+    transition: all 0.2s;
+}
+
+.resetBtn {
+    background-color: white;
+    color: red;
+}
+
+.resetBtn:hover {
+    background-color: rgb(219, 219, 219);
+}
+
+.saveBtn {
+    background-color: black;
+    color: white;
+}
+
+.saveBtn:hover {
+    background-color: rgb(20, 20, 20);
+}
+
+
+@media (max-width: 520px) {
+    .main {
+        background-color: #11141c;
+    }
+
+    .mainContent {
+        width: 100%;
+        padding: 10px;
+        min-height: 100%;
+    }
+
+    .pfp {
+        height: 40vw;
+        width: 40vw;
+    }
+
+    .banner {
+        height: 150px;
+    }
+    .detailsHolder{
+        padding: 0px 10px;
+    }
+    .actionBtns {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+    }
 }
