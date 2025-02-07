@@ -339,13 +339,14 @@ export default function Bedrock() {
     return (<>
         <Tab tabName="Home" />
 
-        {prebuildEditor && <EditorComponent id="abcd"/>}
+        
 
         <div className={styles.main}>
             <NewNoteBtn />
             
 
             <div className={styles.displayContent}>
+            {prebuildEditor && <EditorComponent id="abcd"/>}
                 <div className={styles.coverImage}>
                     <Image src={coverImage} alt="cover image" />
                     <div className={styles.profilePic}>
