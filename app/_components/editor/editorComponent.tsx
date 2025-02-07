@@ -56,7 +56,7 @@ export default function EditorComponent({ id }: { id: string }) {
     const [savingState, setSavingState] = useState(false);
 
 
-    // const [userId, setUserId] = useState<string | null>(null)
+    // getting userdetails
     const { data: session } = useSession();
 
     const userDetails = appStore((state) => state.userDetails)
@@ -78,11 +78,13 @@ export default function EditorComponent({ id }: { id: string }) {
 
 
 
+    // getting local display notes
     useEffect(() => {
         if (localCollectionOfNotesState == null && userDetails != null) {
             const asyncDisplayNotes = async () => {
                 console.log("fetching display notes")
                 setlocalCollectionOfNotesState(await getDisplayNotes(userDetails.userId));
+                console.log("got local display notes")
             }
             asyncDisplayNotes();
         }
@@ -90,20 +92,21 @@ export default function EditorComponent({ id }: { id: string }) {
     }, [userDetails])
 
 
+    // gets current open note data
     const currentOpenNoteId = id;
     const [noteData, setNoteData] = useState<Note | null>()
 
     const [currentNoteTitle,setCurrentNoteTitle]=useState<string|null>()
-    // gets current open note data
     useEffect(() => {
         if (userDetails) {
             const getNoteData = async () => {
                 console.log("getting current note data")
                 setLoadingEditorState(true);
-                const response = await getOneNote(userDetails.userId as string, currentOpenNoteId as string) as Note
-                setCurrentNoteTitle(response.title);
-                setNoteData(response);
+                const response = await getOneNote(userDetails.userId as string, currentOpenNoteId as string)
                 setLoadingEditorState(false);
+                console.log("got current note data");
+                setCurrentNoteTitle(response.title);
+                setNoteData(response as Note);
             }
             getNoteData();
         }
@@ -148,7 +151,7 @@ export default function EditorComponent({ id }: { id: string }) {
 
     const toolbarRef = useRef<HTMLDivElement | null>(null);
     const quillRef = useRef<Quill | null>(null)
-    const tabNameRef = useRef<HTMLInputElement>(null)
+    // const tabNameRef = useRef<HTMLInputElement>(null)
 
 
     const toolbarOptions = [
@@ -161,6 +164,7 @@ export default function EditorComponent({ id }: { id: string }) {
     ];
 
 
+    // setting up the editor ui
     useEffect(() => {
         // const quill = new Quill("#container", { theme: "snow", modules: { toolbar: toolbarOptions } });
         const quill = new Quill('#container', {
@@ -189,9 +193,6 @@ export default function EditorComponent({ id }: { id: string }) {
         }
         else {
             quillRef.current.setContents(noteData.content)
-            // if (tabNameRef.current) {
-            //     tabNameRef.current.value = noteData.title;
-            // }
         }
 
         return (() => {
