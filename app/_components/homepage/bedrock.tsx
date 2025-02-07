@@ -339,7 +339,7 @@ export default function Bedrock() {
     return (<>
         <Tab tabName="Home" />
 
-        {prebuildEditor && EditorComponent}
+        {prebuildEditor && <EditorComponent id=""/>}
 
 
         <div className={styles.main}>
