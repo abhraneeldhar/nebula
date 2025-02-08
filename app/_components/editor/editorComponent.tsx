@@ -45,7 +45,7 @@ import { getUserDetailsFromEmail } from "@/app/utils/getUserDetailsFromEmail"
 
 
 
-export default function EditorComponent({ id,openNoteData }: { id: string,openNoteData:Note }) {
+export default function EditorComponent({ id }: { id: string}) {
     const setShowLoadingPage = appStore((state) => state.setShowLoadingPage)
 
 
@@ -82,25 +82,21 @@ export default function EditorComponent({ id,openNoteData }: { id: string,openNo
     const [noteData, setNoteData] = useState<Note | null>()
     const [currentNoteTitle,setCurrentNoteTitle]=useState<string|null>()
     
-    useEffect(()=>{
-        setNoteData(openNoteData);
-        setCurrentNoteTitle(openNoteData.title)
-    },[])
-    
-    // useEffect(() => {
-    //     if (userDetails) {
-    //         const getNoteData = async () => {
-    //             console.log("getting current note data")
-    //             setLoadingEditorState(true);
-    //             const response = await getOneNote(userDetails.userId as string, currentOpenNoteId as string)
-    //             setLoadingEditorState(false);
-    //             console.log("got current note data");
-    //             setCurrentNoteTitle(response.title);
-    //             setNoteData(response as Note);
-    //         }
-    //         getNoteData();
-    //     }
-    // }, [userDetails])
+
+    useEffect(() => {
+        if (userDetails) {
+            const getNoteData = async () => {
+                console.log("getting current note data")
+                setLoadingEditorState(true);
+                const response = await getOneNote(userDetails.userId as string, currentOpenNoteId as string)
+                setLoadingEditorState(false);
+                console.log("got current note data");
+                setCurrentNoteTitle(response.title);
+                setNoteData(response as Note);
+            }
+            getNoteData();
+        }
+    }, [userDetails])
 
     // getting local display notes
     useEffect(() => {
