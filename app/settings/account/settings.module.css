@@ -136,7 +136,8 @@
     align-items: center;
     /* background-color: green; */
     justify-content: center;
-    flex: 1;
+    height: 100%;
+    /* flex: 1; */
 }
 .cropImage{
     object-fit: contain;
@@ -192,6 +193,7 @@
     .cropModal{
         height: 50vh;
         width: 95vw;
+        padding:10px;
     }
     .cropBtnSection{
         width: 100%;
