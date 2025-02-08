@@ -1,15 +1,17 @@
-"use server"
+"use client"
 import { ArrowBigLeft, ArrowLeft, Monitor, PersonStanding, User } from "lucide-react";
 import styles from "./settings.module.css"
+import { useRouter } from "next/navigation";
 
 export default async function Settings() {
+    const router = useRouter();
 
     return (<>
         <div className={styles.main}>
 
-            <a href="/home">
-                <ArrowLeft className={styles.back} />
-            </a>
+
+            <ArrowLeft className={styles.back} onClick={() => router.push("/home")} />
+
 
 
             <div className={styles.managePref}>
@@ -21,31 +23,27 @@ export default async function Settings() {
 
 
             <div className={styles.cardHolder}>
-                <a href="/settings/account">
-                    <div className={styles.card}>
-                        <div className={styles.cardHeader}>
-                            <span>Personal</span>
-                            <User />
-                        </div>
-                        <h1>Account</h1>
-                        <p>Customize Your Experience
-                            Select a category to manage your preferences</p>
-                    </div>
-                </a>
-            
-
-            <a href="/settings/display">
-                <div className={styles.card}>
+                <div className={styles.card} onClick={()=>router.push("/settings/account")}>
                     <div className={styles.cardHeader}>
-                        <span>Appearance</span>
-                        <Monitor />
+                        <span>Personal</span>
+                        <User />
                     </div>
-                    <h1>Display</h1>
-                    <p>Customize your viewing experience</p>
+                    <h1>Account</h1>
+                    <p>Customize Your Experience
+                        Select a category to manage your preferences</p>
                 </div>
-            </a>
 
-        </div>
-    </div >
+
+
+                    <div className={styles.card}  onClick={()=>router.push("/settings/display")}>
+                        <div className={styles.cardHeader}>
+                            <span>Appearance</span>
+                            <Monitor />
+                        </div>
+                        <h1>Display</h1>
+                        <p>Customize your viewing experience</p>
+                    </div>
+            </div>
+        </div >
     </>)
 }

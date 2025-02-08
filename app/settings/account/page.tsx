@@ -17,6 +17,8 @@ import React from "react";
 import ReactCrop, { centerCrop, Crop, makeAspectCrop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 
+import { supabase } from "@/app/utils/supabase/client"
+import { blob } from "stream/consumers"
 
 
 export default function AccountsPage() {
@@ -32,6 +34,7 @@ export default function AccountsPage() {
                 console.log("fetching user details via email");
                 const res = await getUserDetailsFromEmail(session?.user?.email as string);
                 setUserDetails(res);
+                console.log(res.userId)
             }
             fetchingUserDetails();
         }
@@ -57,9 +60,7 @@ export default function AccountsPage() {
                 makeAspectCrop(
                     {
                         unit: "%",
-                        width: 50, // 50% width, adjust as needed
-                        // aspect: image.naturalWidth / image.naturalHeight, // Maintain actual aspect ratio
-
+                        width: 50,
                     },
                     1,
                     image.width,
@@ -71,7 +72,7 @@ export default function AccountsPage() {
         );
     };
 
-  
+
 
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -97,14 +98,14 @@ export default function AccountsPage() {
         const image = imageRef.current as HTMLImageElement;
         const scaleX = image.naturalWidth / image.width;
         const scaleY = image.naturalHeight / image.height;
-      
-        const correctedPixelCrop : Crop= {
+
+        const correctedPixelCrop: Crop = {
             x: crop.x * scaleX,
             y: crop.y * scaleY,
             unit: "px",
             width: crop.width * scaleX,
-            height:crop.height * scaleY,
-          };
+            height: crop.height * scaleY,
+        };
         setCompletedCrop(correctedPixelCrop)
     };
 
@@ -138,6 +139,96 @@ export default function AccountsPage() {
     };
 
 
+    // resizing the thang
+    const resizeImage = (imageSrc: string, targetSize: number): Promise<Blob> => {
+        return new Promise((resolve, reject) => {
+          const img = new window.Image();
+          img.src = imageSrc;
+          img.crossOrigin = "anonymous"; // Avoid CORS issues
+      
+          img.onload = () => {
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+      
+            if (!ctx) return reject(new Error("Canvas context not available"));
+      
+            // Calculate aspect ratio
+            const aspectRatio = img.width / img.height;
+            let newWidth = targetSize;
+            let newHeight = targetSize;
+      
+            if (aspectRatio > 1) {
+              // Landscape image: Fit width
+              newHeight = targetSize / aspectRatio;
+            } else {
+              // Portrait or square image: Fit height
+              newWidth = targetSize * aspectRatio;
+            }
+      
+            // Set canvas size to target size (square)
+            canvas.width = targetSize;
+            canvas.height = targetSize;
+      
+            // Fill canvas with a white background (optional, prevents transparency in PNGs)
+            ctx.fillStyle = "white";
+            ctx.fillRect(0, 0, targetSize, targetSize);
+      
+            // Center the resized image inside the square
+            const offsetX = (targetSize - newWidth) / 2;
+            const offsetY = (targetSize - newHeight) / 2;
+            ctx.drawImage(img, offsetX, offsetY, newWidth, newHeight);
+      
+            // Convert canvas to Blob (JPEG to reduce size)
+            canvas.toBlob(
+              (blob) => {
+                if (blob) resolve(blob);
+                else reject(new Error("Image conversion failed"));
+              },
+              "image/jpeg",
+              0.8 // Compression quality (adjustable)
+            );
+          };
+      
+          img.onerror = (error) => reject(error);
+        });
+      };
+      
+    
+
+
+
+
+
+    // uplaod
+    const uploadToSupabase = async (resizedBlob: Blob, fileName: string) => {
+        const { data, error } = await supabase.storage
+          .from("profilePics") 
+          .upload(`${userDetails?.userId}/profileImage${Date.now()}`, resizedBlob, {
+            contentType: "image/jpeg",
+            upsert: true,
+          });
+      
+        if (error) {
+          console.error("Upload error:", error);
+          return null;
+        }
+      
+        console.log("Uploaded successfully:", data);
+        return data.path; 
+      };
+      const resizeAndUpload = async () => {
+        try {
+          const resizedBlob = await resizeImage(avatar as string, 256) as Blob
+          const filePath = await uploadToSupabase(resizedBlob, "user_avatar_123");
+      
+          if (filePath) {
+            console.log("Image uploaded to:", filePath);
+          }
+        } catch (error) {
+          console.error("Error processing image:", error);
+        }
+      };
+
 
     return (<>
         <div className={styles.main}>
@@ -167,7 +258,7 @@ export default function AccountsPage() {
                                         // ...crop,
                                         ...newCrop,
                                     });
-                                    console.log("crop: ",newCrop)
+                                    console.log("crop: ", newCrop)
                                 }}
                                 onComplete={handleCropComplete}
                                 aspect={1}>
@@ -219,6 +310,8 @@ export default function AccountsPage() {
                         <Save /> Save
                     </Button>
                 </div>
+
+                <Button onClick={()=>resizeAndUpload()}>resize and upload</Button>
 
 
 
