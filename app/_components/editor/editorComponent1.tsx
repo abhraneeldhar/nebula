@@ -1,4 +1,4 @@
-"use client"
+"use server"
 import Quill from "quill"
 import React, { useEffect, useId, useRef, useState } from "react"
 import "quill/dist/quill.snow.css"
@@ -41,11 +41,10 @@ import { Circle, CircleCheckBig } from "lucide-react"
 import { shareToFriends } from "@/app/utils/shareMechanics/shareToFreinds"
 import { FriendSearch } from "@/app/utils/shareMechanics/searchFriends"
 import { getUserDetailsFromEmail } from "@/app/utils/getUserDetailsFromEmail"
-// import { title } from "process"
 
 
 
-export default function EditorComponent({ id,openNoteData }: { id: string,openNoteData:Note }) {
+export default function EditorComponent({ id }: { id: string }) {
     const setShowLoadingPage = appStore((state) => state.setShowLoadingPage)
 
 
@@ -80,27 +79,23 @@ export default function EditorComponent({ id,openNoteData }: { id: string,openNo
     // gets current open note data
     const currentOpenNoteId = id;
     const [noteData, setNoteData] = useState<Note | null>()
+
     const [currentNoteTitle,setCurrentNoteTitle]=useState<string|null>()
-    
-    useEffect(()=>{
-        setNoteData(openNoteData);
-        setCurrentNoteTitle(openNoteData.title)
-    },[])
-    
-    // useEffect(() => {
-    //     if (userDetails) {
-    //         const getNoteData = async () => {
-    //             console.log("getting current note data")
-    //             setLoadingEditorState(true);
-    //             const response = await getOneNote(userDetails.userId as string, currentOpenNoteId as string)
-    //             setLoadingEditorState(false);
-    //             console.log("got current note data");
-    //             setCurrentNoteTitle(response.title);
-    //             setNoteData(response as Note);
-    //         }
-    //         getNoteData();
-    //     }
-    // }, [userDetails])
+    useEffect(() => {
+        if (userDetails) {
+            const getNoteData = async () => {
+                console.log("getting current note data")
+                setLoadingEditorState(true);
+                const response = await getOneNote(userDetails.userId as string, currentOpenNoteId as string)
+                setLoadingEditorState(false);
+                console.log("got current note data");
+                setCurrentNoteTitle(response.title);
+                setNoteData(response as Note);
+            }
+            getNoteData();
+        }
+    }, [userDetails])
+
 
     // getting local display notes
     useEffect(() => {
