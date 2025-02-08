@@ -30,6 +30,7 @@
     width: 70%;
     border-radius: 10px;
     background-color: #11141c;
+    position: relative;
 }
 
 .photosSection {
@@ -111,6 +112,59 @@
 .saveBtn:hover {
     background-color: rgb(20, 20, 20);
 }
+.cropModal{
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    z-index: 5;
+    background-color: #191830c2;
+    backdrop-filter: blur(15px);
+    /* background-color: red; */
+    padding: 20px;
+    height: 70vh;
+    width: 50vw;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    border-radius: 20px;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.cropImageDiv{
+    display: flex;
+    align-items: center;
+    /* background-color: green; */
+    justify-content: center;
+    flex: 1;
+}
+.cropImage{
+    object-fit: contain;
+    border-radius: 20px;
+}
+.cropImage::backdrop{
+    background-color: black;
+    opacity: 1;
+}
+.cropBtnSection{
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    width: 70%;
+    margin: auto;
+}
+.cropButton, .cancelBtn{
+    background-color: black;
+    columns: white;
+    width:120px;
+    margin: auto;
+    padding: 10px 15px;
+    border-radius: 10px;    
+}
+.cancelBtn{
+    background-color: white;
+    color: red;
+}
 
 
 @media (max-width: 520px) {
@@ -135,9 +189,12 @@
     .detailsHolder{
         padding: 0px 10px;
     }
-    .actionBtns {
-        position: absolute;
-        bottom: 10px;
-        right: 10px;
+    .cropModal{
+        height: 50vh;
+        width: 95vw;
+    }
+    .cropBtnSection{
+        width: 100%;
     }
 }
+

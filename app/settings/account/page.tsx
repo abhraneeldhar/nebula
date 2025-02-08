@@ -43,16 +43,6 @@ export default function AccountsPage() {
     const [selectedImage, setSelectedImage] = useState<string | ArrayBuffer | null>(null);
     const [crop, setCrop] = useState<Crop>({ unit: "%", height: 0, width: 0, x: 0, y: 0 });
 
-
-    // const [crop, setCrop] = useState<Crop>({ unit: "%", width: 50, aspect: 1 });
-    // const [crop, setCrop] = useState<Crop>({
-    //     unit: "%",
-    //     width: 50,
-    //     // aspect: 1,
-    //     x: 0,
-    //     y: 0,
-    //     height: 0,
-    //   });
     const [completedCrop, setCompletedCrop] = useState<Crop | null>(null);
     const imageRef = useRef(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -69,7 +59,8 @@ export default function AccountsPage() {
                         unit: "%",
                         width: 50, // 50% width, adjust as needed
                     },
-                    1, // Aspect ratio 1:1 (square)
+                    1,
+                    // Aspect ratio 1:1 (square)
                     image.width,
                     image.height
                 ),
@@ -132,9 +123,6 @@ export default function AccountsPage() {
 
 
 
-
-
-
     return (<>
         <div className={styles.main}>
             <div className={styles.tab}>
@@ -155,34 +143,35 @@ export default function AccountsPage() {
 
 
                 {selectedImage && (
-                    <div className="flex flex-col items-center">
-                        <ReactCrop
-                            // crop={crop}
-                            crop={crop as Crop} onChange={(newCrop) => {
-                                setCrop({
-                                    ...crop,
-                                    ...newCrop,
-                                    // x: newCrop.x ?? 0,
-                                    // y: newCrop.y ?? 0,
-                                });
-                            }}
-                            onComplete={handleCropComplete}
-                            aspect={1}
-                        >
-                            <img
-                                ref={imageRef}
-                                src={selectedImage as string}
-                                alt="Crop preview"
-                                className="max-w-xs"
-                                onLoad={onImageLoad}
-                            />
-                        </ReactCrop>
-                        <button
-                            onClick={saveCroppedImage}
-                            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
-                        >
-                            Save Crop
-                        </button>
+                    <div className={styles.cropModal}>
+                        <div className={styles.cropImageDiv}>
+                            <ReactCrop
+                                crop={crop as Crop} onChange={(newCrop) => {
+                                    setCrop({
+                                        ...crop,
+                                        ...newCrop,
+                                    });
+                                }}
+                                onComplete={handleCropComplete}
+                                aspect={1}>
+
+                                <img
+                                    ref={imageRef}
+                                    src={selectedImage as string}
+                                    alt="Crop preview"
+                                    className={styles.cropImage}
+                                    onLoad={onImageLoad} />
+
+                            </ReactCrop>
+                        </div>
+                        <div className={styles.cropBtnSection}>
+                            <button
+                                onClick={saveCroppedImage}
+                                className={styles.cropButton}>
+                                Save Crop
+                            </button>
+                            <button className={styles.cancelBtn} onClick={() => setSelectedImage(null)}>Cancel</button>
+                        </div>
                     </div>
                 )}
 
@@ -210,7 +199,6 @@ export default function AccountsPage() {
                     <Button className={styles.saveBtn}>
                         <Save /> Save
                     </Button>
-
                 </div>
 
 
