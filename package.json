@@ -39,6 +39,7 @@
     "radix-ui": "^1.0.1",
     "react": "19.0.0-rc-02c0e824-20241028",
     "react-dom": "19.0.0-rc-02c0e824-20241028",
+    "react-image-crop": "^11.0.7",
     "react-toastify": "^10.0.6",
     "spinner": "^0.2.4",
     "supabase": "^1.223.10",

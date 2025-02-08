@@ -412,7 +412,7 @@
 @media (max-width: 520px) {
     .tabBar {
         width: 100%;
-        position: absolute;
+        /* position: absolute; */
         overflow: hidden;
     }
 
