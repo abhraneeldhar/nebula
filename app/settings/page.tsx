@@ -3,7 +3,7 @@ import { ArrowBigLeft, ArrowLeft, Monitor, PersonStanding, User } from "lucide-r
 import styles from "./settings.module.css"
 import { useRouter } from "next/navigation";
 
-export default async function Settings() {
+export default function Settings() {
     const router = useRouter();
 
     return (<>

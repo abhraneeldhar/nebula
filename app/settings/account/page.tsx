@@ -19,6 +19,10 @@ import "react-image-crop/dist/ReactCrop.css";
 
 import { supabase } from "@/app/utils/supabase/client"
 import { blob } from "stream/consumers"
+import css from "styled-jsx/css"
+import { checkUsernameinDB } from "@/app/utils/checkUsernameinDB"
+import { Flip, toast, ToastContainer } from "react-toastify"
+import { updateUserDetails } from "@/app/utils/updateUserDetails"
 
 
 export default function AccountsPage() {
@@ -142,59 +146,51 @@ export default function AccountsPage() {
     // resizing the thang
     const resizeImage = (imageSrc: string, targetSize: number): Promise<Blob> => {
         return new Promise((resolve, reject) => {
-          const img = new window.Image();
-          img.src = imageSrc;
-          img.crossOrigin = "anonymous"; // Avoid CORS issues
-      
-          img.onload = () => {
-            const canvas = document.createElement("canvas");
-            const ctx = canvas.getContext("2d");
-      
-            if (!ctx) return reject(new Error("Canvas context not available"));
-      
-            // Calculate aspect ratio
-            const aspectRatio = img.width / img.height;
-            let newWidth = targetSize;
-            let newHeight = targetSize;
-      
-            if (aspectRatio > 1) {
-              // Landscape image: Fit width
-              newHeight = targetSize / aspectRatio;
-            } else {
-              // Portrait or square image: Fit height
-              newWidth = targetSize * aspectRatio;
-            }
-      
-            // Set canvas size to target size (square)
-            canvas.width = targetSize;
-            canvas.height = targetSize;
-      
-            // Fill canvas with a white background (optional, prevents transparency in PNGs)
-            ctx.fillStyle = "white";
-            ctx.fillRect(0, 0, targetSize, targetSize);
-      
-            // Center the resized image inside the square
-            const offsetX = (targetSize - newWidth) / 2;
-            const offsetY = (targetSize - newHeight) / 2;
-            ctx.drawImage(img, offsetX, offsetY, newWidth, newHeight);
-      
-            // Convert canvas to Blob (JPEG to reduce size)
-            canvas.toBlob(
-              (blob) => {
-                if (blob) resolve(blob);
-                else reject(new Error("Image conversion failed"));
-              },
-              "image/jpeg",
-              0.8 // Compression quality (adjustable)
-            );
-          };
-      
-          img.onerror = (error) => reject(error);
-        });
-      };
-      
-    
+            const img = new window.Image();
+            img.src = imageSrc;
+            img.crossOrigin = "anonymous";
 
+            img.onload = () => {
+                const canvas = document.createElement("canvas");
+                const ctx = canvas.getContext("2d");
+
+                if (!ctx) return reject(new Error("Canvas context not available"));
+
+                const aspectRatio = img.width / img.height;
+                let newWidth = targetSize;
+                let newHeight = targetSize;
+
+                if (aspectRatio > 1) {
+
+                    newHeight = targetSize / aspectRatio;
+                } else {
+                    newWidth = targetSize * aspectRatio;
+                }
+
+
+                canvas.width = targetSize;
+                canvas.height = targetSize;
+
+                ctx.fillStyle = "white";
+                ctx.fillRect(0, 0, targetSize, targetSize);
+
+                const offsetX = (targetSize - newWidth) / 2;
+                const offsetY = (targetSize - newHeight) / 2;
+                ctx.drawImage(img, offsetX, offsetY, newWidth, newHeight);
+
+                canvas.toBlob(
+                    (blob) => {
+                        if (blob) resolve(blob);
+                        else reject(new Error("Image conversion failed"));
+                    },
+                    "image/jpeg",
+                    0.8
+                );
+            };
+
+            img.onerror = (error) => reject(error);
+        });
+    };
 
 
 
@@ -202,36 +198,167 @@ export default function AccountsPage() {
     // uplaod
     const uploadToSupabase = async (resizedBlob: Blob, fileName: string) => {
         const { data, error } = await supabase.storage
-          .from("profilePics") 
-          .upload(`${userDetails?.userId}/profileImage${Date.now()}`, resizedBlob, {
-            contentType: "image/jpeg",
-            upsert: true,
-          });
-      
-        if (error) {
-          console.error("Upload error:", error);
-          return null;
-        }
-      
-        console.log("Uploaded successfully:", data);
-        return data.path; 
-      };
-      const resizeAndUpload = async () => {
-        try {
-          const resizedBlob = await resizeImage(avatar as string, 256) as Blob
-          const filePath = await uploadToSupabase(resizedBlob, "user_avatar_123");
-      
-          if (filePath) {
-            console.log("Image uploaded to:", filePath);
-          }
-        } catch (error) {
-          console.error("Error processing image:", error);
-        }
-      };
+            .from("profilePics")
+            .upload(`${userDetails?.userId}/profileImage${Date.now()}`, resizedBlob, {
+                contentType: "image/jpeg",
+                upsert: true,
+            });
 
+        if (error) {
+            console.error("Upload error:", error);
+            return null;
+        }
+
+        console.log("Uploaded successfully:", data);
+        return data.path;
+    };
+
+
+
+
+    //   resize and upload
+    const resizeAndUpload = async () => {
+        try {
+            const resizedBlob = await resizeImage(avatar as string, 256) as Blob
+            const filePath = await uploadToSupabase(resizedBlob, "user_avatar_123");
+
+            if (filePath) {
+                console.log("Image uploaded to:", filePath);
+                return (filePath)
+            }
+        } catch (error) {
+            console.error("Error processing image:", error);
+        }
+    };
+
+
+    //   apply changes
+    const nameRef = useRef<HTMLInputElement>(null)
+    const usernameRef = useRef<HTMLInputElement>(null)
+    const bioRef = useRef<HTMLTextAreaElement>(null)
+
+    const applyChangesFunction = async () => {
+        let publicUrl = userDetails?.imageUrl;
+        const name = nameRef?.current?.value as string
+        const username = usernameRef?.current?.value as string
+        const bio = bioRef?.current?.value as string
+
+
+        const isNameValid = (text: string): boolean => {
+            return text.length > 30 || /[^a-zA-Z0-9_ ]/.test(text);
+        };
+        if (isNameValid(name)) {
+            toast.error('Name should be within 30 charecters and alphanumeric', {
+                position: "top-center",
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark"
+            });
+            return
+        }
+
+
+        const isUsernameValid = (text: string): boolean => {
+            return text.length > 20 || /[^a-zA-Z0-9_]/.test(text) || /\s/.test(text);
+        };
+        if (isUsernameValid(username)) {
+            toast.error('Username should be within 20 charecters and alphanumeric without spaces', {
+                position: "top-center",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark"
+            });
+            return
+        }
+        const usernameInDBCheck = await checkUsernameinDB(userDetails?.userId as string, username);
+        if (usernameInDBCheck) {
+            toast.error('Username is taken', {
+                position: "top-center",
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark"
+            });
+            return
+        }
+
+        const isBioValid = (bio: string) => {
+            return (bio.length < 200);
+        }
+
+        if (!isBioValid(bio)) {
+            toast.error('Bio should be within 200 charecters', {
+                position: "top-center",
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark"
+            });
+            return
+        }
+
+
+        if (avatar) {
+            try {
+                // Get all images in the folder
+                const { data: oldfileList, error: listError } = await supabase.storage.from("profilePics").list(userDetails?.userId);
+                if (listError) throw listError;
+
+                // Upload the new file
+                try {
+                    const filePath = await resizeAndUpload();
+                    // getting public url
+                
+                    const { data : newPublicUrl } = supabase
+                        .storage
+                        .from('profilePics')
+                        .getPublicUrl(filePath as string)
+
+                    publicUrl=newPublicUrl.publicUrl;
+
+                }
+                catch (error) {
+                    console.log(error)
+                }
+
+                // Delete all existing files
+                if (oldfileList && oldfileList.length > 0) {
+                    const filesToDelete = oldfileList.map((file) => `${userDetails?.userId}/${file.name}`);
+                    const { error: deleteError } = await supabase.storage.from("profilePics").remove(filesToDelete);
+                    if (deleteError) throw deleteError;
+                }
+
+            } catch (error) {
+                console.error("Error managing images:", error);
+                return { success: false, message: error };
+            }
+        }
+
+
+        // updating data to mongo
+        const res= await updateUserDetails(userDetails?.userId as string, name, username, bio, publicUrl as string)
+        console.log(res)
+
+
+    }
 
     return (<>
         <div className={styles.main}>
+
             <div className={styles.tab}>
                 <a href="/settings">
                     <div className={styles.tabNameDiv}>
@@ -241,6 +368,19 @@ export default function AccountsPage() {
                 </a>
             </div>
             <div className={styles.mainContent}>
+                <ToastContainer
+                    position="bottom-center"
+                    autoClose={1500}
+                    hideProgressBar={false}
+                    newestOnTop
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="dark"
+                    transition={Flip}
+                />
                 <div className={styles.photosSection}>
                     <Image className={styles.banner} src={banner} alt="" />
                     <Image className={styles.pfp} src={avatar || userDetails?.imageUrl || pfp} height={200} width={200} alt="" onClick={() => fileInputRef?.current?.click()} />
@@ -291,27 +431,27 @@ export default function AccountsPage() {
                 <div className={styles.detailsHolder}>
                     <div className={styles.detailCard}>
                         <h1>Name</h1>
-                        <Input defaultValue={userDetails?.name} />
+                        <Input ref={nameRef} defaultValue={userDetails?.name} />
                     </div>
                     <div className={styles.detailCard}>
                         <h1>Username</h1>
-                        <Input defaultValue={userDetails?.userName} />
+                        <Input ref={usernameRef} defaultValue={userDetails?.userName} />
                     </div>
                     <div className={styles.detailCard}>
                         <h1>Bio</h1>
-                        <textarea defaultValue={userDetails?.bio} />
+                        <textarea ref={bioRef} defaultValue={userDetails?.bio} />
                     </div>
                 </div>
                 <div className={styles.actionBtns}>
                     <Button className={styles.resetBtn}>
                         <RotateCcw /> Reset
                     </Button>
-                    <Button className={styles.saveBtn}>
+                    <Button className={styles.saveBtn} onClick={() => { applyChangesFunction() }}>
                         <Save /> Save
                     </Button>
                 </div>
 
-                <Button onClick={()=>resizeAndUpload()}>resize and upload</Button>
+                <Button onClick={() => resizeAndUpload()}>resize and upload</Button>
 
 
 
