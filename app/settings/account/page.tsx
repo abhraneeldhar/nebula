@@ -58,9 +58,10 @@ export default function AccountsPage() {
                     {
                         unit: "%",
                         width: 50, // 50% width, adjust as needed
+                        // aspect: image.naturalWidth / image.naturalHeight, // Maintain actual aspect ratio
+
                     },
                     1,
-                    // Aspect ratio 1:1 (square)
                     image.width,
                     image.height
                 ),
@@ -69,6 +70,8 @@ export default function AccountsPage() {
             )
         );
     };
+
+  
 
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,11 +99,11 @@ export default function AccountsPage() {
         const scaleY = image.naturalHeight / image.height;
       
         const correctedPixelCrop : Crop= {
-            x: Math.round(crop.x * scaleX),
-            y: Math.round(crop.y * scaleY),
+            x: crop.x * scaleX,
+            y: crop.y * scaleY,
             unit: "px",
-            width: Math.round(crop.width * scaleX),
-            height: Math.round(crop.height * scaleY),
+            width: crop.width * scaleX,
+            height:crop.height * scaleY,
           };
         setCompletedCrop(correctedPixelCrop)
     };

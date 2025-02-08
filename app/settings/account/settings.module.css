@@ -54,7 +54,6 @@
     border-radius: 50%;
     bottom: 0;
     left: 5%;
-    /* border: 7px solid #11141c; */
     transform: translateY(50%);
     height: 170px;
     width: 170px;
@@ -136,12 +135,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    flex: 1;
+    overflow: hidden;
+    height: 450px;
 }
 .cropImageDiv img{
     object-fit: contain;
-    height: 450px;
-    width: 100%;
 }
 
 
@@ -195,10 +193,7 @@
     .cropModal{
         height: 500px;
         width: 95vw;
-        padding:10px;
-    }
-    .cropImageDiv img{
-        height: 350px;
+        padding:20px;
     }
     .cropBtnSection{
         width: 100%;
