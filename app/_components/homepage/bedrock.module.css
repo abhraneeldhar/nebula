@@ -241,7 +241,7 @@
     object-fit: contain;
     position: absolute;
     bottom: 0;
-    animation: walkingAnimation 10s infinite;
+    animation: walkingAnimation 10s infinite linear;
 }
 
 @keyframes walkingAnimation{
