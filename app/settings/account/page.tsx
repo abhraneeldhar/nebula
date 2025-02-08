@@ -89,7 +89,20 @@ export default function AccountsPage() {
 
     // Crop and Save Image
     const handleCropComplete = (crop: Crop) => {
-        setCompletedCrop(crop);
+        if (!imageRef.current || !crop.width || !crop.height) return;
+
+        const image = imageRef.current as HTMLImageElement;
+        const scaleX = image.naturalWidth / image.width;
+        const scaleY = image.naturalHeight / image.height;
+      
+        const correctedPixelCrop : Crop= {
+            x: Math.round(crop.x * scaleX),
+            y: Math.round(crop.y * scaleY),
+            unit: "px",
+            width: Math.round(crop.width * scaleX),
+            height: Math.round(crop.height * scaleY),
+          };
+        setCompletedCrop(correctedPixelCrop)
     };
 
     const saveCroppedImage = () => {
@@ -148,9 +161,10 @@ export default function AccountsPage() {
                             <ReactCrop
                                 crop={crop as Crop} onChange={(newCrop) => {
                                     setCrop({
-                                        ...crop,
+                                        // ...crop,
                                         ...newCrop,
                                     });
+                                    console.log("crop: ",newCrop)
                                 }}
                                 onComplete={handleCropComplete}
                                 aspect={1}>

@@ -117,16 +117,16 @@
 .cropModal{
     display: flex;
     flex-direction: column;
-    /* position: absolute; */
+    position: absolute;
     z-index: 5;
     background-color: #191830c2;
     backdrop-filter: blur(15px);
     padding: 20px;
-    height: 70vh;
-    width: 50vw;
-    /* top: 10%;
-    left: 10%; */
-    /* transform: translateX(-50%) translateY(-50%); */
+    height: 550px;
+    width: 600px;
+    top: 50%;
+    left: 50%; 
+    transform: translateX(-50%) translateY(-50%);
     border-radius: 20px;
     justify-content: space-between;
     gap: 10px;
@@ -140,6 +140,8 @@
 }
 .cropImageDiv img{
     object-fit: contain;
+    height: 450px;
+    width: 100%;
 }
 
 
@@ -191,9 +193,12 @@
         padding: 0px 10px;
     }
     .cropModal{
-        height: 50vh;
+        height: 500px;
         width: 95vw;
         padding:10px;
+    }
+    .cropImageDiv img{
+        height: 350px;
     }
     .cropBtnSection{
         width: 100%;
