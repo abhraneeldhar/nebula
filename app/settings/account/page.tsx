@@ -172,11 +172,13 @@ export default function AccountsPage() {
                             </button>
                             <button className={styles.cancelBtn} onClick={() => setSelectedImage(null)}>Cancel</button>
                         </div>
+
+
+                        <canvas ref={canvasRef} className="hidden"></canvas>
                     </div>
                 )}
 
                 {/* Hidden Canvas for Cropping */}
-                <canvas ref={canvasRef} className="hidden"></canvas>
 
                 <div className={styles.detailsHolder}>
                     <div className={styles.detailCard}>

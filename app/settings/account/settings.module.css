@@ -112,6 +112,8 @@
 .saveBtn:hover {
     background-color: rgb(20, 20, 20);
 }
+
+
 .cropModal{
     display: flex;
     flex-direction: column;
@@ -119,7 +121,6 @@
     z-index: 5;
     background-color: #191830c2;
     backdrop-filter: blur(15px);
-    /* background-color: red; */
     padding: 20px;
     height: 70vh;
     width: 50vw;
@@ -134,15 +135,10 @@
 .cropImageDiv{
     display: flex;
     align-items: center;
-    /* background-color: green; */
     justify-content: center;
-    height: 100%;
-    /* flex: 1; */
+    flex: 1;
 }
-.cropImage{
-    object-fit: contain;
-    border-radius: 20px;
-}
+
 .cropImage::backdrop{
     background-color: black;
     opacity: 1;
