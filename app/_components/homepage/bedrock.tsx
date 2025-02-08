@@ -40,6 +40,9 @@ import { getUserDetailsFromEmail } from "@/app/utils/getUserDetailsFromEmail";
 import EditorComponent from "@/app/_components/editor/editorComponent";
 import { getOneNote } from "@/app/utils/getOneNote";
 
+
+import catWalking from "../../../public/catWalking.gif"
+
 export default function Bedrock() {
     const router = useRouter();
     const setShowLoadingPage = appStore((state) => state.setShowLoadingPage)
@@ -350,8 +353,9 @@ export default function Bedrock() {
 
             <div className={styles.displayContent}>
                 {/* {prebuildEditor && <EditorComponent id="abcd" />} */}
-                <div className={styles.coverImage}>
-                    <Image src={coverImage} alt="cover image" />
+                <div className={styles.coverImageDiv}>
+                    <Image className={styles.catWalking} src={catWalking} alt=""/>
+                    <Image className={styles.coverImage} src={coverImage} alt="cover image" />
                     <div className={styles.profilePic}>
                         {userDetails &&
                             <Image src={userDetails?.imageUrl} unoptimized={true} priority={true} width={100} height={100} alt="" />
