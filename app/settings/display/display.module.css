@@ -79,3 +79,10 @@
     /* background-color: var(--color3); */
     border-radius: 5px;
 }
+
+@media (max-width:500px) {
+    .previewCard{
+        height: 140px;
+        width: 250px;
+    }
+}
