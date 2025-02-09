@@ -362,6 +362,19 @@ export default function AccountsPage() {
 
     return (<>
         <div className={styles.main}>
+            <ToastContainer
+                position="bottom-center"
+                autoClose={1500}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss={false}
+                draggable
+                pauseOnHover
+                theme="dark"
+                transition={Flip}
+            />
             {showLoadingPage &&
                 <LoadingPage />
             }
@@ -374,22 +387,9 @@ export default function AccountsPage() {
                 </a>
             </div>
             <div className={styles.mainContent}>
-                <ToastContainer
-                    position="bottom-center"
-                    autoClose={1500}
-                    hideProgressBar={false}
-                    newestOnTop
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                    theme="dark"
-                    transition={Flip}
-                />
                 <div className={styles.photosSection}>
                     <Image className={styles.pfp} src={avatar || userDetails?.imageUrl || pfp} height={200} width={200} alt="" onClick={() => fileInputRef?.current?.click()} />
-                    <Button onClick={() => fileInputRef?.current?.click()}><Camera/> Change Picture</Button>
+                    <Button onClick={() => fileInputRef?.current?.click()}><Camera /> Change Picture</Button>
                 </div>
                 <input type="file" accept="image/*" style={{ display: "none" }} ref={fileInputRef} onChange={handleFileChange} />
 
@@ -464,14 +464,15 @@ export default function AccountsPage() {
                         await applyChangesFunction();
                         setSaveLoader(false);
                         toast.success('Updated profile', {
-                            position: "top-center",
                             autoClose: 1500,
+                            position: "bottom-center",
                             hideProgressBar: false,
                             closeOnClick: true,
                             pauseOnHover: true,
                             draggable: true,
                             progress: undefined,
-                            theme: "dark"
+                            theme: "dark",
+                            transition: Flip,
                         });
                     }}>
                         <Save /> Save

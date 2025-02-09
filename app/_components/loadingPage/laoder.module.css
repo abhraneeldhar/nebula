@@ -1,0 +1,47 @@
+.loaderPage{
+    z-index: 100;
+    position:fixed;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #070c12;
+    .appLogo{
+      height: 80px;
+      width: 80px;
+      border-radius: 50%;
+      aspect-ratio: 1/1;
+    }
+    .logoNShi{
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      animation: breathingAnimation 0.8s infinite;
+    }
+    .logoNShi h2{
+        font-weight: 500;
+        font-size: 30px;
+        color: white;
+    }
+    .logoNShi p{
+        font-size: 15px;
+        color: white;
+    }
+
+
+  }
+  @keyframes breathingAnimation{
+    0%{
+      opacity: 1;
+    }
+    50%{
+      opacity: 0.5;
+    }
+    100%{
+      opacity: 1;
+  
+    }
+  }

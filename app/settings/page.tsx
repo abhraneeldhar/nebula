@@ -8,11 +8,7 @@ export default function Settings() {
 
     return (<>
         <div className={styles.main}>
-
-
             <ArrowLeft className={styles.back} onClick={() => router.push("/home")} />
-
-
 
             <div className={styles.managePref}>
                 <h1>Customize Your Experience

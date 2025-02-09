@@ -21,49 +21,7 @@ body{
 .main{
   width: 100%;
 }
-.loaderPage{
-  z-index: 100;
-  position:fixed;
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: #070c12;
-  .appLogo{
-    height: 80px;
-    width: 80px;
-    border-radius: 50%;
-    aspect-ratio: 1/1;
-  }
-  .logoNShi{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    align-items: center;
-    justify-content: center;
-    animation: breathingAnimation 0.8s infinite;
-    h2{
-      font-weight: 500;
-      font-size: 30px;
-    }
-    p{
-      font-size: 15px;
-    }
-  }
-}
-@keyframes breathingAnimation{
-  0%{
-    opacity: 1;
-  }
-  50%{
-    opacity: 0.5;
-  }
-  100%{
-    opacity: 1;
 
-  }
-}
 
 @layer base {
   :root {
@@ -136,13 +94,29 @@ body{
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
+  .batmanRed{
+    --color1: #000000;
+    --color2: #3D0000;
+    --color3: #950101;
+    --color4: #FF0000;
+  }
+  .summerChill{
+    --color1: #FF6500;
+    --color2: #1E3E62;
+    --color3: #0B192C;
+    --color4: #000000;
+  }
+  .purple{
+    --color1: #2E073F;
+    --color2: #7A1CAC;
+    --color3: #AD49E1;
+    --color4: #EBD3F8;
+  }
+  .darkGreen{
+    --color1: #35374B;
+    --color2: #344955;
+    --color3: #50727B;
+    --color4: #78A083;
+  }
 }
 
-@layer base {
-  * {
-    @apply border-border;
-    }
-  body {
-    @apply bg-background text-foreground;
-    }
-}

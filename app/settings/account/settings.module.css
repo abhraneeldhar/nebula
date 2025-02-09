@@ -42,6 +42,13 @@
     align-items: center;
     gap: 30px;
 }
+.photosSection button{
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: rgb(47, 47, 247);
+    display: flex;
+    gap: 5px;
+}
 
 .banner {
     width: 100%;
@@ -94,8 +101,10 @@
 }
 
 .actionBtns button {
+    padding: 5px 10px;
     height: 35px;
     transition: all 0.2s;
+    border-radius: 5px;
 }
 
 .resetBtn {
