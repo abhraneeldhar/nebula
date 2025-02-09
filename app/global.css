@@ -129,6 +129,7 @@ body {
     --shareCheckCircle:var(--color4);
     --settingsCard:var(--color1);
     --friendReqPopover:var(--color2);
+    --variableText:white;
   }
 
   .mclaren {
@@ -152,6 +153,7 @@ body {
     --shareCheckCircle:var(--color4);
     --settingsCard:var(--color1);
     --friendReqPopover:var(--color2);
+    --variableText:white;
   }
 
   .premiumShi {
@@ -175,6 +177,7 @@ body {
     --shareCheckCircle:var(--color4);
     --settingsCard:var(--color1);
     --friendReqPopover:var(--color2);
+    --variableText:white;
   }
 
   .lightSeaGreen {

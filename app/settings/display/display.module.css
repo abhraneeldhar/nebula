@@ -1,6 +1,8 @@
 .main{
     padding: 30px;
     position: relative;
+    background-color: #121212;
+    min-height: 100vh;
 }
 .backBtn{
     height: 30px;

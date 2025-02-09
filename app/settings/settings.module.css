@@ -57,6 +57,10 @@
     border-radius: 10px;
     padding: 15px;
     transition: all 0.2s;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
 
 .card:hover {
