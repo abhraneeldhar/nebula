@@ -1,22 +1,18 @@
-.testdiv{
-    background-color: var(--color3);
-    height: 100px;
-    width: 100px;
-}
-
-
-.testBtn button{
-    padding: 10px;
-    background-color: blue;
-    margin: 30px;
-}
-
 .main{
     padding: 30px;
+    position: relative;
+}
+.backBtn{
+    height: 30px;
+    width: 30px;
+    position: absolute;
+    top: 20px;
+    left: 20px;
 }
 .pageHeader{
     font-size: 2em;
     font-weight: 500;
+    margin-top: 30px;
 }
 .pagePara{
     opacity: 0.8;
@@ -26,26 +22,36 @@
     gap: 20px;
     flex-wrap: wrap;
     margin-top: 40px;
-    /* background-color: red; */
     justify-content: space-around;
+    transition: all 0.3s;
+}
+.previewCardMain{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background-color: rgba(255, 255, 255, 0.022);
+    border-radius: 15px;
+    padding-bottom: 5px;
+    transition: all 0.3s;
+}
+.previewCardMain h1{
+    text-align: center;
+    font-size: 20px;
 }
 .previewCard{
     height: 200px;
     width: 260px;
     display: flex;
-    /* background-color: var(--color1); */
-    /* background-color: red; */
     padding: 10px;
     border-radius: 10px;
     gap: 5px;
 }
 .selectedCard{
     border: 5px solid #584ddb;
-    /* margin: 0px 10px; */
+    box-sizing: border-box;
 }
 .sidebar{
     flex: 2;
-    /* background-color: var(--color2); */
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -53,7 +59,7 @@
 .sidebarDivs{
     display: flex;
     height: 15%;
-    /* background-color: var(--color2); */
+    
     border-radius: 5px;
 }
 .mainPreview{

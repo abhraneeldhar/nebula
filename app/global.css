@@ -95,6 +95,12 @@ body {
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
+  /* 
+  color1: main background
+  color2: secondary background, for sidebar, n shi
+  color3: main content (high pop)
+  color4: content (pop after color3)
+   */
   .batmanRed {
     --color1: #00224D;
     --color2: #5D0E41;
