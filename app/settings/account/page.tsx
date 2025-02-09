@@ -6,7 +6,7 @@ import pfp from "../../../public/pfp.jpeg"
 import banner from "../../../public/banner.jpg"
 import { Input } from "@/components/ui/input"
 
-import { ArrowLeft, RotateCcw, Save } from "lucide-react"
+import { ArrowLeft, Camera, RotateCcw, Save } from "lucide-react"
 import { appStore } from "@/app/store"
 import { useSession } from "next-auth/react"
 import { ChangeEvent, ChangeEventHandler, MutableRefObject, useEffect, useRef, useState } from "react"
@@ -389,7 +389,7 @@ export default function AccountsPage() {
                 />
                 <div className={styles.photosSection}>
                     <Image className={styles.pfp} src={avatar || userDetails?.imageUrl || pfp} height={200} width={200} alt="" onClick={() => fileInputRef?.current?.click()} />
-                    <Button onClick={() => fileInputRef?.current?.click()}>Change Picture</Button>
+                    <Button onClick={() => fileInputRef?.current?.click()}><Camera/> Change Picture</Button>
                 </div>
                 <input type="file" accept="image/*" style={{ display: "none" }} ref={fileInputRef} onChange={handleFileChange} />
 
