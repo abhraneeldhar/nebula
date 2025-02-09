@@ -65,7 +65,7 @@ body{
   }
 }
 
-/* @layer base {
+@layer base {
   :root {
     --background: 0 0% 100%;
     --foreground: 224 71.4% 4.1%;
@@ -145,4 +145,4 @@ body{
   body {
     @apply bg-background text-foreground;
     }
-} */
+}
