@@ -35,9 +35,12 @@
 }
 
 .photosSection {
-    position: relative;
+    /* position: relative; */
     width: 100%;
-    margin-bottom: 120px;
+    margin-bottom: 50px;
+    display: flex;
+    align-items: center;
+    gap: 30px;
 }
 
 .banner {
@@ -51,11 +54,11 @@
 }
 
 .pfp {
-    position: absolute;
+    /* position: absolute; */
     border-radius: 50%;
-    bottom: 0;
-    left: 5%;
-    transform: translateY(50%);
+    /* bottom: 0; */
+    /* left: 5%; */
+    /* transform: translateY(50%); */
     height: 170px;
     width: 170px;
 }

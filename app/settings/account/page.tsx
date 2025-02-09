@@ -18,15 +18,16 @@ import ReactCrop, { centerCrop, Crop, makeAspectCrop } from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
 
 import { supabase } from "@/app/utils/supabase/client"
-import { blob } from "stream/consumers"
-import css from "styled-jsx/css"
 import { checkUsernameinDB } from "@/app/utils/checkUsernameinDB"
 import { Flip, toast, ToastContainer } from "react-toastify"
 import { updateUserDetails } from "@/app/utils/updateUserDetails"
 
+import LoadingPage from "@/app/_components/loadingPage/page"
+
 
 export default function AccountsPage() {
 
+    const [showLoadingPage, setShowLoadingPage] = useState(false)
     const userDetails = appStore((state) => state.userDetails)
     const setUserDetails = appStore((state) => state.setUserDetails)
 
@@ -35,10 +36,12 @@ export default function AccountsPage() {
     useEffect(() => {
         if (!userDetails && session?.user?.email) {
             const fetchingUserDetails = async () => {
+                setShowLoadingPage(true);
                 console.log("fetching user details via email");
                 const res = await getUserDetailsFromEmail(session?.user?.email as string);
                 setUserDetails(res);
-                console.log(res.userId)
+                console.log(res.userId);
+                setShowLoadingPage(false);
             }
             fetchingUserDetails();
         }
@@ -237,6 +240,7 @@ export default function AccountsPage() {
     const usernameRef = useRef<HTMLInputElement>(null)
     const bioRef = useRef<HTMLTextAreaElement>(null)
 
+    const [saveLoader, setSaveLoader] = useState(false)
     const applyChangesFunction = async () => {
         let publicUrl = userDetails?.imageUrl;
         const name = nameRef?.current?.value as string
@@ -322,13 +326,13 @@ export default function AccountsPage() {
                 try {
                     const filePath = await resizeAndUpload();
                     // getting public url
-                
-                    const { data : newPublicUrl } = supabase
+
+                    const { data: newPublicUrl } = supabase
                         .storage
                         .from('profilePics')
                         .getPublicUrl(filePath as string)
 
-                    publicUrl=newPublicUrl.publicUrl;
+                    publicUrl = newPublicUrl.publicUrl;
 
                 }
                 catch (error) {
@@ -350,15 +354,17 @@ export default function AccountsPage() {
 
 
         // updating data to mongo
-        const res= await updateUserDetails(userDetails?.userId as string, name, username, bio, publicUrl as string)
-        console.log(res)
+        await updateUserDetails(userDetails?.userId as string, name, username, bio, publicUrl as string)
 
-
+        const newUserDetails = await getUserDetailsFromEmail(session?.user?.email as string);
+        setUserDetails(newUserDetails);
     }
 
     return (<>
         <div className={styles.main}>
-
+            {showLoadingPage &&
+                <LoadingPage />
+            }
             <div className={styles.tab}>
                 <a href="/settings">
                     <div className={styles.tabNameDiv}>
@@ -382,11 +388,11 @@ export default function AccountsPage() {
                     transition={Flip}
                 />
                 <div className={styles.photosSection}>
-                    <Image className={styles.banner} src={banner} alt="" />
                     <Image className={styles.pfp} src={avatar || userDetails?.imageUrl || pfp} height={200} width={200} alt="" onClick={() => fileInputRef?.current?.click()} />
-                    <input type="file" accept="image/*" style={{ display: "none" }} ref={fileInputRef} onChange={handleFileChange} />
-
+                    <Button onClick={() => fileInputRef?.current?.click()}>Change Picture</Button>
                 </div>
+                <input type="file" accept="image/*" style={{ display: "none" }} ref={fileInputRef} onChange={handleFileChange} />
+
 
 
                 {selectedImage && (
@@ -443,17 +449,24 @@ export default function AccountsPage() {
                     </div>
                 </div>
                 <div className={styles.actionBtns}>
-                    <Button className={styles.resetBtn}>
+                    <Button className={styles.resetBtn} onClick={() => {
+                        if (nameRef.current && usernameRef.current && bioRef.current && userDetails) {
+                            nameRef.current.value = userDetails?.name
+                            usernameRef.current.value = userDetails.userName
+                            bioRef.current.value = userDetails.bio
+                            setAvatar(null);
+                        }
+                    }}>
                         <RotateCcw /> Reset
                     </Button>
-                    <Button className={styles.saveBtn} onClick={() => { applyChangesFunction() }}>
+                    <Button loading={saveLoader} className={styles.saveBtn} onClick={async () => {
+                        setSaveLoader(true);
+                        await applyChangesFunction();
+                        setSaveLoader(false);
+                    }}>
                         <Save /> Save
                     </Button>
                 </div>
-
-                <Button onClick={() => resizeAndUpload()}>resize and upload</Button>
-
-
 
             </div>
         </div></>)

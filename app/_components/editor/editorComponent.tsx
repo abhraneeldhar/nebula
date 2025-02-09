@@ -26,7 +26,7 @@ import { getDisplayNotes } from "@/app/utils/getDisplayNotes"
 
 import { Spinner } from "@radix-ui/themes"
 
-import { toast, ToastContainer } from 'react-toastify';
+import { Flip, toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
 
 import {
@@ -409,7 +409,7 @@ export default function EditorComponent({ id }: { id: string}) {
                     <Spinner size="3" className={styles.containerSpinner} />
                 </div>
             )}
-            <ToastContainer />
+            <ToastContainer transition={Flip} />
             <div className={styles.editorSection}>
                 <div id="container" ref={toolbarRef}>
                 </div>
