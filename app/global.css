@@ -16,6 +16,8 @@ body {
   /* background-color: black; */
   width: 100%;
   height: 100vh;
+  background-color: black;
+  color: white;
 }
 
 .main {
@@ -130,6 +132,8 @@ body {
     --settingsCard:var(--color1);
     --friendReqPopover:var(--color2);
     --variableText:white;
+    --friendPopover:var(--color1);
+
   }
 
   .mclaren {
@@ -154,6 +158,8 @@ body {
     --settingsCard:var(--color1);
     --friendReqPopover:var(--color2);
     --variableText:white;
+    --friendPopover:var(--color2);
+
   }
 
   .premiumShi {
@@ -178,6 +184,7 @@ body {
     --settingsCard:var(--color1);
     --friendReqPopover:var(--color2);
     --variableText:white;
+    --friendPopover:var(--color1);
   }
 
   .lightSeaGreen {
@@ -202,5 +209,7 @@ body {
     --settingsCard:var(--color1);
     --friendReqPopover:var(--color2);
     --variableText:black;
+    --friendPopover:var(--color2);
+
   }
 }

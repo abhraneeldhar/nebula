@@ -169,6 +169,8 @@
     display: flex;
     flex-direction: column;
     height: 300px;
+    background-color: var(--friendPopover);
+    color: var(--variableText);
 
     .popoverProfilePic {
         display: flex;

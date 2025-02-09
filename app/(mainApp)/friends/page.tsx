@@ -166,7 +166,7 @@ export default function FriendsPage() {
             }}>
                 <DialogTitle></DialogTitle>
                 <DialogDescription></DialogDescription>
-                <DialogContent className="sm:max-w-[425px]">
+                <DialogContent className={styles.popoverMain}>
                     <div className={styles.popoverMain}>
                         <div className={styles.popoverProfilePic}>
                             {friendDetailsPopover?.imageUrl &&
