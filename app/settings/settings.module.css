@@ -1,8 +1,10 @@
 .main {
     background-color: #040a19;
+    background-color: var(--color1);
     height: 100vh;
     position: relative;
     padding-top: 20px;
+    color: white;
 }
 
 .back {
@@ -54,6 +56,7 @@
     height: 170px;
     gap: 10px;
     background-color: #030a17;
+    background-color: var(--color2);
     border: 1px solid #1e293b;
     border-radius: 10px;
     padding: 15px;

@@ -11,34 +11,6 @@ export default function Displaysettings() {
 
     const colorPalettes = [
         {
-            name: "batmanRed",
-            color1: "#00224D",
-            color2: "#5D0E41",
-            color3: "#A0153E",
-            color4: "#FF204E"
-        },
-        {
-            name: "summerChill",
-            color1: "#FF6500",
-            color2: "#1E3E62",
-            color3: "#0B192C",
-            color4: "#000000"
-        },
-        {
-            name: "purple",
-            color1: "#2E073F",
-            color2: "#7A1CAC",
-            color3: "#AD49E1",
-            color4: "#EBD3F8"
-        },
-        {
-            name: "darkGreen",
-            color1: "#35374B",
-            color2: "#344955",
-            color3: "#50727B",
-            color4: "#78A083"
-        },
-        {
             name: "coolBlue",
             color1: "#000957",
             color2: "#344CB7",
@@ -58,20 +30,6 @@ export default function Displaysettings() {
             color2: "#393E46",
             color3: "#00ADB5",
             color4: "#EEEEEE"
-        },
-        {
-            name: "shabbyBlue",
-            color1: "#0E2954",
-            color2: "#1F6E8C",
-            color3: "#2E8A99",
-            color4: "#84A7A1"
-        },
-        {
-            name: "ultraLight",
-            color1: "#FBFBFB",
-            color2: "#E8F9FF",
-            color3: "#C4D9FF",
-            color4: "#C5BAFF"
         },
         {
             name: "lightSeaGreen",

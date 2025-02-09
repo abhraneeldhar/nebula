@@ -1,15 +1,13 @@
 .tabBar {
-    /* background-color: white; */
     color: white;
     display: flex;
     flex-direction: row;
     align-items: center;
     vertical-align: middle;
     background-color: black;
-    /* background-color: blue; */
+    background-color: var(--color2);
     gap: 5px;
     height: 50px;
-    /* padding-left: 15px; */
     position: fixed;
     z-index: 3;
     width: 100%;
@@ -45,6 +43,7 @@
 .main {
     color: white;
     background-color: rgb(16, 16, 16);
+    background-color: var(--color1);
     width: 100%;
     height: 100%;
     padding-top: 50px;
@@ -69,12 +68,12 @@
 .noteCard {
     display: flex;
     flex-direction: column;
-    /* width: 200px; */
     height: 200px;
     overflow: hidden;
     padding: 10px;
     border-radius: 15px;
     background-color: black;
+    background-color: var(--color2);
     transition: all 0.2s;
     position: relative;
     flex: 1;
@@ -94,19 +93,18 @@
     max-height: 3em;
     text-align: center;
     vertical-align: middle;
-    /* background-color: blue; */
     width: 80%;
 }
 
 
 .noteSnippet {
     margin-top: 10px;
-    /* border: 1px solid white; */
     padding: 10px;
     border-radius: 7px;
     height: 100%;
     width: 100%;
     background-color: rgb(39, 39, 39);
+    /* background-color: var(--color2); */
     font-weight: 300;
     overflow: hidden;
 }

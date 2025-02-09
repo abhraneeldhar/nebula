@@ -356,7 +356,7 @@ export default function Bedrock() {
                 <div className={styles.coverImageDiv}>
                     <Image className={styles.catWalking} src={catWalking} alt=""/>
                     <Image className={styles.coverImage} src={coverImage} alt="cover image" />
-                    <div className={styles.profilePic}>
+                    <div onClick={()=>{router.push("/settings/account")}} className={styles.profilePic}>
                         {userDetails &&
                             <Image src={userDetails?.imageUrl} unoptimized={true} priority={true} width={100} height={100} alt="" />
                         }

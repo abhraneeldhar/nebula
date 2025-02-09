@@ -1,9 +1,8 @@
+
 .appLogo{
     font-size: 35px;
-    /* text-align: center; */
-    background-color: 
-    #373cc6;
-    /* background-color: #9400FF; */
+    background-color:#373cc6;
+    background-color: var(--color4);
     height: 50px;
     overflow: none;
     display: flex;
