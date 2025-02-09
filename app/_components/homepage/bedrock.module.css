@@ -1,10 +1,8 @@
 .main {
     background-color: #232228;
-    background-color: var(--color1);
-    /* display: flex; */
+    background-color: var(--homepageBackground);
     width: 100%;
     flex: 1;
-    /* overflow: hidden; */
     max-width: 100vw;
     height: 100vh;
     color: white;
@@ -12,8 +10,9 @@
 
 .tabBar {
     color: white;
+    color: var(--variableText);
     background-color: black;
-    background-color: var(--color2);
+    background-color: var(--tabBar);
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -107,6 +106,9 @@
     min-height: 70px;
     justify-content: center;
     align-items: center;
+    background-color: var(--friendReqPopover);
+    color: white;
+    color: var(--variableText);
 
     .reqPersonCard {
         display: flex;
@@ -197,6 +199,7 @@
 .inboxCard {
     display: flex;
     color: white;
+    color: var(--variableText);
     width: 100%;
     gap: 10px;
     background-color: black;
@@ -329,7 +332,8 @@
 .notesSection h2 {
     font-size: 1.5em;
     background-color: #612fd5;
-    background-color: var(--color4);
+    color: var(--variableText);
+    background-color: var(--recentDocBox);
     padding: 5px 15px;
     border-radius: 30px 30px 0px 0px;
 }
@@ -339,8 +343,7 @@
     object-fit: contain;
     width: 35px;
     display: inline-block;
-    background-color: #18014e;
-    background-color: var(--color3);
+    background-color: rgb(23, 23, 23);
     padding: 5px;
     margin-left: 10px;
     border-radius: 50%;
@@ -366,10 +369,10 @@
     grid-template-columns: 1fr 1fr 1fr;
     justify-content: center;
     background-color: rgb(24, 24, 24);
-    background-color: var(--color1);
+    background-color: var(--recentDocBackground);
     border-radius: 0px 0px 30px 30px;
     user-select: none;
-    border: 2px solid var(--color4);
+    border: 2px solid var(--recentDocBox);
 }
 
 .loadingNote {
@@ -385,16 +388,17 @@
     width: 200px;
     height: 200px;
     overflow: hidden;
-    padding: 10px;
-    border-radius: 15px;
+    padding: 5px;
+    border-radius: 10px;
     background-color: black;
-    background-color: var(--color2);
+    background-color: var(--noteCard);
     transition: all 0.2s;
     position: relative;
     cursor: pointer;
     user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
+    /* border: 1px solid white; */
 }
 
 .noteCard:active {
@@ -415,6 +419,7 @@
     user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
+    color: var(--variableText);
 }
 
 
@@ -426,12 +431,15 @@
     height: 100%;
     width: 100%;
     background-color: rgb(39, 39, 39);
+    background-color: var(--noteSnippet);
+    color: var(--noteCardText);
     font-weight: 300;
     overflow: hidden;
     cursor: pointer;
     user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
+    color:var(--variableText);
 }
 
 @media (max-width: 520px) {
@@ -454,7 +462,7 @@
 
     }
 
-    .coverImage img {
+    .coverImage{
         border-radius: 0;
     }
 
@@ -492,6 +500,8 @@
                 flex-direction: column;
                 width: 100%;
                 overflow: hidden;
+                padding: 10px;
+                border-radius: 0px 0px 20px 20px;
 
                 .loadingNote {
                     height: 70px;

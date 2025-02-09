@@ -364,7 +364,7 @@ export default function EditorComponent({ id }: { id: string}) {
                                     </div>
                                 </div>
                                 <div>
-                                    {selectedFriends.includes(friendDetail.userId) ? <CircleCheckBig color="#7CFC00" /> : <Circle />}
+                                    {selectedFriends.includes(friendDetail.userId) ? <CircleCheckBig color="var(--color4)" /> : <Circle color="var(--color4)"/>}
                                 </div>
                             </div>
                         ))
@@ -381,7 +381,7 @@ export default function EditorComponent({ id }: { id: string}) {
                                     </div>
                                 </div>
                                 <div>
-                                    {selectedFriends.includes(friendDetail.userId) ? <CircleCheckBig color="#7CFC00" /> : <Circle />}
+                                    {selectedFriends.includes(friendDetail.userId) ? <CircleCheckBig color="var(--color4)" /> : <Circle color="var(--color4)" />}
                                 </div>
                             </div>
                         ))

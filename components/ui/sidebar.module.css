@@ -2,7 +2,7 @@
 .appLogo{
     font-size: 35px;
     background-color:#373cc6;
-    background-color: var(--color4);
+    background-color: var(--nebulaLogo);
     height: 50px;
     overflow: none;
     display: flex;
@@ -86,11 +86,11 @@
     display: flex;
     justify-content: center;
     background-color: rgb(56, 56, 56);
+    background-color: var(--newDocButton);
     border: 1px solid rgba(180, 180, 180, 0.603);
 }
 .noteBtn{
     overflow: hidden;
-    
 }
 
 

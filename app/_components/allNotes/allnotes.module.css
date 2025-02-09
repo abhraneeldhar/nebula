@@ -1,5 +1,6 @@
 .tabBar {
     color: white;
+    color:var(--variableText);
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -73,13 +74,14 @@
     padding: 10px;
     border-radius: 15px;
     background-color: black;
-    background-color: var(--color2);
+    background-color: var(--noteCard);
     transition: all 0.2s;
     position: relative;
     flex: 1;
     user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
+    color: var(--variableText);
 }
 
 .noteCard:active {
@@ -104,6 +106,7 @@
     height: 100%;
     width: 100%;
     background-color: rgb(39, 39, 39);
+    background-color: var(--noteSnippet);
     /* background-color: var(--color2); */
     font-weight: 300;
     overflow: hidden;

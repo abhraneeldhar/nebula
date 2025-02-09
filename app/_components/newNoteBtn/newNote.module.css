@@ -5,6 +5,7 @@
     bottom: 20px;
     right: 20px;
     background-color:#612fd5;
+    background-color: var(--newDocIcon);
     padding: 10px;
     border-radius: 20px;
     transition: all 0.2s;
@@ -15,9 +16,9 @@
     width: 100%;
     object-fit: contain;
 }
-.newNoteBtn:hover{
+/* .newNoteBtn:hover{
     background-color: #7647e3;
-}
+} */
 .newNoteBtn:active{
     transform: scale(0.95);
 }

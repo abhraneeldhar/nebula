@@ -63,27 +63,30 @@
 
 .shareBtn {
     background-color: rgb(49, 150, 5);
+    background-color: var(--shareBtn);
     transition: all 0.3s;
+    color: black;
 }
 
 .shareBtn:active {
     transform: scale(0.9);
 }
 
-.shareBtn:hover {
+/* .shareBtn:hover {
     background-color: rgb(95, 165, 64);
-}
+} */
 
 .saveBtn {
     /* right: 0; */
     background-color: rgb(60, 95, 222);
+    background-color: var(--saveBtn);
     color: white;
     transition: all 0.3s;
 }
 
-.saveBtn:hover {
+/* .saveBtn:hover {
     background-color: rgb(83, 163, 255);
-}
+} */
 
 .saveBtn:active {
     transform: scale(0.9);
@@ -112,6 +115,8 @@
     width: 400px;
     display: flex;
     flex-direction: column;
+    background-color: var(--shareDialogBox);
+    color:var(--variableText);
 }
 
 .shareInput {
@@ -128,6 +133,7 @@
     .reqPersonCard {
         display: flex;
         background-color: black;
+        background-color: var(--sharePersonCard);
         color: white;
         width: 100%;
         padding: 10px;
@@ -175,6 +181,9 @@
         width: 10px;
         margin: none;
     }
+    .shareCheckCircle{
+        background-color: var(--shareCheckCircle);
+    }
 }
 
 .actionButtonContainer {
@@ -184,11 +193,13 @@
     justify-content: flex-end;
 
     .closeDialogBtn {
-        background-color: rgb(238, 51, 51);
+        background-color: white;
+        color: red;
     }
 
     .shareDialogBtn {
-        background-color: rgb(18, 173, 18);
+        background-color: var(--saveBtn);
+        color: var(--variableText);
     }
 
     .closeDialogBtn,

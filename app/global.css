@@ -101,17 +101,34 @@ body {
   color3: main content (high pop)
   color4: content (pop after color3)
    */
-  .nebula{
+  .nebula {
     --color1: #000957;
     --color2: #344CB7;
     --color3: #577BC1;
     --color4: #FFEB00;
   }
+
   .coolBlue {
-    --color1: #000957;
+    --color1: #161833;
     --color2: #344CB7;
     --color3: #577BC1;
     --color4: #FFEB00;
+    --nebulaLogo: var(--color2);
+    --homepageBackground: var(--color1);
+    --tabBar: var(--color2);
+    --newDocIcon: var(--color4);
+    --newDocButton: var(--color2);
+    --recentDocBox: var(--color2);
+    --recentDocBackground: var(--color1);
+    --noteCard: var(--color2);
+    --noteSnippet: var(--color1);
+    --saveBtn:var(--color4);
+    --shareBtn:var(--color2);
+    --shareDialogBox:var(--color1);
+    --sharePersonCard:var(--color2);
+    --shareCheckCircle:var(--color4);
+    --settingsCard:var(--color1);
+    --friendReqPopover:var(--color2);
   }
 
   .mclaren {
@@ -119,17 +136,68 @@ body {
     --color2: #171b23;
     --color3: #08D9D6;
     --color4: #FF2E63;
+    --nebulaLogo: var(--color4);
+    --homepageBackground: var(--color1);
+    --tabBar: var(--color2);
+    --newDocIcon: var(--color4);
+    --newDocButton: var(--color4);
+    --recentDocBox: var(--color4);
+    --recentDocBackground: var(--color1);
+    --noteCard: var(--color2);
+    --noteSnippet: var(--color1);
+    --saveBtn:var(--color4);
+    --shareBtn:var(--color3);
+    --shareDialogBox:var(--color2);
+    --sharePersonCard:var(--color1);
+    --shareCheckCircle:var(--color4);
+    --settingsCard:var(--color1);
+    --friendReqPopover:var(--color2);
   }
+
   .premiumShi {
     --color1: #222831;
     --color2: #393E46;
     --color3: #EEEEEE;
     --color4: #00ADB5;
+    --nebulaLogo: var(--color4);
+    --homepageBackground: var(--color1);
+    --tabBar: var(--color2);
+    --newDocIcon: var(--color4);
+    --newDocButton: var(--color4);
+    --recentDocBox: var(--color4);
+    --recentDocBackground: var(--color1);
+    --noteCard: var(--color2);
+    --noteSnippet: var(--color1);
+    --saveBtn:var(--color4);
+    --shareBtn:var(--color3);
+    --shareDialogBox:var(--color2);
+    --sharePersonCard:var(--color1);
+    --shareCheckCircle:var(--color4);
+    --settingsCard:var(--color1);
+    --friendReqPopover:var(--color2);
   }
-  .lightSeaGreen{
+
+  .lightSeaGreen {
     --color1: #E3FDFD;
     --color2: #CBF1F5;
     --color3: #A6E3E9;
     --color4: #71C9CE;
+    --nebulaLogo: var(--color4);
+    --homepageBackground: var(--color1);
+    --tabBar: var(--color2);
+    --newDocIcon: var(--color4);
+    --newDocButton: var(--color4);
+    --recentDocBox: var(--color4);
+    --recentDocBackground: var(--color1);
+    --noteCard: var(--color2);
+    --noteSnippet: var(--color1);
+    --saveBtn:var(--color4);
+    --shareBtn:var(--color3);
+    --shareDialogBox:var(--color2);
+    --sharePersonCard:var(--color1);
+    --shareCheckCircle:var(--color4);
+    --settingsCard:var(--color1);
+    --friendReqPopover:var(--color2);
+    --variableText:black;
   }
 }

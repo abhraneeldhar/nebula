@@ -50,8 +50,8 @@ export default function AllNotesComponent() {
     const [renameNoteId, setRenameNoteId] = useState<string>("");
     const [renameNoteName, setRenameNoteName] = useState<string>("");
     const [openDelete, setOpenDelete] = useState(false);
-    const [deleteNoteId, setDeleteNoteId] = useState("");
-    const [deleteNoteName, setDeleteNoteName] = useState("");
+    const [deleteNoteId, setDeleteNoteId] = useState<string|null>("");
+    const [deleteNoteName, setDeleteNoteName] = useState<string|null>("");
 
 
     const setShowLoadingPage = appStore((state) => state.setShowLoadingPage)
@@ -172,7 +172,7 @@ export default function AllNotesComponent() {
                 <form onSubmit={(e) => {
                     e.preventDefault();
                     setOpenDelete(false);
-                    deleteNote(deleteNoteId);
+                    deleteNote(deleteNoteId as string);
                     setlocalCollectionOfNotesState(localCollectionOfNotesState.filter(x => x.id != deleteNoteId))
                 }}>
                     <DialogHeader>
@@ -182,8 +182,12 @@ export default function AllNotesComponent() {
                         </DialogDescription>
                     </DialogHeader>
                     <DialogFooter className={styles.dialogFooter}>
-                        <Button type="submit" className={styles.deleteBtn}>Delete</Button>
-                        <Button onClick={() => { setOpenDelete(false) }} className={styles.cancelDelete}>Cancel</Button>
+                        <Button className={styles.deleteBtn}>Delete</Button>
+                        <Button onClick={() => { 
+                            setOpenDelete(false);
+                            setDeleteNoteId(null);
+                            setDeleteNoteName(null);
+                         }} className={styles.cancelDelete}>Cancel</Button>
                     </DialogFooter>
                 </form>
             </DialogContent>
@@ -223,9 +227,9 @@ export default function AllNotesComponent() {
                                         setRenameNoteId(note.id);
                                         setRenameNoteName(note.title);
                                     }}>Rename</DropdownMenuItem>
-                                    <DropdownMenuItem onClick={() => {
+                                    {/* <DropdownMenuItem onClick={() => {
                                         console.log(" share")
-                                    }}>Share</DropdownMenuItem>
+                                    }}>Share</DropdownMenuItem> */}
                                     {/* <DropdownMenuSeparator /> */}
                                     <DropdownMenuItem className={styles.deleteBtn} onClick={() => {
                                         console.log(" delete")
