@@ -463,6 +463,16 @@ export default function AccountsPage() {
                         setSaveLoader(true);
                         await applyChangesFunction();
                         setSaveLoader(false);
+                        toast.success('Updated profile', {
+                            position: "top-center",
+                            autoClose: 1500,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "dark"
+                        });
                     }}>
                         <Save /> Save
                     </Button>
