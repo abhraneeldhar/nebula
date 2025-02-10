@@ -117,15 +117,17 @@ export default function Bedrock() {
 
 
     // getting incoming requests
-    const [incomingRequestsList, setIncomingRequestsList] = useState<userType[]>();
+    const [incomingRequestsList, setIncomingRequestsList] = useState<userType[] | null>(null);
     const [reqOpen, setReqOpen] = useState(false);
     useEffect(() => {
         const getIncomingReq = async () => {
             if (userDetails) {
-                console.log("getting incoming friend  requests")
+                console.log("getting incoming friend requests")
                 const { data: incomingReqArray, error } = await supabase.from("friendRequest").select("*").eq("receiverId", userDetails.userId).eq("status", "pending")
-
-                if (incomingReqArray) {
+                if (incomingReqArray?.length == 0) {
+                    setIncomingRequestsList(null);
+                }
+                else if (incomingReqArray) {
                     const incomingReqDetails: userType[] = []
                     incomingReqArray.forEach(async (oneReq) => {
                         incomingReqDetails.push(await getUserDetails(oneReq.senderId))
@@ -136,19 +138,26 @@ export default function Bedrock() {
         };
         getIncomingReq();
 
-    }, [userDetails])
+    }, [, userDetails])
+
+    useEffect(() => {
+        console.log("incomming req : ", incomingRequestsList)
+    }, [incomingRequestsList])
 
 
     //getting incoming shared notes
 
     const [inboxOpen, setInboxOpen] = useState(false);
-    const [incomingNotesList, setIncomingNotesList] = useState<any>();
+    const [incomingNotesList, setIncomingNotesList] = useState<any>(null);
     useEffect(() => {
         if (userDetails) {
             const getInbox = async () => {
                 console.log("getting incoming notes")
                 const res = await getIncomingNotes(userDetails.userId as string);
-                if (res != incomingNotesList) {
+                if (res.length == 0) {
+                    setIncomingNotesList(null);
+                }
+                else if (res != incomingNotesList) {
                     setIncomingNotesList(res);
                 }
             }
@@ -157,10 +166,6 @@ export default function Bedrock() {
         }
     }, [userDetails])
 
-
-    useEffect(() => {
-        console.log(incomingNotesList)
-    }, [incomingNotesList])
 
 
     // tab component
@@ -231,21 +236,14 @@ export default function Bedrock() {
 
 
         const InboxCard = ({ sharedNoteData }: { sharedNoteData: sharedNoteType }) => {
-            const [senderDetails, setSenderDetails] = useState<userType | null>()
-            const [reqResolved, setReqResolved] = useState<false | "accepted" | "rejected">(false)
+            // const [senderDetails, setSenderDetails] = useState<userType | null>()
+            const [reqResolved, setReqResolved] = useState<false | "accepted" | "rejected">(false);
 
-            useEffect(() => {
-                const getDetails = async () => {
-                    const newUserDetails = await getUserDetails(sharedNoteData.senderId);
-                    setSenderDetails(newUserDetails);
-                }
-                getDetails();
 
-            }, [sharedNoteData])
 
             const acceptNote = async () => {
+                setReqResolved("accepted");
                 if (userDetails) {
-                    setReqResolved("accepted");
                     var JackRyan = sharedNoteData.sharedNote;
                     JackRyan._id = uuidv4();
                     JackRyan.id = uuidv4();
@@ -253,10 +251,20 @@ export default function Bedrock() {
                     JackRyan.owner = userDetails.userId;
                     JackRyan.lastModifiedAt = Date.now();
                     await postNote(JSON.stringify(JackRyan));
-                    await deleteSharedNote(sharedNoteData.id)
-                    const displayNotes = await getDisplayNotes(userDetails.userId);
-                    console.log("new display notes: ", displayNotes)
-                    setlocalCollectionOfNotesState(displayNotes);
+                    await deleteSharedNote(sharedNoteData.id);
+                    var newDisplayNote: DisplayNote = JackRyan;
+                    setlocalCollectionOfNotesState([newDisplayNote, ...localCollectionOfNotesState]);
+                    var tempNotesList=incomingNotesList
+                    const index = tempNotesList.indexOf(sharedNoteData, 0);
+                    if (index > -1) {
+                        tempNotesList.splice(index, 1);
+                    }
+                    if(tempNotesList.length==0){
+                        setIncomingNotesList(null);
+                    }
+                    else{
+                        setIncomingNotesList(tempNotesList);
+                    }
                 }
             }
             const rejectNote = async () => {
@@ -270,9 +278,9 @@ export default function Bedrock() {
                         <div className={styles.noteName}>
                             <p>{sharedNoteData.sharedNote.title}</p>
                         </div>
-                        <div className={styles.senderName}>
+                        {/* <div className={styles.senderName}>
                             <p>sent by {senderDetails?.name}</p>
-                        </div>
+                        </div> */}
                     </div>
                     <div className={styles.reqAction}>
                         {!reqResolved && (<>
@@ -304,10 +312,9 @@ export default function Bedrock() {
                         </Popover.Trigger>
                         <Popover.Content className={styles.friendRequestsPopover}>
                             {incomingRequestsList && incomingRequestsList.map((req: userType) => (<IncomingRequestPersonCard key={req._id} reqUserDetails={req} />))}
-                            {(incomingRequestsList && incomingRequestsList.length == 0) && (<>
+                            {(!incomingRequestsList) && (<>
                                 <div className={styles.noReq}>No requests for now....</div>
                             </>)}
-                            {/* {loadingDetails && (<Spinner className={styles.reqSpinner} />)} */}
                         </Popover.Content>
                     </Popover.Root>
 
@@ -319,11 +326,11 @@ export default function Bedrock() {
                             </div>
                         </Popover.Trigger>
                         <Popover.Content className={styles.friendRequestsPopover}>
+
                             {incomingNotesList && incomingNotesList.map((sharedNote: sharedNoteType) => (<InboxCard key={incomingNotesList.indexOf(sharedNote)} sharedNoteData={sharedNote} />))}
-                            {(incomingNotesList && incomingNotesList.length == 0) && (<>
+                            {(!incomingNotesList) && (<>
                                 <div className={styles.noReq}>Your inbox is empty</div>
                             </>)}
-                            {/* {loadingDetails && (<Spinner className={styles.reqSpinner} />)} */}
                         </Popover.Content>
                     </Popover.Root>
                 </div>
@@ -332,18 +339,18 @@ export default function Bedrock() {
     }
 
 
-    
+
     // prefetching notedata from mongo
-    useEffect(()=>{
-        if(userDetails && localCollectionOfNotesState){
-            let cacheNote:Note[]=[]
-            localCollectionOfNotesState?.sort((a, b) => b.lastModifiedAt - a.lastModifiedAt).slice(0, 3).forEach(async(oneNote)=>{
-                const res=await getOneNote(userDetails.userId,oneNote.id);
-                console.log("cached note: ",oneNote.id)
+    useEffect(() => {
+        if (userDetails && localCollectionOfNotesState) {
+            let cacheNote: Note[] = []
+            localCollectionOfNotesState?.sort((a, b) => b.lastModifiedAt - a.lastModifiedAt).slice(0, 3).forEach(async (oneNote) => {
+                const res = await getOneNote(userDetails.userId, oneNote.id);
+                console.log("cached note: ", oneNote.id)
                 cacheNote.push(res);
             })
         }
-    },[userDetails,localCollectionOfNotesState])
+    }, [userDetails, localCollectionOfNotesState])
 
     return (<>
         <Tab tabName="Home" />
@@ -354,9 +361,9 @@ export default function Bedrock() {
             <div className={styles.displayContent}>
                 {/* {prebuildEditor && <EditorComponent id="abcd" />} */}
                 <div className={styles.coverImageDiv}>
-                    <Image className={styles.catWalking} src={catWalking} alt=""/>
+                    <Image className={styles.catWalking} src={catWalking} alt="" />
                     <Image className={styles.coverImage} src={coverImage} alt="cover image" />
-                    <div onClick={()=>{router.push("/settings/account")}} className={styles.profilePic}>
+                    <div onClick={() => { router.push("/settings/account") }} className={styles.profilePic}>
                         {userDetails &&
                             <Image src={userDetails?.imageUrl} unoptimized={true} priority={true} width={100} height={100} alt="" />
                         }

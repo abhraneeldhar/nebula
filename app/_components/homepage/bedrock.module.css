@@ -72,6 +72,7 @@
     right: 30px;
     display: flex;
     gap: 20px;
+    /* min-width:400px; */
 }
 
 .reqTriggerContainer {
@@ -121,6 +122,10 @@
         justify-content: space-between;
         vertical-align: middle;
         gap: 10px;
+    }
+    .reqPersonCard button:focus{
+        outline: none;
+        border: none;
     }
 
     .reqProfilePic {
@@ -193,6 +198,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        padding: 10px;
     }
 }
 
@@ -207,7 +213,14 @@
     border-radius: 10px;
     justify-content: space-between;
 
+    .reqAction{
+        display: flex;
+        gap: 5px;
+    }
     .inboxCardDetails {
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
         .noteName p {
             font-size: 1.2em;
             max-width: 12em;
@@ -219,6 +232,11 @@
         }
     }
 }
+.inboxCard button:focus{
+    outline: none;
+    border: none;
+}
+
 
 
 
