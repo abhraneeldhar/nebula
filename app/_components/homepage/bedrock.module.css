@@ -264,18 +264,18 @@
     object-fit: contain;
     position: absolute;
     bottom: 0;
-    animation: walkingAnimation 10s infinite linear;
+    animation: walkingAnimation 30s infinite linear;
 }
 
 @keyframes walkingAnimation{
     0%{
-        transform: translateX(100px);
+        transform: translateX(0px);
     }
     50%{
-        transform: translateX(500px);
+        transform: translateX(90svw);
     }
     100%{
-        transform: translateX(100px);
+        transform: translateX(0px);
     }
 }
 
