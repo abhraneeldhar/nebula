@@ -272,7 +272,7 @@
         transform: translateX(0px);
     }
     50%{
-        transform: translateX(90svw);
+        transform: translateX(100svw);
     }
     100%{
         transform: translateX(0px);
