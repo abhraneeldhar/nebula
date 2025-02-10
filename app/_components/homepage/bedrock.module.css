@@ -216,6 +216,7 @@
     .reqAction{
         display: flex;
         gap: 5px;
+        align-items: center;
     }
     .inboxCardDetails {
         display: flex;
