@@ -2,6 +2,7 @@
 import style from "./root.module.css"
 import Image from "next/image"
 import nebulaLogo from "../public/landingpage/nebulaLogo.png"
+import vortexLogo from "../public/vortex logo.jpeg"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
@@ -18,7 +19,11 @@ export default async function Main() {
 
         <Image className={style.cloudGif} src="/landingpage/cloudgif-1.gif" alt="" width={100} height={100} />
         <div className={style.tab}>
-          <Image src={nebulaLogo} alt="N" />
+          <div className={style.tabLogos}>
+            <Image src={nebulaLogo} alt="N" />
+            <Image src={vortexLogo} alt="N" />
+          </div>
+
           <div className={style.authBtn}>
             <button className={style.loginBtn}>Login</button>
             <button className={style.signUpBtn}>SignUp</button>
@@ -26,7 +31,10 @@ export default async function Main() {
         </div>
         <div className={style.bigAghLogo}>
           <h1>N{" "}E{" "}B{" "}U{" "}L{" "}A</h1>
-          <Button className={style.getStarted}>Get Started <ArrowRight className={style.arrowRight} /></Button>
+          <div className={style.upfrontButtons}>
+            <Button className={style.nexusBtn}><span>New</span><Image src={vortexLogo} alt="" /></Button>
+            <Button className={style.getStarted}>Get Started <ArrowRight className={style.arrowRight} /></Button>
+          </div>
         </div>
 
       </div>
@@ -37,17 +45,7 @@ export default async function Main() {
         <p>Streamline Your Workflow with Intuitive Editing</p>
         <Image src={documentEditingImage} alt="" />
       </div>
-      <div className={style.shareDiv}>
-        <h1 className={style.sectionHeading}>Create Connect Share</h1>
-        <div className={style.para}>
-          <p>Stronger Together!</p>
-          <p>One Click to Share, Infinite Possibilities</p>
-        </div>
-        <div className={style.picsHolder}>
-          <Image className={style.friendsTabImg} src={friendsTab} alt="" />
-          <Image className={style.shareBoxImg} src={shareBox} alt="" />
-        </div>
-      </div>
+
 
     </div>
   )
