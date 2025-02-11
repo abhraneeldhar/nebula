@@ -301,28 +301,20 @@
 .carousel {
     display: flex;
     gap: 10px;
-    animation: slide 20s linear infinite;
+    animation: slide 5s linear infinite;
 }
+.carousel:hover {
+    animation-play-state: paused;
+  }
 
 
 @keyframes slide {
     0% {
         transform: translateX(0);
     }
-
-    /* 25% { */
-        /* transform: translateX(-300px); */
-    /* } */
-
-    /* 50% { */
-        /* transform: translateX(-600px); */
-    /* } */
-
-    /* 75% { */
-    /* } */
     
     100% {
-        transform: translateX(-1500px);
+        transform: translateX(-1640px);
         /* transform: translateX(10px); */
     }
 }
