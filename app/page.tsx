@@ -2,17 +2,14 @@
 import style from "./root.module.css"
 import Image from "next/image"
 import nebulaLogo from "../public/landingpage/nebulaLogo.png"
-import vortexLogo from "../public/vortex logo.jpeg"
+import vortexLogo from "../public/landingpage/vortex logo.jpeg"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 import documentEditingImage from "../public/landingpage/documentEditing.png"
-import lappypython from "../public/lappypython.png"
-import friendsImage from "../public/friendsImage.jpg"
-
-
-import shareBox from "../public/landingpage/shareBox.png"
-import friendsTab from "../public/landingpage/friendsTab.png"
+import lappypython from "../public/landingpage/lappypython.png"
+import friendsImage from "../public/landingpage/friendsImage.jpg"
+import profileImage from "../public/landingpage/profilePic.jpg"
 
 
 export default async function Main() {
@@ -63,6 +60,18 @@ export default async function Main() {
         <h1 className={style.sectionHeading}>Create Connect Share</h1>
         <p>Add friends to share documents with</p>
         <Image className={style.friendsImage} src={friendsImage} alt=""/>
+      </div>
+
+      <div className={style.aboutMe}>
+        <h1 className={style.sectionHeading}>Meet the chef</h1>
+        <p>Lorem ipsum, dolor sit amet consec adipisicing elit. Voluptatem, unde?</p>
+
+        <div className={style.profileCard}>
+          <Image src={profileImage} alt=""/>
+          <h1>Abhraneel Dhar</h1>
+          <p>CTO @ Trex Corp</p>
+        </div>
+        
       </div>
 
 
