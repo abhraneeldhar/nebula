@@ -291,6 +291,33 @@
     border: 2px solid rgb(160, 160, 160);
 }
 
+.tweetHolder{
+    width: 100%;
+    overflow: hidden;
+    background: #f3f4f6;
+    padding: 10px 0;
+    white-space: nowrap;
+    position: relative;
+}
+.tweetTrack{
+    display: flex;
+  gap: 16px; /* Space between tweets */
+  width: max-content; /* Ensures all items fit */
+  animation: scroll 20s linear infinite;
+}
+
+@keyframes scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+
+
+
 
 @media (max-width:500px) {
     .main {

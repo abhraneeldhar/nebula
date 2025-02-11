@@ -1,0 +1,33 @@
+.tweetCard{
+    display: flex;
+    flex-direction: column;
+    background-color: #191830;
+    width: 300px;
+    height: 150px;
+    padding: 10px;
+    border-radius: 5px;
+    transition: all 0.2s;
+}
+.tweetCard:hover{
+    transform: scale(1.05);
+}
+.tweetCard h1{
+    font-weight: 400;
+    font-size: 20px;
+}
+.tweetCard p{
+    font-weight: 600;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.69);
+}
+.tweetContent{
+    margin-top: 10px;
+    width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+.tweetContent p{
+    font-weight: 300;
+    color: white;
+    font-size: 17px;
+}

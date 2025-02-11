@@ -10,9 +10,17 @@ import documentEditingImage from "../public/landingpage/documentEditing.png"
 import lappypython from "../public/landingpage/lappypython.png"
 import friendsImage from "../public/landingpage/friendsImage.jpg"
 import profileImage from "../public/landingpage/profilePic.jpg"
-
+import TweetCard, { tweetType } from "@/components/ui/tweetCard"
 
 export default async function Main() {
+
+  const tweets: tweetType[] = [
+    {
+      name: "Abhraneel Dhar",
+      username: "abhraneeldhar",
+      tweetContent: "hehehehehehehehehehehehehehehehehehehehe"
+    }
+  ]
 
   return (
     <div className={style.main}>
@@ -45,7 +53,7 @@ export default async function Main() {
         <p>The Power to Perfect Every Document</p>
         <p>Streamline Your Workflow</p>
         <Image className={style.lilLogo} src={nebulaLogo} alt="N" />
-        <Image unoptimized src={documentEditingImage} alt="" />
+        <Image src={documentEditingImage} alt="" />
       </div>
 
       <div className={style.nexusSection}>
@@ -53,25 +61,37 @@ export default async function Main() {
         <p>Use <span className={style.paraNexus}>Nexus</span> to open a portal from your phone to desktop </p>
         <p><span>No</span> signin needed</p>
         <Image className={style.lilLogo} src={vortexLogo} alt="N" />
-        <Image unoptimized src={lappypython} alt="" />
+        <Image src={lappypython} alt="" />
       </div>
 
-      <div className={style.friendsSection}> 
+      <div className={style.friendsSection}>
         <h1 className={style.sectionHeading}>Create Connect Share</h1>
         <p>Add friends to share documents with</p>
-        <Image className={style.friendsImage} src={friendsImage} alt=""/>
+        <Image className={style.friendsImage} src={friendsImage} alt="" />
       </div>
+
+      <div className={style.testimony}>
+        <h1 className={style.sectionHeading}>The Nebula family</h1>
+        <div className={style.tweetsHolder}>
+          <div className={style.tweetTrack}>
+            <TweetCard tweet={tweets[0]} />
+          </div>
+        </div>
+
+
+      </div>
+
 
       <div className={style.aboutMe}>
         <h1 className={style.sectionHeading}>Meet the chef</h1>
-        <p>Lorem ipsum, dolor sit amet consec adipisicing elit. Voluptatem, unde?</p>
+        {/* <p>Lorem ipsum, dolor sit amet consec adipisicing elit. Voluptatem, unde?</p> */}
 
         <div className={style.profileCard}>
-          <Image src={profileImage} alt=""/>
+          <Image src={profileImage} alt="" />
           <h1>Abhraneel Dhar</h1>
           <p>CTO @ Trex Corp</p>
         </div>
-        
+
       </div>
 
 
