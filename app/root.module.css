@@ -168,6 +168,7 @@
     object-fit: cover;
     border-radius: 50%;
     transition: all 0.2s;
+    z-index: 5;
 }
 .lilLogo:hover{
     transform: scale(1.1);
@@ -188,13 +189,14 @@
     width: 65vw;
     object-fit: contain;
     margin: auto;
+    filter: drop-shadow(0 0 10rem #008080);
 }
 .nexusSection p .paraNexus{
-    color: #9363eb;
+    color: #e449ff;
     font-weight: 600;
 }
 .nexusSection p span{
-    color: rgb(225, 97, 97);
+    color: rgb(227, 51, 51);
     font-weight: 600;
 }
 
