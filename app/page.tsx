@@ -7,6 +7,9 @@ import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 import documentEditingImage from "../public/landingpage/documentEditing.png"
+import lappypython from "../public/lappypython.png"
+
+
 import shareBox from "../public/landingpage/shareBox.png"
 import friendsTab from "../public/landingpage/friendsTab.png"
 
@@ -44,6 +47,13 @@ export default async function Main() {
         <p>The Power to Perfect Every Document</p>
         <p>Streamline Your Workflow with Intuitive Editing</p>
         <Image src={documentEditingImage} alt="" />
+      </div>
+
+      <div className={style.nexusSection}>
+        <h1 className={style.sectionHeading}>Portal to desktop</h1>
+        <p>Use <span className={style.paraNexus}>Nexus</span> to open a portal from your phone to deskstop</p>
+        <p><span>No</span> signin needed</p>
+        <Image src={lappypython} alt="" />
       </div>
 
 

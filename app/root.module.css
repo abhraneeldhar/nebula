@@ -162,21 +162,29 @@
     color: white;
 }
 
-.documentEditing,.shareDiv {
+.documentEditing,.nexusSection {
     background-color: black;
     display: flex;
     flex-direction: column;
     padding: 20px;
 }
-.documentEditing p,.shareDiv p {
+.documentEditing p,.nexusSection p {
     margin-left: 20px;
     color: rgb(205, 205, 205);
 }
-.documentEditing img {
+.documentEditing img,.nexusSection img {
     margin-top: 20px;
     width: 65vw;
     object-fit: contain;
     margin: auto;
+}
+.nexusSection p .paraNexus{
+    color: #9363eb;
+    font-weight: 600;
+}
+.nexusSection p span{
+    color: rgb(225, 97, 97);
+    font-weight: 600;
 }
 
 @media (max-width:500px) {
@@ -216,5 +224,11 @@
     .bigAghLogo h1{
         font-size: 2em;
         letter-spacing: 10px;
+    }
+    .documentEditing img{
+        width: 90vw;
+    }
+    .nexusSection img{
+        width: 90vw;
     }
 }
