@@ -11,6 +11,7 @@ import lappypython from "../public/landingpage/lappypython.png"
 import friendsImage from "../public/landingpage/friendsImage.jpg"
 import profileImage from "../public/landingpage/profilePic.jpg"
 import TweetCard, { tweetType } from "@/components/ui/tweetCard"
+import { useEffect } from "react"
 
 export default async function Main() {
 
@@ -22,6 +23,8 @@ export default async function Main() {
     }
   ]
 
+
+  
   return (
     <div className={style.main}>
       <div className={style.heroDiv}>
@@ -72,8 +75,19 @@ export default async function Main() {
 
       <div className={style.testimony}>
         <h1 className={style.sectionHeading}>The Nebula family</h1>
-        <div className={style.tweetsHolder}>
-          <div className={style.tweetTrack}>
+        <div className={style.carouselContainer}>
+          <div className={style.carousel}>
+            <TweetCard tweet={tweets[0]} />
+            <TweetCard tweet={tweets[0]} />
+            <TweetCard tweet={tweets[0]} />
+            <TweetCard tweet={tweets[0]} />
+            <TweetCard tweet={tweets[0]} />
+            <TweetCard tweet={tweets[0]} />
+            <TweetCard tweet={tweets[0]} />
+            <TweetCard tweet={tweets[0]} />
+            <TweetCard tweet={tweets[0]} />
+            <TweetCard tweet={tweets[0]} />
+            <TweetCard tweet={tweets[0]} />
             <TweetCard tweet={tweets[0]} />
           </div>
         </div>

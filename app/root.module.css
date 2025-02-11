@@ -249,10 +249,11 @@
 
 }
 
-.aboutMe{
+.aboutMe {
     align-items: center;
 }
-.aboutMe p{
+
+.aboutMe p {
     margin: 0;
     text-align: center;
 }
@@ -286,36 +287,45 @@
     font-size: 15px;
     opacity: 0.8;
 }
-.profileCard:hover{
+
+.profileCard:hover {
     background-color: black;
     border: 2px solid rgb(160, 160, 160);
 }
 
-.tweetHolder{
-    width: 100%;
+
+.carouselContainer {
     overflow: hidden;
-    background: #f3f4f6;
-    padding: 10px 0;
-    white-space: nowrap;
-    position: relative;
 }
-.tweetTrack{
+
+.carousel {
     display: flex;
-  gap: 16px; /* Space between tweets */
-  width: max-content; /* Ensures all items fit */
-  animation: scroll 20s linear infinite;
+    gap: 10px;
+    animation: slide 20s linear infinite;
 }
 
-@keyframes scroll {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-50%);
-    }
-  }
 
+@keyframes slide {
+    0% {
+        transform: translateX(0);
+    }
 
+    /* 25% { */
+        /* transform: translateX(-300px); */
+    /* } */
+
+    /* 50% { */
+        /* transform: translateX(-600px); */
+    /* } */
+
+    /* 75% { */
+    /* } */
+    
+    100% {
+        transform: translateX(-1500px);
+        /* transform: translateX(10px); */
+    }
+}
 
 
 
@@ -379,7 +389,7 @@
     }
 
     .aboutMe .profileCard {
-        
+
         padding: 5px;
         border-radius: 15px;
     }
