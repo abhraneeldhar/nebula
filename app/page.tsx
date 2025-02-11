@@ -1,3 +1,4 @@
+"use server"
 import style from "./root.module.css"
 import Image from "next/image"
 import nebulaLogo from "../public/landingpage/nebulaLogo.png"
@@ -18,12 +19,9 @@ export default async function Main() {
         <Image className={style.cloudGif} src="/landingpage/cloudgif-1.gif" alt="" width={100} height={100} />
         <div className={style.tab}>
           <Image src={nebulaLogo} alt="N" />
-          <div className={style.sectionTags}>
-            <a>Edit</a>
-            <a>Connect</a>
-            <a>Nebula</a>
-            <a>Personalize</a>
-            <a>About</a>
+          <div className={style.authBtn}>
+            <button className={style.loginBtn}>Login</button>
+            <button className={style.signUpBtn}>SignUp</button>
           </div>
         </div>
         <div className={style.bigAghLogo}>
