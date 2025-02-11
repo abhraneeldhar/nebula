@@ -27,7 +27,7 @@
     z-index: 3;
 }
 
-.tab img {
+.tab img{
     height: 35px;
     width: 35px;
     border-radius: 50%;
@@ -160,7 +160,9 @@
     font-weight: 400;
     margin-bottom: 10px;
     color: white;
+    position: relative;
 }
+
 
 .documentEditing,.nexusSection {
     background-color: black;
