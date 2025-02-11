@@ -162,7 +162,16 @@
     color: white;
     position: relative;
 }
-
+.lilLogo{
+    height: 35px;
+    width: 35px;
+    object-fit: cover;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+.lilLogo:hover{
+    transform: scale(1.1);
+}
 
 .documentEditing,.nexusSection {
     background-color: black;

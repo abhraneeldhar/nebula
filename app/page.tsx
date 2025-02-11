@@ -46,13 +46,15 @@ export default async function Main() {
         <h1 className={style.sectionHeading}>Forge documents Anywhere, Anytime</h1>
         <p>The Power to Perfect Every Document</p>
         <p>Streamline Your Workflow with Intuitive Editing</p>
+        <Image className={style.lilLogo} src={nebulaLogo} alt="N" />
         <Image src={documentEditingImage} alt="" />
       </div>
 
       <div className={style.nexusSection}>
         <h1 className={style.sectionHeading}>Portal to desktop</h1>
-        <p>Use <span className={style.paraNexus}>Nexus</span> to open a portal from your phone to deskstop</p>
+        <p>Use <span className={style.paraNexus}>Nexus</span> to open a portal from your phone to desktop </p>
         <p><span>No</span> signin needed</p>
+        <Image className={style.lilLogo} src={vortexLogo} alt="N" />
         <Image src={lappypython} alt="" />
       </div>
 
