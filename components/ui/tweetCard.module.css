@@ -10,6 +10,7 @@
 }
 .tweetCard:hover{
     transform: scale(1.05);
+    border-radius: 10px;
 }
 .tweetCard h1{
     font-weight: 400;

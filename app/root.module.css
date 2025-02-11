@@ -208,7 +208,7 @@
 .documentEditing p,
 .nexusSection p,
 .friendsSection p,
-.aboutMe p {
+.aboutMe p, .testimony p {
     margin-left: 20px;
     color: rgb(205, 205, 205);
 }
@@ -246,8 +246,13 @@
     height: 300px;
     top: 20px;
     left: 0;
-
 }
+
+
+.testimony .sectionHeading{
+    margin: 20px;
+}
+
 
 .aboutMe {
     align-items: center;
@@ -301,7 +306,7 @@
 .carousel {
     display: flex;
     gap: 10px;
-    animation: slide 5s linear infinite;
+    animation: slide 20s linear infinite;
 }
 .carousel:hover {
     animation-play-state: paused;
@@ -314,7 +319,7 @@
     }
     
     100% {
-        transform: translateX(-1640px);
+        transform: translateX(-1840px);
         /* transform: translateX(10px); */
     }
 }
