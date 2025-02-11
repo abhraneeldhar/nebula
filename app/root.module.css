@@ -237,7 +237,6 @@
     opacity: 0.3;
     position: absolute;
     object-fit: cover;
-    /* width: 100vw; */
     height: 300px;
     top: 20px;
     left: 0;
