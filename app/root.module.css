@@ -1,10 +1,13 @@
 .main {
     min-height: 100vh;
     position: relative;
+    background-color: black;
 }
-.heroDiv{
+
+.heroDiv {
     height: 100vh;
 }
+
 .cloudGif {
     position: absolute;
     z-index: -1;
@@ -27,41 +30,47 @@
     z-index: 3;
 }
 
-.tab img{
+.tab img {
     height: 35px;
     width: 35px;
     border-radius: 50%;
 }
-.tabLogos{
+
+.tabLogos {
     display: flex;
     gap: 5px;
 }
 
-.authBtn{
+.authBtn {
     display: flex;
     gap: 5px;
 }
 
-.loginBtn, .signUpBtn{
+.loginBtn,
+.signUpBtn {
     padding: 3px 10px;
     border-radius: 6px;
     font-weight: 400;
 }
-.loginBtn{
+
+.loginBtn {
     border: 2px solid #08D9D6;
     transition: all 0.2s;
 }
-.loginBtn:hover{
+
+.loginBtn:hover {
     background-color: #08D9D6;
     color: black;
 }
-.signUpBtn{
+
+.signUpBtn {
     border: 2px solid #08D9D6;
     background-color: #08D9D6;
     color: black;
     transition: all 0.2s;
 }
-.signUpBtn:hover{
+
+.signUpBtn:hover {
     background-color: unset;
     color: white;
 }
@@ -90,14 +99,14 @@
     }
 }
 
-.upfrontButtons{
+.upfrontButtons {
     display: flex;
     position: absolute;
     bottom: 100px;
     gap: 5px;
 }
 
-.nexusBtn{
+.nexusBtn {
     height: 50px;
     width: 50px;
     padding: 0;
@@ -105,7 +114,8 @@
     background-color: unset;
     position: relative;
 }
-.nexusBtn span{
+
+.nexusBtn span {
     background-color: #fccc44;
     color: black;
     padding: 2px 5px;
@@ -116,19 +126,23 @@
     left: 0px;
     animation: lilMove 2s linear infinite;
 }
-@keyframes lilMove{
-    0%{
+
+@keyframes lilMove {
+    0% {
         transform: rotate(-10deg) translateX(-5px) translateY(-10px);
     }
-    50%{
+
+    50% {
         transform: rotate(0deg) translateX(0) translateY(0);
-        
+
     }
-    100%{
+
+    100% {
         transform: rotate(-10deg) translateX(-5px) translateY(-10px);
     }
 }
-.nexusBtn img{
+
+.nexusBtn img {
     height: 100%;
     width: 100%;
     border-radius: 10px;
@@ -142,7 +156,7 @@
     font-weight: 400;
     height: 50px;
     border-radius: 15px;
-    
+
     cursor: pointer;
     transition: all 0.2s;
     display: flex;
@@ -162,86 +176,130 @@
     color: white;
     position: relative;
 }
-.lilLogo{
+
+.friendsSection h1, .friendsSection p{
+    text-align: center;
+}
+
+.lilLogo {
     height: 35px;
     width: 35px;
     object-fit: cover;
     border-radius: 50%;
     transition: all 0.2s;
-    z-index: 5;
+    z-index: 2;
 }
-.lilLogo:hover{
+
+.lilLogo:hover {
     transform: scale(1.1);
 }
 
-.documentEditing,.nexusSection {
-    background-color: black;
+.documentEditing,
+.nexusSection,
+.friendsSection {
     display: flex;
     flex-direction: column;
     padding: 20px;
 }
-.documentEditing p,.nexusSection p {
+
+.documentEditing p,
+.nexusSection p,
+.friendsSection p {
     margin-left: 20px;
     color: rgb(205, 205, 205);
 }
-.documentEditing img,.nexusSection img {
+
+.documentEditing img,
+.nexusSection img {
     margin-top: 20px;
     width: 65vw;
     object-fit: contain;
     margin: auto;
     filter: drop-shadow(0 0 10rem #008080);
 }
-.nexusSection p .paraNexus{
+
+.nexusSection p .paraNexus {
     color: #e449ff;
     font-weight: 600;
 }
-.nexusSection p span{
+
+.nexusSection p span {
     color: rgb(227, 51, 51);
     font-weight: 600;
 }
 
+.friendsSection {
+    position: relative;
+    height: 200px;
+}
+
+.friendsImage {
+    opacity: 0.3;
+    position: absolute;
+    object-fit: cover;
+    /* width: 100vw; */
+    height: 300px;
+    top: 20px;
+    left: 0;
+    
+}
+
+
 @media (max-width:500px) {
-    .main{
+    .main {
         width: 100vw;
         overflow: hidden;
         margin: 0;
     }
-    .tab{
+
+    .tab {
         margin: 0px;
         padding: 5px;
         border-radius: 0;
         gap: 10px;
         position: fixed;
         width: 100%;
-        .sectionTags{
+
+        .sectionTags {
             gap: 0;
             justify-content: space-between;
             padding-right: 10px;
         }
     }
-    .cloudGif{
+
+    .cloudGif {
         width: 100vw;
         object-fit: cover;
         filter: blur(20px);
         margin: 0;
     }
-    .bigAghLogo{
+
+    .bigAghLogo {
         transform: translateY(-10%);
     }
-    .getStarted{
+
+    .getStarted {
         bottom: 20%;
     }
-    .sectionHeading{
+
+    .sectionHeading {
         font-size: 30px;
     }
-    .bigAghLogo h1{
+
+    .bigAghLogo h1 {
         font-size: 2em;
         letter-spacing: 10px;
     }
-    .documentEditing img{
+
+    .documentEditing img {
         width: 90vw;
     }
-    .nexusSection img{
+
+    .nexusSection img {
         width: 90vw;
+    }
+    .friendsImage{
+        object-position: top;
+        height: 200px;
     }
 }

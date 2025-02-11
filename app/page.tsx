@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 
 import documentEditingImage from "../public/landingpage/documentEditing.png"
 import lappypython from "../public/lappypython.png"
+import friendsImage from "../public/friendsImage.jpg"
 
 
 import shareBox from "../public/landingpage/shareBox.png"
@@ -45,9 +46,9 @@ export default async function Main() {
       <div className={style.documentEditing}>
         <h1 className={style.sectionHeading}>Forge documents Anywhere, Anytime</h1>
         <p>The Power to Perfect Every Document</p>
-        <p>Streamline Your Workflow with Intuitive Editing</p>
+        <p>Streamline Your Workflow</p>
         <Image className={style.lilLogo} src={nebulaLogo} alt="N" />
-        <Image src={documentEditingImage} alt="" />
+        <Image unoptimized src={documentEditingImage} alt="" />
       </div>
 
       <div className={style.nexusSection}>
@@ -55,7 +56,13 @@ export default async function Main() {
         <p>Use <span className={style.paraNexus}>Nexus</span> to open a portal from your phone to desktop </p>
         <p><span>No</span> signin needed</p>
         <Image className={style.lilLogo} src={vortexLogo} alt="N" />
-        <Image src={lappypython} alt="" />
+        <Image unoptimized src={lappypython} alt="" />
+      </div>
+
+      <div className={style.friendsSection}> 
+        <h1 className={style.sectionHeading}>Create Connect Share</h1>
+        <p>Add friends to share documents with</p>
+        <Image className={style.friendsImage} src={friendsImage} alt=""/>
       </div>
 
 
