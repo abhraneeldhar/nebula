@@ -3,17 +3,24 @@
     position: relative;
     /* background-color: black; */
 }
-
+.darkBg{
+    background-color: black;
+}
 .heroDiv {
     height: 100vh;
+    z-index: 2;
+    /* background-color: black; */
 }
+
 
 .cloudGif {
     position: absolute;
-    z-index: -1;
+    z-index: 1;
     height: 100vh;
     width: 100vw;
     filter: blur(5px);
+    object-fit: cover;
+    background-color: black;
 }
 
 .tab {
@@ -56,6 +63,7 @@
 .loginBtn {
     border: 2px solid #08D9D6;
     transition: all 0.2s;
+    color: white;
 }
 
 .loginBtn:hover {
@@ -83,6 +91,8 @@
     justify-content: center;
     flex-direction: column;
     transform: translateY(-40px);
+    position: absolute;
+    z-index: 2;
 }
 
 .bigAghLogo h1 {
@@ -284,6 +294,7 @@
 
 .profileCard h1 {
     font-size: 20px;
+    color: white;
 }
 
 .profileCard p {

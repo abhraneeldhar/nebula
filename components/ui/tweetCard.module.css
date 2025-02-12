@@ -1,33 +1,43 @@
-.tweetCard{
+.tweetCard {
     display: flex;
     flex-direction: column;
     background-color: #191830;
-    width: 300px;
-    height: 150px;
+    width: 380px;
+    height: 260px;
     padding: 10px;
     border-radius: 5px;
     transition: all 0.2s;
+    /* position: relative; */
+    border: 2px solid;
 }
-.tweetCard:hover{
-    transform: scale(1.05);
-    border-radius: 10px;
+
+.tweetCard:hover {
+    background-color: black;
+    border: 2 px solid white;
 }
-.tweetCard h1{
+
+.tweetCard h1 {
     font-weight: 400;
     font-size: 20px;
+    color: white;
+    padding-left: 10px;
 }
-.tweetCard p{
+
+.tweetCard p {
     font-weight: 600;
     font-size: 12px;
     color: rgba(255, 255, 255, 0.69);
+    overflow: hidden;
 }
-.tweetContent{
+
+.tweetContent {
     margin-top: 10px;
     width: 100%;
     word-wrap: break-word;
     overflow-wrap: break-word;
 }
-.tweetContent p{
+
+.tweetContent p {
     font-weight: 300;
     color: white;
     font-size: 17px;
