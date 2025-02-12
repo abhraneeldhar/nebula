@@ -11,7 +11,7 @@ import lappypython from "../public/landingpage/lappypython.png"
 import friendsImage from "../public/landingpage/friendsImage.jpg"
 import profileImage from "../public/landingpage/profilePic.jpg"
 import TweetCard, { tweetType } from "@/components/ui/tweetCard"
-import { useEffect } from "react"
+import SignupBtn, { GetStarted, LilNebulaLogo, LoginBtn } from "@/components/ui/authButtons"
 
 export default async function Main() {
 
@@ -57,15 +57,16 @@ export default async function Main() {
             </div>
 
             <div className={style.authBtn}>
-              <button className={style.loginBtn}>Login</button>
-              <button className={style.signUpBtn}>SignUp</button>
+              <LoginBtn/>
+              <SignupBtn/>
             </div>
           </div>
           <div className={style.bigAghLogo}>
             <h1>N{" "}E{" "}B{" "}U{" "}L{" "}A</h1>
             <div className={style.upfrontButtons}>
               <Button className={style.nexusBtn}><span>New</span><Image src={vortexLogo} alt="" /></Button>
-              <Button className={style.getStarted}>Get Started <ArrowRight className={style.arrowRight} /></Button>
+              {/* <Button className={style.getStarted}>Get Started <ArrowRight className={style.arrowRight} /></Button> */}
+              <GetStarted/>
             </div>
           </div>
 
@@ -75,7 +76,8 @@ export default async function Main() {
           <h1 className={style.sectionHeading}>Forge documents Anywhere, Anytime</h1>
           <p>The Power to Perfect Every Document</p>
           <p>Streamline Your Workflow</p>
-          <Image className={style.lilLogo} src={nebulaLogo} alt="N" />
+          {/* <Image className={style.lilLogo} src={nebulaLogo} alt="N" /> */}
+          <LilNebulaLogo/>
           <Image src={documentEditingImage} alt="" />
         </div>
 

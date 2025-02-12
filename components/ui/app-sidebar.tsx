@@ -77,7 +77,7 @@ export function AppSidebar() {
         {/* <div className={styles.footerMenuItem}>Edging</div> */}
         {/* <div className={styles.footerMenuItem}>Gooning</div> */}
         <div className={styles.footerMenuItem} onClick={() => router.push("/settings")}>Settings</div>
-        <div className={`${styles.footerMenuItem} ${styles.signOut}`} onClick={() => { signOut() }}>Sign Out</div>
+        <div className={`${styles.footerMenuItem} ${styles.signOut}`} onClick={() => { signOut({ callbackUrl: '/', redirect:true }) }}>Sign Out</div>
       </div>
 
     </>)
