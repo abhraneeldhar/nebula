@@ -273,7 +273,10 @@
 .aboutMe {
     align-items: center;
 }
-
+.aboutMe .sectionHeading{
+    width: 100%;
+    text-align: center;
+}
 .aboutMe p {
     margin: 0;
     text-align: center;
@@ -403,24 +406,23 @@
         height: 200px;
     }
 
-    .aboutMe .profileCard {
-
+     .aboutMe .profileCard {
         padding: 5px;
         border-radius: 15px;
     }
 
     .profileCard img {
-        height: 150px;
-        width: 150px;
+        height: 200px;
+        width: 200px;
         border-radius: 10px;
     }
 
-    .profileCard h1 {
+    /* .profileCard h1 {
         font-size: 17px;
     }
 
     .profileCard p {
         font-size: 12px;
         opacity: 0.8;
-    }
+    }  */
 }

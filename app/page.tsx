@@ -118,8 +118,6 @@ export default async function Main() {
         <div className={style.aboutMe}>
           <a href="https://www.linkedin.com/in/abhraneeldhar/" target="_blank">
             <h1 className={style.sectionHeading}>Meet the chef</h1>
-            {/* <p>Lorem ipsum, dolor sit amet consec adipisicing elit. Voluptatem, unde?</p> */}
-
             <div className={style.profileCard}>
               <Image src={profileImage} alt="" />
               <h1>Abhraneel Dhar</h1>
