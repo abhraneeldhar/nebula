@@ -1,11 +1,16 @@
 .main {
     min-height: 100vh;
     position: relative;
-    /* background-color: black; */
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
-.darkBg{
+
+.darkBg {
     background-color: black;
 }
+
 .heroDiv {
     height: 100vh;
     z-index: 2;
@@ -218,7 +223,8 @@
 .documentEditing p,
 .nexusSection p,
 .friendsSection p,
-.aboutMe p, .testimony p {
+.aboutMe p,
+.testimony p {
     margin-left: 20px;
     color: rgb(205, 205, 205);
 }
@@ -259,7 +265,7 @@
 }
 
 
-.testimony .sectionHeading{
+.testimony .sectionHeading {
     margin: 20px;
 }
 
@@ -319,16 +325,17 @@
     gap: 10px;
     animation: slide 20s linear infinite;
 }
+
 .carousel:hover {
     animation-play-state: paused;
-  }
+}
 
 
 @keyframes slide {
     0% {
         transform: translateX(0);
     }
-    
+
     100% {
         transform: translateX(-1840px);
         /* transform: translateX(10px); */

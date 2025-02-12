@@ -1,4 +1,9 @@
-
+.sidebar{
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
 .appLogo{
     font-size: 35px;
     background-color:#373cc6;

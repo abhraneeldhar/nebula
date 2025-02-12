@@ -7,6 +7,12 @@
     height: 100vh;
     color: white;
 }
+.main{
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
 
 .tabBar {
     color: white;
@@ -244,11 +250,6 @@
 
 
 
-
-/* .scrollArea{
-    width: 100%;
-    height: 100vh;
-} */
 .displayContent {
     padding:10px;
     display: flex;

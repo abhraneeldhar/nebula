@@ -97,14 +97,14 @@ export default async function Main() {
           <h1 className={style.sectionHeading}>The Nebula family</h1>
           <div className={style.carouselContainer}>
             <div className={style.carousel}>
-              {tweets.map((tweet)=>(
-                <TweetCard tweet={tweet}/>
+              {tweets.map((tweet) => (
+                <TweetCard tweet={tweet} />
               ))}
-              {tweets.map((tweet)=>(
-                <TweetCard tweet={tweet}/>
+              {tweets.map((tweet) => (
+                <TweetCard tweet={tweet} />
               ))}
-              {tweets.map((tweet)=>(
-                <TweetCard tweet={tweet}/>
+              {tweets.map((tweet) => (
+                <TweetCard tweet={tweet} />
               ))}
             </div>
           </div>
@@ -114,15 +114,16 @@ export default async function Main() {
 
 
         <div className={style.aboutMe}>
-          <h1 className={style.sectionHeading}>Meet the chef</h1>
-          {/* <p>Lorem ipsum, dolor sit amet consec adipisicing elit. Voluptatem, unde?</p> */}
+          <a href="https://www.linkedin.com/in/abhraneeldhar/" target="_blank">
+            <h1 className={style.sectionHeading}>Meet the chef</h1>
+            {/* <p>Lorem ipsum, dolor sit amet consec adipisicing elit. Voluptatem, unde?</p> */}
 
-          <div className={style.profileCard}>
-            <Image src={profileImage} alt="" />
-            <h1>Abhraneel Dhar</h1>
-            <p>CTO @ Trex Corp</p>
-          </div>
-
+            <div className={style.profileCard}>
+              <Image src={profileImage} alt="" />
+              <h1>Abhraneel Dhar</h1>
+              <p>CTO @ Trex Corp</p>
+            </div>
+          </a>
         </div>
       </div>
     </div>
