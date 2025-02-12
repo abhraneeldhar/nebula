@@ -137,7 +137,7 @@ export default function EditorComponent({ id }: { id: string}) {
                             setShareDialogboxOpen(true);
                         }}>Share</Button>
 
-                        <Button loading={savingState} disabled={savingState || loadingEditorState} className={styles.saveBtn} onClick={async() => {
+                        <Button loading={savingState} disabled={savingState||loadingEditorState} className={styles.saveBtn} onClick={async() => {
                             await saveFunction();
                             toast.success("Saved", { position: "bottom-center",autoClose: 500, theme: "dark" });
                         }}>Save</Button>

@@ -361,7 +361,7 @@ export default function Bedrock() {
             <div className={styles.displayContent}>
                 {/* {prebuildEditor && <EditorComponent id="abcd" />} */}
                 <div className={styles.coverImageDiv}>
-                    <Image className={styles.catWalking} src={catWalking} alt="" />
+                    {/* <Image className={styles.catWalking} src={catWalking} alt="" /> */}
                     <Image className={styles.coverImage} src={coverImage} alt="cover image" />
                     <div onClick={() => { router.push("/settings/account") }} className={styles.profilePic}>
                         {userDetails &&
