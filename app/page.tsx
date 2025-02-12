@@ -37,8 +37,8 @@ export default async function Main() {
     {
       name: "Abhraneel Dhar",
       username: "abhraneeldhar",
-      tweetContent: "Nebula good 👍🏼",
-      link: "https://x.com/abhraneeldhar/status/1889654853783142709?t=tiRjfG9LJfegI_axsx7CYQ&s=19"
+      tweetContent: "Just finished working on Nebula.Nebula is live right now ensuring a smooth and seamless experience to work on your documents on the go",
+      link: "https://x.com/abhraneeldhar/status/1889685014025040190"
     }
 
   ]
