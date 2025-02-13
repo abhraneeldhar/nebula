@@ -1,0 +1,72 @@
+.main {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100%;
+    align-items: center;
+    padding: 20px;
+    background: rgb(29, 32, 49);
+    background: linear-gradient(162deg, rgba(29, 32, 49, 1) 9%, rgba(29, 32, 49, 1) 9%, rgba(0, 0, 0, 1) 100%);
+    color: white;
+}
+
+.header {
+    margin-top: 40px;
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.roomCards{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 50px;
+    align-items: center;
+    margin-top: 50px;
+    padding: 10px;
+    
+}
+
+.createRoom, .joinRoom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    background-color: #273046;
+    padding: 20px;
+    width: 300px;
+    border-radius: 15px;
+}
+
+.createRoom h1, .joinRoom h1 {
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.createRoom p, .joinRoom p {
+    text-align: center;
+    opacity: 0.8;
+}
+
+.createRoom button, .joinRoom button {
+    width: 100%;
+    background: rgb(133, 74, 205);
+    background: linear-gradient(115deg, rgba(133, 74, 205, 1) 9%, rgba(51, 108, 205, 1) 100%);
+    padding: 20px;
+    font-size: 15px;
+}
+
+
+
+.icon {
+    height: 70px;
+    width: 70px;
+    background: rgb(97, 9, 171);
+    background: linear-gradient(158deg, rgba(97, 9, 171, 1) 9%, rgba(25, 45, 130, 1) 100%);
+    padding: 10px;
+    border-radius: 50%;
+}
+.joinRoom .icon{
+    padding: 17px;
+}
