@@ -28,6 +28,7 @@
     "@supabase/supabase-js": "^2.46.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
+    "input-otp": "^1.4.2",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.455.0",
     "mongodb": "^6.10.0",

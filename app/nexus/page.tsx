@@ -1,10 +1,11 @@
 "use client"
 import { Plus, PlusIcon, Users } from "lucide-react"
 import styles from "./nexus.module.css"
-import { Button } from "@radix-ui/themes"
+import { Button, Dialog } from "@radix-ui/themes"
 
 import { supabase } from "../utils/supabase/client"
 import { useRouter } from "next/navigation"
+import { useState } from "react"
 export default function Nexus() {
     const router = useRouter();
 
@@ -21,22 +22,40 @@ export default function Nexus() {
                 return;
             }
             else {
-                const { data:creationData, error } = await supabase
+                const { data: creationData, error } = await supabase
                     .from("chat_rooms")
                     .insert([{ roomcode: roomCode }])
                     .select();
-                if(creationData){
-                    console.log("created room at: ",creationData[0].roomcode);
+                if (creationData) {
+                    console.log("created room at: ", creationData[0].roomcode);
                     router.push(`/nexus/${roomCode}`);
                 }
-                return error?null: creationData;
+                return error ? null : creationData;
             }
 
         }
     }
 
+
+
+    const [showJoinDialog, setShowJoinDialog] = useState(false);
+    const joinRoom = async () => {
+
+    }
+
     return (<>
         <div className={styles.main}>
+
+            <Dialog.Root open={showJoinDialog} onOpenChange={setShowJoinDialog}>
+                <Dialog.Title />
+                <Dialog.Description />
+                <Dialog.Content className={styles.joinDialogBox}>
+
+                    asdasda
+
+                </Dialog.Content>
+            </Dialog.Root>
+
             <h1 className={styles.header}>Welcome to NEXUS</h1>
 
             <div className={styles.roomCards}>
@@ -51,7 +70,7 @@ export default function Nexus() {
                     <Users className={styles.icon} />
                     <h1>Join Room</h1>
                     <p>Enter a room code to join an existing collaboration session</p>
-                    <Button ><Users />Join Room</Button>
+                    <Button onClick={() => { setShowJoinDialog(true) }} ><Users />Join Room</Button>
                 </div>
             </div>
         </div>
