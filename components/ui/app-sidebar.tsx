@@ -1,5 +1,5 @@
 "use client"
-import { Home, NotebookPen, NotebookText, Settings, Users } from "lucide-react"
+import { Home, NotebookPen, NotebookText, Settings, Sword, Users } from "lucide-react"
 
 import {
   Sidebar,
@@ -33,12 +33,16 @@ import { useRouter } from 'next/navigation'
 import { signOut } from "next-auth/react"
 import LoadingPage from "@/app/_components/loadingPage/page"
 
-
 const items = [
   {
     title: "Home",
     url: "/home",
     icon: Home,
+  },
+  {
+    title: "NEXUS",
+    url: "/nexus",
+    icon: Sword,
   },
   {
     title: "Friends",
@@ -112,7 +116,8 @@ export function AppSidebar() {
                           toggleSidebar()
                         }
                       }}>
-                        <item.icon />
+                        {item.title=="NEXUS"?<item.icon color="var(--color4)" />:<item.icon />}
+                        
                         <span>{item.title}</span>
                       </div>
                     </SidebarMenuButton>

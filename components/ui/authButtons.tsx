@@ -9,6 +9,7 @@ import { useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { appStore } from "@/app/store"
 
+import vortexLogo from "../../public/landingpage/vortex logo.jpeg"
 
 
 
@@ -50,5 +51,12 @@ export function LilNebulaLogo() {
         <Image onClick={async () => {
             await signIn("google", { callbackUrl: "/home" })
         }} className={style.lilLogo} src={nebulaLogo} alt="N" />
+    )
+}
+
+export function NexusBtn(){
+    const router=useRouter();
+    return(
+        <Button onClick={()=>router.push("/nexus")} className={style.nexusBtn}><span>New</span><Image src={vortexLogo} alt="" /></Button>
     )
 }

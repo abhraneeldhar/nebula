@@ -11,7 +11,7 @@ import lappypython from "../public/landingpage/lappypython.png"
 import friendsImage from "../public/landingpage/friendsImage.jpg"
 import profileImage from "../public/landingpage/profilePic.jpg"
 import TweetCard, { tweetType } from "@/components/ui/tweetCard"
-import SignupBtn, { GetStarted, LilNebulaLogo, LoginBtn } from "@/components/ui/authButtons"
+import SignupBtn, { GetStarted, LilNebulaLogo, LoginBtn, NexusBtn } from "@/components/ui/authButtons"
 import { useSession } from "next-auth/react"
 import LoadingPage from "./_components/loadingPage/page"
 
@@ -66,8 +66,8 @@ export default async function Main() {
           <div className={style.bigAghLogo}>
             <h1>N{" "}E{" "}B{" "}U{" "}L{" "}A</h1>
             <div className={style.upfrontButtons}>
-              <Button className={style.nexusBtn}><span>New</span><Image src={vortexLogo} alt="" /></Button>
-              {/* <Button className={style.getStarted}>Get Started <ArrowRight className={style.arrowRight} /></Button> */}
+              {/* <Button className={style.nexusBtn}><span>New</span><Image src={vortexLogo} alt="" /></Button> */}
+              <NexusBtn/>
               <GetStarted/>
             </div>
           </div>
