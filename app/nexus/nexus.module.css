@@ -117,6 +117,34 @@
 }
 
 
+.notFoundMain{
+    display: flex;
+    background-color: #273046;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+}
+.notFoundMain img{
+    width: 300px;
+    object-fit: contain;
+}
+.notFoundMain h1{
+    
+    color: white;
+    font-weight: 500;
+    font-size: 30px;
+    text-align: center;
+}
+.notFoundMain button{
+    padding: 20px;
+    background-color: black;
+    border-radius: 5px;
+}
+
+
 
 @media (max-width:500px) {
     .header{
@@ -133,5 +161,8 @@
         top: 20%;
         left: 50%;
         transform: translateX(-50%);
+    }
+    .notFoundMain img{
+        width: 60vw;
     }
 }

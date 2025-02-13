@@ -7,6 +7,8 @@ import { supabase } from "../utils/supabase/client"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp"
+
+
 export default function Nexus() {
     const router = useRouter();
 
