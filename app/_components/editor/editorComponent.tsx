@@ -355,7 +355,7 @@ export default function EditorComponent({ id }: { id: string }) {
                     }} />
 
 
-                    <ScrollArea className="h-100 w-100">
+                    <ScrollArea className="h-50 w-100">
                     {/* <ScrollArea.Viewport className="ScrollAreaViewport"> */}
 
                         <div className={styles.searchResultContainer}>

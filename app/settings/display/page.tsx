@@ -59,7 +59,10 @@ export default function Displaysettings() {
         }
         return (
             <div className={cardClassname}>
-                <div onClick={() => { setTheme(theme.name) }} style={{ backgroundColor: theme.color1 }} className={styles.previewCard}>
+                <div onClick={() => {
+                    setTheme(theme.name);
+                    window.location.reload();
+                 }} style={{ backgroundColor: theme.color1 }} className={styles.previewCard}>
                     <div className={styles.sidebar}>
                         <div style={{ backgroundColor: theme.color3 }} className={styles.sidebarDivs}></div>
                         <div style={{ backgroundColor: theme.color3 }} className={styles.sidebarDivs}></div>
