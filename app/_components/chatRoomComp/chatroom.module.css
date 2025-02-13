@@ -1,12 +1,14 @@
 .main {
     width: 100%;
     min-height: 100vh;
-    background-color: rgb(11, 23, 27);
+    background: rgb(58, 56, 60);
+    background: linear-gradient(348deg, rgb(31, 37, 50), rgb(29, 28, 31));
     color: white;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    position: relative;
 }
 
 .chatComp {
@@ -28,6 +30,9 @@
     padding-left: 20px;
     background: rgb(21, 25, 34);
     background: linear-gradient(85deg, rgba(21, 25, 34, 1) 10%, rgba(29, 29, 29, 1) 50%);
+    position: fixed;
+    top: 0;
+    height: 75px;
 }
 
 .goBack {
@@ -54,8 +59,11 @@
 .chatSection {
     flex: 1;
     width: 100%;
-    background: rgb(58, 56, 60);
-    background: linear-gradient(348deg, rgb(31, 37, 50), rgb(29, 28, 31));
+    
+    overflow-y: scroll;
+    padding-bottom: 20px;
+    margin-top: 75px;
+    margin-bottom: 75px;
 }
 
 .writeMessageDiv {
@@ -65,6 +73,9 @@
     gap: 10px;
     padding: 10px;
     align-items: center;
+    position: fixed;
+    bottom: 0;
+    height: 70px;
 }
 
 .messageInput {
@@ -111,13 +122,36 @@
 }
 
 .sent {
-    align-self: right;
-    background-color: #007aff;
+    align-items: end;
+}
+
+.sent .senderInfo {
+    justify-content: end;
+    flex-direction: row-reverse;
+}
+
+.sent p {
+    justify-content: end;
+    background-color: #16b87f;
+    width: fit-content;
+    padding: 5px 15px;
+    border-radius: 30px;
+    margin-right: 40px;
+    margin-top: 2px;
 }
 
 .received {
     align-self: flex-start;
     color: white;
+}
+
+.received p {
+    background-color: rgb(13, 44, 60);
+    width: fit-content;
+    padding: 5px 15px;
+    border-radius: 30px;
+    margin-left: 40px;
+    margin-top: 2px;
 }
 
 .firstInSequence {
@@ -134,15 +168,15 @@
 
 .senderInfo {
     display: flex;
-    align-items: center;
-    margin-bottom: 4px;
+    align-items: flex-end;
+    gap: 10px;
+    margin-bottom: 5px;
 }
 
 .avatar {
-    width: 24px;
-    height: 24px;
+    width: 35px;
+    height: 35px;
     border-radius: 50%;
-    margin-right: 8px;
 }
 
 .senderName {
