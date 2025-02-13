@@ -12,6 +12,7 @@ import friendsImage from "../public/landingpage/friendsImage.jpg"
 import profileImage from "../public/landingpage/profilePic.jpg"
 import TweetCard, { tweetType } from "@/components/ui/tweetCard"
 import SignupBtn, { GetStarted, LilNebulaLogo, LoginBtn } from "@/components/ui/authButtons"
+import { useSession } from "next-auth/react"
 
 export default async function Main() {
 
@@ -100,13 +101,13 @@ export default async function Main() {
           <div className={style.carouselContainer}>
             <div className={style.carousel}>
               {tweets.map((tweet) => (
-                <TweetCard tweet={tweet} />
+                <TweetCard key={tweet.username} tweet={tweet} />
               ))}
               {tweets.map((tweet) => (
-                <TweetCard tweet={tweet} />
+                <TweetCard key={tweet.username} tweet={tweet} />
               ))}
               {tweets.map((tweet) => (
-                <TweetCard tweet={tweet} />
+                <TweetCard key={tweet.username} tweet={tweet} />
               ))}
             </div>
           </div>
