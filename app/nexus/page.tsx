@@ -67,6 +67,7 @@ export default function Nexus() {
                 <Dialog.Title />
                 <Dialog.Description />
                 <Dialog.Content className={styles.joinDialogBox}>
+                    
                     <h1>Enter Room Code</h1>
                     <InputOTP maxLength={4} onChange={(e) => {
                         setInputOtp(e)
@@ -83,6 +84,7 @@ export default function Nexus() {
                         <Button onClick={() => setShowJoinDialog(false)} className={styles.cancelBtn}>Cancel</Button>
                         <Button disabled={!inputOtp || inputOtp.length == 0} onClick={() => { joinRoom() }} className={styles.joinBtn}>Join</Button>
                     </div>
+                  
 
 
                 </Dialog.Content>
@@ -99,10 +101,12 @@ export default function Nexus() {
                 </div>
 
                 <div className={styles.joinRoom}>
-                    <Users className={styles.icon} />
-                    <h1>Join Room</h1>
-                    <p>Enter a room code to join an existing collaboration session</p>
-                    <Button onClick={() => { setShowJoinDialog(true) }} ><Users />Join Room</Button>
+                    
+                        <Users className={styles.icon} />
+                        <h1>Join Room</h1>
+                        <p>Enter a room code to join an existing collaboration session</p>
+                        <Button  onClick={() => { setShowJoinDialog(true) }} ><Users />Join Room</Button>
+                
                 </div>
             </div>
         </div>
