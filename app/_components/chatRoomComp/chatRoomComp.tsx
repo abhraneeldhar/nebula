@@ -115,7 +115,7 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
             return;
         }
         if (nexusUserDetails) {
-            const { data, error } = await supabase.from("messages").insert({
+            const { error } = await supabase.from("messages").insert({
                 roomcode: roomCode,
                 senderid: nexusUserDetails?.name,
                 sendername: nexusUserDetails?.name,
