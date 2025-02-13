@@ -1,5 +1,5 @@
 "use client"
-import { ArrowLeft, CopyIcon, Send } from "lucide-react"
+import { ArrowLeft, CopyIcon, Dot, Send } from "lucide-react"
 import styles from "./chatroom.module.css"
 import { Button, Code, DataList, Flex, IconButton } from "@radix-ui/themes"
 import { Input } from "@/components/ui/input"
@@ -137,7 +137,8 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                 <div className={styles.tab}>
                     <ArrowLeft className={styles.goBack} onClick={() => router.push("/nexus")} />
                     <div className={styles.roomCode}>
-                        Room code : {roomCode}
+                        <h1>Room  {roomCode}</h1>
+                        <p>Users online</p>
                     </div>
                 </div>
                 <div className={styles.chatSection}>

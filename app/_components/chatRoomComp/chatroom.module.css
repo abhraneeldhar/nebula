@@ -10,7 +10,7 @@
 }
 
 .chatComp {
-    width: 60vw;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -21,52 +21,73 @@
     display: flex;
     width: 100%;
     justify-content: space-between;
-    background-color: #191a2e;
+    /* background-color: #191a2e; */
     padding: 10px;
-    gap: 10px;
+    gap: 20px;
+    align-items: center;
+    padding-left: 20px;
+    background: rgb(21, 25, 34);
+    background: linear-gradient(85deg, rgba(21, 25, 34, 1) 10%, rgba(29, 29, 29, 1) 50%);
 }
-.goBack{
+
+.goBack {
     height: 40px;
     width: 40px;
 }
-.roomCode{
+
+.roomCode {
     flex: 1;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    background-color: black;
+    /* justify-content: center; */
+    flex-direction: column;
+    /* background-color: black; */
     border-radius: 10px;
 }
 
-.chatSection{
+.roomCode h1 {
+    font-weight: 500;
+    font-size: 25px;
+    /* color: gradient(331deg, rgba(131, 86, 229, 1) 9%, rgba(197, 65, 219, 1) 100%); */
+    color: rgb(188, 0, 221);
+}
+
+.chatSection {
     flex: 1;
     width: 100%;
-    background-color: #16213d;
+    background: rgb(58, 56, 60);
+    background: linear-gradient(348deg,rgb(31, 37, 50), rgb(29, 28, 31));
 }
-.writeMessageDiv{
+
+.writeMessageDiv {
     width: 100%;
-    background-color: #191a2e;
+    background-color: #1a1b1b;
     display: flex;
     gap: 10px;
     padding: 10px;
     align-items: center;
 }
-.messageInput{
+
+.messageInput {
     flex: 1;
     display: flex;
     justify-content: center;
 }
-.messageInput textarea{
-    background-color: #101218;
+
+.messageInput textarea {
+    background: rgb(31, 31, 31);
+    background: linear-gradient(122deg, rgba(31, 31, 31, 1) 10%, rgba(40, 39, 41, 1) 50%);
     width: 100%;
     height: auto;
-    border-radius: 5px;
+    border-radius: 20px;
     padding: 5px 15px;
-
+    resize: none;
 }
-.sendBtn{
-    background-color: #e94560;
+.messageInput textarea:focus{
+    outline: none;
+}
+
+.sendBtn {
+    background-color: #1ca7d4;
     border-radius: 50%;
     padding: 5px;
     height: 50px;
