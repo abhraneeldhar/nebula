@@ -40,20 +40,35 @@ export default function Nexus() {
 
 
     const [showJoinDialog, setShowJoinDialog] = useState(false);
-    const [inputOtp,setInputOtp]=useState<string|null>()
+    const [inputOtp, setInputOtp] = useState<string | null>(null)
     const joinRoom = async () => {
-        console.log(inputOtp)
+        console.log("meow", inputOtp);
+        const { data: checkRoom, error } = await supabase.from("chat_rooms").select().eq("roomcode", inputOtp);
+
+        if (error) {
+            return null
+        }
+        else if (checkRoom.length == 0) {
+            console.log("no room found")
+        }
+        else {
+            console.log("room found: ", checkRoom);
+            router.push(`/nexus/${inputOtp}`);
+        }
     }
 
     return (<>
         <div className={styles.main}>
 
-            <Dialog.Root open={showJoinDialog} onOpenChange={setShowJoinDialog}>
+            <Dialog.Root open={showJoinDialog} onOpenChange={(e) => {
+                setShowJoinDialog(e);
+                setInputOtp(null);
+            }}>
                 <Dialog.Title />
                 <Dialog.Description />
                 <Dialog.Content className={styles.joinDialogBox}>
                     <h1>Enter Room Code</h1>
-                    <InputOTP maxLength={4} onChange={(e)=>{
+                    <InputOTP maxLength={4} onChange={(e) => {
                         setInputOtp(e)
                     }}>
                         <InputOTPGroup className={styles.otpGroup}>
@@ -65,8 +80,8 @@ export default function Nexus() {
                     </InputOTP>
 
                     <div className={styles.buttonSec}>
-                        <Button onClick={()=>setShowJoinDialog(false)} className={styles.cancelBtn}>Cancel</Button>
-                        <Button onClick={()=>{joinRoom()}} className={styles.joinBtn}>Join</Button>
+                        <Button onClick={() => setShowJoinDialog(false)} className={styles.cancelBtn}>Cancel</Button>
+                        <Button disabled={!inputOtp || inputOtp.length == 0} onClick={() => { joinRoom() }} className={styles.joinBtn}>Join</Button>
                     </div>
 
 

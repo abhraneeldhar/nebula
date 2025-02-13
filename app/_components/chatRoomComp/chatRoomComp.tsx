@@ -3,12 +3,14 @@ import { ArrowLeft, CopyIcon, Send } from "lucide-react"
 import styles from "./chatroom.module.css"
 import { Button, Code, DataList, Flex, IconButton } from "@radix-ui/themes"
 import { Input } from "@/components/ui/input"
+import { useRouter } from "next/navigation"
 export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
+    const router=useRouter();
     return (<>
         <div className={styles.main}>
             <div className={styles.chatComp}>
                 <div className={styles.tab}>
-                    <ArrowLeft className={styles.goBack} />
+                    <ArrowLeft className={styles.goBack} onClick={()=>router.push("/nexus")} />
                     <div className={styles.roomCode}>
                        Room code : {roomCode}
                     </div>
