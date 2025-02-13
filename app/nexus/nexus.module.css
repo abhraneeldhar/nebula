@@ -70,3 +70,48 @@
 .joinRoom .icon{
     padding: 17px;
 }
+
+.joinDialogBox{
+    background-color: black;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    padding: 10px 60px;
+    width: fit-content;
+    gap: 10px;
+}
+.joinDialogBox h1{
+    font-size: 20px;
+    font-weight: 500;
+}
+.otpSlot{
+    border: 1px solid rgba(255, 255, 255, 0.759);
+    outline: none;
+    background-color: #171717;
+    color: white;
+    font-size: 20px;
+    padding: 20px;
+}
+.otpSlot:focus{
+    outline: none;
+}
+
+.buttonSec{
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+.cancelBtn, .joinBtn{
+    width: 60px;
+}
+.cancelBtn{
+    background-color: white;
+    color: black;
+}
+.joinBtn{
+    background-color: aquamarine;
+    color: black;
+}

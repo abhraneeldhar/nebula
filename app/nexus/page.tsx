@@ -6,6 +6,7 @@ import { Button, Dialog } from "@radix-ui/themes"
 import { supabase } from "../utils/supabase/client"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp"
 export default function Nexus() {
     const router = useRouter();
 
@@ -39,8 +40,9 @@ export default function Nexus() {
 
 
     const [showJoinDialog, setShowJoinDialog] = useState(false);
+    const [inputOtp,setInputOtp]=useState<string|null>()
     const joinRoom = async () => {
-
+        console.log(inputOtp)
     }
 
     return (<>
@@ -50,8 +52,23 @@ export default function Nexus() {
                 <Dialog.Title />
                 <Dialog.Description />
                 <Dialog.Content className={styles.joinDialogBox}>
+                    <h1>Enter Room Code</h1>
+                    <InputOTP maxLength={4} onChange={(e)=>{
+                        setInputOtp(e)
+                    }}>
+                        <InputOTPGroup className={styles.otpGroup}>
+                            <InputOTPSlot className={styles.otpSlot} index={0} />
+                            <InputOTPSlot className={styles.otpSlot} index={1} />
+                            <InputOTPSlot className={styles.otpSlot} index={2} />
+                            <InputOTPSlot className={styles.otpSlot} index={3} />
+                        </InputOTPGroup>
+                    </InputOTP>
 
-                    asdasda
+                    <div className={styles.buttonSec}>
+                        <Button onClick={()=>setShowJoinDialog(false)} className={styles.cancelBtn}>Cancel</Button>
+                        <Button onClick={()=>{joinRoom()}} className={styles.joinBtn}>Join</Button>
+                    </div>
+
 
                 </Dialog.Content>
             </Dialog.Root>
