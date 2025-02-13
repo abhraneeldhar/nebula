@@ -110,6 +110,11 @@
     align-items: center;
 }
 
+@media (max-width:500px) {
+    .main{
+        height: 100vh;
+    }
+}
 
 
 
