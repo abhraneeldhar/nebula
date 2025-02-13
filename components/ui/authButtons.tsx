@@ -7,11 +7,15 @@ import Image from "next/image"
 import nebulaLogo from "../../public/landingpage/nebulaLogo.png"
 import { useEffect } from "react"
 import { useRouter } from "next/navigation"
+import { appStore } from "@/app/store"
+
+
+
+
 export default function SignupBtn() {
     const session = useSession();
     const router=useRouter();
-
-
+    
     useEffect(() => {
         if (session.status==="authenticated") {
             console.log("user is logged in")
@@ -20,7 +24,7 @@ export default function SignupBtn() {
     }, [session])
     return (
         <button onClick={async () => {
-            await signIn("google", { callbackUrl: "/home" })
+            await signIn("google", { callbackUrl: "/home" });
         }} className={style.signUpBtn}>SignUp</button>
     )
 }

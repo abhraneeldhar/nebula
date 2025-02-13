@@ -71,8 +71,8 @@
     flex-direction: column;
     height: 200px;
     overflow: hidden;
-    padding: 10px;
-    border-radius: 15px;
+    padding: 5px;
+    border-radius: 10px;
     background-color: black;
     background-color: var(--noteCard);
     transition: all 0.2s;
@@ -92,10 +92,12 @@
     font-size: 1em;
     margin-left: 10px;
     font-weight: 500;
-    max-height: 3em;
+    max-height: 2em;
     text-align: center;
     vertical-align: middle;
     width: 80%;
+    /* overflow: hidden; */
+    display: flex;
 }
 
 
@@ -156,6 +158,10 @@
     border: 1px solid white;
 }
 
+.renameBtn{
+    background-color: var(--color1);
+    color: var(--variableText);
+}
 
 .cancelRename {
     background-color: rgb(243, 83, 83);
@@ -168,6 +174,10 @@
 .deleteBtn {
     color: white;
     background-color: rgb(243, 83, 83);
+}
+.cancelDelete{
+    background-color: white;
+    color: rgb(243, 83, 83);
 }
 
 .deleteBtn:hover {
@@ -194,6 +204,10 @@
     .deleteDialog,
     .renameDialog {
         border-radius: 15px;
+        width: 90%;
+    }
+    .renameDialog{
+        top: 20%;
     }
 
     .dialogFooter {

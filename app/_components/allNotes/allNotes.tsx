@@ -154,8 +154,8 @@ export default function AllNotesComponent() {
                         </div>
                     </div>
                     <DialogFooter className={styles.dialogFooter}>
+                        <Button className={styles.renameBtn} type="submit" >Rename</Button>
                         <Button onClick={() => { setRenameOpen(false) }} className={styles.cancelRename}>Cancel</Button>
-                        <Button type="submit" >Rename</Button>
                     </DialogFooter>
                 </form>
             </DialogContent>

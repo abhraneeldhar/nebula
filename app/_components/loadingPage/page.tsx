@@ -3,6 +3,7 @@ import Image from "next/image"
 import styles from "./laoder.module.css"
 
 export default function LoadingPage() {
+
     return (<>
         <div className={styles.loaderPage}>
             <div className={styles.logoNShi}>
@@ -11,5 +12,6 @@ export default function LoadingPage() {
                 <p>A Trex Corp. product</p>
             </div>
         </div>
+    
     </>)
 }

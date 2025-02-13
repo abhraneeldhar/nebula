@@ -13,6 +13,7 @@ import profileImage from "../public/landingpage/profilePic.jpg"
 import TweetCard, { tweetType } from "@/components/ui/tweetCard"
 import SignupBtn, { GetStarted, LilNebulaLogo, LoginBtn } from "@/components/ui/authButtons"
 import { useSession } from "next-auth/react"
+import LoadingPage from "./_components/loadingPage/page"
 
 export default async function Main() {
 

@@ -457,7 +457,7 @@ export default function AccountsPage() {
                             setAvatar(null);
                         }
                     }}>
-                        <RotateCcw /> Reset
+                        <RotateCcw color="red" /> Reset
                     </Button>
                     <Button loading={saveLoader} className={styles.saveBtn} onClick={async () => {
                         setSaveLoader(true);
