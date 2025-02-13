@@ -1,8 +1,9 @@
 .main{
     padding: 30px;
     position: relative;
-    background-color: #121212;
+    background-color: var(--color1);
     min-height: 100vh;
+    color: var(--variableText);
 }
 .backBtn{
     height: 30px;

@@ -1,9 +1,9 @@
 .main {
-    background-color: #040a19;
+    background-color: var(--color1);
     height: 100vh;
     position: relative;
     padding-top: 20px;
-    color: white;
+    color: var(--variableText);
 }
 
 .back {
@@ -61,6 +61,7 @@
     user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
+    color: var(--variableText);
 }
 
 .card:hover {
@@ -84,10 +85,12 @@
 .card h1 {
     font-weight: 600;
     font-size: 30px;
+    color: var(--variableText)
 }
 
 .card p {
     font-size: 15px;
+    color: var(--variableText);
 }
 
 @media (max-width:500px) {
