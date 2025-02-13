@@ -4,7 +4,9 @@ import styles from "./nexus.module.css"
 import { Button } from "@radix-ui/themes"
 
 import { supabase } from "../utils/supabase/client"
+import { useRouter } from "next/navigation"
 export default function Nexus() {
+    const router = useRouter();
 
     const createRoom = async () => {
         const roomCode = Math.floor(1000 + Math.random() * 9000).toString();
@@ -24,7 +26,8 @@ export default function Nexus() {
                     .insert([{ roomcode: roomCode }])
                     .select();
                 if(creationData){
-                    console.log("created room at: ",creationData);
+                    console.log("created room at: ",creationData[0].roomcode);
+                    router.push(`/nexus/${roomCode}`);
                 }
                 return error?null: creationData;
             }
