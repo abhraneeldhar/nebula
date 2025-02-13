@@ -55,7 +55,7 @@
     flex: 1;
     width: 100%;
     background: rgb(58, 56, 60);
-    background: linear-gradient(348deg,rgb(31, 37, 50), rgb(29, 28, 31));
+    background: linear-gradient(348deg, rgb(31, 37, 50), rgb(29, 28, 31));
 }
 
 .writeMessageDiv {
@@ -82,7 +82,8 @@
     padding: 5px 15px;
     resize: none;
 }
-.messageInput textarea:focus{
+
+.messageInput textarea:focus {
     outline: none;
 }
 
@@ -95,4 +96,56 @@
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+
+
+
+
+.messageBox {
+    display: flex;
+    padding: 0px 10px;
+    width: 100%;
+    flex-direction: column;
+    color: white;
+}
+
+.sent {
+    align-self: right;
+    background-color: #007aff;
+}
+
+.received {
+    align-self: flex-start;
+    color: white;
+}
+
+.firstInSequence {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    margin-top: 8px;
+}
+
+.continuation {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    margin-top: 2px;
+}
+
+.senderInfo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.senderName {
+    font-weight: bold;
+    font-size: 12px;
 }

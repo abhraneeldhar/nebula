@@ -111,13 +111,13 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
     const msgTextRef = useRef<HTMLTextAreaElement>(null)
     const sendMessage = async () => {
         const msgText = msgTextRef?.current?.value || "";
-        if(msgText==""){
+        if (msgText == "") {
             return;
         }
         if (nexusUserDetails) {
             const { error } = await supabase.from("messages").insert({
                 roomcode: roomCode,
-                senderid: nexusUserDetails?.name,
+                senderid: nexusUserDetails?.userId,
                 sendername: nexusUserDetails?.name,
                 senderimageurl: nexusUserDetails?.imageUrl,
                 message: msgText
@@ -142,9 +142,26 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                     </div>
                 </div>
                 <div className={styles.chatSection}>
-                    {messageArray && messageArray.map((msg) => (
-                        <p key={msg.id}> <strong>{msg.sendername}:</strong> {msg.message}</p>
-                    ))}
+                    {messageArray && messageArray.map((msg, index) => {
+                        const isFirstInSeq = index === 0 || messageArray[index - 1].senderid !== msg.senderid;
+
+                    
+                        return (
+                            <div key={index} className={`${styles.messageBox} ${msg.senderid == nexusUserDetails?.userId ? `${styles.sent}` : `${styles.received}`
+                                } ${isFirstInSeq ? `${styles.firstInSequence}` : `${styles.continuation}`}`}>
+
+                                {isFirstInSeq && (
+                                    <div className={styles.senderInfo}>
+                                        <img src={msg.senderimageurl} alt="" className={styles.avatar} />
+                                        <span className={styles.senderName}>{msg.sendername}</span>
+                                    </div>
+                                )}
+                                <p className={styles.messageText}>{msg.message}</p>
+
+                            </div>
+                        )
+                    }
+                    )}
                 </div>
                 <div className={styles.writeMessageDiv}>
                     <div className={styles.messageInput}>
@@ -153,7 +170,6 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                     <Button onClick={() => {
                         sendMessage();
                         if (msgTextRef.current) {
-
                             msgTextRef.current.value = ""
                         }
                     }} className={styles.sendBtn}><Send /></Button>
