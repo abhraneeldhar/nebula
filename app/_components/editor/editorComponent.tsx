@@ -41,11 +41,12 @@ import { Circle, CircleCheckBig } from "lucide-react"
 import { shareToFriends } from "@/app/utils/shareMechanics/shareToFreinds"
 import { FriendSearch } from "@/app/utils/shareMechanics/searchFriends"
 import { getUserDetailsFromEmail } from "@/app/utils/getUserDetailsFromEmail"
+import { ScrollArea } from "@radix-ui/react-scroll-area"
 // import { title } from "process"
 
 
 
-export default function EditorComponent({ id }: { id: string}) {
+export default function EditorComponent({ id }: { id: string }) {
     const setShowLoadingPage = appStore((state) => state.setShowLoadingPage)
 
 
@@ -80,8 +81,8 @@ export default function EditorComponent({ id }: { id: string}) {
     // gets current open note data
     const currentOpenNoteId = id;
     const [noteData, setNoteData] = useState<Note | null>()
-    const [currentNoteTitle,setCurrentNoteTitle]=useState<string|null>()
-    
+    const [currentNoteTitle, setCurrentNoteTitle] = useState<string | null>()
+
 
     useEffect(() => {
         if (userDetails) {
@@ -110,7 +111,7 @@ export default function EditorComponent({ id }: { id: string}) {
         }
 
     }, [userDetails])
-    
+
 
     const [shareDialogboxOpen, setShareDialogboxOpen] = useState(false)
 
@@ -126,7 +127,7 @@ export default function EditorComponent({ id }: { id: string}) {
                             }
                             } />
                         </div>
-                        <Input disabled={loadingEditorState} defaultValue={currentNoteTitle||""} placeholder="Untitled Note" className={styles.tabName} onBlur={(e)=>{setCurrentNoteTitle(e.target.value)}}
+                        <Input disabled={loadingEditorState} defaultValue={currentNoteTitle || ""} placeholder="Untitled Note" className={styles.tabName} onBlur={(e) => { setCurrentNoteTitle(e.target.value) }}
                         />
                     </div>
 
@@ -137,9 +138,9 @@ export default function EditorComponent({ id }: { id: string}) {
                             setShareDialogboxOpen(true);
                         }}>Share</Button>
 
-                        <Button loading={savingState} disabled={savingState||loadingEditorState} className={styles.saveBtn} onClick={async() => {
+                        <Button loading={savingState} disabled={savingState || loadingEditorState} className={styles.saveBtn} onClick={async () => {
                             await saveFunction();
-                            toast.success("Saved", { position: "bottom-center",autoClose: 500, theme: "dark" });
+                            toast.success("Saved", { position: "bottom-center", autoClose: 500, theme: "dark" });
                         }}>Save</Button>
                     </div>
                 </div>
@@ -270,12 +271,12 @@ export default function EditorComponent({ id }: { id: string}) {
     }
 
     // autosaving
-    const mainDivRef=useRef<HTMLDivElement>(null);
+    const mainDivRef = useRef<HTMLDivElement>(null);
     const handleBlur = async (event: React.FocusEvent<HTMLDivElement>) => {
         if (!mainDivRef.current?.contains(event.relatedTarget)) {
-          await saveFunction();
+            await saveFunction();
         }
-      };
+    };
 
 
     const [searchedFriendsList, setSearchedFriendsList] = useState<any>([])
@@ -331,7 +332,7 @@ export default function EditorComponent({ id }: { id: string}) {
             console.log("sent to", selectedFriends);
             setSelectedFriends([]);
             setSearchparam("");
-            toast.success("Sent", { position: "bottom-center",autoClose: 500, theme: "dark" })
+            toast.success("Sent", { position: "bottom-center", autoClose: 500, theme: "dark" })
         }
         setShareDialogboxOpen(false);
     }
@@ -352,45 +353,50 @@ export default function EditorComponent({ id }: { id: string}) {
                         handleShareSearch(e.target.value);
                         setSearchparam(e.target.value);
                     }} />
-                    <div className={styles.searchResultContainer}>
 
-                        {(searchedFriendsList && searchedFriendsList.length > 0 && searchParam) && (searchedFriendsList.map((friendDetail: userType) => (
-                            <div className={styles.reqPersonCard} key={friendDetail.userId} onClick={() => { handleSelection(friendDetail.userId) }} >
-                                <div className={styles.reqProfilePic}>
-                                    <Image src={friendDetail.imageUrl} alt="pfp" height={50} width={50} unoptimized={true} />
-                                    <div className={styles.reqNameHolder}>
-                                        <p className={styles.reqName}>{friendDetail.name}</p>
-                                        <p className={styles.reqUsername}>@{friendDetail.userName}</p>
+
+                    {/* <ScrollArea className="h-10"> */}
+                        <div className={styles.searchResultContainer}>
+
+
+                            {(searchedFriendsList && searchedFriendsList.length > 0 && searchParam) && (searchedFriendsList.map((friendDetail: userType) => (
+                                <div className={styles.reqPersonCard} key={friendDetail.userId} onClick={() => { handleSelection(friendDetail.userId) }} >
+                                    <div className={styles.reqProfilePic}>
+                                        <Image src={friendDetail.imageUrl} alt="pfp" height={50} width={50} unoptimized={true} />
+                                        <div className={styles.reqNameHolder}>
+                                            <p className={styles.reqName}>{friendDetail.name}</p>
+                                            <p className={styles.reqUsername}>@{friendDetail.userName}</p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        {selectedFriends.includes(friendDetail.userId) ? <CircleCheckBig color="var(--color4)" /> : <Circle color="var(--color4)" />}
                                     </div>
                                 </div>
-                                <div>
-                                    {selectedFriends.includes(friendDetail.userId) ? <CircleCheckBig color="var(--color4)" /> : <Circle color="var(--color4)"/>}
-                                </div>
-                            </div>
-                        ))
-                        )}
+                            ))
+                            )}
 
 
-                        {(!searchParam && shareFirendsDetailsList && shareFirendsDetailsList.length > 0) && (shareFirendsDetailsList.map((friendDetail: userType) => (
-                            <div className={styles.reqPersonCard} key={friendDetail.userId} onClick={() => { handleSelection(friendDetail.userId) }} >
-                                <div className={styles.reqProfilePic}>
-                                    <Image src={friendDetail.imageUrl} alt="pfp" height={50} width={50} unoptimized={true} />
-                                    <div className={styles.reqNameHolder}>
-                                        <p className={styles.reqName}>{friendDetail.name}</p>
-                                        <p className={styles.reqUsername}>@{friendDetail.userName}</p>
+                            {(!searchParam && shareFirendsDetailsList && shareFirendsDetailsList.length > 0) && (shareFirendsDetailsList.map((friendDetail: userType) => (
+                                <div className={styles.reqPersonCard} key={friendDetail.userId} onClick={() => { handleSelection(friendDetail.userId) }} >
+                                    <div className={styles.reqProfilePic}>
+                                        <Image src={friendDetail.imageUrl} alt="pfp" height={50} width={50} unoptimized={true} />
+                                        <div className={styles.reqNameHolder}>
+                                            <p className={styles.reqName}>{friendDetail.name}</p>
+                                            <p className={styles.reqUsername}>@{friendDetail.userName}</p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        {selectedFriends.includes(friendDetail.userId) ? <CircleCheckBig color="var(--color4)" /> : <Circle color="var(--color4)" />}
                                     </div>
                                 </div>
-                                <div>
-                                    {selectedFriends.includes(friendDetail.userId) ? <CircleCheckBig color="var(--color4)" /> : <Circle color="var(--color4)" />}
-                                </div>
-                            </div>
-                        ))
-                        )}
+                            ))
+                            )}
 
-                        {
-                            !shareFirendsDetailsList && (<><Spinner className={styles.friendCardSpinner} /></>)
-                        }
-                    </div>
+                            {
+                                !shareFirendsDetailsList && (<><Spinner className={styles.friendCardSpinner} /></>)
+                            }
+                        </div>
+                    {/* </ScrollArea> */}
 
                     <div className={styles.actionButtonContainer}>
                         <Button className={styles.closeDialogBtn} onClick={() => {
@@ -414,7 +420,7 @@ export default function EditorComponent({ id }: { id: string}) {
                 <div id="container" ref={toolbarRef}>
                 </div>
             </div>
-        </div>
+        </div >
     </>
     )
 }
