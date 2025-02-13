@@ -41,8 +41,8 @@ import { Circle, CircleCheckBig } from "lucide-react"
 import { shareToFriends } from "@/app/utils/shareMechanics/shareToFreinds"
 import { FriendSearch } from "@/app/utils/shareMechanics/searchFriends"
 import { getUserDetailsFromEmail } from "@/app/utils/getUserDetailsFromEmail"
-import { ScrollArea } from "@radix-ui/react-scroll-area"
-// import { title } from "process"
+import { ScrollArea } from "@/components/ui/scroll-area"
+
 
 
 
@@ -355,7 +355,9 @@ export default function EditorComponent({ id }: { id: string }) {
                     }} />
 
 
-                    {/* <ScrollArea className="h-10"> */}
+                    <ScrollArea className="h-100 w-100">
+                    {/* <ScrollArea.Viewport className="ScrollAreaViewport"> */}
+
                         <div className={styles.searchResultContainer}>
 
 
@@ -396,7 +398,8 @@ export default function EditorComponent({ id }: { id: string }) {
                                 !shareFirendsDetailsList && (<><Spinner className={styles.friendCardSpinner} /></>)
                             }
                         </div>
-                    {/* </ScrollArea> */}
+                    {/* </ScrollArea.Viewport> */}
+                    </ScrollArea>
 
                     <div className={styles.actionButtonContainer}>
                         <Button className={styles.closeDialogBtn} onClick={() => {
