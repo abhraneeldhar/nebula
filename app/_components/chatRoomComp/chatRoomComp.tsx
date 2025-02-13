@@ -4,7 +4,7 @@ import styles from "./chatroom.module.css"
 import { Button, Code, DataList, Flex, IconButton } from "@radix-ui/themes"
 import { Input } from "@/components/ui/input"
 import { useRouter } from "next/navigation"
-import { useEffect, useRef, useState } from "react"
+import { KeyboardEventHandler, useEffect, useRef, useState } from "react"
 import { supabase } from "@/app/utils/supabase/client"
 import { useSession } from "next-auth/react"
 import { appStore } from "@/app/store"
@@ -108,11 +108,24 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
     }, [, userDetails]);
 
 
-    const msgTextRef = useRef<HTMLTextAreaElement>(null)
+    const messagesEndRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messageArray]);
+
+
+
+
+
+    const msgTextRef = useRef<HTMLTextAreaElement>(null);
     const sendMessage = async () => {
         const msgText = msgTextRef?.current?.value || "";
         if (msgText == "") {
             return;
+        }
+        if(msgTextRef.current){
+            msgTextRef.current.value = "";
         }
         if (nexusUserDetails) {
             const { error } = await supabase.from("messages").insert({
@@ -120,8 +133,9 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                 senderid: nexusUserDetails?.userId,
                 sendername: nexusUserDetails?.name,
                 senderimageurl: nexusUserDetails?.imageUrl,
-                message: msgText
+                message: msgText.trim()
             });
+            
             console.log(error)
             console.log("sent: ", msgText)
         }
@@ -129,6 +143,13 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
             console.log("nexus no user")
         }
     };
+
+    const handleKeyDown = (e:  React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (e.ctrlKey && e.key === "Enter") {
+          e.preventDefault();
+          sendMessage();
+        }
+      };
 
 
     return (<>
@@ -145,7 +166,7 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                     {messageArray && messageArray.map((msg, index) => {
                         const isFirstInSeq = index === 0 || messageArray[index - 1].senderid !== msg.senderid;
 
-                    
+
                         return (
                             <div key={index} className={`${styles.messageBox} ${msg.senderid == nexusUserDetails?.userId ? `${styles.sent}` : `${styles.received}`
                                 } ${isFirstInSeq ? `${styles.firstInSequence}` : `${styles.continuation}`}`}>
@@ -162,16 +183,15 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                         )
                     }
                     )}
+                    <div ref={messagesEndRef} />
                 </div>
                 <div className={styles.writeMessageDiv}>
+
                     <div className={styles.messageInput}>
-                        <textarea ref={msgTextRef} />
+                        <textarea spellCheck={false} ref={msgTextRef} onKeyDown={handleKeyDown}/>
                     </div>
-                    <Button onClick={() => {
+                    <Button type="submit" onClick={() => {
                         sendMessage();
-                        if (msgTextRef.current) {
-                            msgTextRef.current.value = ""
-                        }
                     }} className={styles.sendBtn}><Send /></Button>
                 </div>
             </div>

@@ -92,6 +92,7 @@
     border-radius: 20px;
     padding: 5px 15px;
     resize: none;
+    
 }
 
 .messageInput textarea:focus {
@@ -99,7 +100,7 @@
 }
 
 .sendBtn {
-    background-color: #1ca7d4;
+    background-color: #16b87f;
     border-radius: 50%;
     padding: 5px;
     height: 50px;
