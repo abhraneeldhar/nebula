@@ -6,31 +6,49 @@ import { Button } from "@radix-ui/themes"
 import { supabase } from "../utils/supabase/client"
 export default function Nexus() {
 
-    const createRoom= async()=>{
-        const roomCode=Math.floor(1000 + Math.random() * 9000).toString();
+    const createRoom = async () => {
+        const roomCode = Math.floor(1000 + Math.random() * 9000).toString();
 
         console.log("checking for room")
         // checking for existing room
-        const { data: roomMatch, error }= await supabase.from("chat_rooms").select().eq("roomcode",roomCode);
-        console.log(roomMatch)
+        const { data: roomMatch, error } = await supabase.from("chat_rooms").select().eq("roomcode", roomCode);
+        if (roomMatch) {
+            if (roomMatch?.length > 0) {
+                console.log("colision detected")
+                createRoom();
+                return;
+            }
+            else {
+                const { data:creationData, error } = await supabase
+                    .from("chat_rooms")
+                    .insert([{ roomcode: roomCode }])
+                    .select();
+                if(creationData){
+                    console.log("created room at: ",creationData);
+                }
+                return error?null: creationData;
+            }
+
+        }
     }
+
     return (<>
         <div className={styles.main}>
             <h1 className={styles.header}>Welcome to NEXUS</h1>
 
             <div className={styles.roomCards}>
                 <div className={styles.createRoom}>
-                    <PlusIcon className={styles.icon}/>
+                    <PlusIcon className={styles.icon} />
                     <h1>Create Room</h1>
                     <p>Start a new room and invite others to join your session</p>
-                    <Button onClick={()=>{createRoom()}}><Plus/>Create Room</Button>
+                    <Button onClick={() => { createRoom() }}><Plus />Create Room</Button>
                 </div>
 
                 <div className={styles.joinRoom}>
-                    <Users className={styles.icon}/>
+                    <Users className={styles.icon} />
                     <h1>Join Room</h1>
                     <p>Enter a room code to join an existing collaboration session</p>
-                    <Button ><Users/>Join Room</Button>
+                    <Button ><Users />Join Room</Button>
                 </div>
             </div>
         </div>
