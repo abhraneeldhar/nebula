@@ -10,24 +10,23 @@
     position: relative;
     overflow: hidden;
     margin: 0;
-    background-color: blue;
+    /* background-color: blue; */
+    background-color: #1e232f;
 }
 
 .chatScrollSec {
-    background-color: #1e232f;
     /* margin-bottom: 20px; */
     margin: 0;
 }
 
 .chatSection {
-    background: #1e232f;
+    /* background: #1e232f; */
     width: 100%;
     display: flex;
     flex-direction: column;
     height: 100%;
     padding-top: 75px;
-    padding-bottom: 70px;
-    
+    padding-bottom: 70px;    
 }
 
 

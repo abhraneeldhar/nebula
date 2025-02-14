@@ -185,12 +185,9 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
             </div>
             <div className={styles.chatSection}>
                 <ScrollArea className={styles.chatScrollSec} type="always" scrollbars="vertical">
-
-
                     {messageArray && messageArray.map((msg, index) => {
                         const isFirstInSeq = index === 0 || messageArray[index - 1].senderid !== msg.senderid;
                         const isCode = msg.message.includes("\n") && msg.message.includes("  ");
-
 
                         return (
                             <div key={index} className={`${styles.messageBox} ${msg.senderid == nexusUserDetails?.userId ? `${styles.sent}` : `${styles.received}`
@@ -208,21 +205,20 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
 
                             </div>
                         )
-                    }
-                    )}
+                    })}
                     <div ref={messagesEndRef} />
                 </ScrollArea>
             </div>
-        </div>
-
-        <div className={styles.writeMessageDiv}>
-
-            <div className={styles.messageInput}>
-                <textarea placeholder="white your message here" spellCheck={false} ref={msgTextRef} onKeyDown={handleKeyDown} />
+            <div className={styles.writeMessageDiv}>
+                <div className={styles.messageInput}>
+                    <textarea placeholder="white your message here" spellCheck={false} ref={msgTextRef} onKeyDown={handleKeyDown} />
+                </div>
+                <Button type="submit" onClick={() => {
+                    sendMessage();
+                }} className={styles.sendBtn}><Send /></Button>
             </div>
-            <Button type="submit" onClick={() => {
-                sendMessage();
-            }} className={styles.sendBtn}><Send /></Button>
         </div>
+
+
     </>)
 }
