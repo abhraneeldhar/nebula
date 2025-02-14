@@ -201,7 +201,7 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                 <div className={styles.writeMessageDiv}>
 
                     <div className={styles.messageInput}>
-                        <textarea spellCheck={false} ref={msgTextRef} onKeyDown={handleKeyDown} />
+                        <textarea placeholder="white your message here" spellCheck={false} ref={msgTextRef} onKeyDown={handleKeyDown} />
                     </div>
                     <Button type="submit" onClick={() => {
                         sendMessage();
