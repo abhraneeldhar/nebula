@@ -10,7 +10,6 @@
     overflow: hidden;
     margin: 0;
     background-color: #1e232f;
-    /* padding-top: 75px; */
 }
 
 
@@ -22,15 +21,12 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    /* margin-bottom: 70px; */
     padding-bottom: 75px;
     
 }
 
 .chatScrollSec {
     background-color: #1e232f;
-    /* height: 100%; */
-   /* padding-top: 75px; */
    margin-top: 75px;
 }
 
