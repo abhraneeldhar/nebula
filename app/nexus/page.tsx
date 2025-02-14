@@ -7,7 +7,8 @@ import { supabase } from "../utils/supabase/client"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp"
-
+import Image from "next/image"
+import nexusLogo from "../../public/landingpage/vortex logo.jpeg"
 
 export default function Nexus() {
     const router = useRouter();
@@ -44,20 +45,6 @@ export default function Nexus() {
     const [showJoinDialog, setShowJoinDialog] = useState(false);
     const [inputOtp, setInputOtp] = useState<string | null>(null)
     const joinRoom = async () => {
-        // console.log("meow", inputOtp);
-        // const { data: checkRoom, error } = await supabase.from("chat_rooms").select().eq("roomcode", inputOtp);
-
-        // if (error) {
-        //     return null
-        // }
-        // else if (checkRoom.length == 0) {
-        //     console.log("no room found")
-        // }
-        // else {
-        //     console.log("room found: ", checkRoom);
-        //     router.push(`/nexus/${inputOtp}`);
-        // }
-
         router.push(`/nexus/${inputOtp}`);
     }
 
@@ -94,7 +81,7 @@ export default function Nexus() {
                 </Dialog.Content>
             </Dialog.Root>
 
-            <h1 className={styles.header}>Welcome to NEXUS</h1>
+            <h1 className={styles.header}>Welcome to NEXUS<Image src={nexusLogo} unoptimized alt=""/></h1>
 
             <div className={styles.roomCards}>
                 <div className={styles.createRoom}>

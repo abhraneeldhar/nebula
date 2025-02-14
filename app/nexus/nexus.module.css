@@ -14,6 +14,15 @@
     margin-top: 40px;
     font-size: 30px;
     font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap:10px;
+    vertical-align: middle;
+}
+.header img{
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
 }
 
 .roomCards{
