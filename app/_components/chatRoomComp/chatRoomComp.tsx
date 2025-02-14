@@ -115,19 +115,9 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
 
 
     const messagesEndRef = useRef<HTMLDivElement>(null);
-    const chatContainerRef=useRef<HTMLDivElement>(null)
     useEffect(() => {
-        if (!chatContainerRef.current || !messagesEndRef.current) return;
-    
-        const chatContainer = chatContainerRef.current;
-        const isNearBottom =
-          chatContainer.scrollHeight - chatContainer.scrollTop <=
-          chatContainer.clientHeight + 80; // 50px threshold
-    
-        if (isNearBottom) {
-          messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-        }
-      }, [messageArray]);
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messageArray]);
 
 
 
@@ -189,7 +179,7 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
             </div>
 
             <ScrollArea className={styles.chatScrollSec} type="always" scrollbars="vertical">
-                <div ref={chatContainerRef} className={styles.chatSection}>
+                <div className={styles.chatSection}>
                     {messageArray && messageArray.map((msg, index) => {
                         const isFirstInSeq = index === 0 || messageArray[index - 1].senderid !== msg.senderid;
                         const isCode = msg.message.includes("\n") && msg.message.includes("  ");

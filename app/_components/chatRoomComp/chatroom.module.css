@@ -1,7 +1,6 @@
 .main {
     width: 100%;
-    height: 100vh;
-    /* height: calc(var(--vh, 1vh) * 100); */
+    height: 100svh;
     color: white;
     display: flex;
     justify-content: center;
