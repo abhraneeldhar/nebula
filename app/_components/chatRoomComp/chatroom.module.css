@@ -16,17 +16,12 @@
 
 
 .chatSection {
-    flex: 1;
+    /* flex: 1; */
     width: 100%;
-    padding-bottom: 20px;
-    /* margin-top: 75px; */
-    /* padding-top: 75px; */
-    margin-bottom: 75px;
+    padding-bottom: 80px;
     display: flex;
     flex-direction: column;
     height: 100%;
-    /* overflow-y: scroll; */
-    /* background-color: red; */
 }
 
 
@@ -34,7 +29,6 @@
     display: flex;
     width: 100%;
     justify-content: space-between;
-    /* background-color: #191a2e; */
     padding: 10px;
     gap: 20px;
     align-items: center;
@@ -56,9 +50,7 @@
 .roomCode {
     flex: 1;
     display: flex;
-    /* justify-content: center; */
     flex-direction: column;
-    /* background-color: black; */
     border-radius: 10px;
 }
 
@@ -145,7 +137,6 @@
     width: fit-content;
     margin-right: 40px;
     margin-top: 2px;
-    /* background-image: linear-gradient(to right bottom, #16b87f, #39ea8e); */
 }
 
 .received {
@@ -221,4 +212,18 @@
 .senderName {
     font-weight: bold;
     font-size: 12px;
+}
+
+
+.nexusLoadingPage{
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #1e232f;
+    color: white;
+    z-index: 10;
 }

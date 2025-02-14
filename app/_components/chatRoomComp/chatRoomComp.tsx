@@ -59,6 +59,7 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
 
 
 
+    const [showLoadingPage, setShowLoadingPage] = useState(true);
     const userDetails = appStore((state) => state.userDetails)
     const setUserDetails = appStore((state) => state.setUserDetails)
     const { data: session } = useSession();
@@ -66,11 +67,9 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
     useEffect(() => {
         if (!userDetails && session?.user?.email) {
             const fetchingUserDetails = async () => {
-                // setShowLoadingPage(true);
                 console.log("fetching user details via email");
                 const res = await getUserDetailsFromEmail(session?.user?.email as string);
                 setUserDetails(res)
-                // setShowLoadingPage(false);
             }
             fetchingUserDetails();
         }
@@ -87,12 +86,16 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                 userId: userDetails?.userId as string,
                 name: userDetails?.name as string,
                 imageUrl: userDetails?.imageUrl as string
-
             });
-        } else if (storedUser) {
+            setShowLoadingPage(false);
+        }
+        else if (storedUser) {
             setNexusUserDetails(storedUser);
             console.log("got nexususer from lc  ", storedUser)
-        } else {
+            setShowLoadingPage(false);
+
+        }
+        else {
             const makeNewUser = async () => {
                 const guestUser = {
                     userId: uuidv4(),
@@ -102,11 +105,13 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                 setNexusUserDetails(guestUser);
                 localStorage.setItem("guestUser", JSON.stringify(guestUser));
                 console.log("new user made:", guestUser);
+                setShowLoadingPage(false);
+
             }
             makeNewUser();
         }
 
-    }, [, userDetails]);
+    }, [userDetails]);
 
 
     const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -155,7 +160,6 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
     const copyToClipboard = async (text: string) => {
         try {
             await navigator.clipboard.writeText(text);
-            // toast.success("Saved", { position: "bottom-center", autoClose: 500, theme: "dark" });
         } catch (err) {
         }
     };
@@ -166,8 +170,12 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
     }, [])
 
     return (<>
+        { showLoadingPage &&<div className={styles.nexusLoadingPage}>
+            Joining Room
+        </div>}
         <div className={styles.main}>
             <ToastContainer transition={Flip} />
+
             <div className={styles.tab}>
                 <ArrowLeft className={styles.goBack} onClick={() => router.push("/nexus")} />
                 <div className={styles.roomCode}>
@@ -175,52 +183,46 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                     <p>Users online</p>
                 </div>
             </div>
-            {/* <div className={styles.chatComp}> */}
-                <ScrollArea className={styles.chatScrollSec} type="always" scrollbars="vertical">
+            <ScrollArea className={styles.chatScrollSec} type="always" scrollbars="vertical">
 
-                    <div className={styles.chatSection}>
+                <div className={styles.chatSection}>
 
-                        {messageArray && messageArray.map((msg, index) => {
-                            const isFirstInSeq = index === 0 || messageArray[index - 1].senderid !== msg.senderid;
-                            const isCode = msg.message.includes("\n") && msg.message.includes("  ");
+                    {messageArray && messageArray.map((msg, index) => {
+                        const isFirstInSeq = index === 0 || messageArray[index - 1].senderid !== msg.senderid;
+                        const isCode = msg.message.includes("\n") && msg.message.includes("  ");
 
 
-                            return (
-                                <div key={index} className={`${styles.messageBox} ${msg.senderid == nexusUserDetails?.userId ? `${styles.sent}` : `${styles.received}`
-                                    } ${isFirstInSeq ? `${styles.firstInSequence}` : `${styles.continuation}`}`}>
+                        return (
+                            <div key={index} className={`${styles.messageBox} ${msg.senderid == nexusUserDetails?.userId ? `${styles.sent}` : `${styles.received}`
+                                } ${isFirstInSeq ? `${styles.firstInSequence}` : `${styles.continuation}`}`}>
 
-                                    {isFirstInSeq && (
-                                        <div className={styles.senderInfo}>
-                                            <img src={msg.senderimageurl} alt="" className={styles.avatar} />
-                                            <span className={styles.senderName}>{msg.sendername}</span>
-                                        </div>
-                                    )}
+                                {isFirstInSeq && (
+                                    <div className={styles.senderInfo}>
+                                        <img src={msg.senderimageurl} alt="" className={styles.avatar} />
+                                        <span className={styles.senderName}>{msg.sendername}</span>
+                                    </div>
+                                )}
 
-                                    <pre className={styles.messageText}>{msg.message}</pre>
-                                    {isCode && (<div className={styles.copyCodeBtn} onClick={() => { copyToClipboard(msg.message) }}>Copy Code <Copy /></div>)}
+                                <pre className={styles.messageText}>{msg.message}</pre>
+                                {isCode && (<div className={styles.copyCodeBtn} onClick={() => { copyToClipboard(msg.message) }}>Copy Code <Copy /></div>)}
 
-                                </div>
-                            )
-                        }
-                        )}
-                        <div ref={messagesEndRef} />
-                    </div>
-                </ScrollArea>
-            {/* </div> */}
+                            </div>
+                        )
+                    }
+                    )}
+                    <div ref={messagesEndRef} />
+                </div>
+            </ScrollArea>
         </div>
 
-        {/* </div> */}
         <div className={styles.writeMessageDiv}>
 
-            {/* <ScrollArea type="always" scrollbars="vertical"> */}
             <div className={styles.messageInput}>
                 <textarea placeholder="white your message here" spellCheck={false} ref={msgTextRef} onKeyDown={handleKeyDown} />
             </div>
-            {/* </ScrollArea> */}
             <Button type="submit" onClick={() => {
                 sendMessage();
             }} className={styles.sendBtn}><Send /></Button>
         </div>
-        {/* </div > */}
     </>)
 }
