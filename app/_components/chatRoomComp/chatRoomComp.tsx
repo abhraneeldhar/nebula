@@ -176,45 +176,46 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                 </div>
             </div>
             {/* <div className={styles.chatComp}> */}
-            <ScrollArea className={styles.chatScrollSec} type="always" scrollbars="vertical">
+                <ScrollArea className={styles.chatScrollSec} type="always" scrollbars="vertical">
 
-                <div className={styles.chatSection}>
+                    <div className={styles.chatSection}>
 
-                    {messageArray && messageArray.map((msg, index) => {
-                        const isFirstInSeq = index === 0 || messageArray[index - 1].senderid !== msg.senderid;
-                        const isCode = msg.message.includes("\n") && msg.message.includes("  ");
+                        {messageArray && messageArray.map((msg, index) => {
+                            const isFirstInSeq = index === 0 || messageArray[index - 1].senderid !== msg.senderid;
+                            const isCode = msg.message.includes("\n") && msg.message.includes("  ");
 
 
-                        return (
-                            <div key={index} className={`${styles.messageBox} ${msg.senderid == nexusUserDetails?.userId ? `${styles.sent}` : `${styles.received}`
-                                } ${isFirstInSeq ? `${styles.firstInSequence}` : `${styles.continuation}`}`}>
+                            return (
+                                <div key={index} className={`${styles.messageBox} ${msg.senderid == nexusUserDetails?.userId ? `${styles.sent}` : `${styles.received}`
+                                    } ${isFirstInSeq ? `${styles.firstInSequence}` : `${styles.continuation}`}`}>
 
-                                {isFirstInSeq && (
-                                    <div className={styles.senderInfo}>
-                                        <img src={msg.senderimageurl} alt="" className={styles.avatar} />
-                                        <span className={styles.senderName}>{msg.sendername}</span>
-                                    </div>
-                                )}
+                                    {isFirstInSeq && (
+                                        <div className={styles.senderInfo}>
+                                            <img src={msg.senderimageurl} alt="" className={styles.avatar} />
+                                            <span className={styles.senderName}>{msg.sendername}</span>
+                                        </div>
+                                    )}
 
-                                <pre className={styles.messageText}>{msg.message}</pre>
-                                {isCode && (<div className={styles.copyCodeBtn} onClick={() => { copyToClipboard(msg.message) }}>Copy Code <Copy /></div>)}
+                                    <pre className={styles.messageText}>{msg.message}</pre>
+                                    {isCode && (<div className={styles.copyCodeBtn} onClick={() => { copyToClipboard(msg.message) }}>Copy Code <Copy /></div>)}
 
-                            </div>
-                        )
-                    }
-                    )}
-                    <div ref={messagesEndRef} />
-                </div>
-            </ScrollArea>
+                                </div>
+                            )
+                        }
+                        )}
+                        <div ref={messagesEndRef} />
+                    </div>
+                </ScrollArea>
+            {/* </div> */}
         </div>
 
         {/* </div> */}
         <div className={styles.writeMessageDiv}>
 
             {/* <ScrollArea type="always" scrollbars="vertical"> */}
-                <div className={styles.messageInput}>
-                    <textarea placeholder="white your message here" spellCheck={false} ref={msgTextRef} onKeyDown={handleKeyDown} />
-                </div>
+            <div className={styles.messageInput}>
+                <textarea placeholder="white your message here" spellCheck={false} ref={msgTextRef} onKeyDown={handleKeyDown} />
+            </div>
             {/* </ScrollArea> */}
             <Button type="submit" onClick={() => {
                 sendMessage();
