@@ -111,8 +111,8 @@ Nebula is built using modern technologies to ensure a **fast, secure, and scalab
 
 - **Next.js** – for frontend and server-side rendering.
 - **MongoDB** – for storing user and document data.
-- **TypeScript** – for type safety and better development experience.
-- **Supabase** – for authentication and real-time database features.
+- **TypeScript** – for type safety.
+- **Supabase** – for cache requests and real-time database features.
 - **React** – for a smooth and dynamic user interface.
 - **NextAuth** – for secure authentication and user management.
 
