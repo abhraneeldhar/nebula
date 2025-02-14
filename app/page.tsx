@@ -132,7 +132,7 @@ export default async function Main() {
           <h1 className={style.sectionHeading}>Contact Us</h1>
           <div className={style.socialLinks}>
 
-            <a href="linkedin.com/in/abhraneeldhar/" target="_blank">
+            <a href="https://linkedin.com/in/abhraneeldhar/" target="_blank">
               <div className={style.oneLink}><Linkedin />abhraneeldhar</div>
             </a>
             <a href="https://github.com/abhraneeldhar" target="_blank">
