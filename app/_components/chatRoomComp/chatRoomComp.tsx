@@ -211,11 +211,11 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
         {/* </div> */}
         <div className={styles.writeMessageDiv}>
 
-            <ScrollArea type="always" scrollbars="vertical">
+            {/* <ScrollArea type="always" scrollbars="vertical"> */}
                 <div className={styles.messageInput}>
                     <textarea placeholder="white your message here" spellCheck={false} ref={msgTextRef} onKeyDown={handleKeyDown} />
                 </div>
-            </ScrollArea>
+            {/* </ScrollArea> */}
             <Button type="submit" onClick={() => {
                 sendMessage();
             }} className={styles.sendBtn}><Send /></Button>
