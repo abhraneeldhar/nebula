@@ -49,7 +49,8 @@ Designed for efficiency, the dashboard ensures you stay organized and productive
 ![Friends](assets/friends.png)
 - Send and receive **friend requests**.
 - Accept or reject incoming requests.
-  ![Add Friend](assets/addfriend.png)
+<br>
+![Add Friend](assets/addfriend.png)
 ---
 ### **Collaborate by sharing documents** with friends.
 <br><br>
@@ -65,21 +66,20 @@ Designed for efficiency, the dashboard ensures you stay organized and productive
 - **Profile customization**: Change your **name, username, bio, and profile picture**.
   <br>
 
-  ![Profile](assets/profile.png)
+![Profile](assets/profile.png)
 
 - **Image cropping**: Upload and crop your profile picture before saving.
  <br>
 
-  ![Crop](assets/crop.png)
+![Crop](assets/crop.png)
 - **Theme settings**: Switch between light and dark themes.
   <br>
 
-  ![Themes](assets/theme.png)
+![Themes](assets/theme.png)
 ---
 
 ### 💬 **Nexus - Instant Chat Rooms**
 <br>
-
 ![NEXUS](assets/nexus.png)
 
 - No sign-in required for quick and **anonymous communication**.
