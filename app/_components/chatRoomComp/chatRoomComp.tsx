@@ -115,10 +115,12 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
 
 
     const messagesEndRef = useRef<HTMLDivElement>(null);
+
+
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        console.log(messagesEndRef.current?.scrollHeight)
     }, [messageArray]);
-
 
 
 
@@ -202,7 +204,7 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                             </div>
                         )
                     })}
-                    <div ref={messagesEndRef} />
+                    <div className={styles.endDiv} ref={messagesEndRef} />
                 </ScrollArea>
             </div>
 

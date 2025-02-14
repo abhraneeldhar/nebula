@@ -22,7 +22,8 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    margin-bottom: 70px;
+    /* margin-bottom: 70px; */
+    padding-bottom: 75px;
     
 }
 
@@ -82,7 +83,7 @@
     height: 70px;
     z-index: 4;
     color: white;
-    /* opacity: 0.5; */
+    opacity: 0.5;
 }
 
 .messageInput {
@@ -171,6 +172,8 @@
 }
 .endDiv{
     height: 20px;
+    width: 100px;
+    background-color: purple;
 }
 .copyCodeBtn {
     display: flex;
