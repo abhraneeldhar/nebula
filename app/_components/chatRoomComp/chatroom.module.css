@@ -173,7 +173,7 @@
     box-shadow: rgba(0, 0, 0, 0.773) 2px 3px 10px;
 }
 .endDiv{
-    height: 70px;
+    height: 20px;
     /* width: 100px; */
     /* background-color: purple; */
 }
@@ -245,4 +245,10 @@
     background-color: #1e232f;
     color: white;
     z-index: 10;
+}
+
+@media (max-width:500px){
+    .endDiv{
+        height: 70px;
+    }
 }
