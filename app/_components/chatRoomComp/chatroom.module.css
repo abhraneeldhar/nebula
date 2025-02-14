@@ -173,9 +173,9 @@
     box-shadow: rgba(0, 0, 0, 0.773) 2px 3px 10px;
 }
 .endDiv{
-    height: 20px;
-    width: 100px;
-    background-color: purple;
+    height: 70px;
+    /* width: 100px; */
+    /* background-color: purple; */
 }
 .copyCodeBtn {
     display: flex;
