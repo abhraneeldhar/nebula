@@ -81,6 +81,7 @@
     bottom: 0;
     left: 0;
     height: 70px;
+    z-index: 4;
 }
 
 .messageInput {
