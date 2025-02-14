@@ -75,11 +75,14 @@ Designed for efficiency, the dashboard ensures you stay organized and productive
 - **Theme settings**: Switch between light and dark themes.
   <br>
 
+
 ![Themes](assets/theme.png)
+
 ---
 
 ### 💬 **Nexus - Instant Chat Rooms**
 <br>
+
 ![NEXUS](assets/nexus.png)
 
 - No sign-in required for quick and **anonymous communication**.
