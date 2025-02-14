@@ -1,6 +1,6 @@
 .main {
     width: 100%;
-    height: 100svh;
+    height: 100vh;
     color: white;
     display: flex;
     justify-content: center;
@@ -10,15 +10,10 @@
     overflow: hidden;
     margin: 0;
     background-color: #1e232f;
+    padding-top: 75px;
 }
 
-.chatScrollSec {
-    /* background-color: blue; */
-    background-color: #1e232f;
-    height: 100%;
-    padding-top: 75px;
-    padding-bottom: 70px;
-}
+
 
 .chatSection {
     background-color: #1e232f;
@@ -26,10 +21,14 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    height: 100%; 
-    /* padding-top: 75px; */
-    /* padding-bottom: 70px; */
-    /* background-color: red;   */
+    height: 100%;
+    margin-bottom: 70px;
+    
+}
+
+.chatScrollSec {
+    background-color: #1e232f;
+    /* height: 100%; */
 }
 
 
@@ -46,7 +45,7 @@
     position: fixed;
     top: 0;
     height: 75px;
-    /* opacity: 0.5; */
+    opacity: 0.5;
     z-index: 4;
 }
 
