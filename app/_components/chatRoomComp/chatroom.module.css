@@ -14,12 +14,14 @@
 
 .chatScrollSec {
     /* background-color: blue; */
+    background-color: #1e232f;
     height: 100%;
     padding-top: 75px;
     padding-bottom: 70px;
 }
 
 .chatSection {
+    background-color: #1e232f;
     /* background: #1e232f; */
     width: 100%;
     display: flex;
