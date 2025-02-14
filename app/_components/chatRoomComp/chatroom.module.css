@@ -30,7 +30,8 @@
 .chatScrollSec {
     background-color: #1e232f;
     /* height: 100%; */
-   padding-top: 75px;
+   /* padding-top: 75px; */
+   margin-top: 75px;
 }
 
 
