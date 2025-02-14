@@ -159,7 +159,6 @@
     overflow: hidden;
     white-space: pre-wrap;
     word-wrap: break-word;
-    font-family: monospace;
     position: relative;
 }
 .copyCodeBtn{
