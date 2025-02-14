@@ -13,6 +13,9 @@
     padding-top: 75px;
 }
 
+.chatScrollSec{
+    background-color: #1e232f;
+}
 
 .chatSection {
     /* flex: 1; */

@@ -170,7 +170,7 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
     }, [])
 
     return (<>
-        { showLoadingPage &&<div className={styles.nexusLoadingPage}>
+        {showLoadingPage && <div className={styles.nexusLoadingPage}>
             Joining Room
         </div>}
         <div className={styles.main}>
