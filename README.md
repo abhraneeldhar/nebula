@@ -1,8 +1,12 @@
 # Nebula - The Ultimate Productivity App for Students 🚀
-
+---
+[Visit NEBULA](https://nebula-trexcorp.vercel.app/)
+<br><br>
 Nebula is a **feature-rich productivity app** designed specifically for students. It provides a seamless online document editor, a collaborative friend system, and a fast, no-sign-in chat feature called **Nexus**. Manage, share, and edit documents with ease while customizing your profile and workspace to fit your style.
 <br><br>
 ![NEBULA](assets/landingpage.png)
+<br>
+[Visit NEBULA](https://nebula-trexcorp.vercel.app/)
 
 ---
 
