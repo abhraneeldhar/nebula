@@ -161,6 +161,7 @@
     white-space: pre-wrap;
     word-wrap: break-word;
     position: relative;
+    box-shadow: black 2px 2px 20px;
 }
 .copyCodeBtn{
     display: flex;
@@ -171,6 +172,7 @@
     border-radius: 10px;
     transition: all 0.2s;
     margin: 5px 0px;
+    width: 135px;
 }
 .sent .copyCodeBtn{
     margin-right: 40px;
