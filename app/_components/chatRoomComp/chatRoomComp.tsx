@@ -122,7 +122,7 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
         const chatContainer = chatContainerRef.current;
         const isNearBottom =
           chatContainer.scrollHeight - chatContainer.scrollTop <=
-          chatContainer.clientHeight + 50; // 50px threshold
+          chatContainer.clientHeight + 80; // 50px threshold
     
         if (isNearBottom) {
           messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
