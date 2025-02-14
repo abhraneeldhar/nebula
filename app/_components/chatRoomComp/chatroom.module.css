@@ -24,12 +24,14 @@
     flex: 1;
     width: 100%;
     padding-bottom: 20px;
-    margin-top: 75px;
+    /* margin-top: 75px; */
+    padding-top: 75px;
     margin-bottom: 75px;
     display: flex;
     flex-direction: column;
     height: 100%;
     /* overflow-y: scroll; */
+    /* background-color: red; */
 }
 
 
