@@ -18,7 +18,8 @@
     margin: 0;
     /* margin-bottom: 20px; */
     padding-bottom: 20px;
-    /* background-color: blue; */
+    background-color: blue;
+    height: 100%;
 }
 
 .chatSection {
@@ -29,7 +30,7 @@
     height: 100%;
     padding-top: 75px;
     padding-bottom: 70px;  
-    /* background-color: red;   */
+    background-color: red;  
 }
 
 
