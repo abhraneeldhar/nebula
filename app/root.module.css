@@ -335,11 +335,16 @@
 
 .contactUs{
     margin-top: 40px;
+    background-color: rgb(239, 239, 239);
+    color: black;
+}
+.contactUs .sectionHeading{
+    color: black;
 }
 
 .contactUs .socialLinks{
     padding-left: 30px;
-    color: white;
+    /* color: white; */
     display: flex;
     flex-direction: column;
     gap: 10px;
