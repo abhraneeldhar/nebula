@@ -14,7 +14,7 @@
 }
 
 .chatScrollSec {
-    background-color: blue;
+    /* background-color: blue; */
     height: 100%;
     /* padding-top: 75px; */
     padding-bottom: 70px;
@@ -28,7 +28,7 @@
     height: 100%; 
     /* padding-top: 75px; */
     /* padding-bottom: 70px; */
-    background-color: red;  
+    /* background-color: red;   */
 }
 
 
@@ -45,7 +45,7 @@
     /* position: fixed; */
     /* top: 0; */
     height: 75px;
-    opacity: 0.5;
+    /* opacity: 0.5; */
     z-index: 4;
 }
 
@@ -82,7 +82,7 @@
     height: 70px;
     z-index: 4;
     color: white;
-    opacity: 0.5;
+    /* opacity: 0.5; */
 }
 
 .messageInput {

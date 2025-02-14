@@ -215,7 +215,7 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                     sendMessage();
                 }} className={styles.sendBtn}><Send /></Button>
             </div>
-            
+
         </div>
 
 
