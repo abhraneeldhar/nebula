@@ -160,10 +160,14 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
         }
     };
 
+    useEffect(() => {
+        let vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }, [])
 
     return (<>
         <div className={styles.main}>
-        <ToastContainer transition={Flip} />
+            <ToastContainer transition={Flip} />
             <div className={styles.chatComp}>
                 <div className={styles.tab}>
                     <ArrowLeft className={styles.goBack} onClick={() => router.push("/nexus")} />
@@ -198,15 +202,16 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                     )}
                     <div ref={messagesEndRef} />
                 </div>
-                <div className={styles.writeMessageDiv}>
 
-                    <div className={styles.messageInput}>
-                        <textarea placeholder="white your message here" spellCheck={false} ref={msgTextRef} onKeyDown={handleKeyDown} />
-                    </div>
-                    <Button type="submit" onClick={() => {
-                        sendMessage();
-                    }} className={styles.sendBtn}><Send /></Button>
+            </div>
+            <div className={styles.writeMessageDiv}>
+
+                <div className={styles.messageInput}>
+                    <textarea placeholder="white your message here" spellCheck={false} ref={msgTextRef} onKeyDown={handleKeyDown} />
                 </div>
+                <Button type="submit" onClick={() => {
+                    sendMessage();
+                }} className={styles.sendBtn}><Send /></Button>
             </div>
         </div>
     </>)

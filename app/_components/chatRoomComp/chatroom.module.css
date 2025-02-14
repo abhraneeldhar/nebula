@@ -13,6 +13,7 @@
 
 .chatComp {
     width: 100%;
+    /* height: calc(var(--vh, 1vh) * 100); */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -77,6 +78,7 @@
     align-items: center;
     position: fixed;
     bottom: 0;
+    left: 0;
     height: 70px;
 }
 
