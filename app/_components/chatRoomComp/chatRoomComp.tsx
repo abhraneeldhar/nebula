@@ -1,5 +1,5 @@
 "use client"
-import { ArrowLeft, CopyIcon, Dot, Send } from "lucide-react"
+import { ArrowLeft, Copy, CopyIcon, Dot, Send } from "lucide-react"
 import styles from "./chatroom.module.css"
 import { Button, Code, DataList, Flex, IconButton } from "@radix-ui/themes"
 import { Input } from "@/components/ui/input"
@@ -121,10 +121,10 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
     const msgTextRef = useRef<HTMLTextAreaElement>(null);
     const sendMessage = async () => {
         const msgText = msgTextRef?.current?.value || "";
-        if (msgText == "") {
+        if (!msgText.trim()) {
             return;
         }
-        if(msgTextRef.current){
+        if (msgTextRef.current) {
             msgTextRef.current.value = "";
         }
         if (nexusUserDetails) {
@@ -135,7 +135,7 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                 senderimageurl: nexusUserDetails?.imageUrl,
                 message: msgText.trim()
             });
-            
+
             console.log(error)
             console.log("sent: ", msgText)
         }
@@ -144,12 +144,21 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
         }
     };
 
-    const handleKeyDown = (e:  React.KeyboardEvent<HTMLTextAreaElement>) => {
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (e.ctrlKey && e.key === "Enter") {
-          e.preventDefault();
-          sendMessage();
+            e.preventDefault();
+            sendMessage();
         }
-      };
+    };
+
+    const copyToClipboard = async (text:string) => {
+        try {
+            await navigator.clipboard.writeText(text);
+            // alert("Copied!");
+        } catch (err) {
+            console.error("Failed to copy: ", err);
+        }
+    };
 
 
     return (<>
@@ -165,6 +174,7 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                 <div className={styles.chatSection}>
                     {messageArray && messageArray.map((msg, index) => {
                         const isFirstInSeq = index === 0 || messageArray[index - 1].senderid !== msg.senderid;
+                        const isCode = msg.message.includes("\n") && msg.message.includes("  ");
 
 
                         return (
@@ -177,7 +187,8 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                                         <span className={styles.senderName}>{msg.sendername}</span>
                                     </div>
                                 )}
-                                <p className={styles.messageText}>{msg.message}</p>
+
+                                <pre className={styles.messageText}>{msg.message} {isCode && (<div className={styles.copyCodeBtn} onClick={()=>{copyToClipboard(msg.message)}}>Copy Code <Copy /></div>)}</pre>
 
                             </div>
                         )
@@ -188,7 +199,7 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                 <div className={styles.writeMessageDiv}>
 
                     <div className={styles.messageInput}>
-                        <textarea spellCheck={false} ref={msgTextRef} onKeyDown={handleKeyDown}/>
+                        <textarea spellCheck={false} ref={msgTextRef} onKeyDown={handleKeyDown} />
                     </div>
                     <Button type="submit" onClick={() => {
                         sendMessage();

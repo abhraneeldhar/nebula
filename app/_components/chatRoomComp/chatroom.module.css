@@ -60,7 +60,7 @@
 .chatSection {
     flex: 1;
     width: 100%;
-    
+
     overflow-y: scroll;
     padding-bottom: 20px;
     margin-top: 75px;
@@ -93,7 +93,7 @@
     border-radius: 20px;
     padding: 5px 15px;
     resize: none;
-    
+
 }
 
 .messageInput textarea:focus {
@@ -132,12 +132,10 @@
     flex-direction: row-reverse;
 }
 
-.sent p {
+.sent pre {
     justify-content: end;
     background-color: #16b87f;
     width: fit-content;
-    padding: 5px 15px;
-    border-radius: 30px;
     margin-right: 40px;
     margin-top: 2px;
 }
@@ -147,13 +145,38 @@
     color: white;
 }
 
-.received p {
+.received pre {
     background-color: rgb(13, 44, 60);
     width: fit-content;
-    padding: 5px 15px;
-    border-radius: 30px;
     margin-left: 40px;
     margin-top: 2px;
+}
+
+.messageText {
+    padding: 10px 20px;
+    max-width: 80vw;
+    border-radius: 15px;
+    overflow: hidden;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: monospace;
+    position: relative;
+}
+.copyCodeBtn{
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    display: flex;
+    background-color: rgb(53, 53, 53);
+    color: rgba(255, 255, 255, 0.788);
+    padding: 5px 10px;
+    border-radius: 10px;
+    transition: all 0.2s;
+}
+.copyCodeBtn:hover{
+    color: white;
+    background-color: black;
+    cursor: pointer;
 }
 
 .firstInSequence {
@@ -188,7 +211,7 @@
 
 
 @media (max-width:500px) {
-    .main{
+    .main {
         height: 100vh;
     }
 }
