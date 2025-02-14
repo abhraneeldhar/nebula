@@ -169,8 +169,8 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
         {showLoadingPage && <div className={styles.nexusLoadingPage}>
             Joining Room
         </div>}
+        {/* <ToastContainer transition={Flip} /> */}
         <div className={styles.main}>
-            <ToastContainer transition={Flip} />
 
             <div className={styles.tab}>
                 <ArrowLeft className={styles.goBack} onClick={() => router.push("/nexus")} />
@@ -179,6 +179,7 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                     <p>Users online</p>
                 </div>
             </div>
+
             <ScrollArea className={styles.chatScrollSec} type="always" scrollbars="vertical">
                 <div className={styles.chatSection}>
                     {messageArray && messageArray.map((msg, index) => {
@@ -205,6 +206,7 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                     <div ref={messagesEndRef} />
                 </div>
             </ScrollArea>
+
             <div className={styles.writeMessageDiv}>
                 <div className={styles.messageInput}>
                     <textarea placeholder="white your message here" spellCheck={false} ref={msgTextRef} onKeyDown={handleKeyDown} />
@@ -213,6 +215,7 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                     sendMessage();
                 }} className={styles.sendBtn}><Send /></Button>
             </div>
+            
         </div>
 
 
