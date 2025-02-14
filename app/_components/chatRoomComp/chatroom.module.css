@@ -17,6 +17,7 @@
     background-color: blue;
     height: 100%;
     padding-top: 75px;
+    padding-bottom: 70px;
 }
 
 .chatSection {
@@ -26,7 +27,7 @@
     flex-direction: column;
     height: 100%; 
     /* padding-top: 75px; */
-    padding-bottom: 70px;
+    /* padding-bottom: 70px; */
     background-color: red;  
 }
 
