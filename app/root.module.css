@@ -213,7 +213,7 @@
 .documentEditing,
 .nexusSection,
 .friendsSection,
-.aboutMe {
+.aboutMe, .contactUs {
     display: flex;
     flex-direction: column;
     padding: 20px;
@@ -331,6 +331,23 @@
 
 .carousel:hover {
     animation-play-state: paused;
+}
+
+.contactUs{
+    margin-top: 40px;
+}
+
+.contactUs .socialLinks{
+    padding-left: 30px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 50px;
+}
+.contactUs .socialLinks .oneLink{
+    display: flex;
+    gap: 10px;
 }
 
 

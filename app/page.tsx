@@ -3,7 +3,7 @@ import style from "./root.module.css"
 import Image from "next/image"
 import nebulaLogo from "../public/landingpage/nebulaLogo.png"
 import vortexLogo from "../public/landingpage/vortex logo.jpeg"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, Github, Instagram, Linkedin, Twitter, Youtube } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 import documentEditingImage from "../public/landingpage/documentEditing.png"
@@ -59,16 +59,16 @@ export default async function Main() {
             </div>
 
             <div className={style.authBtn}>
-              <LoginBtn/>
-              <SignupBtn/>
+              <LoginBtn />
+              <SignupBtn />
             </div>
           </div>
           <div className={style.bigAghLogo}>
             <h1>N{" "}E{" "}B{" "}U{" "}L{" "}A</h1>
             <div className={style.upfrontButtons}>
               {/* <Button className={style.nexusBtn}><span>New</span><Image src={vortexLogo} alt="" /></Button> */}
-              <NexusBtn/>
-              <GetStarted/>
+              <NexusBtn />
+              <GetStarted />
             </div>
           </div>
 
@@ -79,7 +79,7 @@ export default async function Main() {
           <p>The Power to Perfect Every Document</p>
           <p>Streamline Your Workflow</p>
           {/* <Image className={style.lilLogo} src={nebulaLogo} alt="N" /> */}
-          <LilNebulaLogo/>
+          <LilNebulaLogo />
           <Image src={documentEditingImage} alt="" />
         </div>
 
@@ -127,6 +127,32 @@ export default async function Main() {
             </div>
           </a>
         </div>
+
+        <div className={style.contactUs}>
+          <h1 className={style.sectionHeading}>Contact Us</h1>
+          <div className={style.socialLinks}>
+
+            <a href="linkedin.com/in/abhraneeldhar/" target="_blank">
+              <div className={style.oneLink}><Linkedin />abhraneeldhar</div>
+            </a>
+            <a href="https://github.com/abhraneeldhar" target="_blank">
+              <div className={style.oneLink}><Github />abhraneeldhar</div>
+            </a>
+            <a href="https://www.instagram.com/abhraneeldhar" target="_blank">
+              <div className={style.oneLink}><Instagram />abhraneeldhar</div>
+            </a>
+            <a href="https://x.com/abhraneeldhar" target="_blank">
+              <div className={style.oneLink}><Twitter />abhraneeldhar</div>
+            </a>
+            <a href="https://www.youtube.com/@bonk.sensei" target="_blank">
+              <div className={style.oneLink}><Youtube />bonk.sensei</div>
+            </a>
+
+          </div>
+        </div>
+
+
+
       </div>
     </div>
   )
