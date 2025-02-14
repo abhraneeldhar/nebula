@@ -1,7 +1,7 @@
 .main {
     width: 100%;
     min-height: 100vh;
-    background: #252637;
+    background: #1e232f;
     /* background: linear-gradient(348deg, rgb(31, 37, 50), rgb(29, 28, 31)); */
     color: white;
     display: flex;
@@ -136,7 +136,7 @@
 
 .sent pre {
     justify-content: end;
-    background-color: #16b87f;
+    background-color:#16b87f;
     width: fit-content;
     margin-right: 40px;
     margin-top: 2px;
@@ -149,7 +149,7 @@
 }
 
 .received pre {
-    background-color: #515173;
+    background-color: #0c2d3d;
     width: fit-content;
     margin-left: 40px;
     margin-top: 2px;
