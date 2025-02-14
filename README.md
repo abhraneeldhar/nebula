@@ -50,9 +50,11 @@ Designed for efficiency, the dashboard ensures you stay organized and productive
 - Send and receive **friend requests**.
 - Accept or reject incoming requests.
 <br>
+
 ![Add Friend](assets/addfriend.png)
+
 ---
-### **Collaborate by sharing documents** with friends.
+**Collaborate by sharing documents** with friends.
 <br><br>
 
 ![Share](assets/share.png)
