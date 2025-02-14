@@ -34,6 +34,7 @@
     position: fixed;
     top: 0;
     height: 75px;
+    z-index: 4;
 }
 
 .goBack {
@@ -162,15 +163,20 @@
     position: relative;
 }
 .copyCodeBtn{
-    position: absolute;
-    right: 5px;
-    top: 5px;
     display: flex;
+    gap: 10px;
     background-color: rgb(53, 53, 53);
     color: rgba(255, 255, 255, 0.788);
     padding: 5px 10px;
     border-radius: 10px;
     transition: all 0.2s;
+    margin: 5px 0px;
+}
+.sent .copyCodeBtn{
+    margin-right: 40px;
+}
+.received .copyCodeBtn{
+    margin-left: 40px;
 }
 .copyCodeBtn:hover{
     color: white;

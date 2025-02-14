@@ -11,6 +11,7 @@ import { appStore } from "@/app/store"
 import { getUserDetailsFromEmail } from "@/app/utils/getUserDetailsFromEmail"
 import { v4 as uuidv4 } from "uuid";
 import { getRandomImage, getRandomName } from "@/app/utils/nexus/getRandomUser"
+import { Flip, toast, ToastContainer } from "react-toastify"
 
 interface nexusUser {
     userId: string,
@@ -151,18 +152,18 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
         }
     };
 
-    const copyToClipboard = async (text:string) => {
+    const copyToClipboard = async (text: string) => {
         try {
             await navigator.clipboard.writeText(text);
-            // alert("Copied!");
+            // toast.success("Saved", { position: "bottom-center", autoClose: 500, theme: "dark" });
         } catch (err) {
-            console.error("Failed to copy: ", err);
         }
     };
 
 
     return (<>
         <div className={styles.main}>
+        <ToastContainer transition={Flip} />
             <div className={styles.chatComp}>
                 <div className={styles.tab}>
                     <ArrowLeft className={styles.goBack} onClick={() => router.push("/nexus")} />
@@ -188,7 +189,8 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                                     </div>
                                 )}
 
-                                <pre className={styles.messageText}>{msg.message} {isCode && (<div className={styles.copyCodeBtn} onClick={()=>{copyToClipboard(msg.message)}}>Copy Code <Copy /></div>)}</pre>
+                                <pre className={styles.messageText}>{msg.message}</pre>
+                                {isCode && (<div className={styles.copyCodeBtn} onClick={() => { copyToClipboard(msg.message) }}>Copy Code <Copy /></div>)}
 
                             </div>
                         )
