@@ -18,9 +18,22 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    flex: 1;
-    overflow-y: scroll;
 }
+.chatScrollSec{
+    margin-top: 75px;
+}
+.chatSection {
+    flex: 1;
+    width: 100%;
+    padding-bottom: 20px;
+    margin-top: 75px;
+    margin-bottom: 75px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    /* overflow-y: scroll; */
+}
+
 
 .tab {
     display: flex;
@@ -36,6 +49,7 @@
     position: fixed;
     top: 0;
     height: 75px;
+    /* opacity: 0.5; */
     z-index: 4;
 }
 
@@ -60,15 +74,6 @@
     color: rgb(188, 0, 221);
 }
 
-.chatSection {
-    flex: 1;
-    width: 100%;
-
-    overflow-y: scroll;
-    padding-bottom: 20px;
-    margin-top: 75px;
-    margin-bottom: 75px;
-}
 
 .writeMessageDiv {
     width: 100%;
@@ -82,6 +87,7 @@
     left: 0;
     height: 70px;
     z-index: 4;
+    color: white;
 }
 
 .messageInput {
@@ -99,7 +105,7 @@
     border-radius: 10px;
     padding: 5px 15px;
     resize: none;
-
+    /* overflow-y: hidden; */
 }
 
 .messageInput textarea:focus {

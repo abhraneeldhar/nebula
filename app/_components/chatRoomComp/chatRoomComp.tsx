@@ -1,7 +1,7 @@
 "use client"
 import { ArrowLeft, Copy, CopyIcon, Dot, Send } from "lucide-react"
 import styles from "./chatroom.module.css"
-import { Button, Code, DataList, Flex, IconButton } from "@radix-ui/themes"
+import { Button, Code, DataList, Flex, IconButton, ScrollArea } from "@radix-ui/themes"
 import { Input } from "@/components/ui/input"
 import { useRouter } from "next/navigation"
 import { KeyboardEventHandler, useEffect, useRef, useState } from "react"
@@ -175,8 +175,11 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                     <p>Users online</p>
                 </div>
             </div>
-            <div className={styles.chatComp}>
+            {/* <div className={styles.chatComp}> */}
+            <ScrollArea className={styles.chatScrollSec} type="always" scrollbars="vertical">
+
                 <div className={styles.chatSection}>
+
                     {messageArray && messageArray.map((msg, index) => {
                         const isFirstInSeq = index === 0 || messageArray[index - 1].senderid !== msg.senderid;
                         const isCode = msg.message.includes("\n") && msg.message.includes("  ");
@@ -202,17 +205,21 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                     )}
                     <div ref={messagesEndRef} />
                 </div>
+            </ScrollArea>
+        </div>
 
-            </div>
-            <div className={styles.writeMessageDiv}>
+        {/* </div> */}
+        <div className={styles.writeMessageDiv}>
 
+            <ScrollArea type="always" scrollbars="vertical">
                 <div className={styles.messageInput}>
                     <textarea placeholder="white your message here" spellCheck={false} ref={msgTextRef} onKeyDown={handleKeyDown} />
                 </div>
-                <Button type="submit" onClick={() => {
-                    sendMessage();
-                }} className={styles.sendBtn}><Send /></Button>
-            </div>
+            </ScrollArea>
+            <Button type="submit" onClick={() => {
+                sendMessage();
+            }} className={styles.sendBtn}><Send /></Button>
         </div>
+        {/* </div > */}
     </>)
 }
