@@ -168,14 +168,14 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
     return (<>
         <div className={styles.main}>
             <ToastContainer transition={Flip} />
-            <div className={styles.chatComp}>
-                <div className={styles.tab}>
-                    <ArrowLeft className={styles.goBack} onClick={() => router.push("/nexus")} />
-                    <div className={styles.roomCode}>
-                        <h1>Room  {roomCode}</h1>
-                        <p>Users online</p>
-                    </div>
+            <div className={styles.tab}>
+                <ArrowLeft className={styles.goBack} onClick={() => router.push("/nexus")} />
+                <div className={styles.roomCode}>
+                    <h1>Room  {roomCode}</h1>
+                    <p>Users online</p>
                 </div>
+            </div>
+            <div className={styles.chatComp}>
                 <div className={styles.chatSection}>
                     {messageArray && messageArray.map((msg, index) => {
                         const isFirstInSeq = index === 0 || messageArray[index - 1].senderid !== msg.senderid;
