@@ -7,27 +7,42 @@ Nebula is a **feature-rich productivity app** designed specifically for students
 ## 🌟 Features
 
 ### 📄 **Online Document Editor**
+![Editor](assets/editor.png)
 - A **rich text editor** to create and format documents.
 - Save and manage all documents in one place.
 - **Rename, delete, and organize** documents effortlessly.
 
 ### 🤝 **Friend System**
+![Editor](assets/friends.png)
 - Send and receive **friend requests**.
 - Accept or reject incoming requests.
+  ![Editor](assets/addFriend.png)
+
 - **Collaborate by sharing documents** with friends.
+- ![Editor](assets/share.png)
+
 - Accept or reject shared documents from others.
 
 ### ⚙️ **Settings & Customization**
+![Editor](assets/settings.png)
+
 - **Profile customization**: Change your **name, username, bio, and profile picture**.
 - **Image cropping**: Upload and crop your profile picture before saving.
 - **Theme settings**: Switch between light and dark themes.
 
 ### 📂 **All Documents Management**
+![Editor](assets/alldocs.png)
+
 - View all your documents in one place.
 - Perform **deletion, renaming, and creation** of new documents.
 
 ### 💬 **Nexus - Instant Chat Rooms**
+![Editor](assets/nexus.png)
+![Editor](assets/joinroom.png)
+
 - Open a **temporary chat room** to share text between multiple devices.
+- ![Editor](assets/chatroom.png)
+
 - No sign-in required for quick and **anonymous communication**.
 
 ---
