@@ -63,7 +63,10 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
     const userDetails = appStore((state) => state.userDetails)
     const setUserDetails = appStore((state) => state.setUserDetails)
     const { data: session } = useSession();
+    
 
+
+    const [nexusUserDetails, setNexusUserDetails] = useState<nexusUser | null>(null)
     useEffect(() => {
         if (!userDetails && session?.user?.email) {
             const fetchingUserDetails = async () => {
@@ -73,12 +76,7 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
             }
             fetchingUserDetails();
         }
-    }, [session])
 
-
-
-    const [nexusUserDetails, setNexusUserDetails] = useState<nexusUser | null>(null)
-    useEffect(() => {
         const storedUser: nexusUser = JSON.parse(localStorage.getItem("guestUser") || "null") || null;
 
         if (userDetails) {
@@ -110,8 +108,11 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
             }
             makeNewUser();
         }
+    }, [session])
 
-    }, [userDetails]);
+
+
+    
 
 
     const messagesEndRef = useRef<HTMLDivElement>(null);
