@@ -118,7 +118,7 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
 
 
     useEffect(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth",block:"end" });
         console.log(messagesEndRef.current?.scrollHeight)
     }, [messageArray]);
 
