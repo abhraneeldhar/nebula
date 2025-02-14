@@ -1,14 +1,14 @@
 .main {
     width: 100%;
-    min-height: 100vh;
+    height: 100vh;
     background: #1e232f;
-    /* background: linear-gradient(348deg, rgb(31, 37, 50), rgb(29, 28, 31)); */
     color: white;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     position: relative;
+    margin: 0;
 }
 
 .chatComp {

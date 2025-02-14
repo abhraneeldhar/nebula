@@ -18,7 +18,7 @@ export default async function ChatRoomPage({ params }: { params: Promise<{ roomC
         return (<>
         <div className={styles.notFoundMain}>
             <Image src={arnoldStop} alt="room doesn't exist"/>
-            <h1>The room you are trying to join doesnot exists</h1>
+            <h1>The room you are trying to join doesn't exist</h1>
             <a href="/nexus"><Button>
             <ArrowLeft/>Go Back</Button></a>
         </div>
