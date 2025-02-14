@@ -183,8 +183,8 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                     <p>Users online</p>
                 </div>
             </div>
-                <div className={styles.chatSection}>
-            <ScrollArea className={styles.chatScrollSec} type="always" scrollbars="vertical">
+            <div className={styles.chatSection}>
+                <ScrollArea className={styles.chatScrollSec} type="always" scrollbars="vertical">
 
 
                     {messageArray && messageArray.map((msg, index) => {
@@ -211,8 +211,8 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                     }
                     )}
                     <div ref={messagesEndRef} />
-            </ScrollArea>
-                </div>
+                </ScrollArea>
+            </div>
         </div>
 
         <div className={styles.writeMessageDiv}>

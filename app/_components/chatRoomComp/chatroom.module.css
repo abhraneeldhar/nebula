@@ -9,15 +9,14 @@
     flex-direction: column;
     position: relative;
     overflow: hidden;
-    padding-top: 75px;
-    padding-bottom: 70px;
     margin: 0;
-    /* background-color: blue; */
+    background-color: blue;
 }
 
-.chatScrollSec{
+.chatScrollSec {
     background-color: #1e232f;
     /* margin-bottom: 20px; */
+    margin: 0;
 }
 
 .chatSection {
@@ -26,6 +25,9 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    padding-top: 75px;
+    padding-bottom: 70px;
+    
 }
 
 
@@ -138,7 +140,7 @@
 
 .sent pre {
     justify-content: end;
-    background-color:#16b87f;
+    background-color: #16b87f;
     width: fit-content;
     margin-right: 40px;
     margin-top: 2px;
@@ -164,9 +166,10 @@
     white-space: pre-wrap;
     word-wrap: break-word;
     position: relative;
-    box-shadow: rgba(0, 0, 0, 0.773) 2px 3px 10px ;
+    box-shadow: rgba(0, 0, 0, 0.773) 2px 3px 10px;
 }
-.copyCodeBtn{
+
+.copyCodeBtn {
     display: flex;
     gap: 10px;
     background-color: rgb(53, 53, 53);
@@ -177,13 +180,16 @@
     margin: 5px 0px;
     width: 135px;
 }
-.sent .copyCodeBtn{
+
+.sent .copyCodeBtn {
     margin-right: 40px;
 }
-.received .copyCodeBtn{
+
+.received .copyCodeBtn {
     margin-left: 40px;
 }
-.copyCodeBtn:hover{
+
+.copyCodeBtn:hover {
     color: white;
     background-color: black;
     cursor: pointer;
@@ -220,7 +226,7 @@
 }
 
 
-.nexusLoadingPage{
+.nexusLoadingPage {
     position: fixed;
     height: 100vh;
     width: 100vw;
