@@ -203,7 +203,7 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                             </div>
                         )
                     })}
-                    <div ref={messagesEndRef} />
+                    <div className={styles.endDiv} ref={messagesEndRef} />
                 </div>
             </ScrollArea>
 

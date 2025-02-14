@@ -169,7 +169,9 @@
     position: relative;
     box-shadow: rgba(0, 0, 0, 0.773) 2px 3px 10px;
 }
-
+.endDiv{
+    height: 20px;
+}
 .copyCodeBtn {
     display: flex;
     gap: 10px;
