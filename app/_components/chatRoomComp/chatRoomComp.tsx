@@ -179,8 +179,8 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                     <p>Users online</p>
                 </div>
             </div>
-            <div className={styles.chatSection}>
-                <ScrollArea className={styles.chatScrollSec} type="always" scrollbars="vertical">
+            <ScrollArea className={styles.chatScrollSec} type="always" scrollbars="vertical">
+                <div className={styles.chatSection}>
                     {messageArray && messageArray.map((msg, index) => {
                         const isFirstInSeq = index === 0 || messageArray[index - 1].senderid !== msg.senderid;
                         const isCode = msg.message.includes("\n") && msg.message.includes("  ");
@@ -203,8 +203,8 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                         )
                     })}
                     <div ref={messagesEndRef} />
-                </ScrollArea>
-            </div>
+                </div>
+            </ScrollArea>
             <div className={styles.writeMessageDiv}>
                 <div className={styles.messageInput}>
                     <textarea placeholder="white your message here" spellCheck={false} ref={msgTextRef} onKeyDown={handleKeyDown} />
