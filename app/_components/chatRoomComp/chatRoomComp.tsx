@@ -179,7 +179,7 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
             </div>
 
             <div className={styles.chatSection}>
-                    
+
                 <ScrollArea className={styles.chatScrollSec} type="always" scrollbars="vertical">
                     {messageArray && messageArray.map((msg, index) => {
                         const isFirstInSeq = index === 0 || messageArray[index - 1].senderid !== msg.senderid;
@@ -202,7 +202,7 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                             </div>
                         )
                     })}
-                    <div className={styles.endDiv} ref={messagesEndRef} />
+                    <div ref={messagesEndRef} />
                 </ScrollArea>
             </div>
 
