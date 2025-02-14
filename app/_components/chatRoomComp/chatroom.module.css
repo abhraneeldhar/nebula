@@ -1,8 +1,8 @@
 .main {
     width: 100%;
     min-height: 100vh;
-    background: rgb(58, 56, 60);
-    background: linear-gradient(348deg, rgb(31, 37, 50), rgb(29, 28, 31));
+    background: #252637;
+    /* background: linear-gradient(348deg, rgb(31, 37, 50), rgb(29, 28, 31)); */
     color: white;
     display: flex;
     justify-content: center;
@@ -139,6 +139,7 @@
     width: fit-content;
     margin-right: 40px;
     margin-top: 2px;
+    /* background-image: linear-gradient(to right bottom, #16b87f, #39ea8e); */
 }
 
 .received {
@@ -147,7 +148,7 @@
 }
 
 .received pre {
-    background-color: rgb(13, 44, 60);
+    background-color: #515173;
     width: fit-content;
     margin-left: 40px;
     margin-top: 2px;
@@ -161,7 +162,7 @@
     white-space: pre-wrap;
     word-wrap: break-word;
     position: relative;
-    box-shadow: black 2px 2px 20px;
+    box-shadow: rgba(0, 0, 0, 0.773) 2px 3px 10px ;
 }
 .copyCodeBtn{
     display: flex;
