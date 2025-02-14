@@ -6,6 +6,7 @@ Nebula is a **feature-rich productivity app** designed specifically for students
 ---
 
 ## 🌟 Features
+---  
 ## 📊 Dashboard – Your Productivity Hub  
 
 The **dashboard** is the central hub of Nebula, giving you quick access to all essential features:  
@@ -32,7 +33,7 @@ Designed for efficiency, the dashboard ensures you stay organized and productive
   ![Add Friend](assets/addfriend.png)
 
 - **Collaborate by sharing documents** with friends.
-- ![Editor](assets/share.png)
+![Editor](assets/share.png)
 
 - Accept or reject shared documents from others.
 
@@ -57,7 +58,7 @@ Designed for efficiency, the dashboard ensures you stay organized and productive
 
 
 - Open a **temporary chat room** to share text between multiple devices.
-  ![chatroom](assets/chatroom.png)
+![chatroom](assets/chatroom.png)
 
 
 ---
