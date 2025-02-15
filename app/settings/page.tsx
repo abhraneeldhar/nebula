@@ -2,9 +2,12 @@
 import { ArrowBigLeft, ArrowLeft, Monitor, PersonStanding, User } from "lucide-react";
 import styles from "./settings.module.css"
 import { useRouter } from "next/navigation";
+import { deleteEmptyRooms } from "../utils/nexus/cleanupRooms";
+import { Button } from "@radix-ui/themes";
 
 export default function Settings() {
     const router = useRouter();
+
 
     return (<>
         <div className={styles.main}>
@@ -16,10 +19,12 @@ export default function Settings() {
                 <p>Select a category to manage your preferences</p>
             </div>
 
-
+            <Button onClick={async()=>{
+                await deleteEmptyRooms();
+            }}>Delete the empty room</Button>
 
             <div className={styles.cardHolder}>
-                <div className={styles.card} onClick={()=>router.push("/settings/account")}>
+                <div className={styles.card} onClick={() => router.push("/settings/account")}>
                     <div className={styles.cardHeader}>
                         <span>Personal</span>
                         <User />
@@ -31,14 +36,14 @@ export default function Settings() {
 
 
 
-                    <div className={styles.card}  onClick={()=>router.push("/settings/display")}>
-                        <div className={styles.cardHeader}>
-                            <span>Appearance</span>
-                            <Monitor />
-                        </div>
-                        <h1>Display</h1>
-                        <p>Customize your viewing experience</p>
+                <div className={styles.card} onClick={() => router.push("/settings/display")}>
+                    <div className={styles.cardHeader}>
+                        <span>Appearance</span>
+                        <Monitor />
                     </div>
+                    <h1>Display</h1>
+                    <p>Customize your viewing experience</p>
+                </div>
             </div>
         </div >
     </>)

@@ -48,6 +48,7 @@ export default function Nexus() {
         router.push(`/nexus/${inputOtp}`);
     }
 
+
     return (<>
         <div className={styles.main}>
 

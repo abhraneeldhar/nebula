@@ -11,7 +11,6 @@ import { appStore } from "@/app/store"
 import { getUserDetailsFromEmail } from "@/app/utils/getUserDetailsFromEmail"
 import { v4 as uuidv4 } from "uuid";
 import { getRandomImage, getRandomName } from "@/app/utils/nexus/getRandomUser"
-import { Flip, toast, ToastContainer } from "react-toastify"
 
 interface nexusUser {
     userId: string,
