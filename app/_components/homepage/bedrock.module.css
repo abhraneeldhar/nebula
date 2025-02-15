@@ -4,7 +4,7 @@
     width: 100%;
     flex: 1;
     max-width: 100vw;
-    height: 100vh;
+    height: 100%;
     color: white;
 }
 .main{
