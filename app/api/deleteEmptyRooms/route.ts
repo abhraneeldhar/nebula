@@ -72,7 +72,7 @@ export async function GET(request: Request) {
         }
       });
 
-      channel.on('presence', { event: 'sync' }, () => {
+      channel.on('presence', { event: 'sync' },async () => {
         console.log("Presence sync triggered for room:", room.roomcode);
         const presenceState = channel.presenceState();
         const usersArray = Object.values(presenceState).flatMap(userList => userList);
@@ -80,7 +80,7 @@ export async function GET(request: Request) {
 
         if (usersArray.length == 0) {
           console.log("Room is empty, attempting to delete:", room.roomcode);
-          const deletedCount =deleteRoom(room.roomcode);
+          const deletedCount = await deleteRoom(room.roomcode);
           console.log("Deleted count:", deletedCount);
           emptyRoomCodes.push(room.roomcode);
         }
