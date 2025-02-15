@@ -62,65 +62,87 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
     const [showLoadingPage, setShowLoadingPage] = useState(true);
     const userDetails = appStore((state) => state.userDetails)
     const setUserDetails = appStore((state) => state.setUserDetails)
-    const { data: session } = useSession();
-    
+    const { data: session, status: sessionstatus } = useSession();
+
 
 
     const [nexusUserDetails, setNexusUserDetails] = useState<nexusUser | null>(null)
     useEffect(() => {
-        if (!userDetails && session?.user?.email) {
+        setShowLoadingPage(true);
+        console.log("session is", sessionstatus);
+        if (sessionstatus == "loading") {
+            return;
+        }
+        else if (sessionstatus == "authenticated") {
             const fetchingUserDetails = async () => {
                 console.log("fetching user details via email");
                 const res = await getUserDetailsFromEmail(session?.user?.email as string);
-                setUserDetails(res)
+                setUserDetails(res);
+                console.log("using userdetails details");
+                setNexusUserDetails({
+                    userId: res?.userId as string,
+                    name: res?.name as string,
+                    imageUrl: res?.imageUrl as string
+                });
             }
             fetchingUserDetails();
         }
 
-        const storedUser: nexusUser = JSON.parse(localStorage.getItem("guestUser") || "null") || null;
+        // if (!userDetails && session?.user?.email) {
+        //     const fetchingUserDetails = async () => {
+        //         console.log("fetching user details via email");
+        //         const res = await getUserDetailsFromEmail(session?.user?.email as string);
+        //         setUserDetails(res)
+        //     }
+        //     fetchingUserDetails();
+        // }
 
-        if (userDetails) {
-            setNexusUserDetails({
-                userId: userDetails?.userId as string,
-                name: userDetails?.name as string,
-                imageUrl: userDetails?.imageUrl as string
-            });
-            setShowLoadingPage(false);
-        }
-        else if (storedUser) {
-            setNexusUserDetails(storedUser);
-            console.log("got nexususer from lc  ", storedUser)
-            setShowLoadingPage(false);
+        // if (userDetails) {
+        //     console.log("using userdetails details")
+        //     setNexusUserDetails({
+        //         userId: userDetails?.userId as string,
+        //         name: userDetails?.name as string,
+        //         imageUrl: userDetails?.imageUrl as string
+        //     });
+        // }
 
-        }
-        else {
-            const makeNewUser = async () => {
-                const guestUser = {
-                    userId: uuidv4(),
-                    name: await getRandomName(),
-                    imageUrl: await getRandomImage() || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhH5Q4N_p5U6Xxt0usWjsAmsI5GrPkkb3Hkw&s"
-                };
-                setNexusUserDetails(guestUser);
-                localStorage.setItem("guestUser", JSON.stringify(guestUser));
-                console.log("new user made:", guestUser);
-                setShowLoadingPage(false);
-
+        else if (sessionstatus == "unauthenticated") {
+            const storedUser: nexusUser = JSON.parse(localStorage.getItem("guestUser") || "null") || null;
+            if (storedUser) {
+                console.log("got nexususer from lc  ", storedUser)
+                setNexusUserDetails(storedUser);
             }
-            makeNewUser();
+            else{
+                const makeNewUser = async () => {
+                    const guestUser = {
+                        userId: uuidv4(),
+                        name: await getRandomName(),
+                        imageUrl: await getRandomImage() || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhH5Q4N_p5U6Xxt0usWjsAmsI5GrPkkb3Hkw&s"
+                    };
+                    setNexusUserDetails(guestUser);
+                    localStorage.setItem("guestUser", JSON.stringify(guestUser));
+                    console.log("new user made:", guestUser);
+    
+                }
+                makeNewUser();
+            }
         }
+
     }, [session])
 
 
-
-    
-
+    useEffect(() => {
+        console.log("hello everybody i am, ", nexusUserDetails);
+        if(nexusUserDetails){
+            setShowLoadingPage(false);
+        }
+    }, [nexusUserDetails])
 
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
 
     useEffect(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth",block:"end" });
-        console.log(messagesEndRef.current?.scrollHeight)
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
     }, [messageArray]);
 
 
