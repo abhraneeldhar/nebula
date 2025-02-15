@@ -42,7 +42,7 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                 { event: "INSERT", schema: "public", table: "messages", filter: `roomcode=eq.${roomCode}` },
                 (payload) => {
                     setMesasgeArray((prev: any[]) => [...(prev || []), payload.new]);
-                    console.log("new msg: ", payload.new);
+                    // console.log("new msg: ", payload.new);
                 }
             )
             .subscribe();
@@ -118,7 +118,7 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
 
     const [currentUsers, setCurrentUsers] = useState<any[]>([])
     useEffect(() => {
-        console.log("hello everybody i am, ", nexusUserDetails);
+        // console.log("hello everybody i am, ", nexusUserDetails);
         const channel = supabase.channel(roomCode, { config: { presence: { key: nexusUserDetails?.userId } } });
         if (nexusUserDetails) {
             setShowLoadingPage(false);
@@ -188,8 +188,8 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                 message: msgText.trim()
             });
 
-            console.log(error)
-            console.log("sent: ", msgText)
+            // console.log(error)
+            // console.log("sent: ", msgText)
         }
         else {
             console.log("nexus no user")
