@@ -1,5 +1,6 @@
-import { supabase } from "@/app/utils/supabase/client";
+import { createClient } from '@supabase/supabase-js';
 
+const supabase=createClient(process.env.NEXT_PUBLIC_SUPABASE_URL as string, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string)
 export async function GET(request: Request) {
     const authHeader = request.headers.get('authorization');
     if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
