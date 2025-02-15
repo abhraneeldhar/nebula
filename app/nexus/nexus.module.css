@@ -114,7 +114,10 @@
     gap: 10px;
 }
 .cancelBtn, .joinBtn{
-    width: 60px;
+    width: 80px;
+    height: 40px;
+    font-weight: 400;
+    font-size: 20px;
 }
 .cancelBtn{
     background-color: white;

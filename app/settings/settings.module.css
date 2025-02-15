@@ -1,9 +1,10 @@
 .main {
     background-color: var(--color2);
-    height: 100vh;
+    height: 100%;
     position: relative;
     padding-top: 20px;
     color: var(--variableText);
+    padding-bottom: 100px;
 }
 
 .back {
@@ -48,7 +49,7 @@
     display: flex;
     flex-direction: column;
     width: 350px;
-    height: 170px;
+    /* height: 170px; */
     gap: 10px;
     background-color: #030a17;
     color: var(--variableText);
@@ -86,6 +87,13 @@
     font-weight: 600;
     font-size: 30px;
     color: var(--variableText)
+}
+
+.card img {
+    border-radius: 10px;
+    height: 200px;
+    object-fit: cover;
+    object-position: center;
 }
 
 .card p {

@@ -2,6 +2,10 @@
 import {  ArrowLeft, Monitor, User } from "lucide-react";
 import styles from "./settings.module.css"
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import accountSettingsImage from "../../public/settingsImages/accountSettingImage.jpg"
+import displaySettingsImage from "../../public/settingsImages/displaySettingImage.jpeg"
+
 
 export default function Settings() {
     const router = useRouter();
@@ -25,6 +29,7 @@ export default function Settings() {
                         <User />
                     </div>
                     <h1>Account</h1>
+                    <Image src={accountSettingsImage} alt=""/>
                     <p>Customize Your Experience
                         Select a category to manage your preferences</p>
                 </div>
@@ -37,6 +42,7 @@ export default function Settings() {
                         <Monitor />
                     </div>
                     <h1>Display</h1>
+                    <Image src={displaySettingsImage} alt=""/>
                     <p>Customize your viewing experience</p>
                 </div>
             </div>
