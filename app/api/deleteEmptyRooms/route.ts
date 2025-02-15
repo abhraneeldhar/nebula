@@ -19,6 +19,8 @@ export async function GET(request: Request) {
 
 
   async function deleteRoom(roomcode: string) {
+    console.log("detete rooms invoked");
+
     const response = await supabase
       .from('chat_rooms')
       .delete()
@@ -32,12 +34,13 @@ export async function GET(request: Request) {
 
   async function deleteEmptyRooms() {
 
+    console.log("detete empty rooms invoked");
     var emptyRoomCodes: string[] = []
 
     const { data: chat_rooms, error } = await supabase
       .from('chat_rooms')
       .select();
-      
+
     if (chat_rooms) {
       chat_rooms.forEach((room) => {
         const channel = supabase.channel(room.roomcode);
@@ -68,6 +71,7 @@ export async function GET(request: Request) {
     }
   }
 
+  console.log("stargin delete")
   await deleteEmptyRooms();
   return NextResponse.json({
     message: "done deleting"
