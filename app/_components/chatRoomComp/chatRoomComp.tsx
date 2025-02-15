@@ -60,7 +60,7 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
 
 
     const [showLoadingPage, setShowLoadingPage] = useState(true);
-    const userDetails = appStore((state) => state.userDetails)
+    // const userDetails = appStore((state) => state.userDetails)
     const setUserDetails = appStore((state) => state.setUserDetails)
     const { data: session, status: sessionstatus } = useSession();
 
@@ -68,17 +68,17 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
 
     const [nexusUserDetails, setNexusUserDetails] = useState<nexusUser | null>(null)
     useEffect(() => {
-        setShowLoadingPage(true);
+        // setShowLoadingPage(true);
         console.log("session is", sessionstatus);
         if (sessionstatus == "loading") {
             return;
         }
         else if (sessionstatus == "authenticated") {
             const fetchingUserDetails = async () => {
-                console.log("fetching user details via email");
+                // console.log("fetching user details via email");
                 const res = await getUserDetailsFromEmail(session?.user?.email as string);
                 setUserDetails(res);
-                console.log("using userdetails details");
+                // console.log("using userdetails details");
                 setNexusUserDetails({
                     userId: res?.userId as string,
                     name: res?.name as string,
@@ -109,7 +109,7 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
         else if (sessionstatus == "unauthenticated") {
             const storedUser: nexusUser = JSON.parse(localStorage.getItem("guestUser") || "null") || null;
             if (storedUser) {
-                console.log("got nexususer from lc  ", storedUser)
+                // console.log("got nexususer from lc  ", storedUser)
                 setNexusUserDetails(storedUser);
             }
             else{
@@ -121,7 +121,7 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                     };
                     setNexusUserDetails(guestUser);
                     localStorage.setItem("guestUser", JSON.stringify(guestUser));
-                    console.log("new user made:", guestUser);
+                    // console.log("new user made:", guestUser);
     
                 }
                 makeNewUser();
