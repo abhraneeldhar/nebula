@@ -86,8 +86,8 @@ export async function GET(request: Request) {
         }
       });
 
-      console.log("Unsubscribing from channel:", room.roomcode);
-      channel.unsubscribe();
+      // console.log("Unsubscribing from channel:", room.roomcode);
+      // channel.unsubscribe();
     });
 
     console.log("Finished processing all rooms");
