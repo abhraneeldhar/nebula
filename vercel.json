@@ -2,7 +2,7 @@
     "crons": [
       {
         "path": "/api/deleteEmptyRooms",
-        "schedule": "35 14 * * *"
+        "schedule": "43 14 * * *"
       }
     ]
   }
