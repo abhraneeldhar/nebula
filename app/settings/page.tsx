@@ -1,9 +1,7 @@
 "use client"
-import { ArrowBigLeft, ArrowLeft, Monitor, PersonStanding, User } from "lucide-react";
+import {  ArrowLeft, Monitor, User } from "lucide-react";
 import styles from "./settings.module.css"
 import { useRouter } from "next/navigation";
-import { deleteEmptyRooms } from "../utils/nexus/cleanupRooms";
-import { Button } from "@radix-ui/themes";
 
 export default function Settings() {
     const router = useRouter();
@@ -19,10 +17,7 @@ export default function Settings() {
                 <p>Select a category to manage your preferences</p>
             </div>
 
-            <Button onClick={async()=>{
-                await deleteEmptyRooms();
-            }}>Delete the empty room</Button>
-
+            
             <div className={styles.cardHolder}>
                 <div className={styles.card} onClick={() => router.push("/settings/account")}>
                     <div className={styles.cardHeader}>
