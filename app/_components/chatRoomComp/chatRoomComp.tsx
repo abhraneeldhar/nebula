@@ -47,6 +47,8 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
             )
             .subscribe();
 
+
+
         return () => {
             supabase.removeChannel(subscription);
         };
@@ -70,7 +72,7 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
     useEffect(() => {
         // setShowLoadingPage(true);
         console.log("session is", sessionstatus);
-        if (sessionstatus == "loading") {
+        if (sessionstatus == "loading" || nexusUserDetails) {
             return;
         }
         else if (sessionstatus == "authenticated") {
@@ -88,23 +90,6 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
             fetchingUserDetails();
         }
 
-        // if (!userDetails && session?.user?.email) {
-        //     const fetchingUserDetails = async () => {
-        //         console.log("fetching user details via email");
-        //         const res = await getUserDetailsFromEmail(session?.user?.email as string);
-        //         setUserDetails(res)
-        //     }
-        //     fetchingUserDetails();
-        // }
-
-        // if (userDetails) {
-        //     console.log("using userdetails details")
-        //     setNexusUserDetails({
-        //         userId: userDetails?.userId as string,
-        //         name: userDetails?.name as string,
-        //         imageUrl: userDetails?.imageUrl as string
-        //     });
-        // }
 
         else if (sessionstatus == "unauthenticated") {
             const storedUser: nexusUser = JSON.parse(localStorage.getItem("guestUser") || "null") || null;
@@ -112,7 +97,7 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                 // console.log("got nexususer from lc  ", storedUser)
                 setNexusUserDetails(storedUser);
             }
-            else{
+            else {
                 const makeNewUser = async () => {
                     const guestUser = {
                         userId: uuidv4(),
@@ -122,7 +107,7 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                     setNexusUserDetails(guestUser);
                     localStorage.setItem("guestUser", JSON.stringify(guestUser));
                     // console.log("new user made:", guestUser);
-    
+
                 }
                 makeNewUser();
             }
@@ -131,10 +116,37 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
     }, [session])
 
 
+    const [currentUsers,setCurrentUsers]=useState<any[]>([])
     useEffect(() => {
         console.log("hello everybody i am, ", nexusUserDetails);
-        if(nexusUserDetails){
+        if (nexusUserDetails) {
             setShowLoadingPage(false);
+
+            const channel = supabase.channel(roomCode, { config: { presence: { key: nexusUserDetails?.userId } } });
+
+            channel.subscribe(async (status) => {
+                if (status === 'SUBSCRIBED') {
+                    await channel.track({ name: nexusUserDetails?.name, status: 'online' });
+                }
+            });
+
+            channel.on('presence', { event: 'join' }, ({ key, newPresences }) => {
+                console.log(`User ${key} joined the room:`, newPresences);
+            });
+
+            channel.on('presence', { event: 'leave' }, ({ key, leftPresences }) => {
+                console.log(`User ${key} left the room:`, leftPresences);
+            });
+
+            channel.on('presence', { event: 'sync' }, () => {
+                const presenceState = channel.presenceState();
+                const usersArray = Object.values(presenceState).flatMap(userList => userList);
+                console.log('Current users in room:',usersArray);
+                setCurrentUsers(usersArray);
+            });
+            return () => {
+                channel.unsubscribe();
+            };
         }
     }, [nexusUserDetails])
 
@@ -143,6 +155,7 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
 
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+        console.log(messageArray?messageArray[0]:"nah");
     }, [messageArray]);
 
 
@@ -199,7 +212,7 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                 <ArrowLeft className={styles.goBack} onClick={() => router.push("/nexus")} />
                 <div className={styles.roomCode}>
                     <h1>Room  {roomCode}</h1>
-                    <p>Users online</p>
+                    <p>{currentUsers?.length} Users online</p>
                 </div>
             </div>
 
