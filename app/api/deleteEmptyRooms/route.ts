@@ -1,5 +1,6 @@
+"use server"
 import { deleteEmptyRooms } from "@/app/utils/nexus/cleanupRooms";
-export async function DELETE(request: Request) {
+export async function GET(request: Request) {
     const authHeader = request.headers.get('authorization');
     if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
       return new Response('Unauthorized', {
