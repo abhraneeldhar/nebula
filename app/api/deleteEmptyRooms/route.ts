@@ -3,18 +3,29 @@ import { NextResponse } from 'next/server';
 
 const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL as string, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string)
 export async function GET(request: Request) {
+  console.log("Cron job started");
+
+
   const authHeader = request.headers.get('authorization');
+  console.log("Auth header:", authHeader);
+
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return new Response('Unauthorized', {
       status: 401,
     });
   }
 
+  console.log("Authentication successful");
+
+
   async function deleteRoom(roomcode: string) {
     const response = await supabase
       .from('chat_rooms')
       .delete()
       .eq('roomcode', roomcode)
+
+    console.log("Delete response:", response);
+
     // console.log(response);
   }
 
@@ -25,7 +36,8 @@ export async function GET(request: Request) {
 
     const { data: chat_rooms, error } = await supabase
       .from('chat_rooms')
-      .select()
+      .select();
+      
     if (chat_rooms) {
       chat_rooms.forEach((room) => {
         const channel = supabase.channel(room.roomcode);
