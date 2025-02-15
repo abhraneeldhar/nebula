@@ -116,13 +116,13 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
     }, [session])
 
 
-    const [currentUsers,setCurrentUsers]=useState<any[]>([])
+    const [currentUsers, setCurrentUsers] = useState<any[]>([])
     useEffect(() => {
         console.log("hello everybody i am, ", nexusUserDetails);
+        const channel = supabase.channel(roomCode, { config: { presence: { key: nexusUserDetails?.userId } } });
         if (nexusUserDetails) {
             setShowLoadingPage(false);
 
-            const channel = supabase.channel(roomCode, { config: { presence: { key: nexusUserDetails?.userId } } });
 
             channel.subscribe(async (status) => {
                 if (status === 'SUBSCRIBED') {
@@ -131,23 +131,34 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
             });
 
             channel.on('presence', { event: 'join' }, ({ key, newPresences }) => {
-                console.log(`User ${key} joined the room:`, newPresences);
+                // console.log(`User ${key} joined the room:`, newPresences);
+                setMesasgeArray((messages) => [...(messages || []), {
+                    type: "info",
+                    name: newPresences[0].name,
+                    action: "joined"
+                }])
             });
 
-            channel.on('presence', { event: 'leave' }, ({ key, leftPresences }) => {
-                console.log(`User ${key} left the room:`, leftPresences);
+            channel.on("presence", { event: "leave" }, ({ key, leftPresences }) => {
+                // console.log("left name: ",leftPresences[0].name);            
+                setMesasgeArray((messages) => [...(messages || []), {
+                    type: "info",
+                    name: leftPresences[0].name,
+                    action: "left"
+                }])
             });
 
             channel.on('presence', { event: 'sync' }, () => {
                 const presenceState = channel.presenceState();
                 const usersArray = Object.values(presenceState).flatMap(userList => userList);
-                console.log('Current users in room:',usersArray);
+                // console.log('Current users in room:', usersArray);
                 setCurrentUsers(usersArray);
             });
-            return () => {
-                channel.unsubscribe();
-            };
+            
         }
+        return () => {
+            channel.unsubscribe();
+        };
     }, [nexusUserDetails])
 
     const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -155,7 +166,6 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
 
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
-        console.log(messageArray?messageArray[0]:"nah");
     }, [messageArray]);
 
 
@@ -220,6 +230,14 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
 
                 <ScrollArea className={styles.chatScrollSec} type="always" scrollbars="vertical">
                     {messageArray && messageArray.map((msg, index) => {
+                        if (msg.type == "info") {
+                            return (
+                                <div className={styles.joinLeftMsg} key={index}>
+                                    <p>
+                                        {msg.name} {msg.action}
+                                    </p>
+                                </div>)
+                        }
                         const isFirstInSeq = index === 0 || messageArray[index - 1].senderid !== msg.senderid;
                         const isCode = msg.message.includes("\n") && msg.message.includes("  ");
 
@@ -242,7 +260,7 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                     })}
                     <div className={styles.endDiv} ref={messagesEndRef} />
                 </ScrollArea>
-            </div>
+            </div >
 
             <div className={styles.writeMessageDiv}>
                 <div className={styles.messageInput}>
@@ -253,7 +271,7 @@ export default function ChatRoomComp({ roomCode }: { roomCode: string }) {
                 }} className={styles.sendBtn}><Send /></Button>
             </div>
 
-        </div>
+        </div >
 
 
     </>)

@@ -103,7 +103,6 @@
     padding: 5px 15px;
     resize: none;
     height: 100%;
-    /* overflow-y: hidden; */
 }
 
 .messageInput textarea:focus {
@@ -174,7 +173,20 @@
     word-wrap: break-word;
     position: relative;
     box-shadow: rgba(0, 0, 0, 0.773) 2px 3px 10px;
+    
 }
+
+
+.joinLeftMsg{
+    background-color: #143648;
+    margin: 5px auto;
+    width: fit-content;
+    padding: 5px 15px;
+    border-radius: 10px;
+    font-size: 12px;
+}
+
+
 .endDiv{
     height: 20px;
     /* width: 100px; */
