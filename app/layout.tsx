@@ -21,7 +21,7 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "Nebula",
-  description: "desc",
+  description: "My name would help light up the Chicago skyline",
 };
 
 
