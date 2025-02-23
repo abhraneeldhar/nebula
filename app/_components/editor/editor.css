@@ -142,7 +142,6 @@ button {
     height: 100%;
     font-weight: 300;
     font-family: Roboto, Poppins, sans-serif;
-    line-height: 1.5em;
     padding-bottom: 40px;
 }
 
@@ -172,8 +171,9 @@ body {
         margin-top: 50px;
         height: 100%;
         font-size: 18px;
-        
     }
+
+   
 
     .ql-toolbar {
         justify-content: center;
