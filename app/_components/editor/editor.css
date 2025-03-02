@@ -129,6 +129,7 @@ button {
     width: 100%;
     justify-content: center;
     height: 100%;
+    font-weight: 300;
 }
 
 .ql-editor {
@@ -140,10 +141,11 @@ button {
     min-height: 90vh;
     padding: 20px;
     height: 100%;
-    font-weight: 300;
-    font-family: Roboto, Poppins, sans-serif;
+    font-weight: 200;
+    font-family:  Poppins,Roboto, sans-serif;
     padding-bottom: 40px;
 }
+
 
 
 
@@ -171,6 +173,7 @@ body {
         margin-top: 50px;
         height: 100%;
         font-size: 18px;
+        /* font-weight: 300; */
     }
 
    
